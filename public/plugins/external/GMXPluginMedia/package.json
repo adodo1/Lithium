@@ -1,0 +1,19 @@
+{
+  "name": "gmx-plugin-media",
+  "version": "1.0.0",
+  "description": "GMXPluginMedia",
+  "main": "MediaPlugin2.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ScanEx/GMXPluginMedia.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ScanEx/GMXPluginMedia/issues"
+  },
+  "homepage": "https://github.com/ScanEx/GMXPluginMedia#readme"
+}

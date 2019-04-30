@@ -1,0 +1,48 @@
+{
+  "name": "scanex-lithium",
+  "repository": "https://github.com/Scanex/Lithium",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "browser": "public/main.js",
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -c -w",
+    "dev": "npm-run-all --parallel start watch",
+    "start": "serve public"
+  },
+  "author": "marunov@scanex.ru",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "backbone": "^1.4.0",
+    "handlebars": "^2.0.0",
+    "jquery": "^1.12.4",
+    "jquery-ui": "^1.12.1",
+    "npm-run-all": "^4.1.5",
+    "rollup": "^1.10.0",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-commonjs": "^9.3.4",
+    "rollup-plugin-copy": "^1.1.0",
+    "rollup-plugin-css-porter": "^1.0.2",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^4.2.3",
+    "rollup-plugin-svelte": "^5.0.3",
+    "serve": "^11.0.0",
+    "svelte": "^3.1.0",
+    "systemjs": "^0.19.47",
+    "systemjs-plugin-babel": "0.0.25",
+    "systemjs-plugin-css": "^0.1.37",
+    "underscore": "^1.9.1"
+  },
+  "dependencies": {
+    "gmx-plugin-cadastre": "git+https://github.com/ScanEx/GMXPluginCadatsre.git",
+    "gmx-plugin-media": "git+https://github.com/ScanEx/GMXPluginMedia.git",
+    "gmx-plugin-timeline": "git+https://github.com/ScanEx/GMXPluginTimeLine.git",
+    "leaflet-ext-search": "git+https://github.com/ScanEx/Leaflet.ExtSearch.git",
+    "scanex-event-target": "git+https://github.com/Scanex/EventTarget.git",
+    "scanex-object-extensions": "git+https://github.com/Scanex/Object.Extensions.git"
+  }
+}

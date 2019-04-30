@@ -1,0 +1,220 @@
+.attrsSelectedCont {
+    padding-bottom: 6px;
+}
+.attrsSelectedCont span {
+    margin-left: 10px;
+}
+.attrsSelectedCont .selectedCount {
+    margin-left: 2px;
+	font-weight: bold;
+}
+.attrsSelectedCont .hiddenCommands {
+    display: none;
+}
+
+.attrsHelperBounding {
+    width: 140px;
+    height: 80px;
+    position: absolute;
+    left: -8px;
+    top: -75px;
+}
+
+.attrsDownloadLink,
+.createLayerLink {
+    margin-right: 10px;
+}
+
+.attrs-table-active-row {
+    display: block;
+    overflow-x: hidden;
+    white-space: nowrap;
+    margin: 4px 5px 2px 3px;
+    font-size: 12px;
+}
+
+.attrs-table-show-columns-header {
+    margin-top: 4px;
+}
+
+.attrs-table-show-columns-checkbox {
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.attrs-table-active-checkbox {
+    margin-left: 12px;
+    margin-right: 3px;
+}
+
+.attrs-table-square-link {
+    float: right;
+}
+
+.attrs-table-square-popover {
+    width: 160px;
+    text-align: right;
+}
+
+.attr-table-query-title {
+    font-size: 12px;
+    margin: 7px 0px 3px 1px;
+}
+
+.attr-table-query {
+    overflow: auto;
+    height: 80px;
+}
+
+.attr-table-query-area {
+    width: 300px;
+    height: 100px;
+    margin: 9px 6px 0 0;
+    resize: none;
+}
+
+.attr-table-query-suggest {
+    margin: 0px 3px;
+}
+
+.attr-table-fields-header {
+    font-size: 12px;
+    margin: 7px 0px 3px 1px;
+}
+
+.attr-table-columns-container {
+    overflow-y: auto;
+    height: 220px;
+}
+
+.attr-table-params-buttons {
+    text-align: right;
+    margin: 5px 0px 0px;
+    width: 300px;
+}
+
+.attr-table-params-clear {
+    padding: 0px 5px;
+    margin-right: 3px;
+}
+
+.attr-table-params-find {
+    padding: 0px 5px;
+    margin-right: 17px;
+}
+
+.attr-table-geometry-container {
+    position: relative;
+    margin-top: 60px;
+}
+
+.attr-table-geomtitle {
+    margin-right: 3px;
+}
+
+.attr-table-geom-placeholder .drawingObjectsItemTitle {
+    margin-left: 0px;
+}
+
+.attr-table-geom-placeholder {
+    color: #215570;
+}
+
+.attrsColumnsList {
+    z-index: 1000;
+    padding: 5px;
+    padding-top: 2px;
+    position: absolute;
+    max-height: 310px;
+    overflow: auto;
+    right: 8px;
+    margin: 4px 7px 0 0;
+    background-color: white;
+    min-width: 115px;
+    box-shadow: rgba(100, 100, 100, 0.7) 0px 0px 3px;
+}
+
+.show-columns-list-button {
+    padding-top: 1px;
+    float: right;
+}
+
+.attr-table-hide-button-container {
+    margin-top: 10px;
+    margin-bottom: 8px;
+}
+
+.search-button {
+    margin-left: 5px;
+}
+
+.clean-button {
+    float: right;
+    margin: 0 6px 0px 0;
+}
+
+.clean-search-buttons-container {
+    /* position: absolute; */
+    /* top: 200px; */
+}
+
+.apply-button-container {
+    /* position: absolute; */
+    /* top: 200px; */
+}
+
+.attr-table-middle-container {
+    height: 415px;
+}
+
+#attrsTableParent table {
+  border-spacing: 0;
+  border-collapse: separate;
+}
+
+.attrs-select {
+    width: 94px;
+    margin-left: 8px;
+}
+
+.column-update-spinholder {
+    margin-top: 8px;
+}
+
+.spinErrorMessage {
+    color: red;
+}
+
+.attr-table-hide-button-container {
+    margin-top: 0;
+}
+
+div[data-custom-tooltip] {
+    background-color: red;
+}
+
+div[data-custom-tooltip]:hover:after {
+  content: attr(title);
+  position: absolute;
+}
+
+.suggest-helper-elem-custom-tooltip span { /* Внешний вид нашего тултипа */
+	background-color: rgba(0,0,0, 0.8);
+	border-radius: 15px 15px 15px 0px;
+	box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+	color: #fff;
+	margin-left: 2px;
+	margin-top: -75px;
+	opacity: 0; /* Делаем его прозрачным */
+	padding: 10px 10px 10px 40px;
+	position: absolute;
+	text-decoration: none;
+	visibility: hidden; /* И прячем */
+	width: 350px;
+	z-index: 10;
+}
+
+.suggest-helper-elem-custom-tooltip:hover span { /* По hover отображаем тултип */
+	opacity: 1;
+	visibility: visible;
+}

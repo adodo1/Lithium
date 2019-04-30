@@ -1,0 +1,39 @@
+{
+  "name": "scanex-sidebar",
+  "version": "0.0.1",
+  "description": "Боковая панель с вкладками",
+  "main": "./dist/bundle.js",
+  "scripts": {
+    "clean": "del /F /S /Q dist",
+    "build": "npm run clean && webpack",
+    "update": "npm update & npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ScanEx/IconSidebarControl.git"
+  },
+  "author": "Alexander Zverev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ScanEx/IconSidebarControl/issues"
+  },
+  "homepage": "https://github.com/ScanEx/IconSidebarControl#readme",
+  "dependencies": {
+    "scanex-event-target": "git+https://github.com/Scanex/EventTarget.git",
+    "scanex-object-extensions": "git+https://github.com/Scanex/Object.Extensions.git"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-flow": "^6.23.0",
+    "css-loader": "^0.28.11",
+    "file-loader": "^1.1.11",
+    "image-loader": "0.0.1",
+    "mini-css-extract-plugin": "^0.4.0",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.12.2",
+    "webpack-cli": "^2.1.5"
+  }
+}
