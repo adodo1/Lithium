@@ -23,8 +23,6 @@ import './version.js';
 import './drawingObjects.js';
 import './IconSidebarControl/src/IconSidebarWidget.css';
 import IconSidebarWidget from './IconSidebarControl/src/IconSidebarWidget.js';
-import './thirdparty/customscrollbar/jquery.mCustomScrollbar.css';
-import './thirdparty/customscrollbar/jquery.mCustomScrollbar.js';
 import './contextMenuController.js';
 import './LayersTree.js';
 import './SearchLogic/SearchLogic.js';
