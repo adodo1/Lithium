@@ -4,12 +4,17 @@ import './drawingObjectsCustomControllers.js';
 import gmxCore from './gmxcore.js';
 import './GroupEditor.js';
 import {
+	_li,
 	objLength,
 	showDialog,
+	_span,
 	switchSelect,
 	_title
 } from './utilities.js';
 import './Controls.js';
+import './LayerStylesEditor.js';
+import _queryTabs from './queryTabs.js';
+
 const _ = nsGmx.Utils._;
 
 /** Вспомогательные ф-ции ГеоМиксера
@@ -385,7 +390,7 @@ mapHelper.prototype.getMapState = function() {
 
     var drawnObjects = [],
 		drawings = lmap.gmxDrawing.saveState(),
-		features = drawings.featureCollection.features;
+		features = drawings.featureCollection.features,
         openPopups = {},
         condition = {expanded:{}, visible:{}},
 		LayersTreePermalinkParams = {},
@@ -467,7 +472,7 @@ mapHelper.prototype.getMapState = function() {
 	var dateIntervals = {};
 
 	for (var l in nsGmx.gmxMap.layersByID) {
-		var layer = nsGmx.gmxMap.layersByID[l];
+		var layer = nsGmx.gmxMap.layersByID[l],
 			props = layer.getGmxProperties(),
 			isTemporalLayer = (layer instanceof L.gmx.VectorLayer && props.Temporal) || (props.type === 'Virtual' && layer.setDateInterval);
 

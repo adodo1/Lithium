@@ -36,6 +36,9 @@ import {SearchControl} from 'leaflet-ext-search';
 import './gmxLayers2/gmxLayers2.js';
 import 'gmx-plugin-media';
 import './EditObjectControl/EditObjectControl.js';
+import _queryTabs from './queryTabs.js';
+import './ProfilePlugin/ProfilePlugin.css';
+import './ProfilePlugin/ProfilePlugin.js';
 
 //Тут кратко описываются разные внешние классы для системы генерации документации
 

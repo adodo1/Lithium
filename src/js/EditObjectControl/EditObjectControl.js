@@ -1,5 +1,10 @@
 import nsGmx from '../nsGmx';
 import './EditObjectControl.css';
+import {
+    removeDialog,
+    showDialog,    
+    showErrorMessage,
+} from '../utilities.js';
 
 const _ = nsGmx.Utils._;
 

@@ -1,4 +1,8 @@
-var nsGmx = window.nsGmx || {};
+import nsGmx from '../nsGmx.js';
+import './MapExport.css';
+import '../drawingObjectsCustomControllers.js';
+import {leftMenu, _menuUp} from '../menu.js';
+import { _div } from '../utilities.js';
 
 (function() {
 
@@ -99,11 +103,11 @@ var nsGmx = window.nsGmx || {};
     var view;
 
     var MapExportMenu = function () {
-        var canvas = nsGmx.Utils._div(null, [['dir','className','mapExportConfigLeftMenu']]);
+        var canvas = _div(null, [['dir','className','mapExportConfigLeftMenu']]);
 
-        var ExportModel = window.Backbone.Model.extend({
+        var ExportModel = Backbone.Model.extend({
             defaults: {
-                lm: new window.leftMenu(),
+                lm: new leftMenu(),
                 lmap: nsGmx.leafletMap,
                 selArea: null,
                 exportMode: true,
@@ -131,10 +135,10 @@ var nsGmx = window.nsGmx || {};
 
         var model = new ExportModel();
 
-        var ExportView = window.Backbone.View.extend({
+        var ExportView = Backbone.View.extend({
             el: $(canvas),
             model: model,
-            template: window.Handlebars.compile(
+            template: Handlebars.compile(
                 '<div class="selectButtons">' +
                         '<span class="buttonLink areaButton mapExportSelectButton"> {{i "mapExport.select"}}</span>' +
                         '<span class="zoomToBoxButton" style="display:none">' +
@@ -253,7 +257,8 @@ var nsGmx = window.nsGmx || {};
                         window._gtxt('mapExport.filetypes.raster'),
                         window._gtxt('mapExport.filetypes.mbTiles'),
                         window._gtxt('mapExport.filetypes.kmz')
-                    ];
+                    ],
+                    
                     updatedFileTypes = getTypes(fileTypes);
 
                 this.listenTo(this.model, 'change:selArea', this.updateArea);

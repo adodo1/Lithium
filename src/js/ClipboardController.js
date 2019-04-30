@@ -1,4 +1,4 @@
-var nsGmx = nsGmx || {};
+import nsGmx from './nsGmx.js';
 
 /** 
 * Контроллёр глобального буфера обмена

@@ -1,4 +1,8 @@
 //Отображение закладок карты в левой панели
+import nsGmx from './nsGmx.js';
+import { leftMenu } from './menu.js';
+import { showDialog } from './utilities.js';
+import './userObjects.js';
 
 //TODO: сделать глобально доступным
 nsGmx.Controls = nsGmx.Controls || {};
@@ -308,3 +312,5 @@ nsGmx.userObjectsManager.addDataCollector('tabs', {
         mapHelp.tabs.load('mapTabs');
     }
 })
+
+export default _queryTabs;

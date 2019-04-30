@@ -181,8 +181,6 @@
 // import './src/js/Leaflet.Dialog/Leaflet.Dialog.css';
 // import './src/js/Leaflet.Dialog/Leaflet.Dialog.js';
 
-import nsGmx from './src/js/starter.js';
-
 import './src/css/common.css';
 import './src/css/PluginEditor.css';
 import './src/css/print.css';
@@ -202,5 +200,7 @@ import './src/css/adapter.css';
 import './src/css/sidebar.css';
 
 import './src/css/leafletGmx.css';
+
+import nsGmx from './src/js/starter.js';
 
 nsGmx.initGeoMixer();

@@ -1,5 +1,10 @@
 ﻿//Управление показом списка слоёв и поиска по этому списку
-var nsGmx = nsGmx || {};
+import nsGmx from './nsGmx.js';
+import './LayerTagsControl.js';
+import {
+    makeImageButton,    
+    sendCrossDomainJSONRequest
+} from './utilities.js';
 
 (function(_){
 

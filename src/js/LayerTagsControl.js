@@ -1,4 +1,10 @@
-﻿(function()
+﻿import nsGmx from './nsGmx.js';
+import {
+    makeImageButton,    
+    sendCrossDomainJSONRequest
+} from './utilities.js';
+
+(function()
 {
     /**
     Хранит информацию о тегах: типы и описание

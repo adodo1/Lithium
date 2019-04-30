@@ -784,7 +784,7 @@ function createPostIframe(id, callback)
     {
         var uniqueId = uniquePrefix + (lastRequestId++);
 
-        iframe = document.createElement("iframe");
+        var iframe = document.createElement("iframe");
         iframe.style.display = 'none';
         iframe.setAttribute('id', id);
         iframe.setAttribute('name', id);
@@ -1827,7 +1827,7 @@ const {
 export {
     attachEffects,    
     _br, 
-    _checkbox,   
+    _checkbox,    
     disableSelection,
     _div,
     eraseCookie,
@@ -1843,6 +1843,7 @@ export {
     objLength,
     _option,    
     readCookie,
+    removeDialog,
     sendCrossDomainJSONRequest,
     sendCrossDomainPostRequest,
     showDialog,

@@ -6,13 +6,17 @@ import {
     _div,
     _li,
     objLength,
+    removeDialog,
     sendCrossDomainJSONRequest,
     sendCrossDomainPostRequest,
+    showDialog,
     _span,
     _ul,    
 } from './utilities.js';
 import './MapsManagerControl.js';
 import './PluginsEditor.js';
+import './NotificationWidget.js';
+import './LayersManagerControl.js';
 
 !(function(_) {
 

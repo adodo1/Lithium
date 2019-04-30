@@ -1003,7 +1003,7 @@
         {
             var uniqueId = uniquePrefix + (lastRequestId++);
 
-            iframe = document.createElement("iframe");
+            var iframe = document.createElement("iframe");
             iframe.style.display = 'none';
             iframe.setAttribute('id', id);
             iframe.setAttribute('name', id);
@@ -3683,6 +3683,8 @@
     	"gmx_geometry": "gmx_geometry"
     };
 
+    // import './MapExport/MapExport.js';
+
     /**
       @class
       @virtual
@@ -6054,6 +6056,2339 @@
 
     })(nsGmx$1.Utils._);
 
+    //Создание интерфейса редактирования стилей слоя
+    !(function(_) {
+
+    //явно прописывает все свойства балунов в стиле.
+    var applyBalloonDefaultStyle = function(style)
+    {
+        //слой только что создали - всё по умолчанию!
+        if (typeof style.BalloonEnable === 'undefined')
+        {
+            style.BalloonEnable = true;
+            style.DisableBalloonOnClick = false;
+            style.DisableBalloonOnMouseMove = true;
+        }
+        else
+        {
+            //поддержка совместимости - если слой уже был, но новых параметров нет
+            if (typeof style.DisableBalloonOnClick === 'undefined')
+                style.DisableBalloonOnClick = false;
+
+            if (typeof style.DisableBalloonOnMouseMove === 'undefined')
+                style.DisableBalloonOnMouseMove = false;
+        }
+        return style;
+    };
+
+    var FillStyleControl = function(initStyle, params)
+    {
+        var _params = $.extend({showSelectors: true}, params);
+        var _fillStyle = $.extend(true, {fill:
+            {color: 0xFFFFFF,
+             opacity: 50,
+             image: "",
+             pattern: {
+                width: 8,
+                step: 0,
+                colors: [0x000000,0xFFFFFF],
+                style: 'diagonal1'
+            }}}, initStyle).fill;
+
+        var _this = this;
+        var selectorDiv = $("<div/>", {'class': "fillStyleSelectorDiv"});
+
+        var colorContainer = $("<div/>");
+        var patternContainer = $("<div/>");
+        var imagePatternContainer = $("<div/>");
+
+        var colorIcon      = $("<img/>", {src: 'img/styles/color.png',   title: _gtxt("Заливка цветом")}).data('type', 'color');
+        var patternIcon    = $("<img/>", {src: 'img/styles/pattern.png', title: _gtxt("Заливка штриховкой")}).data('type', 'pattern');
+        var patternURLIcon = $("<img/>", {src: 'img/styles/globe.gif',   title: _gtxt("Заливка рисунком")}).data('type', 'bitmapPattern');
+
+        var controls = {
+            "color":         {icon: colorIcon,      control: colorContainer},
+            "pattern":       {icon: patternIcon,    control: patternContainer},
+            "bitmapPattern": {icon: patternURLIcon, control: imagePatternContainer}
+        };
+
+        var initFillStyle = initStyle.fill || {};
+
+        var activeFillType = null;
+        if ('image' in initFillStyle)
+            activeFillType = 'bitmapPattern';
+        else if ('pattern' in initFillStyle)
+            activeFillType = 'pattern';
+        else //if ('color' in initFillStyle)
+            activeFillType = 'color';
+
+        for (var c in controls)
+            if (c == activeFillType)
+                controls[c].icon.addClass('selectedType');
+            else
+                controls[c].control.hide();
+
+        var selectorIconsDiv = $('<div/>')
+            .append(colorIcon)
+            .append(patternIcon)
+            .append(patternURLIcon);
+
+        selectorDiv.append($("<span/>").text(_gtxt("Заливка"))).append($("<br/>"));
+
+        if (_params.showSelectors)
+            selectorDiv.append(selectorIconsDiv);
+
+        $("img", selectorDiv).click(function()
+        {
+            activeFillType = $(this).data('type');
+            for (var k in controls)
+                if (k === activeFillType)
+                    $(controls[k].control).show(500);
+                else
+                    $(controls[k].control).hide(500);
+
+            $("img", selectorDiv).removeClass('selectedType');
+            $(this).addClass('selectedType');
+            $(_this).change();
+        });
+
+        var fillColor = _fillStyle.color;
+        var fillOpacity = _fillStyle.opacity;
+
+        //выбор цвета
+        var fillColorPicker = nsGmx.Controls.createColorPicker(fillColor,
+            function (colpkr){
+                $(colpkr).fadeIn(500);
+                return false;
+            },
+            function (colpkr){
+                $(colpkr).fadeOut(500);
+                $(_this).change();
+                return false;
+            },
+            function (hsb, hex, rgb) {
+                fillColorPicker.style.backgroundColor = '#' + hex;
+                fillColor = parseInt("0x" + hex);
+                $(_this).change();
+            }),
+        fillOpacitySlider = nsGmx.Controls.createSlider(fillOpacity,
+            function(event, ui)
+            {
+                fillOpacity = ui.value;
+                $(_this).change();
+            });
+
+        colorContainer.append($("<table/>").append($("<tr/>")
+            .append($("<td/>").append(fillColorPicker))
+            .append($("<td/>", {'class': 'fillColorOpacity'}).append(fillOpacitySlider))
+        ));
+
+        var patternURL = new mapHelper.ImageInputControl(_fillStyle.image);
+        $(patternURL).change(function()
+        {
+            $(_this).change();
+        });
+        imagePatternContainer.append(patternURL.getControl());
+
+        //выбор втроенных паттернов
+        var patternTypeIcons = [
+            ['horizontal', 'img/styles/horisontal.png'],
+            ['vertical',   'img/styles/vertical.png'  ],
+            ['diagonal1',  'img/styles/diagonal1.png' ],
+            ['diagonal2',  'img/styles/diagonal2.png' ],
+            ['circle',     'img/styles/circle.png'    ],
+            ['cross',      'img/styles/cross.png'     ]
+        ];
+
+        var patternStyleSelector = $("<div/>", {id: "patternStyleSelector"});
+        for (var i = 0; i < patternTypeIcons.length; i++)
+        {
+            var icon = $('<img/>', {src: patternTypeIcons[i][1]}).data("style", patternTypeIcons[i][0]);
+            patternStyleSelector.append(icon);
+            if (patternTypeIcons[i][0] === _fillStyle.pattern.style)
+                icon.addClass('activePatternType');
+        }
+
+        $("img", patternStyleSelector).click(function()
+        {
+            $("img", patternStyleSelector).removeClass('activePatternType');
+            $(this).addClass('activePatternType');
+            _fillStyle.pattern.style = $(this).data("style");
+            $(_this).change();
+        });
+
+        var patternOpacity = _fillStyle.opacity;
+        var patternOpacitySlider = nsGmx.Controls.createSlider( _fillStyle.opacity, function(event, ui)
+        {
+            patternOpacity = ui.value;
+            $(_this).change();
+        });
+        $(patternOpacitySlider).attr({id: "patternOpacitySlider"});
+
+        var patternOpacityContainer = $('<div/>', {'class': 'patternOpacityContainer'})
+            .append($('<table/>').append($('<tr/>')
+                .append($('<td/>').append($('<img/>', {src:'img/styles/pattern-opacity.PNG', 'class': 'opacityIcon'})))
+                .append($('<td/>').append(patternOpacitySlider))
+            ));
+
+        var widthIcon = $("<img/>", {src: 'img/styles/pattern-width.PNG'});
+        var stepIcon = $("<img/>", {src: 'img/styles/pattern-step.PNG', 'class': 'stepIcon'});
+
+        var widthInput = $("<input/>", {'class': 'widthInput', title: _gtxt("Ширина паттерна")}).val(_fillStyle.pattern.width).change(function()
+        {
+            $(_this).change();
+        });
+
+        var stepInput = $("<input/>", {title: _gtxt("Ширина отступа")}).val(_fillStyle.pattern.step).change(function()
+        {
+            $(_this).change();
+        });
+
+        var widthStepInputs = $("<table/>", {'class': "widthStepTable"}).append($("<tr/>")
+            .append($("<td/>").append(widthIcon).append(widthInput))
+            .append($("<td/>").append(stepIcon).append(stepInput))
+        );
+
+        var PatternColorControl = function(parentDiv, initColors)
+        {
+            var _parentDiv = $(parentDiv);
+            var _colors = initColors;
+            var _this = this;
+            var _redraw = function()
+            {
+                _parentDiv.empty();
+                var table = $('<table/>', {'class': 'patternColorControl'});
+                for (var k = 0; k < _colors.length; k++)
+                (function(k){
+
+                    if (_colors[k] === null) return;
+
+                    var colorPicker = nsGmx.Controls.createColorPicker(_colors[k],
+                        function (colpkr){
+                            $(colpkr).fadeIn(500);
+                            return false;
+                        },
+                        function (colpkr){
+                            $(colpkr).fadeOut(500);
+                            $(_this).change();
+                            return false;
+                        },
+                        function (hsb, hex, rgb) {
+                            colorPicker.style.backgroundColor = '#' + hex;
+                            _colors[k] = parseInt('0x' + hex);
+                            $(_this).change();
+                        });
+                    colorPicker.style.width = '100%';
+
+                    var deleteIcon = makeImageButton('img/close.png', 'img/close_orange.png');
+                        deleteIcon.onclick = function()
+                        {
+                            _colors[k] = null;
+                            _redraw();
+                            $(_this).change();
+                        };
+
+                    table.append($("<tr/>")
+                        .append($("<td/>", {'class': 'patternColorPicker'}).append(colorPicker))
+                        .append($("<td/>", {'class': 'patternColorDelete'}).append(deleteIcon))
+                    );
+
+                })(k);
+
+                var addIcon = makeImageButton('img/zoom_plus.png', 'img/zoom_plus_a.png');
+                addIcon.onclick = function()
+                {
+                    var initColor = 0x00FF00;
+                    for (var c = 0; c < _colors.length; c++)
+                        if (_colors[c] !== null)
+                            initColor = _colors[c];
+
+                    _colors.push(initColor);
+                    _redraw();
+                    $(_this).change();
+                };
+
+                table.append($("<tr/>")
+                    .append($("<td/>", {'class': 'patternColorPicker'}))
+                    .append($("<td/>").append(addIcon))
+                );
+
+                _parentDiv.append(table);
+            };
+
+            _redraw();
+
+            this.getColors = function()
+            {
+                var res = [];
+                for (var c = 0; c < _colors.length; c++)
+                    if (_colors[c] !== null )
+                        res.push(_colors[c]);
+                return res;
+            };
+        };
+
+        var patternColorSelector = $("<div/>");
+        var patternColorControl = new PatternColorControl(patternColorSelector, _fillStyle.pattern.colors);
+        $(patternColorControl).change(function()
+        {
+            $(_this).change();
+        });
+
+        patternContainer.append(patternStyleSelector).append(patternOpacityContainer).append(widthStepInputs).append(patternColorSelector);
+
+        var fillControlsDiv = $("<div/>", {'class': 'fillStyleControls'}).append(colorContainer).append(imagePatternContainer).append(patternContainer);
+
+        //public interface
+        this.getSelector = function()
+        {
+            return selectorDiv;
+        };
+
+        this.getControls = function()
+        {
+            return fillControlsDiv;
+        };
+
+        this.getFillStyle = function()
+        {
+            var fillStyle = {};
+            if (activeFillType === 'color')
+            {
+                fillStyle.color = fillColor;
+                fillStyle.opacity = fillOpacity;
+            }
+            else if (activeFillType === 'bitmapPattern')
+            {
+                fillStyle.image = patternURL.value();
+            }
+            else if (activeFillType === 'pattern')
+            {
+                fillStyle.pattern = {
+                    style: _fillStyle.pattern.style,
+                    width: parseInt(widthInput.val()),
+                    step: parseInt(stepInput.val()),
+                    colors: patternColorControl.getColors()
+                };
+                fillStyle.opacity = patternOpacity;
+            }
+
+            return fillStyle;
+        };
+
+        this.setVisibleSelectors = function(isVisible)
+        {
+            if (isVisible)
+                selectorIconsDiv.show();
+            else
+                selectorIconsDiv.hide();
+        };
+    };
+
+    var createFilterEditorInner = function(filter, attrs, elemCanvas)
+    {
+    	var filterText = _textarea(null, [['dir','className','inputStyle'],['css','overflow','auto'],['css','width','250px'],['css','height','50px']]),
+    		setFilter = function()
+    		{
+    			var filterNum = getOwnChildNumber(filterText.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode),
+                    layer = nsGmx.gmxMap.layersByID[elemCanvas.parentNode.gmxProperties.content.properties.name],
+    				filter = layer.getStyle(filterNum);
+
+                var newStyle = $.extend(true, {}, filter);
+
+                newStyle.Filter = filterText.value;
+                layer.setStyle(newStyle, filterNum);
+    		};
+
+    	filterText.value = filter;
+
+    	filterText.onkeyup = function()
+    	{
+    		setFilter();
+
+    		return true;
+    	};
+
+    	var mapName = elemCanvas.parentNode.gmxProperties.content.properties.mapName,
+    		layerName = elemCanvas.parentNode.gmxProperties.content.properties.name,
+            attrSuggestWidget = new nsGmx.AttrSuggestWidget([filterText], attrs || [], _mapHelper.attrValues[mapName][layerName], setFilter, ['attrs', 'operators']);
+
+        var suggestCanvas = attrSuggestWidget.el[0];
+
+        var div = _div([filterText, suggestCanvas],[['attr','filterTable',true]]);
+
+    	div.getFilter = function()
+    	{
+    		return filterText.value;
+    	};
+    	div.setFilter = function()
+    	{
+    		setFilter();
+    	};
+
+    	return div;
+    };
+
+    var createFilterEditor = function(filterParam, attrs, elemCanvas)
+    {
+    	var filter = (typeof filterParam == 'undefined') ? '' : filterParam,
+            props = elemCanvas.parentNode.gmxProperties.content.properties,
+            mapName = props.mapName;
+
+        _mapHelper.attrValues[mapName] = _mapHelper.attrValues[mapName] || {};
+
+    	if (!_mapHelper.attrValues[mapName][props.name])
+    	{
+    		var div = _div([_t(_gtxt("Авторизуйтесь для редактирования фильтров"))],[['css','padding','5px 0px 5px 5px'],['css','color','red']]);
+
+    		div.getFilter = function()
+    		{
+    			return filter;
+    		};
+    		div.setFilter = function(){};
+
+    		div.setAttribute('filterTable', true);
+
+    		return div;
+    	}
+    	else
+    		return createFilterEditorInner(filter, attrs, elemCanvas);
+    };
+
+    var _balloonEditorId = 0;
+
+    //identityField - будем исключать из списка аттрибутов, показываемых в балуне, так как это внутренняя техническая информация
+    var createBalloonEditor = function(balloonParams, attrs, elemCanvas, identityField)
+    {
+        applyBalloonDefaultStyle(balloonParams);
+
+    	var layerName = elemCanvas.parentNode.gmxProperties.content.properties.name,
+            textareaID = 'ballooneditor' + layerName + (_balloonEditorId++),
+            balloonText = _textarea(null, [
+                ['dir','className','inputStyle balloonEditor'],
+                ['css','overflow','auto'],
+                ['css','width','251px'],
+                ['css','height','80px'],
+                ['dir','id', textareaID]
+            ]),
+    		setBalloon = function()
+    		{
+    			var filterNum = getOwnChildNumber(balloonText.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode),
+                    layer = nsGmx.gmxMap.layersByID[layerName],
+                    style = layer.getStyle(filterNum);
+
+                var newStyle = $.extend(true, {}, style, div.getBalloonState());
+                layer.setStyle(newStyle, filterNum);
+    		},
+    		defaultBalloonText = function()
+    		{
+    			var sortAttrs = attrs.slice(0),
+    				text = "";
+
+    			for (var i = 0; i < sortAttrs.length; ++i)
+    			{
+    				var key = sortAttrs[i];
+
+    				if (key !== identityField)
+    					text += "<b>" + key + ":</b> [" + key + "]<br />" + br;
+    			}
+
+    			text += "<br />" + br + "[SUMMARY]";
+
+    			return text;
+    		},
+    		boxClick = _checkbox(!balloonParams.DisableBalloonOnClick && balloonParams.BalloonEnable, 'checkbox'),
+    		boxMove = _checkbox(!balloonParams.DisableBalloonOnMouseMove && balloonParams.BalloonEnable, 'checkbox'),
+    		br = "\n";
+
+
+        gmxCore.loadModule('TinyMCELoader', window.location.protocol + '//' + window.location.host + window.location.pathname.replace('index.html', '') + 'TinyMCELoader.js', function() {
+            tinyMCE.onAddEditor.add(function(mgr,ed) {
+                if (ed.id === textareaID) {
+                    ed.onKeyUp.add(setBalloon);
+                    ed.onChange.add(setBalloon);
+                    ed.onClick.add(function() {
+                        $(suggestWidget.el).fadeOut(300);
+                    });
+
+                }
+            });
+        });
+
+
+    	boxClick.className = 'box';
+
+    	boxClick.onclick = function()
+    	{
+    		setBalloon();
+    	};
+
+    	boxMove.className = 'box';
+
+    	boxMove.onclick = function()
+    	{
+    		setBalloon();
+    	};
+
+    	balloonText.value = (balloonParams.Balloon) ? balloonParams.Balloon : defaultBalloonText();
+
+    	var suggestWidget = new nsGmx.SuggestWidget(attrs ? attrs : [], [balloonText], '[suggest]', setBalloon);
+
+    	var divAttr = _div([_t(_gtxt("Атрибут >")), suggestWidget.el], [['dir','className','suggest-link-container']]);
+
+    	divAttr.onclick = function()
+    	{
+    		if (suggestWidget.el.style.display == 'none')
+    			$(suggestWidget.el).fadeIn(300);
+
+    		return true;
+    	};
+
+        var setDefaultBalloonText = nsGmx.Utils.makeLinkButton(_gtxt('По умолчанию'));
+
+        setDefaultBalloonText.onclick = function() {
+            window.tinyMCE.get(textareaID).setContent(defaultBalloonText());
+            setBalloon();
+        };
+
+    	var suggestCanvas = _table([_tbody([
+            _tr([_td([_div([divAttr],[['css','position','relative']])]),
+                 _td([_div([setDefaultBalloonText],[['css','float','right']])])
+             ])])],[['css','margin','0px 3px'], ['css','width','249px']]);
+
+    	var div = _div([_div([boxClick, _span([_t(_gtxt("Показывать при клике"))],[['css','marginLeft','5px']])],[['css','margin','2px 0px 4px 3px']]),
+    					_div([boxMove, _span([_t(_gtxt("Показывать при наведении"))],[['css','marginLeft','5px']])],[['css','margin','2px 0px 4px 3px']]),
+    	                balloonText, suggestCanvas],[['attr','balloonTable',true]]);
+
+    	div.getBalloon = function()
+    	{
+            var value = window.tinyMCE && window.tinyMCE.get(textareaID) ? window.tinyMCE.get(textareaID).getContent() : balloonText.value;
+            return value == defaultBalloonText() ? '' : value;
+    	};
+
+    	div.getBalloonEnable = function()
+    	{
+    		return boxClick.checked || boxMove.checked;
+    	};
+
+    	div.getBalloonDisableOnClick = function()
+    	{
+    		return boxClick.checked;
+    	};
+
+    	div.getDisableBalloonOnMouseMove = function()
+    	{
+    		return boxMove.checked;
+    	};
+
+    	div.getBalloonState = function()
+    	{
+    		var state = {
+    			BalloonEnable: boxClick.checked || boxMove.checked,
+    			DisableBalloonOnClick: !boxClick.checked,
+    			DisableBalloonOnMouseMove: !boxMove.checked
+    		};
+
+            var value = window.tinyMCE && window.tinyMCE.get(textareaID) ? window.tinyMCE.get(textareaID).getContent() : balloonText.value;
+    		if (value !== defaultBalloonText())
+    			state.Balloon = value;
+
+    		return state;
+    	};
+
+    	return div;
+    };
+
+    var _labelEditorId = 0;
+
+    var createFilter = function(layer, styleIndex, parentStyle, geometryType, attrs, elemCanvas, ulParent, treeviewFlag)
+    {
+    	var templateStyle = {};
+
+    	$.extend(true, templateStyle, _mapHelper.makeStyle(parentStyle));
+
+        var zoomPropertiesControl = new nsGmx.ZoomPropertiesControl(parentStyle.MinZoom, parentStyle.MaxZoom);
+
+    	var filterInput = _textarea([_t(parentStyle.Filter || '')], [['dir','className','inputStyle'],['css','overflow','auto'],['css','margin','1px 0px'],['css','width','260px'],['css','height','40px']]),
+            liMinZoom = zoomPropertiesControl.getMinLi(),
+    		liMaxZoom = zoomPropertiesControl.getMaxLi(),
+    		ulfilterExpr = _ul([_li([_div()],[['css','paddingLeft','0px'],['css','background','none']])]),
+    		liLabel = _li([_div()],[['css','paddingLeft','0px'],['css','background','none']]),
+    		ulLabel = _ul([liLabel]),
+    		liBalloon = _li([_div()],[['css','paddingLeft','0px'],['css','background','none']]),
+    		ulBalloon = _ul([liBalloon]),
+    		liStyle = _li([_div()],[['css','paddingLeft','0px'],['css','background','none']]),
+    		ulStyle = _ul([liStyle]),
+            liClusters = _li([_div()],[['css','paddingLeft','0px'],['css','background','none']]),
+    		ulClusters = _ul([liClusters]);
+
+        // currently we don't support clustring
+        /*if (geometryType == 'point')
+        {
+            clusterControl = new nsGmx.ClusterParamsControl(liClusters, parentStyle.clusters);
+            $(clusterControl).change(function()
+            {
+                var filterNum = getOwnChildNumber(ulParent.parentNode.parentNode.parentNode),
+                        filter = globalFlashMap.layers[elemCanvas.parentNode.gmxProperties.content.properties.name].filters[filterNum];
+
+                if (clusterControl.isApplyCluster())
+                {
+                    filter.setClusters(clusterControl.getClusterStyle());
+                }
+                else
+                {
+                    filter.delClusters();
+                }
+            })
+
+            clusterCheckbox = _checkbox(clusterControl.isApplyCluster(), 'checkbox');
+            clusterCheckbox.style.marginTop = '2px';
+            clusterCheckbox.onchange = function()
+            {
+                clusterControl.applyClusters(this.checked);
+            }
+
+            if (!clusterControl.isApplyCluster())
+            {
+                ulClusters.style.display = 'none';
+                ulClusters.className = 'hiddenTree';
+            }
+        }*/
+
+    	// zoom
+    	$(zoomPropertiesControl).change(function()
+        {
+            var filterNum = getOwnChildNumber(ulParent.parentNode.parentNode.parentNode),
+                layer = nsGmx.gmxMap.layersByID[elemCanvas.parentNode.gmxProperties.content.properties.name],
+                style = layer.getStyle(filterNum);
+
+            var newStyle = $.extend(true, {}, style, {
+                MinZoom: this.getMinZoom(),
+                MaxZoom: this.getMaxZoom()
+            });
+
+            layer.setStyle(newStyle, filterNum);
+        });
+
+    	// label
+
+    	var fontSizeInput = _input(null, [['dir','className','inputStyle'],['attr','labelParamName','FontSize'],['css','width','26px'],['attr','value', templateStyle.label && templateStyle.label.size || '12']]),
+    	    xShiftInput = _input(null, [['dir','className','inputStyle'],['attr','labelParamName','XSfift'],['css','width','26px'],['attr','value', templateStyle.labelAnchor && templateStyle.labelAnchor[0] || '0']]),
+    	    yShiftInput = _input(null, [['dir','className','inputStyle'],['attr','labelParamName','FontSize'],['css','width','26px'],['attr','value', templateStyle.labelAnchor && -(templateStyle.labelAnchor[1]) || '0']]),
+    		checkedLabelColor = (typeof templateStyle.label != 'undefined' && typeof templateStyle.label.color != 'undefined') ? templateStyle.label.color : 0x000000,
+    		checkedLabelHaloColor = (typeof templateStyle.label != 'undefined' && typeof templateStyle.label.haloColor != 'undefined') ? templateStyle.label.haloColor : 0xFFFFFF,
+            checkedFontSize = (typeof templateStyle.label != 'undefined' && typeof templateStyle.label.size != 'undefined') ? templateStyle.label.size : 12,
+            checkedXShift = (typeof templateStyle.labelAnchor != 'undefined' && typeof templateStyle.labelAnchor[0]) ? templateStyle.labelAnchor[0] : 0,
+            checkedYShift = (typeof templateStyle.labelAnchor != 'undefined' && typeof templateStyle.labelAnchor[1]) ? templateStyle.labelAnchor[1] : 0,
+            backupLabel = {
+                color: checkedLabelColor,
+                haloColor: checkedLabelHaloColor,
+                size: checkedFontSize,
+                dx: checkedXShift,
+                dy: checkedYShift
+            },
+    		labelColor = nsGmx.Controls.createColorPicker(checkedLabelColor,
+    			function (colpkr){
+    				$(colpkr).fadeIn(500);
+    				return false;
+    			},
+    			function (colpkr){
+    				$(colpkr).fadeOut(500);
+    				return false;
+    			},
+    			function (hsb, hex, rgb) {
+    				labelColor.style.backgroundColor = '#' + hex;
+
+                    if (typeof templateStyle.label == 'undefined') {
+                        templateStyle.label = backupLabel;
+                    }
+
+    				templateStyle.label.color = labelColor.hex = parseInt('0x' + hex);
+                    checkedLabelColor = labelColor.hex = parseInt('0x' + hex);
+
+    				nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
+    			}),
+    		labelHaloColor = nsGmx.Controls.createColorPicker(checkedLabelHaloColor,
+    			function (colpkr){
+    				$(colpkr).fadeIn(500);
+    				return false;
+    			},
+    			function (colpkr){
+    				$(colpkr).fadeOut(500);
+    				return false;
+    			},
+    			function (hsb, hex, rgb) {
+    				labelHaloColor.style.backgroundColor = '#' + hex;
+
+    				if (typeof templateStyle.label == 'undefined') {
+                        templateStyle.label = backupLabel;
+                    }
+
+    				templateStyle.label.haloColor = labelHaloColor.hex = parseInt('0x' + hex);
+                    checkedLabelHaloColor = labelHaloColor.hex = parseInt('0x' + hex);
+
+    				nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
+    			}),
+                layerName = elemCanvas.parentNode.gmxProperties.content.properties.name,
+                textareaID = 'labeleditor' + layerName + (_labelEditorId++),
+                labelText = _textarea(null, [
+                    ['dir','className','inputStyle labelEditor'],
+                    ['attr','placeholder', _gtxt("Пример выражения")],
+                    ['css','overflow','auto'],
+                    ['css','width','251px'],
+                    ['css','height','80px'],
+                    ['dir','id', textareaID]
+                ]);
+
+    	_title(labelColor, _gtxt("Цвет шрифта"));
+    	_title(labelHaloColor, _gtxt("Цвет обводки"));
+    	_title(fontSizeInput, _gtxt("Размер шрифта"));
+    	_title(xShiftInput, _gtxt("Смещение по x"));
+    	_title(yShiftInput, _gtxt("Смещение по y"));
+
+        // при загрузке выставим в инпуты значения либо template, либо label
+        if (templateStyle.labelTemplate) {
+            $(labelText).val(templateStyle.labelTemplate);
+        } else if (templateStyle.label && templateStyle.label.field) {
+            $(labelText).val('[' + templateStyle.label.field + ']');
+        }
+
+    	if (attrs) {
+            var keys = {};
+            attrs.forEach(function(attr){
+                keys[attr] = true;
+            });
+        }
+
+      // при изменении значения текстового поля меняется labelTemplate
+      // если оно равно какому-либо атрибуту, он утанавливается в значение field
+      // если же как-то отличается, то перечень атрибутов устанавливается на '';
+      var updateLabelText = function() {
+            // соберем все значения в квадратных скобках
+            var matches = this.value.match(/\[([^\]]+)\]/ig);
+            var str = this.value;
+            if (matches) {
+                for (var i = 0, len = matches.length; i < len; i++) {
+                    var key1 = matches[i],
+                        key = key1.substr(1, key1.length - 2);
+                    // отсеиваем случаи, когда в textArea содержится единственный [атрибут]
+                    if (matches.length === 1 && matches[0] === str && key in keys) {
+                      // в label передается templateStyle.label.field
+                      delete templateStyle.labelTemplate;
+
+                      if (typeof templateStyle.label == 'undefined') {
+                          templateStyle.label = backupLabel;
+                          templateStyle.label.field = key;
+                      }	else {
+                          templateStyle.label.field = key;
+                      }
+                      nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
+                      return;
+                    }
+                    // в других случаях в label передается templateStyle.labelTemplate
+                    // если внтутри квадратных скобок оказывается какой-то произвольный текст
+                    if (!(key in keys)) {
+                        str = str.replace(key1, '');
+                    }
+                }
+            }
+            if (!str) {
+                if (!this.value) {
+                    delete templateStyle.labelTemplate;
+                    delete templateStyle.label;
+                } else {
+                    templateStyle.labelTemplate = this.value;
+                }
+            } else {
+                if (typeof templateStyle.label == 'undefined') {
+                    templateStyle.label = backupLabel;
+                }
+                templateStyle.labelTemplate = str;
+            }
+
+            nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
+        };
+
+        labelText.onkeyup = updateLabelText;
+
+    	fontSizeInput.onkeyup = function()
+    	{
+            if (typeof templateStyle.label == 'undefined') {
+                templateStyle.label = backupLabel;
+            }
+
+    		templateStyle.label.size = Number(this.value);
+            checkedFontSize = Number(this.value);
+
+    		nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
+    	};
+
+        xShiftInput.onkeyup = function()
+        {
+            if (typeof templateStyle.labelAnchor == 'undefined') {
+                templateStyle.labelAnchor = [backupLabel.dx, backupLabel.dy];
+            }
+            	templateStyle.labelAnchor[0] = Number(this.value);
+                checkedXShift = Number(this.value);
+            	nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
+                layer.setStyle(templateStyle);
+        };
+
+        yShiftInput.onkeyup = function()
+        {
+            if (typeof templateStyle.labelAnchor == 'undefined') {
+                templateStyle.labelAnchor = [backupLabel.dx, backupLabel.dy];
+            }
+            	templateStyle.labelAnchor[1] = -(Number(this.value));
+                checkedYShift = -(Number(this.value));
+            	nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
+        };
+
+        var suggestWidget = new nsGmx.SuggestWidget(attrs ? attrs : [], [labelText], '[suggest]', updateLabelText.bind(labelText));
+
+        var divAttr = _div([_t(_gtxt("Атрибут >")), suggestWidget.el], [['dir','className','suggest-link-container']]);
+
+        divAttr.onclick = function()
+        {
+        	if (suggestWidget.el.style.display == 'none')
+        		$(suggestWidget.el).fadeIn(300);
+
+        	return true;
+        };
+
+        var suggestCanvas = _table([_tbody([_tr([_td([_div([divAttr],[['css','position','relative']])])])])],[['css','margin','0px 3px']]);
+
+    	_(liLabel.lastChild, [_table([_tbody([
+          _tr([_td([_t(_gtxt("Цвет шрифта"))], [['css','width','100px']]), _td([labelColor])]),
+          _tr([_td([_t(_gtxt("Цвет обводки"))], [['css','width','100px']]), _td([labelHaloColor])]),
+          _tr([_td([_t(_gtxt("Размер шрифта"))], [['css','width','100px']]), _td([fontSizeInput])]),
+          _tr([_td([_t(_gtxt("Смещение по x"))], [['css','width','100px']]), _td([xShiftInput])]),
+          _tr([_td([_t(_gtxt("Смещение по y"))], [['css','width','100px']]), _td([yShiftInput])]),
+          _tr([_td([labelText], [['attr', 'colspan', 4]])]),
+          _tr([_td([divAttr])])
+      ])])]);
+
+    	if (typeof templateStyle.label == 'undefined')
+    	{
+    		ulLabel.style.display = 'none';
+    		ulLabel.className = 'hiddenTree';
+    	}
+
+    	// filter
+
+    	var filterEditor = createFilterEditor(parentStyle.Filter, attrs, elemCanvas);
+
+    	_(ulfilterExpr.lastChild.lastChild, [filterEditor]);
+
+    	if (typeof parentStyle.Filter == 'undefined' || filterEditor.childNodes.length == 1)
+    	{
+    		ulfilterExpr.style.display = 'none';
+    		ulfilterExpr.className = 'hiddenTree';
+    	}
+
+    	// balloon
+    	var balloonEditor = createBalloonEditor(parentStyle, attrs, elemCanvas, elemCanvas.parentNode.gmxProperties.content.properties.identityField);
+
+    	_(liBalloon.lastChild, [balloonEditor]);
+
+    	if (typeof parentStyle.Balloon == 'undefined')
+    	{
+    		ulBalloon.style.display = 'none';
+    		ulBalloon.className = 'hiddenTree';
+    	}
+
+        var bindChangeEvent = function() {
+            $(resObject).change(function()
+            {
+                nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
+            });
+        };
+
+    	// common
+        var symbolsTitle = _div();
+
+        if (nsGmx.AuthManager.isRole(nsGmx.ROLE_ADMIN)) {
+            var styleLibIcon = makeImageButton('img/stylelib-main.png', 'img/stylelib-main.png');
+            styleLibIcon.style.verticalAlign = 'middle';
+            styleLibIcon.style.marginLeft = '5px';
+            styleLibIcon.title = _gtxt('Библиотека стилей');
+            _(symbolsTitle, [_span([_t(_gtxt("Символика"))],[['css','fontSize','12px']]), styleLibIcon]);
+            styleLibIcon.onclick = function() {
+                nsGmx.showStyleLibraryDialog('select', geometryType.toUpperCase()).done(function(activeStyleManager) {
+                    $(activeStyleManager).change(function() {
+                        var styleFromLib = this.getActiveStyle();
+
+                        if (styleFromLib) {
+                            templateStyle = styleFromLib;
+
+                            $(liStyle.lastChild).empty();
+                            resObject = createStyleEditor(liStyle.lastChild, templateStyle, geometryType, isWindLayer);
+                            bindChangeEvent();
+                            nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
+                        }
+                    });
+                });
+            };
+        } else {
+            _(symbolsTitle, [_span([_t(_gtxt("Символика"))],[['css','fontSize','12px']])]);
+        }
+
+    	_(ulParent, [
+            liMinZoom, liMaxZoom,
+            _li([_div([_span([_t(_gtxt("Фильтр"))],[['css','fontSize','12px']])]), ulfilterExpr]),
+            _li([_div([_span([_t(_gtxt("Подпись"))],[['css','fontSize','12px']])]), ulLabel]),
+            _li([_div([_span([_t(_gtxt("Балун"))],[['css','fontSize','12px']])]), ulBalloon]),
+            _li([symbolsTitle, ulStyle])
+        ]);
+
+        /*if (geometryType == 'point')
+        {
+            _(ulParent, [_li([
+                _div([clusterCheckbox,
+                _span([_t(_gtxt("Кластеризация"))],[['css','fontSize','12px'], ['css', 'marginLeft', '4px']])]),
+                ulClusters
+            ])])
+        }*/
+
+    	if (treeviewFlag)
+    		$(ulParent).treeview();
+
+    	// styles
+
+        var isWindLayer = typeof elemCanvas.parentNode.gmxProperties != 'undefined' &&
+    				elemCanvas.parentNode.gmxProperties.content.properties.description &&
+    				String(elemCanvas.parentNode.gmxProperties.content.properties.description).toLowerCase().indexOf('карта ветра') == 0;
+    	var resObject = createStyleEditor(liStyle.lastChild, templateStyle, geometryType, isWindLayer);
+
+        bindChangeEvent();
+
+    	ulParent.parentNode.parentNode.parentNode.getStyle = function()
+    	{
+    		return templateStyle;
+    	};
+
+        ulParent.parentNode.parentNode.parentNode.getClusterStyle = function()
+    	{
+    		return null;
+    	};
+
+    	ulParent.parentNode.parentNode.parentNode.removeColorPickers = function()
+    	{
+    		$(liStyle.lastChild).find(".colorSelector").each(function()
+    		{
+                $('#' + $(this).data("colorpickerId")).remove();
+    		});
+
+            $('#' + $(labelColor).data("colorpickerId")).remove();
+    	};
+    };
+
+    var updateFilterMoveButtons = function(filter)
+    {
+    	var num = getOwnChildNumber(filter),
+    		upButton = $(filter).find("[filterMoveButton='up']")[0],
+    		downButton = $(filter).find("[filterMoveButton='down']")[0],
+    		removeButton = $(filter).find("[filterMoveButton='remove']")[0];
+
+    	if (num == 0 || filter.parentNode.childNodes.length == 1)
+    		upButton.style.visibility = 'hidden';
+    	else
+    		upButton.style.visibility = 'visible';
+
+    	if (num == filter.parentNode.childNodes.length - 1)
+    		downButton.style.visibility = 'hidden';
+    	else
+    		downButton.style.visibility = 'visible';
+
+    	if (num == 0)
+    		removeButton.style.visibility = 'hidden';
+    	else
+    		removeButton.style.visibility = 'visible';
+    };
+
+    var attachLoadingFilterEvent = function(filterCanvas, layer, styleIndex, parentStyle, geometryType, attrs, elemCanvas)
+    {
+    	$(filterCanvas.firstChild.firstChild.firstChild).bind('click', function()
+    	{
+    		var ulFilterParams = _abstractTree.getChildsUl(filterCanvas.firstChild.firstChild);
+
+    		if (!ulFilterParams.loaded)
+    		{
+    			ulFilterParams.loaded = true;
+
+    			createFilter(layer, styleIndex, parentStyle, geometryType, attrs, elemCanvas, ulFilterParams, true);
+
+                _mapHelper.updateTinyMCE(filterCanvas);
+    		}
+    	});
+    };
+
+    var createFilterHeader = function(filtersCanvas, elem, elemCanvas)
+    {
+    	var addButton =  makeLinkButton(_gtxt('Добавить стиль'));
+    	addButton.onclick = function()
+    	{
+    		if (!_layersTree.getLayerVisibility($(elemCanvas.parentNode).find('input[type="checkbox"]')[0])) {
+                _layersTree.treeModel.setNodeVisibility(elemCanvas.parentNode.gmxProperties, true);
+            }
+
+    		var lastStyle = elemCanvas.parentNode.gmxProperties.content.properties.styles[elemCanvas.parentNode.gmxProperties.content.properties.styles.length - 1],
+    			newStyle = {},
+                defaultStyle = {
+                    fill: {
+                        color: 0x0FFFFFF,
+                        opacity: 20
+                    },
+                    outline: {
+                        color: 255,
+                        thickness: 1
+                    }
+                },
+                layer = nsGmx.gmxMap.layersByID[elem.name];
+
+            lastStyle = lastStyle || {};
+
+    		//копируем состояние балунов с последнего стиля
+    		newStyle.Balloon = lastStyle.Balloon || '';
+    		newStyle.BalloonEnable = !!lastStyle.BalloonEnable;
+    		newStyle.DisableBalloonOnClick = !!lastStyle.DisableBalloonOnClick;
+    		newStyle.DisableBalloonOnMouseMove = !!lastStyle.DisableBalloonOnMouseMove;
+            //TODO: вернуть правильные начальные параметры
+    		//globalFlashMap.balloonClassObject.setBalloonFromParams(newFilter, newStyle);
+
+    		newStyle.MinZoom = lastStyle.MinZoom || 1;
+    		newStyle.MaxZoom = lastStyle.MaxZoom || 21;
+
+    		newStyle.RenderStyle = defaultStyle;
+
+            layer.setStyles(layer.getStyles().concat(newStyle));
+
+
+    		var filter = createLoadingFilter(layer, layer.getStyles().length - 1, newStyle, elem.GeometryType.toLowerCase(), elem.attributes, elemCanvas, false);
+
+    		_(filtersCanvas, [filter]);
+
+    		updateFilterMoveButtons(filter);
+    		if (filtersCanvas.childNodes.length >= 2) {
+                updateFilterMoveButtons(filtersCanvas.childNodes[filtersCanvas.childNodes.length - 2]);
+            }
+
+    		$(filter.firstChild).treeview();
+
+    		attachLoadingFilterEvent(filter, layer, layer.getStyles().length - 1, newStyle, elem.GeometryType.toLowerCase(), elem.attributes, elemCanvas, false);
+    	};
+
+    	addButton.style.marginLeft = '10px';
+
+    	return _div([addButton],[['css','height','20px'],['css','padding','5px']]);
+    };
+
+    var swapFilters = function(div, firstNum, filterCanvas)
+    {
+        var layerName = div.gmxProperties.content.properties.name,
+            layer = nsGmx.gmxMap.layersByID[layerName],
+            filters = layer.getStyles(),
+    		newFilters = [];
+
+    	for (var i = 0; i < filters.length; i++)
+    	{
+    		if (i < firstNum || i > firstNum + 1)
+    			newFilters.push(filters[i]);
+    		else if (i == firstNum)
+    			newFilters.push(filters[i + 1]);
+    		else if (i == firstNum + 1)
+    			newFilters.push(filters[i - 1]);
+    	}
+
+        layer.setStyles(newFilters);
+
+    	$(filterCanvas.childNodes[firstNum]).before(filterCanvas.childNodes[firstNum + 1]);
+
+    	updateFilterMoveButtons(filterCanvas.childNodes[firstNum]);
+    	updateFilterMoveButtons(filterCanvas.childNodes[firstNum + 1]);
+    };
+
+    var createLoadingFilter = function(layer, styleIndex, parentStyle, geometryType, attrs, elemCanvas, openedFlag)
+    {
+    	var templateStyle = {},
+    		nameInput = _input(null, [['dir','className','inputStyle'],['attr','paramName','Name'],['css','width','210px'],['attr','value', parentStyle.Name || '']]),
+    		ulFilterParams = _ul(),
+    		liFilter = _li([_div([nameInput]), ulFilterParams]),
+    		ulFilter = _ul([liFilter]),
+    		filterCanvas = _div([ulFilter],[['dir','className','filterCanvas']]);
+
+    	$.extend(true, templateStyle, _mapHelper.makeStyle(parentStyle));
+
+    	_title(nameInput, _gtxt("Имя фильтра"));
+
+    	filterCanvas.getStyle = function()
+    	{
+    		return templateStyle;
+    	};
+
+        filterCanvas.getClusterStyle = function()
+    	{
+    		return parentStyle.clusters;
+    	};
+
+    	filterCanvas.getFilter = function()
+    	{
+    		return parentStyle.Filter;
+    	};
+
+    	filterCanvas.getBalloon = function()
+    	{
+    		return parentStyle.Balloon;
+    	};
+
+    	filterCanvas.getBalloonEnable = function()
+    	{
+    		return (typeof parentStyle.BalloonEnable != 'undefined' ? parentStyle.BalloonEnable : true);
+    	};
+
+    	filterCanvas.getBalloonDisableOnClick = function()
+    	{
+    		return parentStyle.DisableBalloonOnClick;
+    	};
+
+    	filterCanvas.getDisableBalloonOnMouseMove = function()
+    	{
+    		return parentStyle.DisableBalloonOnMouseMove;
+    	};
+
+    	filterCanvas.getBalloonState = function()
+    	{
+    		var state = {
+    			BalloonEnable: !parentStyle.DisableBalloonOnMouseMove || !parentStyle.DisableBalloonOnClick,
+    			DisableBalloonOnClick: parentStyle.DisableBalloonOnClick,
+    			DisableBalloonOnMouseMove: parentStyle.DisableBalloonOnMouseMove,
+    			Balloon: parentStyle.Balloon
+    		};
+
+    		return state;
+    	};
+
+    	filterCanvas.addFilterParams = function(filterParams)
+    	{
+    		filterParams.Name = nameInput.value;
+    		filterParams.MinZoom = parentStyle.MinZoom;
+    		filterParams.MaxZoom = parentStyle.MaxZoom;
+    	};
+
+    	filterCanvas.removeColorPickers = function(){};
+
+    	if (!openedFlag)
+    	{
+    		ulFilterParams.loaded = false;
+
+    		ulFilterParams.style.display = 'none';
+    		ulFilterParams.className = 'hiddenTree';
+    	}
+    	else
+    	{
+    		ulFilterParams.loaded = true;
+
+    		createFilter(layer, styleIndex, parentStyle, geometryType, attrs, elemCanvas, ulFilterParams, false);
+    	}
+
+    	var moveUp = makeImageButton('img/up.png', 'img/up_a.png'),
+    		moveDown = makeImageButton('img/down.png', 'img/down_a.png');
+
+    	moveUp.onclick = function()
+    	{
+    		this.src = 'img/up.png';
+
+    		var firstNum = getOwnChildNumber(this.parentNode.parentNode.parentNode.parentNode) - 1;
+
+    		swapFilters(elemCanvas.parentNode, firstNum, this.parentNode.parentNode.parentNode.parentNode.parentNode);
+    	};
+
+    	moveDown.onclick = function()
+    	{
+    		this.src = 'img/down.png';
+
+    		var firstNum = getOwnChildNumber(this.parentNode.parentNode.parentNode.parentNode);
+
+    		swapFilters(elemCanvas.parentNode, firstNum, this.parentNode.parentNode.parentNode.parentNode.parentNode);
+    	};
+
+        moveUp.style.margin = '0px 1px -3px 2px';
+        moveDown.style.margin = '0px 1px -3px 2px';
+
+    	moveUp.setAttribute('filterMoveButton','up');
+    	moveDown.setAttribute('filterMoveButton','down');
+
+    	_title(moveUp, _gtxt("Переместить фильтр вверх"));
+    	_title(moveDown, _gtxt("Переместить фильтр вниз"));
+
+    	_(liFilter.firstChild, [moveDown, moveUp]);
+
+    	var remove = makeImageButton('img/closemin.png', 'img/close_orange.png');
+    	remove.onclick = function()
+    	{
+    		var num = getOwnChildNumber(filterCanvas);
+
+    		var filtersParent = filterCanvas.parentNode;
+
+    		filterCanvas.removeNode(true);
+
+    		updateFilterMoveButtons(filtersParent.childNodes[num - 1]);
+
+            var styles = layer.getStyles().slice();
+            styles.splice(styleIndex, 1);
+            layer.setStyles(styles);
+    	};
+
+    	remove.setAttribute('filterMoveButton','remove');
+
+    	remove.style.width = '16px';
+    	remove.style.height = '16px';
+
+        remove.style.margin = '0px 1px -3px 2px';
+
+    	_title(remove, _gtxt("Удалить фильтр"));
+
+    	_(liFilter.firstChild, [remove]);
+
+    	return filterCanvas;
+    };
+
+    var showStyle = function(elem)
+    {
+    	var div = $(elem).find("[fade]")[0];
+
+    	$(div).fadeIn(300);
+    };
+
+    var hideStyle = function(elem)
+    {
+    	var div = $(elem).find("[fade]")[0];
+
+    	$(div).fadeOut(300);
+    };
+
+    //возвращает стили, которые в данный момент введены в DOM-элементе filterCanvas
+    //использует структуру DOM-дерева
+    var updateStyles = function(filterCanvas)
+    {
+    	var styles = [];
+
+    	for (var i = 0; i < filterCanvas.childNodes.length; i++)
+    	{
+    		var filter = filterCanvas.childNodes[i],
+    			newFilterStyle = {};
+
+    		if (!_abstractTree.getChildsUl(filter.firstChild.firstChild).childNodes.length)
+    			filter.addFilterParams(newFilterStyle);
+    		else
+    		{
+    			$(filter).find("[paramName]").each(function()
+    			{
+    				newFilterStyle[this.getAttribute('paramName')] = this.value;
+    			});
+    		}
+
+    		var filterValueElem = $(filter).find("[filterTable]").length > 0 ? $(filter).find("[filterTable]")[0] : filter,
+    			filterValue = filterValueElem.getFilter();
+    		if (filterValue != '' && filterValue != null)
+    			newFilterStyle.Filter = filterValue;
+
+    		var balloonValueElem = $(filter).find("[balloonTable]").length > 0 ? $(filter).find("[balloonTable]")[0] : filter,
+    			balloonValue = balloonValueElem.getBalloon();
+
+    		$.extend(newFilterStyle, balloonValueElem.getBalloonState());
+
+    		if (newFilterStyle.Filter == '')
+    			delete newFilterStyle.Filter;
+    		if (newFilterStyle.Name == '')
+    			delete newFilterStyle.Name;
+
+    		newFilterStyle.MinZoom = Number(newFilterStyle.MinZoom);
+    		newFilterStyle.MaxZoom = Number(newFilterStyle.MaxZoom);
+
+    		if (isNaN(newFilterStyle.MinZoom))
+    			newFilterStyle.MinZoom = 1;
+    		if (isNaN(newFilterStyle.MinZoom))
+    			newFilterStyle.MinZoom = 21;
+
+    		newFilterStyle.RenderStyle = filter.getStyle();
+
+            var clusterStyle = filter.getClusterStyle();
+            if (clusterStyle)
+                newFilterStyle.clusters = clusterStyle;
+
+    		styles.push(newFilterStyle);
+    	}
+
+    	return styles;
+    };
+
+    const createStyleEditor = function(parent, templateStyle, geometryType, isWindLayer) {
+    	var markerSizeParent = _tr(),
+            outlineParent = _tr(),
+    		fillParent = _tr(),
+    		iconParent = _tr(),
+    		outlineTitleTds = [],
+    		fillTitleTds = [],
+    		iconTitleTds = [],
+    		outlineTds = [],
+    		fillTds = [],
+    		iconTds = [],
+    		inputUrl,
+    		fillToggle,
+    		outlineToggle,
+    		iconToggle,
+    		showIcon,
+    		showMarker,
+    		angle,
+    		scale,
+            resObject = {};
+
+    	_(parent, [_table([_tbody([outlineParent, markerSizeParent, fillParent, iconParent])])]);
+
+    	var fillStyleControl = new FillStyleControl(templateStyle, {showSelectors: geometryType !== 'point'});
+        fillStyleControl.setVisibleSelectors(typeof templateStyle.fill != 'undefined');
+        $(fillStyleControl).change(function()
+        {
+            var fillStyle = fillStyleControl.getFillStyle();
+            templateStyle.fill = fillStyle;
+            $(resObject).change();
+        });
+
+    	showIcon = function()
+    	{
+    		hideStyle(outlineParent);
+    		hideStyle(fillParent);
+            fillStyleControl.setVisibleSelectors(false);
+            fillParent.style.display = 'none';
+    		showStyle(iconParent);
+
+    		templateStyle.marker = {};
+    		templateStyle.marker.image = inputUrl.value();
+    		templateStyle.marker.center = true;
+
+    		delete templateStyle.outline;
+    		delete templateStyle.fill;
+
+    		if (geometryType == "point")
+    		{
+                if ( isWindLayer )
+    			{
+    				if (angle.value != '')
+    					templateStyle.marker.angle = angle.value;
+
+    				if (scale.value != '')
+    					templateStyle.marker.scale = scale.value;
+
+    				templateStyle.marker.color = $(iconParent).find(".colorSelector")[0].hex;
+    			}
+                hideStyle(markerSizeParent);
+                markerSizeParent.style.display = 'none';
+    		}
+
+    		if (geometryType != "linestring")
+            {
+    			fillToggle.disabled = true;
+            }
+
+    		$(resObject).change();
+    	};
+
+    	showMarker = function()
+    	{
+    		showStyle(outlineParent);
+            showStyle(markerSizeParent);
+            markerSizeParent.style.display = '';
+    		hideStyle(iconParent);
+
+    		if (geometryType != "linestring")
+    		{
+                fillParent.style.display = '';
+    			if (fillToggle.checked)
+                {
+    				showStyle(fillParent);
+                    fillStyleControl.setVisibleSelectors(true);
+                }
+
+    			if (geometryType == "point")
+    			{
+    				templateStyle.marker = {};
+    				templateStyle.marker.size = Number($(markerSizeParent).find(".inputStyle").val());
+    			}
+
+                templateStyle.fill = fillStyleControl.getFillStyle();
+    			fillToggle.disabled = false;
+    		}
+
+    		if (geometryType != "point" && typeof templateStyle.marker != 'undefined')
+    			delete templateStyle.marker;
+
+    		templateStyle.outline = {};
+    		templateStyle.outline.thickness = Number($(outlineParent).find(".inputStyle")[0].value);
+    		templateStyle.outline.color = $(outlineParent).find(".colorSelector")[0].hex;
+    		templateStyle.outline.opacity = $($(outlineParent).find(".ui-slider")[0]).slider('option', 'value');
+
+    		$(resObject).change();
+    	};
+
+    	outlineToggle = _checkbox(geometryType == "point" && typeof templateStyle.marker != 'undefined' && typeof templateStyle.marker.image == 'undefined' || geometryType != "point" && (typeof templateStyle.marker == 'undefined' || typeof templateStyle.marker != 'undefined' && typeof templateStyle.marker.image == 'undefined'),'radio');
+    	outlineToggle.onclick = function()
+    	{
+    		showMarker();
+
+    		iconToggle.checked = false;
+    		this.checked = true;
+    	};
+
+    	outlineTitleTds.push(_td([outlineToggle],[['css','width','20px'],['css','height','24px']]));
+    	outlineTitleTds.push(_td([_t(_gtxt("Граница"))],[['css','width','70px']]));
+
+    	var outlineColor = nsGmx.Controls.createColorPicker((templateStyle.outline && typeof templateStyle.outline.color != 'undefined') ? templateStyle.outline.color : 0x0000FF,
+    		function (colpkr){
+    			$(colpkr).fadeIn(500);
+    			return false;
+    		},
+    		function (colpkr){
+    			$(colpkr).fadeOut(500);
+    			return false;
+    		},
+    		function (hsb, hex, rgb) {
+    			outlineColor.style.backgroundColor = '#' + hex;
+
+                templateStyle.outline = templateStyle.outline || {};
+    			templateStyle.outline.color = outlineColor.hex = parseInt('0x' + hex);
+
+    			$(resObject).change();
+    		});
+
+    	if (templateStyle.outline && typeof templateStyle.outline.color != 'undefined')
+    		outlineColor.hex = templateStyle.outline.color;
+    	else
+    		outlineColor.hex = 0x0000FF;
+
+    	outlineTds.push(_td([outlineColor],[['css','width','40px']]));
+
+    	var divSlider = nsGmx.Controls.createSlider((templateStyle.outline && typeof templateStyle.outline.opacity != 'undefined') ? templateStyle.outline.opacity : 100,
+    			function(event, ui)
+    			{
+                    templateStyle.outline = templateStyle.outline || {};
+    				templateStyle.outline.opacity = ui.value;
+
+    				$(resObject).change();
+    			});
+
+    	outlineTds.push(_td([divSlider],[['css','width','100px'],['css','padding','4px 5px 3px 5px']]));
+
+    	var outlineThick = nsGmx.Controls.createInput((templateStyle.outline && typeof templateStyle.outline.thickness != 'undefined') ? templateStyle.outline.thickness : 2,
+    			function()
+    			{
+                    templateStyle.outline = templateStyle.outline || {};
+    				templateStyle.outline.thickness = Number(this.value);
+
+    				$(resObject).change();
+
+    				return true;
+    			});
+
+    	_title(outlineThick, _gtxt("Толщина линии"));
+
+    	outlineTds.push(_td([outlineThick],[['css','width','30px']]));
+
+    	var dashInput = _input(null, [['attr', 'value', templateStyle.outline && typeof templateStyle.outline.dashes != 'undefined' ? templateStyle.outline.dashes : ''],['dir','className','inputStyle'],['css','width','140px']]),
+    		dashSelect = nsGmx.Utils._select(null, [['dir','className','selectStyle'],['css','width','50px'],['css','fontSize','12px'],['css','fontWeight','bold']]),
+    		borderValues = {
+    				"1" : "",
+    				"2" : "4,4",
+    				"3" : "2,2",
+    				"4" : "6,3,2,3",
+    				"5" : "6,3,2,3,2,3",
+    				"6" : "2,4",
+    				"7" : "6,6",
+    				"8" : "7,6,2,6",
+    				"9" : "8,4,8,4,2,4"
+    			},
+    		dashSelector = _div(null,[['dir','className','colorSelector']]),
+    		dashTable = _table(null, [['css','position','absolute'],['css','left','-1px'],['css','top','-57px'],['css','zIndex',2]]),
+    		dashedTds = [],
+    		dashFunc = function()
+    		{
+    			var arr = dashInput.value.split(","),
+    				correct = true;
+
+    			if (arr.length % 2 == 0)
+    			{
+    				for (var i = 0; i < arr.length; i++)
+    				{
+    					arr[i] = Number(arr[i]);
+
+    					if (isNaN(arr[i]) || arr[i] <= 0)
+    					{
+    						correct = false;
+
+    						break;
+    					}
+    				}
+    			}
+    			else
+    				correct = false;
+
+                templateStyle.outline = templateStyle.outline || {};
+    			if (correct)
+    				templateStyle.outline.dashes = arr;
+    			else
+    			{
+    				if (templateStyle.outline.dashes)
+    					delete templateStyle.outline.dashes;
+    			}
+
+    			$(resObject).change();
+    		};
+
+    	if (geometryType != "point")
+    	{
+    		var dashTrs = [];
+    		for (var i = 1; i <= 7; i+=3)
+    		{
+    			var dashTds = [];
+    			for (var j = i; j <= i + 2; j++)
+    			{
+    				var dashTd = _td([_img(null,[['attr','src','img/dash' + j + '.png']])],[['css','border','1px solid #000000'],['css','cursor','pointer']]);
+
+    				(function(j){
+    					dashTd.onclick = function(e)
+    					{
+    						dashSelector.style.backgroundImage = 'url(img/dash' + j + '.png)';
+
+    						dashInput.value = borderValues[String(j)];
+    						dashFunc();
+
+    						$(dashTable).fadeOut(500);
+
+    						stopEvent(e);
+    					};
+    				})(j);
+
+    				dashTds.push(dashTd);
+    			}
+
+    			dashTrs.push(_tr(dashTds));
+    		}
+
+    		_(dashTable, [_tbody(dashTrs)]);
+
+    		_(dashSelector, [dashTable]);
+
+    		dashSelector.onclick = function()
+    		{
+    			$(dashTable).fadeIn(500);
+    		};
+
+    		dashInput.onfocus = dashSelector.onblur = function()
+    		{
+    			$(dashTable).fadeOut(500);
+    		};
+
+    		dashTable.style.display = 'none';
+
+    		dashedTds.push(_td([dashSelector]));
+    		dashedTds.push(_td([dashInput],[['attr','colSpan',2]]));
+
+    		for (var borderValue in borderValues)
+    		{
+    			if (borderValues[borderValue] == dashInput.value)
+    			{
+    				dashSelector.style.backgroundImage = 'url(img/dash' + borderValue + '.png)';
+
+    				break;
+    			}
+    		}
+
+    		dashSelect.style.marginLeft = '2px';
+
+    		dashInput.onkeyup = function()
+    		{
+    			dashFunc();
+
+    			return true;
+    		};
+    	}
+    	else
+    		dashedTds = [_td(),_td(),_td()];
+
+    	if (geometryType != "linestring")
+    	{
+    		fillToggle = _checkbox(typeof templateStyle.fill != 'undefined','checkbox');
+    		fillToggle.onclick = function()
+    		{
+                fillStyleControl.setVisibleSelectors(this.checked);
+    			if (this.checked)
+    			{
+                     templateStyle.fill = fillStyleControl.getFillStyle();
+    				showStyle(fillParent);
+
+    				$(resObject).change();
+    			}
+    			else
+    			{
+    				hideStyle(fillParent);
+
+    				delete templateStyle.fill;
+
+    				// if (elemCanvas.nodeName == 'DIV')
+    					// $(elemCanvas).find(".fillIcon")[0].style.backgroundColor = "#FFFFFF";
+
+    				$(resObject).change();
+    			}
+    		};
+
+    		fillTitleTds.push(_td([fillToggle],[['css','width','20px'],['css','height','24px']]));
+    		//fillTitleTds.push(_td([_t(_gtxt("Заливка"))],[['css','width','70px']]));
+    		fillTitleTds.push(_td([fillStyleControl.getSelector()[0]],[['css','width','70px']]));
+
+    		var checkedFillColor = (typeof templateStyle.fill != 'undefined' && typeof templateStyle.fill.color != 'undefined') ? templateStyle.fill.color : 0xFFFFFF,
+    			checkedFillOpacity = (typeof templateStyle.fill != 'undefined' && typeof templateStyle.fill.opacity != 'undefined') ? templateStyle.fill.opacity : 0,
+    			fillColor = nsGmx.Controls.createColorPicker(checkedFillColor,
+    				function (colpkr){
+    					$(colpkr).fadeIn(500);
+    					return false;
+    				},
+    				function (colpkr){
+    					$(colpkr).fadeOut(500);
+    					return false;
+    				},
+    				function (hsb, hex, rgb) {
+    					fillColor.style.backgroundColor = '#' + hex;
+
+    					templateStyle.fill.color = fillColor.hex = parseInt('0x' + hex);
+
+    					// if (elemCanvas.nodeName == 'DIV')
+    						// $(elemCanvas).find(".fillIcon")[0].style.backgroundColor = '#' + hex;
+
+    					$(resObject).change();
+    				}),
+    			fillSlider = nsGmx.Controls.createSlider(checkedFillOpacity,
+    				function(event, ui)
+    				{
+    					templateStyle.fill.opacity = ui.value;
+
+    					$(resObject).change();
+    				});
+
+    		fillColor.hex = checkedFillColor;
+
+    		fillTds.push(_td([fillColor],[['css','width','40px']]));
+    		fillTds.push(_td([fillSlider],[['css','width','100px'],['css','padding','4px 5px 3px 5px']]));
+    	}
+
+    	iconToggle = _checkbox(templateStyle.marker && typeof templateStyle.marker.image != 'undefined','radio');
+    	iconToggle.onclick = function()
+    	{
+    		showIcon();
+
+    		outlineToggle.checked = false;
+    		this.checked = true;
+    	};
+
+    	iconTitleTds.push(_td([iconToggle],[['css','width','20px'],['css','height','24px'],['attr','vAlign','top'],['css','paddingTop','5px']]));
+    	iconTitleTds.push(_td([_t(_gtxt("Маркер URL"))],[['css','width','70px'],['attr','vAlign','top'],['css','paddingTop','5px']]));
+
+        var inputUrl = new mapHelper.ImageInputControl((typeof templateStyle.marker != 'undefined' && templateStyle.marker.image) ? templateStyle.marker.image : '');
+        $(inputUrl).change(function()
+        {
+            if (inputUrl.value() != '')
+    		{
+    			showIcon();
+
+    			outlineToggle.checked = false;
+    			iconToggle.checked = true;
+    		}
+
+    		if (typeof templateStyle.marker == 'undefined')
+    			templateStyle.marker = {};
+
+    		templateStyle.marker.image = inputUrl.value();
+
+    		$(resObject).change();
+        });
+
+    	if (geometryType == "point")
+    	{
+            var markerSizeInput = nsGmx.Controls.createInput(templateStyle.marker && templateStyle.marker.size || 3,
+    			function()
+    			{
+                    templateStyle.marker = templateStyle.marker || {};
+
+    				templateStyle.marker.size = Number(this.value);
+
+    				$(resObject).change();
+
+    				return true;
+    			});
+
+            _title(markerSizeInput, _gtxt("Размер точек"));
+
+            var markerSizeTds = [_td(), _td([_t(_gtxt("Размер"))]), _td([markerSizeInput], [['attr','fade',true]])];
+            _(markerSizeParent, markerSizeTds, [['attr','fade',true]]);
+
+            if ( isWindLayer )
+    		{
+    			var markerColor = nsGmx.Controls.createColorPicker((templateStyle.marker && typeof templateStyle.marker.color != 'undefined') ? templateStyle.marker.color : 0xFF00FF,
+    				function (colpkr){
+    					$(colpkr).fadeIn(500);
+    					return false;
+    				},
+    				function (colpkr){
+    					$(colpkr).fadeOut(500);
+    					return false;
+    				},
+    				function (hsb, hex, rgb) {
+    					markerColor.style.backgroundColor = '#' + hex;
+
+                        templateStyle.marker = templateStyle.marker || {};
+    					templateStyle.marker.color = markerColor.hex = parseInt('0x' + hex);
+
+    					$(resObject).change();
+    				});
+
+    			if (templateStyle.marker && typeof templateStyle.marker.color != 'undefined')
+    				markerColor.hex = templateStyle.marker.color;
+    			else
+    				markerColor.hex = 0xFF00FF;
+
+    			scale = _input(null, [['dir','className','inputStyle'],['attr','value', (templateStyle.marker && templateStyle.marker.scale) ? templateStyle.marker.scale : ''],['css','width','68px']]);
+
+    			scale.onkeyup = function()
+    			{
+                    templateStyle.marker = templateStyle.marker || {};
+    				if (this.value != '')
+    					templateStyle.marker.scale = this.value;
+    				else
+    					delete templateStyle.marker.scale;
+
+    				$(resObject).change();
+    			};
+
+    			_title(scale, _gtxt("Масштаб"));
+
+    			angle = _input(null, [['dir','className','inputStyle'],['attr','value', (templateStyle.marker && templateStyle.marker.angle) ? templateStyle.marker.angle : ''],['css','width','68px']]);
+
+    			angle.onkeyup = function()
+    			{
+                    templateStyle.marker = templateStyle.marker || {};
+    				if (this.value != '')
+    					templateStyle.marker.angle = this.value;
+    				else
+    					delete templateStyle.marker.angle;
+
+    				$(resObject).change();
+    			};
+
+    			_title(angle, _gtxt("Угол поворота"));
+
+    			iconTds.push(_td([_table([_tbody([_tr([_td([inputUrl.getControl()], [['attr','colSpan',3]])]),
+    												_tr([_td([markerColor], [['css','paddingLeft','1px']]), _td([angle]), _td([scale], [['css','paddingRight','3px']])])])])]));
+    		}
+    		else
+    			iconTds.push(_td([inputUrl.getControl()]));
+    	}
+    	else if (geometryType == "polygon" || geometryType == "linestring")
+    	{
+    	//	hide(iconParent);
+
+    		iconTds.push(_td([inputUrl.getControl()]));
+
+    		if (geometryType == "linestring")
+    			hide(fillParent);
+    	}
+
+    	_(outlineParent, outlineTitleTds.concat(_td([_div([_table([_tbody([_tr(outlineTds), _tr(dashedTds)])])],[['attr','fade',true]])])));
+
+    	//_(fillParent, fillTitleTds.concat(_td([_div([_table([_tbody([_tr(fillTds)])])],[['attr','fade',true]])])));
+        var topPadding = geometryType === "point" ? "0px" : "10px";
+    	 fillTitleTds = fillTitleTds.concat(_td([fillStyleControl.getControls()[0]], [['attr','fade',true], ['css', 'paddingTop', topPadding]]));
+    	 _(fillParent, fillTitleTds);
+
+    	_(iconParent, iconTitleTds.concat(_td([_div([_table([_tbody([_tr(iconTds)])])],[['attr','fade',true]])])));
+
+        if (templateStyle.marker && typeof templateStyle.marker.image != 'undefined')
+        {
+            $(outlineParent).find("[fade]")[0].style.display = 'none';
+            $(fillParent).find("[fade]")[0].style.display = 'none';
+            $(iconParent).find("[fade]")[0].style.display = '';
+        }
+        else
+        {
+            $(outlineParent).find("[fade]")[0].lastChild.style.display = '';
+            $(fillParent).find("[fade]")[0].style.display = '';
+            $(iconParent).find("[fade]")[0].style.display = 'none';
+        }
+
+    	if (geometryType != "linestring" && typeof templateStyle.fill == 'undefined')
+    		$(fillParent).find("[fade]")[0].style.display = 'none';
+
+        return resObject;
+    };
+
+    var LayerStylesEditor = function(div, divStyles, openedStyleIndex) {
+        var elemProperties = div.gmxProperties.content.properties,
+            parentIcon = $(div).children("[styleType]")[0],
+            filtersCanvas = _div(null, [['css', 'marginLeft', '10px']]),
+            filterHeader = createFilterHeader(filtersCanvas, elemProperties, parentIcon),
+            layer = nsGmx.gmxMap.layersByID[elemProperties.name],
+            layerStyles = layer.getStyles();
+
+        for (var i = 0; i < layerStyles.length; i++)
+        {
+            var filter = createLoadingFilter(layer, i, elemProperties.styles[i], elemProperties.GeometryType, elemProperties.attributes, parentIcon, (i == openedStyleIndex));
+
+            _(filtersCanvas, [filter]);
+
+            $(filter.firstChild).treeview();
+
+            attachLoadingFilterEvent(filter, layer, i, elemProperties.styles[i], elemProperties.GeometryType, elemProperties.attributes, parentIcon);
+        }
+
+        for (var i = 0; i < filtersCanvas.childNodes.length; i++)
+            updateFilterMoveButtons(filtersCanvas.childNodes[i]);
+
+        _(divStyles, [filterHeader, filtersCanvas]);
+
+        this.getUpdatedStyles = function() {
+            return updateStyles(filtersCanvas);
+        };
+
+        this.removeColorPickers = function() {
+            for (var i = 0; i < filtersCanvas.childNodes.length; i++)
+                filtersCanvas.childNodes[i].removeColorPickers();
+        };
+
+        this.getStyleCount = function() {
+            return filtersCanvas.childNodes.length;
+        };
+
+        this.setAllFilters = function() {
+            $(filtersCanvas).find("[filterTable]").each(function()
+            {
+                this.setFilter();
+            });
+        };
+    };
+
+    const createStylesDialog = function(elem, treeView, openedStyleIndex) {
+        var div = $(_queryMapLayers.buildedTree).find("div[LayerID='" + elem.LayerID + "']")[0],
+            elemProperties = div.gmxProperties.content.properties,
+            mapName = elemProperties.mapName,
+            layerName = elemProperties.name;
+
+        if (typeof window._mapHelper.layerStylesHash[layerName] !== 'undefined') {
+            return;
+        }
+
+        window._mapHelper.layerStylesHash[layerName] = true;
+
+        var pos = nsGmx.Utils.getDialogPos(div, true, 390);
+
+        var updateFunc = function()
+        {
+            var _styles = elemProperties.styles;
+            elemProperties.styles = styleEditor.getUpdatedStyles();
+
+            for (var i = 0; i < elemProperties.styles.length; i++) {
+                if (_styles[i] && _styles[i]._MinZoom) {
+                    elemProperties.styles[i]._MinZoom = _styles[i]._MinZoom;
+                }
+            }
+            treeView.findTreeElem(div).elem.content.properties = elemProperties;
+        };
+
+        var attributesHash = {};
+        for (var i = 0; i < elemProperties.attributes.length; i++) {
+            attributesHash[elemProperties.attributes[i]] = [];
+        }
+
+        _mapHelper.attrValues[mapName] = _mapHelper.attrValues[mapName] || {};
+        _mapHelper.attrValues[mapName][layerName] = new nsGmx.LazyAttributeValuesProviderFromServer(attributesHash, layerName);
+
+        var closeFunc = function()
+        {
+            updateFunc();
+
+            var newStyles = styleEditor.getUpdatedStyles();
+                multiStyleParent = $(div).children('[multiStyle]')[0],
+                parentIcon = $(div).children("[styleType]")[0];
+
+            delete window._mapHelper.layerStylesHash[layerName];
+
+            styleEditor.removeColorPickers();
+
+            var multiFiltersFlag = (parentIcon.getAttribute('styleType') == 'multi' && styleEditor.getStyleCount() > 1), // было много стилей и осталось
+                colorIconFlag = (parentIcon.getAttribute('styleType') == 'color' && styleEditor.getStyleCount() == 1 &&
+                                (typeof newStyles[0].RenderStyle.marker != 'undefined') && (typeof newStyles[0].RenderStyle.marker.image == 'undefined')); // была не иконка и осталась
+
+            if (multiFiltersFlag) ;
+            else if (colorIconFlag) ;
+            else
+            {
+                var newIcon = _mapHelper.createStylesEditorIcon(newStyles, elemProperties.GeometryType.toLowerCase());
+
+                $(parentIcon).empty().append(newIcon).attr('styleType', $(newIcon).attr('styleType'));
+            }
+
+            $(multiStyleParent).empty();
+
+            _mapHelper.createMultiStyle(elemProperties, treeView, multiStyleParent);
+
+            gmxCore.loadModule('TinyMCELoader', 'http://' + window.location.host + window.location.pathname.replace('index.html', '') + 'TinyMCELoader.js', function() {
+                $('.balloonEditor', divDialog).each(function() {
+                    tinyMCE.execCommand("mceRemoveControl", true, $(this).attr('id'));
+                });
+            });
+
+            return false;
+        };
+
+        if (div.gmxProperties.content.properties.styles.length == 1) {
+            openedStyleIndex = 0;
+        } else if (typeof openedStyleIndex === 'undefined') {
+            openedStyleIndex = -1;
+        }
+
+        var styleContainer = _div();
+        var styleEditor = new LayerStylesEditor(div, styleContainer, openedStyleIndex);
+        styleEditor.setAllFilters();
+        var divDialog = showDialog(_gtxt('Стили слоя [value0]', elem.title), styleContainer, 350, 470, pos.left, pos.top, null, function()
+        {
+            closeFunc();
+            delete styleDialogs[elemProperties.name];
+        });
+
+
+        styleDialogs[elemProperties.name] = {updateFunc: updateFunc};
+
+        if (openedStyleIndex > 0)
+            styleContainer.parentNode.scrollTop = 58 + openedStyleIndex * 32;
+
+        _mapHelper.updateTinyMCE(styleContainer);
+    };
+
+    var styleDialogs = {};
+    var updateAllStyles = function() {
+        for (var name in styleDialogs) {
+            styleDialogs[name].updateFunc();
+        }
+    };
+
+    gmxCore.addModule('LayerStylesEditor', {
+            LayerStylesEditor: LayerStylesEditor,
+            createStyleEditor: createStyleEditor,
+            createStylesDialog: createStylesDialog,
+            updateAllStyles: updateAllStyles
+        }
+    );
+
+    })(nsGmx.Utils._);
+
+    /** Менеджер дополнительных данных карты. Данные собираются и используются набором сборщиков данных, каждый из которых имеет свой уникальный id.
+     @class userObjectsManager
+     @memberOf nsGmx 
+    */
+
+    nsGmx$1.userObjectsManager = {
+        _data: {},
+        _collectors: {},
+        
+        /**
+         Устанавливает данные, которые потом могут быть использованы поставщиками данных
+    	 @method
+        */
+        setData: function(data) {
+            this._data = data;
+        },
+        
+        /**
+         Возвращает собранные данные
+    	 @method
+        */
+        getData: function() {
+            return this._data;
+        },
+        
+    	/**
+    	 Собирает данные со всех сборщиков данных. Собранные данные доступны через метод getData
+    	 @method
+    	*/
+        collect: function() {
+            for (var id in this._collectors) {
+                if ('collect' in this._collectors[id]) {
+                    var data = this._collectors[id].collect();
+                    if (data !== null) {
+                        this._data[id] = data;
+                    }
+                }
+            }
+        },
+        
+        /**
+    	 Вызывает метод load() у всех поставщиков данных, для которых есть данные.
+         После вызова метода данные для данного загрузчика будут удалены (чтобы предотвратить множественную загрузку)
+    	 @method
+    	*/
+        load: function(dataCollectorNames) {
+            var collectors = {};
+            
+            if (dataCollectorNames)
+            {
+                if (typeof dataCollectorNames === 'string')
+                    dataCollectorNames = [dataCollectorNames];
+
+                for (var dc = 0; dc < dataCollectorNames.length; dc++)
+                {
+                    var name = dataCollectorNames[dc];
+                    if (name in this._collectors)
+                        collectors[name] = this._collectors[name];
+                }
+            }
+            else
+                collectors = this._collectors;
+            
+            for (var id in collectors) {
+                if (id in this._data && 'load' in collectors[id])
+                {
+                    collectors[id].load(this._data[id]);
+                    delete this._data[id];
+                }
+            }
+        },
+        
+        /**
+    	 Добавляет новый сборщик данных. Если в момент добавления есть какие-нибудь данные для загрузчика, они будут ему сразу же переданы
+    	 @method
+         @param collectorId {String} - уникальный идентификатор сборщика данных
+         @param collector {Object} - сборщик данных. Должен иметь следующие методы:<br/>
+             collect()->Object - возвращает собранные данные. Если данных нет, нужно вернуть null
+             load(data)->void - передаёт существующие данные загрузчику
+    	*/
+        addDataCollector: function( collectorId, collector ) {
+            this._collectors[collectorId] = collector;
+            if (collectorId in this._data && 'load' in collector)
+            {
+                collector.load(this._data[collectorId]);
+                delete this._data[collectorId];
+            }
+        }
+    };
+
+    //Отображение закладок карты в левой панели
+
+    //TODO: сделать глобально доступным
+    nsGmx$1.Controls = nsGmx$1.Controls || {};
+    nsGmx$1.Controls.LanguageSelector = function(container, defLang) {
+
+        var LANGUAGES = [
+                {lang: 'rus', title: 'rus'},
+                {lang: 'eng', title: 'eng'}
+            ],
+            lang = null,
+            _this = this;
+
+        var template = Handlebars.compile('<div class = "language-container">' +
+            '{{#langs}}' +
+                '<span data-lang = "{{lang}}" class="language-item">{{title}}</span>' +
+            '{{/langs}}' +
+        '</div>');
+
+        $(container).empty().append($(template({langs: LANGUAGES})));
+
+        var update = function() {
+            var newLang = $(this).data('lang'),
+                prevLang = lang;
+
+            if (newLang !== prevLang) {
+                lang = newLang;
+                $(this).addClass('language-selected')
+                    .siblings().removeClass('language-selected');
+                $(_this).trigger('change', [prevLang, newLang]);
+            }
+        };
+
+        $(container).find('span').click(update);
+        update.bind($(container).find('span')[0])();
+
+        this.getLang = function() {return lang;};
+    };
+
+    var queryTabs = function()
+    {
+    	this.builded = false;
+
+    	this.tabsCanvas = null;
+
+    	this.tabs = [];
+    };
+
+    queryTabs.prototype = new leftMenu$1();
+
+    queryTabs.prototype.load = function()
+    {
+    	if (!this.builded)
+    	{
+    		var _this = this;
+    		this.tabsCanvas = _div(null, [['dir','className','tabsCanvas']]);
+
+    		this.workCanvas.appendChild(this.tabsCanvas);
+
+    		for (var i = 0; i < this.tabs.length; i++)
+    			this.draw(this.tabs[i]);
+
+    		this.builded = true;
+
+    		$(this.tabsCanvas).sortable({
+    			axis: 'y',
+    			tolerance: 'pointer',
+    			containment: 'parent'
+    		});
+    		$(this.tabsCanvas).bind('sortupdate', function(event, ui)
+    		{
+    			var orderedTabs = [];
+    			$(_this.tabsCanvas).children().each(function()
+    			{
+    				orderedTabs.push(this.tabInfo);
+    			});
+
+    			_this.tabs = orderedTabs;
+    		});
+
+            this.leftPanelItem.hide();
+    	}
+    };
+
+    queryTabs.prototype.add = function(tabInfo, tabIndex)
+    {
+        var isNew = typeof tabIndex === 'undefined';
+        tabInfo = tabInfo || {
+            name_rus: '',
+            description_rus: '',
+            name_eng: '',
+            description_eng: ''
+        };
+
+        if (typeof tabInfo.name_rus === 'undefined') {
+            tabInfo.name_rus = tabInfo.name;
+        }
+
+        if (typeof tabInfo.description_rus === 'undefined') {
+            tabInfo.description_rus = tabInfo.description;
+        }
+
+        var uiTemplate = Handlebars.compile(
+            '<div class = "addtabs-container">' +
+                '<div class = "addtabs-info">{{i "Название"}}</div>' +
+                '<input class = "addtabs-title-input inputStyle" value="{{title}}"><br>' +
+                '<div class = "addtabs-info">{{i "Описание"}}</div>' +
+                '<textarea class = "addtabs-title-description inputStyle">{{description}}</textarea><br>' +
+                '<button class = "addtabs-create">{{buttonTitle}}</button>' +
+                '<div class = "addtabs-lang-placeholder"></div>' +
+            '</div>');
+
+
+        var titleLoc = {rus: tabInfo.name_rus, eng: tabInfo.name_eng};
+        var descrLoc = {rus: tabInfo.description_rus, eng: tabInfo.description_eng};
+        var ui = $(uiTemplate({
+                title: titleLoc.rus,
+                description: descrLoc.rus,
+                buttonTitle: isNew ? _gtxt('Создать') : _gtxt('Изменить')
+            })),
+            titleInput = $('.addtabs-title-input', ui);
+
+        var updateDataLoc = function(lang) {
+            titleLoc[lang] = titleInput.val();
+            descrLoc[lang] = $('.addtabs-title-description', ui).val();
+        };
+
+        var langControl = new nsGmx$1.Controls.LanguageSelector(ui.find('.addtabs-lang-placeholder'));
+        $(langControl).change(function(event, prevLang, newLang) {
+            updateDataLoc(prevLang);
+            titleInput.val(titleLoc[newLang]);
+            $('.addtabs-title-description', ui).val(descrLoc[newLang]);
+        });
+
+        titleInput.keyup(function(e) {
+            $(this).toggleClass('error', this.value == '');
+
+            if (e.keyCode == 13)
+            {
+    			createTab();
+    	  		return false;
+    	  	}
+
+    		return true;
+        });
+
+        titleInput.focus();
+
+    	var createTab = function() {
+                updateDataLoc(langControl.getLang());
+                var mapState = _mapHelper.getMapState(),
+                    tab = {
+                        name: titleLoc.rus || titleLoc.eng,
+                        description: descrLoc.rus || descrLoc.eng,
+
+                        name_rus: titleLoc.rus,
+                        description_rus: descrLoc.rus,
+                        name_eng: titleLoc.eng,
+                        description_eng: descrLoc.eng,
+
+                        state: mapState
+                    };
+
+                if (isNew) {
+                _this.tabs.push(tab);
+                } else {
+                    _this.tabs[tabIndex] = tab;
+                }
+                _this.draw(tab, tabIndex);
+
+                removeDialog(dialogDiv);
+            },
+            _this = this;
+
+        $('.addtabs-create', ui).click(createTab);
+
+    	var dialogDiv = showDialog$1(_gtxt("Имя закладки"), ui[0], 280, 230, false, false);
+    };
+
+    queryTabs.prototype.draw = function (tabInfo, tabIndex)
+    {
+        var selectValLoc = function(paramName) {
+            var lang = nsGmx$1.Translations.getLanguage();
+            return tabInfo[paramName + '_' + lang] || tabInfo[paramName];
+        };
+
+        var tmpl = Handlebars.compile('<div class="canvas">' +
+            '<div class="buttonLink tabName" title="{{description}}">{{name}}</div>' +
+            '<div class="gmx-icon-edit"></div>' +
+            '<div class="gmx-icon-close"></div>' +
+        '</div>');
+
+
+        var canvas = $(tmpl({
+                name: selectValLoc('name'),
+                description: selectValLoc('description')
+            }))[0];
+        var _this = this;
+
+    	canvas.tabInfo = tabInfo;
+
+        $('.tabName', canvas).click(this.show.bind(this, tabInfo.state));
+
+        $('.gmx-icon-close', canvas).click(function() {
+    		var index = getOwnChildNumber(canvas);
+
+    		_this.tabs.splice(index, 1);
+
+    		canvas.removeNode(true);
+    	});
+
+        $('.gmx-icon-edit', canvas).click(function() {
+            var index = getOwnChildNumber(canvas);
+            _this.add(_this.tabs[index], index);
+        }).toggle(_queryMapLayers.currentMapRights() === "edit");
+
+        if (typeof tabIndex === 'undefined') {
+            $(this.tabsCanvas).append(canvas);
+        } else {
+            $(this.tabsCanvas).find('.canvas').eq(tabIndex).replaceWith(canvas);
+        }
+    };
+
+    queryTabs.prototype.show = function(state)
+    {
+    	var parsedState = {},
+            lmap = nsGmx$1.leafletMap,
+            gmxDrawing = lmap.gmxDrawing;
+
+    	$.extend(true, parsedState, state);
+        var pos = parsedState.position;
+
+        lmap.setView(L.Projection.Mercator.unproject(L.point(pos.x, pos.y)), 17 - pos.z);
+
+        for (var i = 0; i < state.drawnObjects.length; i++)
+        {
+            parsedState.drawnObjects[i].geometry = L.gmxUtil.geometryToGeoJSON(state.drawnObjects[i].geometry, true);
+        }
+
+        lmap.gmxBaseLayersManager.setCurrentID(lmap.gmxBaseLayersManager.getIDByAlias(parsedState.mode));
+
+        //удаляем все фичи
+        gmxDrawing.getFeatures().slice(0).forEach(gmxDrawing.remove.bind(gmxDrawing));
+
+    	for (var i = 0; i < parsedState.drawnObjects.length; i++)
+    	{
+            //старый формат - число, новый - строка
+    		var rawColor = parsedState.drawnObjects[i].color,
+                color = (typeof rawColor === 'number' ? '#' + L.gmxUtil.dec2hex(rawColor) : rawColor) || '#0000FF',
+    			thickness = parsedState.drawnObjects[i].thickness || 2,
+    			opacity = parsedState.drawnObjects[i].opacity || 80;
+
+            gmxDrawing.addGeoJSON(parsedState.drawnObjects[i].geometry, {
+                lineStyle: {
+                    color: color,
+                    weight: thickness,
+                    opacity: opacity/100
+                }
+            });
+    	}
+
+    	_queryMapLayers.applyState(parsedState.condition, parsedState.mapStyles);
+
+        if (typeof parsedState.customParamsCollection !== 'undefined')
+            _mapHelper.customParamsManager.loadParams(parsedState.customParamsCollection);
+
+        if (parsedState.openPopups) {
+            for (var l in parsedState.openPopups) {
+                var layer = nsGmx$1.gmxMap.layersByID[l];
+                if (layer && layer.addPopup) {
+                    parsedState.openPopups[l].forEach(layer.addPopup.bind(layer));
+                }
+            }
+        }
+    };
+
+    var _queryTabs = new queryTabs();
+
+    nsGmx$1.userObjectsManager.addDataCollector('tabs', {
+        collect: function()
+        {
+            if (!_queryTabs.tabs.length)
+                return null;
+
+            var tabs = [];
+
+            for (var i = 0; i < _queryTabs.tabs.length; i++)
+            {
+                var tab = {};
+
+                $.extend(tab, _queryTabs.tabs[i]);
+
+                tabs.push(tab);
+            }
+
+            return tabs;
+        },
+        load: function(data)
+        {
+            if (!data || !data.length)
+                return;
+
+            $('#left_mapTabs').remove();
+
+            _queryTabs.builded = false;
+            _queryTabs.tabs = data;
+
+            mapHelp.tabs.load('mapTabs');
+        }
+    });
+
     const _$2 = nsGmx$1.Utils._;
 
     /** Вспомогательные ф-ции ГеоМиксера
@@ -6063,7 +8398,7 @@
 
     };
 
-    var mapHelp =
+    var mapHelp$1 =
     {
     	mapHelp: {},
     	serviceHelp: {},
@@ -6071,7 +8406,7 @@
     	externalMaps : {}
     };
 
-    var mapHelper = function()
+    var mapHelper$1 = function()
     {
     	this.builded = false;
         //this._treeView = false;
@@ -6207,7 +8542,7 @@
 
     };
 
-    mapHelper.prototype = new leftMenu$1();
+    mapHelper$1.prototype = new leftMenu$1();
 
     /** Менеджер кастомных параметров карты.
      * Содержит набор провайдеров доп. параметров, которые могут сохранять и загружать данные из хранилища параметров
@@ -6217,7 +8552,7 @@
      * @memberOf _mapHelper
      * @name customParamsManager
      */
-    mapHelper.prototype.customParamsManager = (function()
+    mapHelper$1.prototype.customParamsManager = (function()
     {
     	var _providers = [];
     	var _params = []; //хранит параметры, которые не были загружены провайдерами
@@ -6269,7 +8604,7 @@
     	}
     })();
 
-    mapHelper.prototype.makeStyle = function(style)
+    mapHelper$1.prototype.makeStyle = function(style)
     {
         style = style || {};
     	var givenStyle = {};
@@ -6312,7 +8647,7 @@
     	return givenStyle;
     };
 
-    mapHelper.prototype.getMapStateAsPermalink = function(callback)
+    mapHelper$1.prototype.getMapStateAsPermalink = function(callback)
     {
         // сохраняем состояние карты
         var mapState = _mapHelper$1.getMapState();
@@ -6324,7 +8659,7 @@
         nsGmx$1.Utils.TinyReference.create(mapState, true).then(callback);
     };
 
-    mapHelper.prototype.reloadMap = function()
+    mapHelper$1.prototype.reloadMap = function()
     {
         if (!nsGmx$1.gmxMap) {
             window.location.reload();
@@ -6337,7 +8672,7 @@
         });
     };
 
-    mapHelper.prototype.updateUnloadEvent = function(flag)
+    mapHelper$1.prototype.updateUnloadEvent = function(flag)
     {
     	if (typeof flag != 'undefined')
     		this.unsavedChanges = flag;
@@ -6353,7 +8688,7 @@
     		window.onbeforeunload = null;
     };
 
-    mapHelper.prototype.setBalloon = function(filter, template)
+    mapHelper$1.prototype.setBalloon = function(filter, template)
     {
     	filter.enableHoverBalloon(function(o)
     	{
@@ -6368,7 +8703,7 @@
     	});
     };
 
-    mapHelper.prototype.updateMapStyles = function(newStyles, name)
+    mapHelper$1.prototype.updateMapStyles = function(newStyles, name)
     {
         var layer = nsGmx$1.gmxMap.layersByID[name],
             styles = newStyles.map(nsGmx$1.Utils.prepareGmxLayerStyle);
@@ -6377,7 +8712,7 @@
     };
 
     //TODO: remove isEditableStyles
-    mapHelper.prototype.updateTreeStyles = function(newStyles, div, treeView, isEditableStyles)
+    mapHelper$1.prototype.updateTreeStyles = function(newStyles, div, treeView, isEditableStyles)
     {
         isEditableStyles = typeof isEditableStyles === 'undefined' || isEditableStyles;
 
@@ -6399,7 +8734,7 @@
     	_mapHelper$1.createMultiStyle(div.gmxProperties.content.properties, treeView, multiStyleParent);
     };
 
-    mapHelper.prototype.restoreTinyReference = function(id, callbackSuccess, errorCallback)
+    mapHelper$1.prototype.restoreTinyReference = function(id, callbackSuccess, errorCallback)
     {
     	window.suppressDefaultPermalink = true;
         nsGmx$1.Utils.TinyReference.get(id).then(function(obj) {
@@ -6420,7 +8755,7 @@
         }, errorCallback);
     };
 
-    mapHelper.prototype.getMapState = function() {
+    mapHelper$1.prototype.getMapState = function() {
         var lmap = nsGmx$1.leafletMap;
 
         if (!lmap) {
@@ -6429,7 +8764,7 @@
 
         var drawnObjects = [],
     		drawings = lmap.gmxDrawing.saveState(),
-    		features = drawings.featureCollection.features;
+    		features = drawings.featureCollection.features,
             openPopups = {},
             condition = {expanded:{}, visible:{}},
     		LayersTreePermalinkParams = {},
@@ -6511,7 +8846,7 @@
     	var dateIntervals = {};
 
     	for (var l in nsGmx$1.gmxMap.layersByID) {
-    		var layer = nsGmx$1.gmxMap.layersByID[l];
+    		var layer = nsGmx$1.gmxMap.layersByID[l],
     			props = layer.getGmxProperties(),
     			isTemporalLayer = (layer instanceof L.gmx.VectorLayer && props.Temporal) || (props.type === 'Virtual' && layer.setDateInterval);
 
@@ -6541,7 +8876,7 @@
         }
     };
 
-    mapHelper.prototype.getMapStyles = function()
+    mapHelper$1.prototype.getMapStyles = function()
     {
     	var styles = {};
 
@@ -6554,7 +8889,7 @@
     	return styles;
     };
 
-    mapHelper.prototype.showPermalink = function()
+    mapHelper$1.prototype.showPermalink = function()
     {
     	this.createPermalink(function(id){
             var url = window.location.protocol + "//" + window.location.host + window.location.pathname + "?permalink=" + id + (window.defaultMapID == globalMapName ? "" : ("&" + globalMapName));
@@ -6566,7 +8901,7 @@
         });
     };
 
-    mapHelper.prototype.createExportPermalink = function(params, callback)
+    mapHelper$1.prototype.createExportPermalink = function(params, callback)
     {
     	var mapState = $.extend(this.getMapState(), params),
     		def = nsGmx$1.Utils.TinyReference.create(mapState, false);
@@ -6574,7 +8909,7 @@
     	return def;
     };
 
-    mapHelper.prototype.createPermalink = function(callback)
+    mapHelper$1.prototype.createPermalink = function(callback)
     {
     	var mapState = this.getMapState(),
             def = nsGmx$1.Utils.TinyReference.create(mapState, false);
@@ -6583,7 +8918,7 @@
         return def;
     };
 
-    mapHelper.prototype.updateTinyMCE = function(container) {
+    mapHelper$1.prototype.updateTinyMCE = function(container) {
         gmxCore$1.loadModule('TinyMCELoader', window.location + '//' + window.location.host + window.location.pathname.replace('index.html', '') + 'TinyMCELoader.js', function() {
             $('.balloonEditor', container).each(function() {
                 var id = $(this).attr('id');
@@ -6595,7 +8930,7 @@
     };
 
     //event: selected(url)
-    mapHelper.ImageSelectionWidget = Backbone.View.extend({
+    mapHelper$1.ImageSelectionWidget = Backbone.View.extend({
         tagName: 'span',
         className: 'gmx-icon-choose',
         events: {
@@ -6621,7 +8956,7 @@
         }
     });
 
-    mapHelper.ImageInputControl = function(initURL) {
+    mapHelper$1.ImageInputControl = function(initURL) {
         var prevValue = initURL || '';
         var inputUrl = _input(null, [['dir','className','inputStyle'],['attr','value', prevValue], ['css','width','170px']]);
         _title$1(inputUrl, _gtxt('URL изображения'));
@@ -6639,7 +8974,7 @@
         inputUrl.onkeyup = inputUrl.change = update;
 
         if (nsGmx$1.AuthManager.canDoAction(nsGmx$1.ACTION_UPLOAD_FILES)) {
-            var imageSelectionWidget = new mapHelper.ImageSelectionWidget();
+            var imageSelectionWidget = new mapHelper$1.ImageSelectionWidget();
             imageSelectionWidget.on('selected', function(url) {
                 inputUrl.value = url;
                 update();
@@ -6661,7 +8996,7 @@
 
     //params:
     //  * addTitle {bool, default: true}
-    mapHelper.prototype.createStylesEditorIcon = function(parentStyles, type, params) {
+    mapHelper$1.prototype.createStylesEditorIcon = function(parentStyles, type, params) {
         var _params = $.extend({addTitle: true}, params);
     	var icon;
 
@@ -6708,7 +9043,7 @@
     	return icon;
     };
 
-    mapHelper.prototype.createLoadingLayerEditorProperties = function(div, parent, layerProperties, params) {
+    mapHelper$1.prototype.createLoadingLayerEditorProperties = function(div, parent, layerProperties, params) {
     	var elemProperties = div.gmxProperties.content.properties,
     		loading = _div([_img(null, [['attr','src','img/progress.gif'],['css','marginRight','10px']]), _t(_gtxt('загрузка...'))], [['css','margin','3px 0px 3px 20px']]),
             type = elemProperties.type;
@@ -6738,7 +9073,7 @@
         }
     };
 
-    mapHelper.prototype.createNewLayer = function(type)
+    mapHelper$1.prototype.createNewLayer = function(type)
     {
     	if ($('#new' + type + 'Layer').length)
     		return;
@@ -6766,7 +9101,7 @@
     };
 
     // перенос clipLayer из маплетов карты
-    mapHelper.prototype.clipLayer = function(layer, props)
+    mapHelper$1.prototype.clipLayer = function(layer, props)
     {
     	var sw = L.latLng([props.MinViewY, props.MinViewX]),
     		nw = L.latLng([props.MaxViewY, props.MinViewX]),
@@ -6791,7 +9126,7 @@
     //   * leftWidth - ширина левой колонки в пикселях
     //   * leftcolumnclass - class для td элементов первого столбца. Не применяется, если прямо указано tr
     //   * rightcolumnclass - class для td элементов второго столбца. Не применяется, если прямо указано tr
-    mapHelper.prototype.createPropertiesTable = function(shownProperties, layerProperties, style)
+    mapHelper$1.prototype.createPropertiesTable = function(shownProperties, layerProperties, style)
     {
     	var _styles = $.extend({leftWidth: 100}, style);
     	var trs = [];
@@ -6830,7 +9165,7 @@
     	return trs;
     };
 
-    mapHelper.prototype.createLayerEditor = function(div, treeView, selected, openedStyleIndex)
+    mapHelper$1.prototype.createLayerEditor = function(div, treeView, selected, openedStyleIndex)
     {
     	var elemProperties = div.gmxProperties.content.properties,
             layerName = elemProperties.name,
@@ -6991,7 +9326,7 @@
         }
     };
 
-    mapHelper.prototype.createWFSStylesEditor = function(parentObject, style, geometryType, divCanvas)
+    mapHelper$1.prototype.createWFSStylesEditor = function(parentObject, style, geometryType, divCanvas)
     {
     	var _this = this,
     		templateStyle = {};
@@ -6999,7 +9334,7 @@
     	$.extend(true, templateStyle, style);
 
         var elemCanvas = _mapHelper$1.createStylesEditorIcon([{MinZoom:1, MaxZoom: 21, RenderStyle: style.regularStyle}], geometryType);
-        var spanIcon = _span([elemCanvas]);
+        var spanIcon = _span$1([elemCanvas]);
 
     	spanIcon.onclick = function()
     	{
@@ -7026,8 +9361,8 @@
     			};
 
     		var id = 'wfstabs' + String(Math.random()).substring(2, 9),
-    			tabMenu = _div([_ul([_li([_a([_t(_gtxt("Стили"))],[['attr','href','#styles' + id]])]),
-    								 _li([_a([_t(_gtxt("Диаграммы"))],[['attr','href','#graph' + id]])])])]),
+    			tabMenu = _div([_ul([_li$1([_a([_t(_gtxt("Стили"))],[['attr','href','#styles' + id]])]),
+    								 _li$1([_a([_t(_gtxt("Диаграммы"))],[['attr','href','#graph' + id]])])])]),
     			divStyles = _div(null,[['attr','id','styles' + id]]),
     			divGraph = _div(null,[['attr','id','graph' + id]]);
 
@@ -7063,7 +9398,7 @@
         return spanIcon;
     };
 
-    mapHelper.prototype.createChartsEditor = function(parent, elemCanvas)
+    mapHelper$1.prototype.createChartsEditor = function(parent, elemCanvas)
     {
     	var graphTypeSel = nsGmx$1.Utils._select([_option([_t(_gtxt("График по времени"))], [['attr','value','func']]),
     								_option([_t(_gtxt("Круговая"))], [['attr','value','pie']])], [['dir','className','selectStyle'],['css','width','180px']]),
@@ -7076,7 +9411,7 @@
     								_tr([_td([_t(_gtxt("Маска атрибутов"))]), _td([propertiesMask])])])])]);
     };
 
-    mapHelper.prototype.createMultiStyle = function(elem, treeView, multiStyleParent, treeviewFlag, layerManagerFlag)
+    mapHelper$1.prototype.createMultiStyle = function(elem, treeView, multiStyleParent, treeviewFlag, layerManagerFlag)
     {
     	var filters = window.newStyles ? elem.gmxStyles.styles : elem.styles;
 
@@ -7096,8 +9431,8 @@
     		// var eye = $('<span class="multistyle-visibility-icon"><svg><use xlink:href="#transparency-eye"></use></svg></span>'),
     			icon = this.createStylesEditorIcon([filters[i]], elem.GeometryType.toLowerCase(), {addTitle: !layerManagerFlag}),
     			name = filters[i].Name || filters[i].Filter || 'Без имени ' + (i + 1),
-                iconSpan = _span([icon]),
-    			li = _li([_div([$(checkbox)[0], iconSpan, _span([_t(name)],[['css','marginLeft','3px']])])]);
+                iconSpan = _span$1([icon]),
+    			li = _li$1([_div([$(checkbox)[0], iconSpan, _span$1([_t(name)],[['css','marginLeft','3px']])])]);
 
             $(iconSpan).attr('styleType', $(icon).attr('styleType'));
     		$(checkbox).prop('checked', filters[i].MinZoom !== 25);
@@ -7131,13 +9466,13 @@
     	ulFilters.style.display = 'none';
     	ulFilters.className = 'hiddenTree';
 
-    	_$2(multiStyleParent, [_ul([_li([_div([_t(_gtxt("Стили слоя"))]), ulFilters])])]);
+    	_$2(multiStyleParent, [_ul([_li$1([_div([_t(_gtxt("Стили слоя"))]), ulFilters])])]);
 
     	if (typeof treeviewFlag == 'undefined')
             $(multiStyleParent.firstChild).treeview();
     };
 
-    mapHelper.prototype.load = function()
+    mapHelper$1.prototype.load = function()
     {
     	var _this = this;
 
@@ -7163,7 +9498,7 @@
     	}
     };
 
-    mapHelper.prototype._loadHelpTextFromFile = function( fileName, callback, num, data )
+    mapHelper$1.prototype._loadHelpTextFromFile = function( fileName, callback, num, data )
     {
     	var proceess = function( text ) {
     		callback(Handlebars.compile(text)({gmxVersion: num, gmxData: data}));
@@ -7178,7 +9513,7 @@
     		});
     };
 
-    mapHelper.prototype.version = function()
+    mapHelper$1.prototype.version = function()
     {
         var div = $("<div class='gmx-about'></div>");
 
@@ -7198,7 +9533,7 @@
         }, window.nsGmx.GeomixerFrameworkVersion, '' );
     };
 
-    mapHelper.prototype.print = function() {
+    mapHelper$1.prototype.print = function() {
     	var centerControl = nsGmx$1.leafletMap.gmxControlsManager.get('center'),
     		map = nsGmx$1.leafletMap,
         	toggleMode = function(isPreviewMode) {
@@ -7287,7 +9622,7 @@
     };
 
     // экспортный режим редактора
-    mapHelper.prototype.exportMap = function(params) {
+    mapHelper$1.prototype.exportMap = function(params) {
     	var map = nsGmx$1.leafletMap,
     		hide = map.gmxControlsManager.get('hide'),
     		center = map.gmxControlsManager.get('center');
@@ -7340,7 +9675,7 @@
     };
 
     //вызывает callback для всех слоёв поддерева treeElem. Параметры: callback(layerInfo, visibilityFlag)
-    mapHelper.prototype.findChilds = function(treeElem, callback, flag)
+    mapHelper$1.prototype.findChilds = function(treeElem, callback, flag)
     {
     	var childsArr = treeElem.content ? treeElem.content.children : treeElem.children;
     	if (childsArr)
@@ -7357,7 +9692,7 @@
     	}
     };
 
-    mapHelper.prototype.findTreeElems = function(treeElem, callback, flag, list)
+    mapHelper$1.prototype.findTreeElems = function(treeElem, callback, flag, list)
     {
     	var childsArr = treeElem.content ? treeElem.content.children : treeElem.children;
 
@@ -7396,7 +9731,7 @@
      * @param {String} [crs='EPSG:3395'] Название системы координат геометрии объектов. Поддерживаются 3395, 4326, 3857
      * @return {jQuery.Deferred} Ресолвится в соответствии с ответом сервера
     */
-    mapHelper.prototype.modifyObjectLayer = function(layerName, objs, crs)
+    mapHelper$1.prototype.modifyObjectLayer = function(layerName, objs, crs)
     {
         var def = $.Deferred();
 
@@ -7447,7 +9782,7 @@
      * @param {Number} [options.pagesize=100000] максимальное кол-во объектов в ответе
      * @return {jQuery.Deferred} Promise, который ресолвится массивом найденных объектов. Каждый объект имеет свойства properties и, возможно, geometry
     */
-    mapHelper.prototype.searchObjectLayer = function(layerName, options) {
+    mapHelper$1.prototype.searchObjectLayer = function(layerName, options) {
         options = options || {};
 
         var def = $.Deferred();
@@ -7510,7 +9845,7 @@
      * @param {String} [params.query] SQL запрос для сохранения выборки данных вместо всех данных слоя
      * @param {Array} [params.columns] Атрибуты, которые нужно скачать. Массив объектов с ключами {Value, Alias}
     */
-    mapHelper.prototype.downloadVectorLayer = function(params) {
+    mapHelper$1.prototype.downloadVectorLayer = function(params) {
         var requestParams = {
             t: params.name
         };
@@ -7589,11 +9924,11 @@
     	// }
     };
 
-    var _mapHelper$1 = new mapHelper();
+    var _mapHelper$1 = new mapHelper$1();
     window._mapHelper = _mapHelper$1;
-    window.mapHelper = mapHelper;
+    window.mapHelper = mapHelper$1;
 
-    mapHelp.mapHelp.load = function()
+    mapHelp$1.mapHelp.load = function()
     {
     	var alreadyLoaded = _mapHelper$1.createWorkCanvas(arguments[0]);
 
@@ -7601,18 +9936,18 @@
     		_mapHelper$1.load();
     };
 
-    mapHelp.mapHelp.unload = function()
+    mapHelp$1.mapHelp.unload = function()
     {
     };
 
-    mapHelp.serviceHelp.load = function()
+    mapHelp$1.serviceHelp.load = function()
     {
     	var alreadyLoaded = _serviceHelper.createWorkCanvas(arguments[0]);
 
     	if (!alreadyLoaded)
     		_serviceHelper.load();
     };
-    mapHelp.serviceHelp.unload = function()
+    mapHelp$1.serviceHelp.unload = function()
     {
     };
 
@@ -7651,25 +9986,25 @@
     var _serviceHelper = new serviceHelper();
     window._serviceHelper = _serviceHelper;
 
-    mapHelp.tabs.load = function()
+    mapHelp$1.tabs.load = function()
     {
     	var alreadyLoaded = _queryTabs.createWorkCanvas(arguments[0]);
 
     	if (!alreadyLoaded)
     		_queryTabs.load();
     };
-    mapHelp.tabs.unload = function()
+    mapHelp$1.tabs.unload = function()
     {
     };
 
-    mapHelp.externalMaps.load = function()
+    mapHelp$1.externalMaps.load = function()
     {
     	var alreadyLoaded = _queryExternalMaps.createWorkCanvas(arguments[0]);
 
     	if (!alreadyLoaded)
     		_queryExternalMaps.load();
     };
-    mapHelp.externalMaps.unload = function()
+    mapHelp$1.externalMaps.unload = function()
     {
     };
 
@@ -7927,96 +10262,6 @@
             checkProviders.push(provider);
         };
     })(jQuery);
-
-    /** Менеджер дополнительных данных карты. Данные собираются и используются набором сборщиков данных, каждый из которых имеет свой уникальный id.
-     @class userObjectsManager
-     @memberOf nsGmx 
-    */
-
-    nsGmx$1.userObjectsManager = {
-        _data: {},
-        _collectors: {},
-        
-        /**
-         Устанавливает данные, которые потом могут быть использованы поставщиками данных
-    	 @method
-        */
-        setData: function(data) {
-            this._data = data;
-        },
-        
-        /**
-         Возвращает собранные данные
-    	 @method
-        */
-        getData: function() {
-            return this._data;
-        },
-        
-    	/**
-    	 Собирает данные со всех сборщиков данных. Собранные данные доступны через метод getData
-    	 @method
-    	*/
-        collect: function() {
-            for (var id in this._collectors) {
-                if ('collect' in this._collectors[id]) {
-                    var data = this._collectors[id].collect();
-                    if (data !== null) {
-                        this._data[id] = data;
-                    }
-                }
-            }
-        },
-        
-        /**
-    	 Вызывает метод load() у всех поставщиков данных, для которых есть данные.
-         После вызова метода данные для данного загрузчика будут удалены (чтобы предотвратить множественную загрузку)
-    	 @method
-    	*/
-        load: function(dataCollectorNames) {
-            var collectors = {};
-            
-            if (dataCollectorNames)
-            {
-                if (typeof dataCollectorNames === 'string')
-                    dataCollectorNames = [dataCollectorNames];
-
-                for (var dc = 0; dc < dataCollectorNames.length; dc++)
-                {
-                    var name = dataCollectorNames[dc];
-                    if (name in this._collectors)
-                        collectors[name] = this._collectors[name];
-                }
-            }
-            else
-                collectors = this._collectors;
-            
-            for (var id in collectors) {
-                if (id in this._data && 'load' in collectors[id])
-                {
-                    collectors[id].load(this._data[id]);
-                    delete this._data[id];
-                }
-            }
-        },
-        
-        /**
-    	 Добавляет новый сборщик данных. Если в момент добавления есть какие-нибудь данные для загрузчика, они будут ему сразу же переданы
-    	 @method
-         @param collectorId {String} - уникальный идентификатор сборщика данных
-         @param collector {Object} - сборщик данных. Должен иметь следующие методы:<br/>
-             collect()->Object - возвращает собранные данные. Если данных нет, нужно вернуть null
-             load(data)->void - передаёт существующие данные загрузчику
-    	*/
-        addDataCollector: function( collectorId, collector ) {
-            this._collectors[collectorId] = collector;
-            if (collectorId in this._data && 'load' in collector)
-            {
-                collector.load(this._data[collectorId]);
-                delete this._data[collectorId];
-            }
-        }
-    };
 
     nsGmx$1.GmxWidgetMixin = {
         getContainer: function() {
@@ -11746,6 +13991,51 @@
 
     })(jQuery);
 
+    /** 
+    * Контроллёр глобального буфера обмена
+    * @memberOf nsGmx
+    * @class Синглетон. Позволяет хранить массивы объектов разного типа. Тип объектов - строка. В рамках одного типа объекты упорядочены.
+    */
+    nsGmx$1.ClipboardController = (function()
+    {
+        var _clipboard = {};
+        return {
+            addItem: function(type, item)
+            {
+                _clipboard[type] = _clipboard[type] || [];
+                _clipboard[type].push(item);
+            },
+            
+            popItem: function(type)
+            {
+                if (typeof _clipboard[type] === 'undefined' || _clipboard[type].length == 0) return null;
+                return _clipboard[type].pop();
+            },
+            
+            //количество объектов данного типа
+            getCount: function(type)
+            {
+                if ( typeof _clipboard[type] === 'undefined' ) 
+                    return 0;
+                
+                return _clipboard[type].length;
+            },
+            
+            //получить объект типа type с индексом index. Если index < 0, то индексация с конца (-1 - последний элемент)
+            get: function(type, index)
+            {
+                if ( typeof _clipboard[type] === 'undefined' ) return null;
+                
+                if (index < 0) index += _clipboard[type].length;
+                
+                if (index < 0 || _clipboard[type].length <= index )
+                    return null;
+                    
+                return _clipboard[type][index];
+            }
+        }
+    })();
+
     !(function() {
     //Контроллёр контектных меню и соответствующие пункты всех меню...
     /**
@@ -14144,6 +16434,973 @@
 
     })(jQuery);
 
+    (function() {
+        window.nsGmx = window.nsGmx || {};
+        window.nsGmx.widgets = window.nsGmx.widgets || {};
+        nsGmx.widgets.notifications = {
+            _container: null,
+            _actions: [],
+            _messagesToShow: [],
+            _messageTimer: null,
+            _currentStatusClass: '',
+            
+            startAction: function(actionId) {
+                this._initContainerLazy();
+                if (this._actions.indexOf(actionId) === -1) {
+                    this._actions.push(actionId);
+                    this._container.find('.notification-process').show();
+                }
+            },
+            
+            //supported statuses: success, failure, warning
+            stopAction: function(actionId, status, message, timeout) {
+                var index = this._actions.indexOf(actionId);
+                
+                if (index !== -1) {
+                    this._actions.splice(index, 1);
+                    this._container.find('.notification-process').toggle(this._actions.length);
+                }
+                    
+                if (message) {
+                    timeout = typeof timeout !== 'undefined' ? timeout : 1500;
+                    this._messagesToShow.push({text: message, status: status, timeout: timeout});
+                    this._checkMessages();
+                }
+            },
+            
+            _checkMessages: function() {
+                if (this._messageTimer || !this._messagesToShow.length) {
+                    return;
+                }
+                
+                var msg = this._messagesToShow.shift();
+                var statusClass = 'notification-' + msg.status;
+                this._initContainerLazy();
+                this._container.find('.notification-message')
+                    .show().text(msg.text)
+                    .removeClass(this._currentStatusClass)
+                    .addClass(statusClass);
+                    
+                if (msg.timeout) {
+                    this._messageTimer = setTimeout(function(){
+                        this._messageTimer = null;
+                        this._container.find('.notification-message').hide();
+                        this._checkMessages();
+                    }.bind(this), msg.timeout);
+                }
+            },
+            
+            _initContainerLazy: function() {
+                if (this._container) {
+                    return;
+                }
+                
+                this._container = $(Handlebars.compile(
+                    '<div class="notification-container">' +
+                        '<span class="notification-process"></span>' +
+                        '<span class="notification-message"></span>' +
+                    '</div>')()).appendTo($('#flash'));
+                    
+                this._container.find('.notification-message, .notification-process').hide();
+            }
+        };
+    })();
+
+    (function()
+    {
+        /**
+        Хранит информацию о тегах: типы и описание
+        @memberOf nsGmx
+        @class
+        @param {Object} initTagsInfo - описание тегов вида tagName: {Type: , Description: }
+        */
+        var TagMetaInfo = function(initTagsInfo)
+        {
+            var tags = initTagsInfo || {};
+
+            this.isTag = function(tag)
+            {
+                return tag in tags;
+            };
+
+            this.getTagType = function(tag)
+            {
+                return tag in tags ? tags[tag].Type : null;
+            };
+
+            this.getTagDescription = function(tag)
+            {
+                return tag in tags ? tags[tag].Description : null;
+            };
+
+            this.getTagArray = function()
+            {
+                var res = [];
+                for (var t in tags)
+                    res.push(t);
+                return res;
+            };
+
+            this.getTagArrayExt = function()
+            {
+                var res = [];
+                for (var t in tags)
+                    res.push( {name: t, type: tags[t].Type, desc: tags[t].Description} );
+
+                return res;
+            };
+        };
+
+        (function()
+        {
+            var def;
+
+            /** Загружает данные о доступных тегах с сервера
+            * @memberOf nsGmx.TagMetaInfo
+            * @name loadFromServer
+            * @function
+            * @param {function(tagInfo)} [callback] Ф-ция, которая будет вызвана после загрузки информации о типах.
+            * @return {jQuery.Deferred} Будет заресолвен после получения информации о типах
+            */
+            TagMetaInfo.loadFromServer = function(callback)
+            {
+                if (!def)
+                {
+                    def = $.Deferred();
+                    sendCrossDomainJSONRequest$1(serverBase + 'Layer/MetaKeys.ashx', function(response)
+                    {
+                        if (!parseResponse(response))
+                        {
+                            def.resolve();
+                            return;
+                        }
+                        def.resolve(new TagMetaInfo(response.Result));
+                    });
+                }
+                callback && def.done(callback);
+                return def;
+            };
+        })();
+
+        var extendClass = function(base, sub) {
+            function ctor() {}
+
+            ctor.prototype = base.prototype;
+            sub.prototype = new ctor();
+            sub.prototype.constructor = sub;
+        };
+
+        var LayerTags = function(initTags)
+        {
+            /** Вызывается при изменении набора тегов слоя
+                @name nsGmx.LayerTags.change
+                @event
+            */
+
+            this._uniqueID = 1;
+            this._tags = {};
+
+            for (var tag in initTags) {
+                var values = initTags[tag].Value;
+                if (!$.isArray(values)) {
+                    values = [values];
+                }
+
+                for (var i = 0; i < values.length; i++) {
+                    this.addNewTag(tag, values[i]);
+                }
+            }
+        };
+
+        LayerTags.prototype = {
+            _verificationFunctions: {
+                'Number': function(value)
+                {
+                    return value.length && !isNaN(Number(value));
+                },
+                'String': function(value)
+                {
+                    return true;
+                },
+                'Date': function(value)
+                {
+                    try {
+                        $.datepicker.parseDate('dd.mm.yy', value);
+                        return true;
+                    }
+                    catch(err) {
+                        return false;
+                    }
+                }
+            },
+
+            _isValidTypeValue: function(type, value)
+            {
+                return !(type in this._verificationFunctions) || this._verificationFunctions[type](value);
+            },
+
+            updateTag: function(id, tag, value, type)
+            {
+                var tags = this._tags;
+                if ( !(id in tags) ) return false;
+                if ( tags[id].tag !== tag || tags[id].value !== value || tags[id].type !== type)
+                {
+                    tags[id] = {tag: tag, value: value, type: type};
+                    $(this).change();
+                }
+
+                return true;
+            },
+
+            deleteTag: function(id)
+            {
+                if ( !(id in this._tags) ) return;
+
+                delete this._tags[id];
+                $(this).change();
+            },
+
+            each: function(callback)
+            {
+                var tags = this._tags;
+                for (var tagId in tags)
+                    callback(tagId, tags[tagId].tag, tags[tagId].value, tags[tagId].type);
+            },
+
+            eachValid: function(callback, allowUnknownTags)
+            {
+                var tags = this._tags;
+                for (var tagId in tags)
+                    if ((allowUnknownTags || this.isValidValue(tagId)) && !this.isEmptyTag(tagId))
+                        callback(tagId, tags[tagId].tag, tags[tagId].value, tags[tagId].type);
+            },
+
+            addNewTag: function(tag, value, type)
+            {
+                if (typeof value === 'undefined' || value === null) {
+                    value = '';
+                }
+                var newId = 'id' + (++this._uniqueID);
+                this._tags[newId] = {tag: tag || '', value: value, type: type};
+                $(this).change();
+                return newId;
+            },
+
+            isTag: function(tagId)
+            {
+                return tagId in this._tags;
+            },
+
+            isEmptyTag: function(tagId)
+            {
+                var tags = this._tags;
+                return tagId in tags && tags[tagId].tag === '' && tags[tagId].value === '';
+            },
+
+            isValidValue: function(tagId)
+            {
+                var tags = this._tags;
+                return tagId in tags && this._isValidTypeValue(tags[tagId].type, tags[tagId].value);
+            },
+
+            getTag: function(tagId)
+            {
+                return this._tags[tagId];
+            },
+
+            getTagByName: function(tagName)
+            {
+                var tags = this._tags;
+                for (var tagId in tags)
+                    if (tags[tagId].tag == tagName)
+                        return tags[tagId];
+            },
+
+            getTagIdByName: function(tagName)
+            {
+                var tags = this._tags;
+                for (var tagId in tags)
+                    if (tags[tagId].tag == tagName)
+                        return tagId;
+            }
+        };
+
+        /**
+            Набор тегов (метаданных) слоя из определённого набора тегов
+            @memberOf nsGmx
+            @class
+            @param {nsGmx.TagMetaInfo} tagMetaInfo описание типов тегов
+            @param {Object} initTags теги для инициализации. Формат: {tagName: {Value: tagValue}, ...}. tagValue может быть массивом
+        */
+        var LayerTagsWithInfo = function(tagMetaInfo, initTags) {
+
+            // чтобы можно было расширять существующий объект LayerTags
+            if (this instanceof LayerTagsWithInfo) {
+                LayerTags.call(this, initTags);
+            }
+
+            this.getTagMetaInfo = function()
+            {
+                return tagMetaInfo;
+            };
+
+            this.isKnownTagname = function(tagname)
+            {
+                return tagMetaInfo.isTag(tagname);
+            };
+
+            this.addNewTag = function(tag, value, type)
+            {
+                type = type || tagMetaInfo.getTagType(tag) || '';
+                LayerTags.prototype.addNewTag.call(this, tag, value, type);
+            };
+
+            this.updateTag = function(id, tag, value) {
+                var type = tagMetaInfo.getTagType(tag);
+                LayerTags.prototype.updateTag.call(this, id, tag, value, type);
+            };
+        };
+
+        extendClass(LayerTags, LayerTagsWithInfo);
+
+        /**
+            Контрол для задания набора тегов (например, для слоя)
+            @memberOf nsGmx
+            @class
+        */
+        var LayerTagSearchControl = function(layerTags, container, params)
+        {
+            var _params = $.extend({
+                inputWidth: 130,
+                tagHeader: _gtxt('Параметр'),
+                valueHeader: _gtxt('Значение')
+            }, params );
+            var mainTable = $('<table/>', {'class': 'layertags-table'}).appendTo(container);
+            mainTable.append($('<tr/>')
+                .append($('<th/>').text(_params.tagHeader))
+                .append($('<th/>').text(_params.valueHeader))
+                .append($('<th/>'))
+            );
+
+            //добавляем к body элемент с id чтобы добавить к нему jQuery autocomplete и задать стили
+            //к текущему виджету добавить нельзя, так как он ещё не добавлен в общее дерево, а виджет ac требует глобального селектора
+            if ($('#layertagstable').length == 0)
+                $('body').append($('<div id="layertagstable"></div>'));
+
+            var rows = {}; //ссылки на контролы для каждого элемента
+            var rowsVector = [];
+
+            //в зависимости от типа ввода (type), прикрепляет к valueInput виджет выбора даты, время или даты/время
+            var updateInput = function(valueInput, type)
+            {
+                if ( type == 'Date' )
+                {
+                    $(valueInput).timepicker('destroy');
+                    $(valueInput).datetimepicker('destroy');
+
+                    $(valueInput).datepicker(
+                    {
+                        onSelect: function(dateText, inst) {
+                            $(this).change();
+                        },
+                        changeMonth: true,
+                        changeYear: true,
+                        dateFormat: "dd.mm.yy"
+                    });
+
+                }
+                else if ( type == 'DateTime' )
+                {
+                    $(valueInput).timepicker('destroy');
+                    $(valueInput).datepicker('destroy');
+
+                    $(valueInput).datetimepicker(
+                    {
+                        changeMonth: true,
+                        changeYear: true,
+                        dateFormat: "dd.mm.yy",
+                        timeFormat: "HH:mm:ss",
+                        showSecond: true,
+                        timeOnly: false
+                    }).addClass('layertags-datetimeinput');
+                }
+                else if ( type == "Time" )
+                {
+
+                    $(valueInput).datepicker('destroy');
+                    $(valueInput).datetimepicker('destroy');
+
+                    $(valueInput).timepicker({
+                        timeOnly: true,
+                        timeFormat: "HH:mm:ss",
+                        showSecond: true
+                    });
+                }
+                else
+                {
+                    $(valueInput).timepicker('destroy');
+                    $(valueInput).datetimepicker('destroy');
+                    $(valueInput).datepicker('destroy');
+                }
+            };
+
+            var validateRow = function(row)
+            {
+                if ( !layerTags.isEmptyTag(row.id) && !layerTags.isKnownTagname(row.tag.val()) )
+                    row.tag.addClass('error');
+                else
+                    row.tag.removeClass('error');
+
+                if (!layerTags.isEmptyTag(row.id) && !layerTags.isValidValue(row.id) )
+                    row.value.addClass('error');
+                else
+                    row.value.removeClass('error');
+            };
+
+            var addNewRow = function(tagId, tag, value)
+            {
+                var tagInput = $('<input/>', {'class': 'inputStyle'}).val(tag).css('width', _params.inputWidth).autocomplete({
+                    source: layerTags.getTagMetaInfo().getTagArrayExt(),
+                    minLength: 0,
+                    delay: 0,
+                    appendTo: "#layertagstable",
+                    select: function(event, ui)
+                    {
+                        tagInput.val(ui.item.name);
+                        updateModel(ui.item.name, valueInput.val().trim());
+                        return false;
+                    }
+                }).bind('click', function(){
+                    $(tagInput).autocomplete("search", "");
+                });
+
+                tagInput.data( "ui-autocomplete" )._renderItem = function( ul, item )
+                {
+                    return $( "<li/>")
+                        .append($("<a/>", {title: item.desc}).text(item.name))
+                        .appendTo( ul );
+                };
+
+                var valueInput = $('<input/>', {'class': 'inputStyle'}).val(value).css('width', _params.inputWidth);
+
+                var type = layerTags.getTagMetaInfo().getTagType(tag);
+                updateInput(valueInput, type);
+
+
+                var updateModel = function()
+                {
+                    layerTags.updateTag(tagId, tagInput.val().trim(), valueInput.val().trim());
+                };
+
+                tagInput.bind('keyup change', updateModel);
+                valueInput.bind('keyup change', updateModel);
+
+                var deleteButton = makeImageButton$1('img/recycle.png', 'img/recycle_a.png');
+                deleteButton.onclick = function()
+                {
+                    layerTags.deleteTag(tagId);
+                };
+
+                var tr = $('<tr/>')
+                    .append($('<td/>').append(tagInput))
+                    .append($('<td/>').append(valueInput))
+                    .append($('<td/>', {'class': 'layertags-delete'}).append(deleteButton));
+
+                mainTable.append(tr);
+
+                rows[tagId] = {id: tagId, tr: tr, tag: tagInput, value: valueInput, type: type};
+                rowsVector.push(rows[tagId]);
+                validateRow(rows[tagId]);
+            };
+
+            var moveEmptyLayersToBottom = function()
+            {
+                var lastEmptyId = -1;
+                for (var irow = 0; irow < rowsVector.length; irow++)
+                    if (layerTags.isEmptyTag(rowsVector[irow].id))
+                        lastEmptyId = irow;
+
+                if (lastEmptyId >= 0 && lastEmptyId < rowsVector.length)
+                {
+                    var tr = rowsVector[lastEmptyId].tr;
+                    $(tr).detach();
+                    mainTable.append(tr);
+                }
+            };
+
+            $(layerTags).change(function()
+            {
+                var isAnyEmpty = false;
+                layerTags.each(function(tagId, tag, value)
+                {
+                    if (tag == '' && value == '')
+                        isAnyEmpty = true;
+
+                    if (!(tagId in rows))
+                        addNewRow(tagId, tag, value);
+                    else
+                    {
+                        if (rows[tagId].tag.val() !== tag)
+                            rows[tagId].tag.val(tag);
+
+                        if (rows[tagId].value.val() !== value)
+                            rows[tagId].value.val(value);
+
+
+                        var type = layerTags.getTagMetaInfo().getTagType(tag);
+                        if (rows[tagId].type !== type)
+                        {
+                            rows[tagId].type = type;
+                            updateInput(rows[tagId].value, type);
+                        }
+
+                        validateRow(rows[tagId]);
+                    }
+                });
+
+                for (var tagId in rows)
+                {
+                    if (!(layerTags.isTag(tagId)))
+                    {
+                        rows[tagId].tr.remove();
+                        delete rows[tagId];
+                    }
+                }
+
+                if (!isAnyEmpty)
+                    layerTags.addNewTag();
+
+                moveEmptyLayersToBottom();
+            });
+
+            layerTags.addNewTag();
+        };
+
+        nsGmx$1.LayerTagSearchControl = LayerTagSearchControl;
+        nsGmx$1.LayerTags = LayerTags;
+        nsGmx$1.LayerTagsWithInfo = LayerTagsWithInfo;
+        nsGmx$1.TagMetaInfo = TagMetaInfo;
+    })();
+
+    //Управление показом списка слоёв и поиска по этому списку
+
+    (function(_){
+
+    var LayersListProvider = function(filtersProvider)
+    {
+        var _this = this;
+        $(filtersProvider).change(function()
+        {
+            $(_this).change();
+        });
+
+        var getQueryText = function()
+        {
+            var filterStrings = [];
+
+            if (filtersProvider.getTitle() !== '')
+                filterStrings.push("([Title] containsIC '" + filtersProvider.getTitle() + "' or [Name] = GetLayerName('" + filtersProvider.getTitle() + "'))");
+
+            if (filtersProvider.getOwner() !== '')
+                filterStrings.push("[OwnerNickname] containsIC '" + filtersProvider.getOwner() + "'");
+
+            var types = filtersProvider.getTypes();
+            var typeFilters = $.map(types, function(type) {
+                if (type === 'catalog')
+                {
+                    return "([LayerType]=LayerTypeCode('vector') AND [IsRasterCatalog]=true)"
+                }
+                else if (type)
+                {
+                    return "[LayerType]=LayerTypeCode('" + type + "')";
+                }
+            });
+
+            if (typeFilters.length > 0)
+                filterStrings.push('(' + typeFilters.join(' OR ') + ')');
+
+            var dateBegin = filtersProvider.getDateBegin();
+            var dateEnd = filtersProvider.getDateEnd();
+
+            dateBegin && filterStrings.push("[DateCreate] >= '" + $.datepicker.formatDate('yy.mm.dd', dateBegin) + "'");
+            dateEnd   && filterStrings.push("[DateCreate] < '"  + $.datepicker.formatDate('yy.mm.dd', dateEnd) + "'");
+
+            var layerTags = filtersProvider.getTags();
+
+            if (layerTags)
+            {
+                layerTags.each(function(id, tag, value)
+                {
+                    if (tag)
+                    {
+                        if (value !== '')
+                            filterStrings.push("[" + tag + "] containsIC '" + value + "'");
+                        else
+                            filterStrings.push("PropertyExist('" + tag + "')");
+                    }
+                });
+            }
+
+            return '&query=' + encodeURIComponent(filterStrings.join(' AND '));
+        };
+
+        this.getCount = function(callback)
+        {
+            var query = getQueryText();
+            sendCrossDomainJSONRequest$1(serverBase + 'Layer/Search2.ashx?count=true' + query, function(response)
+            {
+                if (!parseResponse(response))
+                {
+                    callback();
+                    return;
+                }
+                callback(response.Result.count);
+            });
+        };
+
+        this.getItems = function(page, pageSize, sortParam, sortDec, callback)
+        {
+            this.getCountAndItems(page, pageSize, sortParam, sortDec, function(count, items)
+            {
+                callback(items);
+            });
+        };
+
+        this.getCountAndItems = function(page, pageSize, sortParam, sortDec, callback)
+        {
+            var sortParams = {};
+            sortParams[_gtxt("Имя")] = "title";
+            sortParams[_gtxt("Дата создания")] = "datecreate";
+            sortParams[_gtxt("Владелец")] = "ownernickname";
+
+            var query = getQueryText();
+
+            sendCrossDomainJSONRequest$1(serverBase + 'Layer/Search2.ashx?page=' + page + '&pageSize=' + pageSize + "&orderby=" + sortParams[sortParam] + " " + (sortDec ? "desc" : "") + query, function(response)
+            {
+                if (!parseResponse(response))
+                {
+                    callback();
+                    return;
+                }
+
+                callback(response.Result.count, response.Result.layers);
+            });
+        };
+    };
+
+    var drawLayers = function(layer, params)
+    {
+    	var _params = $.extend({onclick: function(){ removeLayerFromList(); }, enableDragging: true, disabled: false}, params);
+    	var newLayerProperties = {properties:layer};
+
+        var mapProperties = _layersTree.treeModel.getMapProperties();
+    	newLayerProperties.properties.mapName = mapProperties.name;
+    	newLayerProperties.properties.hostName = mapProperties.hostName;
+    	newLayerProperties.properties.visible = false;
+
+        // newLayerProperties.properties.type = newLayerProperties.properties.type === 1 ? 'Vector' : 'Raster';
+
+    	if (newLayerProperties.properties.type == 'Vector')
+    		newLayerProperties.properties.styles = [{MinZoom:1, MaxZoom:20, RenderStyle:_mapHelper.defaultStyles[newLayerProperties.properties.GeometryType]}];
+    	else if (newLayerProperties.properties.type != 'Vector' && !newLayerProperties.properties.MultiLayerID)
+    		newLayerProperties.properties.styles = [{MinZoom:newLayerProperties.properties.MinZoom, MaxZoom:20}];
+
+    	var res = _layersTree.drawNode({type: 'layer', content:newLayerProperties}, false, 1),
+    		icon = res.firstChild.cloneNode(true),
+    		remove = makeImageButton$1("img/recycle.png", "img/recycle_a.png"),
+    		tr,
+    		tdRemove = (layer.Access == 'edit') ? _td([remove], [['css','textAlign','center']]) : _td(),
+    		removeLayerFromList = function()
+    		{
+    			var active = $(_queryMapLayers.buildedTree).find(".active");
+
+                var gmxProperties = $(res).find("span[dragg]")[0].parentNode.parentNode.gmxProperties;
+    			if (active.length && (active[0].parentNode.getAttribute('MapID') || active[0].parentNode.getAttribute('GroupID'))){
+                    _layersTree.copyHandler(gmxProperties, active[0].parentNode, false, true);
+                } else {
+                    _layersTree.copyHandler(gmxProperties, $(_queryMapLayers.buildedTree.firstChild).children("div[MapID]")[0], false, true);
+                }
+                $(res).addClass('gmx-disabled');
+    		},
+    		_this = this;
+
+    	_title(remove, _gtxt("Удалить"));
+
+    	res.firstChild.removeNode(true);
+
+    	remove.onclick = function()
+    	{
+    		if (confirm(_gtxt("Вы действительно хотите удалить этот слой?")))
+    		{
+    			var loading = loading = _div([_img(null, [['attr','src','img/progress.gif']]), _t('удаление...')], [['css','marginLeft','5px']]);
+
+    			$(remove.parentNode.parentNode).replaceWith(_tr([_td([loading], [['attr','colSpan', 5]])]));
+
+                var deleteLayerHandler = function(response, id, flag)
+                {
+                    if (!parseResponse(response))
+                        return;
+
+                    if (response.Result == 'deleted')
+                        $(_this.getDataProvider()).change();
+                    else
+                        showErrorMessage(_gtxt("Ошибка!"), true, _gtxt("Слоя нет в базе"));
+                };
+
+    			if (newLayerProperties.properties.MultiLayerID)
+    				sendCrossDomainJSONRequest$1(serverBase + "MultiLayer/Delete.ashx?WrapStyle=func&MultiLayerID=" + newLayerProperties.properties.MultiLayerID, deleteLayerHandler);
+    			else
+    				sendCrossDomainJSONRequest$1(serverBase + "Layer/Delete.ashx?WrapStyle=func&LayerID=" + newLayerProperties.properties.LayerID, deleteLayerHandler);
+    		}
+    	};
+
+    	var span = $(res).find("span.layer")[0];
+
+        if (_params.disabled)
+                $(span).addClass('invisible');
+
+    	if (!_params.disabled && _params.onclick)
+    	{
+    		span.onclick = function()
+    		{
+    			_params.onclick({ elem: layer, scrollTable: _this });
+    		};
+    	}
+        else
+        {
+            span.onclick = null;
+            $(span).css('cursor', 'auto');
+        }
+
+        span.ondblclick = null;
+
+    	if (_params.enableDragging && !params.disabled)
+    	{
+    		$(res).find("span[dragg]").draggable(
+    		{
+    			helper: function(ev)
+    			{
+    				return _layersTree.dummyNode(ev.target)
+    			},
+    			cursorAt: { left: 5 , top: 10},
+    			cursor: 'move',
+    			delay: 200,
+    			appendTo: document.body
+    		});
+    	}
+
+    	var nameDivInternal = _div([res], [['css','position','absolute'], ['css','width','100%'],['css','padding',"1px 0px"], ['css','overflowX','hidden'],['css','whiteSpace','nowrap']]);
+    	var nameDiv = _div([nameDivInternal], [['css', 'position', 'relative'], ['css', 'height', '100%']]);
+
+    	tr = _tr([_td(), _td([icon], [['css','textAlign','center']]), _td([nameDiv]), _td([_t(layer.date)], [['css','textAlign','center'],['dir','className','invisible']]),  _td([_t(layer.Owner)], [['css','textAlign','center'],['dir','className','invisible']]), tdRemove]);
+
+    	for (var i = 0; i < tr.childNodes.length; i++)
+    		tr.childNodes[i].style.width = this._fields[i].width;
+
+    	attachEffects(tr, 'hover');
+
+    	return tr;
+    };
+
+    /** Внутри контейнера помещает табличку со списком слоёв и контролами для фильтрации
+    * @param {HTMLNode} parentDiv Куда помещать контрол
+    * @param {String} name Уникальное имя этого инстанса
+    * @param {object} params Параметры отображения списка:
+    *
+    *  * fixType {String | Vector} Какой тип слоёв показывать. 'vector', 'raster', 'multilayer', 'catalog' или ''. Если '', то добавится контрол с выбором типа слоя. Вектор
+    *  * enableDragging {Boolean}
+    *  * height {Integer} высота всего виджета. Если не указана, то будет применяться дефолтная высота (~460px)
+    *  * onclick {function({ elem: , scrollTable: })}
+    */
+    var LayerManagerControl = function( parentDiv, name, params )
+    {
+    	var _params = $.extend({fixType: [], height: ''}, params);
+
+        if (typeof _params.fixType === 'string')
+            _params.fixType = [_params.fixType];
+
+    	var canvas = _div(null, [['attr','id','layersList']]),
+    		searchCanvas = _div(null, [['dir','className','layersSearchCanvas']]);
+
+    	var layerName = _input(null, [['dir','className','inputStyle'],['css','width','185px']]),
+    		layerOwner = _input(null, [['dir','className','inputStyle'],['css','width','185px']]);
+
+    	var typeSel = nsGmx$1.Utils._select([_option([_t(_gtxt("Любой"))], [['attr','value','']]),
+    					   _option([_t(_gtxt("Векторный"))], [['attr','value','vector']]),
+    					   _option([_t(_gtxt("Растровый"))], [['attr','value','raster']]),
+    					   _option([_t(_gtxt("Мультислой"))], [['attr','value','multilayer']]),
+    					   _option([_t(_gtxt("Каталог растров"))], [['attr','value','catalog']])], [['dir','className','selectStyle'], ['css','width','100px']]);
+
+        var calendar = new nsGmx$1.CalendarWidget({
+            minimized: false,
+            showSwitcher: false,
+            dateInterval: new nsGmx$1.DateInterval({dateBegin: null, dateEnd: null})
+        });
+        // calendar.init('layerManager', {
+            // minimized: false,
+            // showSwitcher: false,
+            // dateBegin: null,
+            // dateEnd: null
+        // });
+
+        var _disabledLayers = {};
+
+    	_(searchCanvas, [_div([_table([_tbody([_tr([_td([_span([_t(_gtxt("Название"))],[['css','fontSize','12px']])]), _td([layerName])]),
+    										   _tr([_td([_span([_t(_gtxt("Владелец"))],[['css','fontSize','12px']])]),_td([layerOwner])]),
+                                               _tr([_td([_span([_t(_gtxt("Период"))],[['css','fontSize','12px']])]),_td([calendar.canvas[0]])]),
+    										   _tr([_td([_span([_t(_gtxt("Тип"))],[['css','fontSize','12px']])]), _td([typeSel])])])])], [['css','marginBottom','10px']])]);
+
+        $.each(_params.fixType, function(i, type) {
+            if (type !== '')
+                $("tr:last", searchCanvas).hide();
+        });
+
+    	var tableParent = _div();
+
+        var sortColumns = {};
+        sortColumns[_gtxt('Имя')] = true;
+        sortColumns[_gtxt('Владелец')] = true;
+        sortColumns[_gtxt('Дата создания')] = true;
+
+        // Временно сервер не поддерживает сортировку по типу
+        // if (_params.fixType.length > 1 || _params.fixType[0] === '')
+            // sortColumns[_gtxt('Тип')] = true;
+
+        var tagsParent = _div(null, [['css', 'height', '100px'], ['css', 'overflow', 'auto']]);
+
+        _(canvas, [_table([_tbody([_tr([
+            _td([searchCanvas], [['css', 'width', '50%']]),
+            _td([tagsParent])
+        ])])], [['css', 'width', '100%']])]);
+
+        var LayersFilterParams = (function()
+        {
+            var prevLayerName, prevLayerOwner;
+
+            layerName.oninput = layerName.onkeyup = function()
+            {
+                if (this.value !== prevLayerName) {
+                    prevLayerName = this.value;
+                    $(pi).change();
+                }
+            };
+
+            layerOwner.oninput = layerOwner.onkeyup = function()
+            {
+                if (this.value !== prevLayerOwner) {
+                    prevLayerOwner = this.value;
+                    $(pi).change();
+                }
+            };
+
+            typeSel.onchange = function()
+            {
+                $(pi).change();
+            };
+
+            calendar.getDateInterval().on('change', function()
+            {
+                $(pi).change();
+            });
+
+            var _layerTags = null;
+
+            var pi = {
+                setTags: function(layerTags)
+                {
+                    _layerTags = layerTags;
+                    $(_layerTags).change(function()
+                    {
+                        $(pi).change();
+                    });
+                },
+                getTitle:     function() { return layerName.value; },
+                getOwner:     function() { return layerOwner.value; },
+                getDateBegin: function() { return calendar.getDateInterval().get('dateBegin'); },
+                getDateEnd:   function() { return calendar.getDateInterval().get('dateEnd'); },
+                getTags:      function() { return _layerTags; },
+                getTypes:     function() { return _params.fixType.length > 0 ? _params.fixType : [$("option:selected", typeSel).val()]; }
+            };
+
+            return pi;
+        })();
+
+        nsGmx$1.TagMetaInfo.loadFromServer(function(tagsInfo)
+        {
+            var layerTags = new nsGmx$1.LayerTagsWithInfo(tagsInfo);
+            new nsGmx$1.LayerTagSearchControl(layerTags, tagsParent, {inputWidth: 115});
+            LayersFilterParams.setTags(layerTags);
+        });
+
+        var layersListProvider = new LayersListProvider(LayersFilterParams);
+        var layersTable = new nsGmx$1.ScrollTable({height: _params.height ? _params.height - 130 : ''});
+        layersTable.setDataProvider(layersListProvider);
+
+    	layersTable.createTable(tableParent, name, 0,
+    		["", _gtxt("Тип"), _gtxt("Имя"), _gtxt("Дата создания"), _gtxt("Владелец"), ""],
+    		['1%','5%','45%','24%','20%','5%'],
+    		function(layer)
+    		{
+                var curParams = $.extend( {}, _params, {disabled: layer.name in _disabledLayers } );
+    			return drawLayers.apply(this, [layer, curParams]);
+    		},
+    		sortColumns
+    	);
+
+    	_(canvas, [tableParent]);
+
+    	$(parentDiv).empty().append(canvas);
+
+    	layerName.focus();
+
+        this.getScrollTable = function()
+        {
+            return layersTable;
+        };
+
+        /** Деактивировать слои
+          @param layerNames {String|String[]} - массив имён слоёв (или просто имя), которые нужно сделать неактивными
+        */
+        this.disableLayers = function(layerNames)
+        {
+            if (!$.isArray(layerNames))
+                layerNames = [layerNames];
+
+            for (var k = 0; k < layerNames.length; k++)
+                _disabledLayers[layerNames[k]] = true;
+
+            layersTable.repaint();
+        };
+
+        /** Aктивировать слои
+          @param layerNames {String|String[]} - массив имён слоёв (или просто имя), которые нужно сделать активными
+        */
+        this.enableLayers = function(layerNames)
+        {
+            if (!$.isArray(layerNames))
+                layerNames = [layerNames];
+
+            for (var k = 0; k < layerNames.length; k++)
+                delete _disabledLayers[layerNames[k]];
+
+            layersTable.repaint();
+        };
+
+        this.resize = function(h) {
+            layersTable.updateHeight(h - 130);
+        };
+    };
+
+    nsGmx$1.LayerManagerControl = LayerManagerControl;
+    nsGmx$1.drawLayers = drawLayers;
+
+    gmxCore.addModule('LayersManagerControl', {
+        LayerManagerControl: LayerManagerControl,
+        drawLayers: drawLayers
+    });
+
+    })(nsGmx$1.Utils._);
+
     !(function(_) {
 
         var mapLayers = {
@@ -15107,7 +18364,7 @@
             });
 
             var title = _gtxt("Удаление группы [value0]", div.gmxProperties.content.properties.title);
-            var dialogDiv = showDialog(title, ui[0], 250, 100, pos.left, pos.top);
+            var dialogDiv = showDialog$1(title, ui[0], 250, 100, pos.left, pos.top);
         };
 
         //по элементу дерева слоёв ищет соответствующий элемент в DOM представлении
@@ -16248,7 +19505,7 @@
 
             layerManagerControl.disableLayers(existLayers);
 
-            var dialogDiv = showDialog(_gtxt("Список слоев"), canvas, 571, 485, 535, 130, function(size) {
+            var dialogDiv = showDialog$1(_gtxt("Список слоев"), canvas, 571, 485, 535, 130, function(size) {
                 layerManagerControl.resize(size.height - 55);
             });
         };
@@ -16271,7 +19528,7 @@
             var tryCreateMap = function() {
                 input.focus();
                 if (input.value != '') {
-                    removeDialog(dialogDiv);
+                    removeDialog$1(dialogDiv);
                     func(input.value);
                 } else {
                     inputError(input);
@@ -16289,7 +19546,7 @@
 
             addLink && ui.append(addLink);
 
-            var dialogDiv = showDialog(title, ui[0], 280, 115 + (addLink ? 20 : 0), false, false);
+            var dialogDiv = showDialog$1(title, ui[0], 280, 115 + (addLink ? 20 : 0), false, false);
         };
 
         queryMapLayers.prototype.createMap = function(name) {
@@ -23393,7 +26650,7 @@
          */
 
         if (_queryMapLayers.layerRights(layerName) !== 'edit' && _queryMapLayers.layerRights(layerName) !== 'editrows') {
-            showErrorMessage(_gtxt('Недостаточно прав для редактирования объектов слоя'), true);
+            showErrorMessage$1(_gtxt('Недостаточно прав для редактирования объектов слоя'), true);
             return;
         }
 
@@ -23485,7 +26742,7 @@
             {
                 _mapHelper.modifyObjectLayer(layerName, [{action: 'delete', id: objectId}]).done(function()
                 {
-                    removeDialog(dialogDiv);
+                    removeDialog$1(dialogDiv);
                     closeFunc();
                 });
             };
@@ -23551,7 +26808,7 @@
                 _mapHelper.modifyObjectLayer(layerName, [obj], 'EPSG:4326').done(function()
                 {
                     $(_this).trigger('modify');
-                    removeDialog(dialogDiv);
+                    removeDialog$1(dialogDiv);
                     closeFunc();
                 });
             };
@@ -23576,7 +26833,7 @@
                 originalGeometry = null;
 
                 if (styleEditingDialog) {
-                    removeDialog(styleEditingDialog);
+                    removeDialog$1(styleEditingDialog);
                 }
 
                 EditObjectControlsManager.remove(layerName, objectId);
@@ -23691,7 +26948,7 @@
             };
     var prop = layer._gmx.properties;
 
-            var dialogDiv = showDialog(isNew ? _gtxt("Создать объект слоя [value0]", prop.title) : _gtxt("Редактировать объект слоя [value0]", prop.title), canvas, 520, 300, false, false, resizeFunc, closeFunc);
+            var dialogDiv = showDialog$1(isNew ? _gtxt("Создать объект слоя [value0]", prop.title) : _gtxt("Редактировать объект слоя [value0]", prop.title), canvas, 520, 300, false, false, resizeFunc, closeFunc);
 
             if (!isNew)
             {
@@ -23846,6 +27103,1061 @@
             и возвращает модифицируемые параметры (возможна замена in place)
     */
     nsGmx$1.EditObjectControl.addParamsHook = EditObjectControlsManager.addParamsHook.bind(EditObjectControlsManager);
+
+    (function ($) {
+        var mykosmosnimki = location.protocol + "//my.kosmosnimki.ru"; //"http://localhost:56319"; //
+
+        var initTranslations = function () {
+
+
+            _translationsHash.addtext("rus", { ProfilePlugin: {
+
+                profile: "Профиль",
+                billing: "Биллинг",
+                developer: "Разработчикам",
+
+                firstName: "Фамилия",
+                lastName: "Имя",
+                email: "Электронная почта",
+                login: "Псевдоним",
+                fullName: "Полное имя",
+                phone: "Телефон",
+                company: "Название организации",
+                companyProfile: "Вид деятельности организации",
+                companyPosition: "Должность",
+                isCompany: "Я выступаю от имени организации",
+                subscribe: "Я согласен получать сообщения по почте",
+                saveChanges: "Сохранить",
+
+                used: "используется",
+                remain: "осталось",
+                fileStorage: "Файлы",
+                fileStorageUsed: "Хранилище файлов используется",
+                fileStorageRemain: "Хранилище файлов осталось",
+                vectorLayerStorage: "Векторные данные",
+                vectorLayerStorageUsed: "Хранилище векторных слоев используется",
+                vectorLayerStorageRemain: "Хранилище векторных слоев осталось",
+                subscription: "Подписки (Live Alerts)",
+                subscriptionUsed: "Подписок (Live Alerts) имеется",
+                subscriptionRemain: "Подписок (Live Alerts) осталось",
+                smsAvailable: "Sms (Live Alerts) доступны",
+
+                apiKeys: "API-ключи",
+                apiKeyInvite: "Для получения ключей воспользуйтесь соответсвующими ссылками",
+                apiKeyDomain: "API-ключ на домен (вставка окна карты на сайт)",//"API-ключ для сайтов (вставка окна карты на сайт)", //"API-Ключ для домена (для сайтов)",
+                apiKeyDomainCap: "API-ключ на домен",
+                apiKeyDirect: "API-ключ для приложений (запросы к REST/OGC)", //"API-Ключ прямого доступа (для приложений)",
+                apiKeyDirectCap: "API-ключ для приложений",
+                apiKeyList: "Список API-ключей",
+                apiKeyListCap: "Список API-ключей",
+                apiKeyDirectShort: "Ключ для приложения",
+                apiKeyFilter: "API-ключ или домен",
+                apiKeyFilterApply: "Найти",
+                apiKeyEnabled: "активен",
+                apiKeyDisabled: "не активен",
+                apiKeyCreated: "получен",
+
+                directKeyPurpose1: "API-ключ для приложений используется для обращений к <a target='blank' class='hyperLink' href='https://geomixer.ru/docs/dev-manual/rest-api/get-started/'>REST-сервисам</a> для подключения данных в настольные и/или веб-приложения.",
+                directKeyPurpose2: "API-ключ для приложений НЕ может быть использован на публичных сайтах.",
+                apiKeySite: "Сайт:",
+                apiKeyReadAgreement: "Пожалуйста, ознакомьтесь с ",
+                apiKeyAgreement: "я согласен с ",
+                apiKeyConditions: "условиями использования",
+                apiKeyGet: "Получить ключ",
+                apiKeyUrge: "Необходимо принять условия использования",
+                apiKeyAccept: "Принять",
+                apiKeyCancel: "Отклонить",
+                apiKeyReceive: "Ваш новый ключ",
+
+                ErrorApiKeySiteEmpty: "Поле сайт не может быть пустым!",
+                ErrorApiKeySiteInvalid: "Введите корректный адрес вашего сайта! Например, http://kosmosnimki.ru",
+                ErrorApiKeyConditionsNotAccepted: "Для получения ключа необходимо согласиться с условиями использования!",
+
+                clientRegistration: "Регистрация oAuth клиента",
+                appName: "Название приложения",
+                clientID: "ID клиента (client_id)",
+                clientSecret: "oAuth ключ клиента (client_secret)",
+                redirectUri: "URI скрипта обратного вызова (redirect_uri)",
+                registerClient: "Получить новый ключ",
+
+                password: "Пароль",
+                getNew: "Изменить",
+                cancelNew: "Закрыть",
+                passwordSaved: "сохранен",
+                passwordChanged: "изменен",
+                old: "Старый пароль",
+                newp: "Новый пароль",
+                repeat: "Повтор пароля",
+                submitp: "Изменить",
+
+                megabyte: " мБ",
+                yes: "да",
+                no: "нет",
+
+                ErrorNOT_AUTHORIZED: "Пользователь не авторизован!",
+                ErrorLoginEmpty: "Требуется указать псевдоним!",
+                ErrorLoginFormat: "Неправильный псевдоним! Допустимый вариант ",
+                ErrorLoginExists: "Псевдоним уже используется!",
+                ErrorAppName: "Не указано название приложения!",
+                ErrorRedirectUri: "Требуется действительный uri обратного вызыва!",
+                ErrorOldPassword: "Старый пароль указан неверно!",
+                ErrorNewPassword: "Пароль не может быть пустым!",
+                ErrorNotMatch: "Введённые пароли не совпадают!",
+
+                ErrorCapchaRequired: "Введите число!",
+                ErrorWrongCapcha: "Числа не совпадают!",
+                ErrorEmailEmpty: "Требуется указать email!",
+                ErrorWrongEmail: "Недопустимый адрес электронной почты!",
+                ErrorEmailExists: "Такой адрес электронной почты уже зарегистрирован!",
+
+                dataUpdateSuccess: "Изменения сохранены",
+
+                registration: "Регистрация",
+                registrationPageAnnotation: "Заполните поля формы",
+                //registrationPageAnnotation: "Заполните поля формы. Введите ваш адрес электронной почты, псевдоним, желаемый пароль и число с картинки. Можете указать фамилилию и имя.",
+                capcha: "Введите число",
+                register: "Зарегистрироваться",
+                backOn: "Повторить",
+                loginPage: "вход",
+                close: "Закрыть"
+
+            }
+            });
+
+            _translationsHash.addtext("eng", { ProfilePlugin: {
+                profile: "Profile",
+                billing: "Billing",
+                developer: "Developer",
+
+                firstName: "First name",
+                lastName: "Last name",
+                email: "Email",
+                login: "Nickname",
+                fullName: "Full name",
+                phone: "Phone",
+                company: "Company",
+                companyProfile: "Type of company activity",
+                companyPosition: "Company position",
+                isCompany: "I am speaking on behalf of the organization",
+                subscribe: "I agree to receive updates and news by email",
+                saveChanges: "Save",
+
+                used: "used",
+                remain: "rest",
+                fileStorage: "Files",
+                fileStorageUsed: "File storage consumtion",
+                fileStorageRemain: "File storage remain",
+                vectorLayerStorage: "Vector data",
+                vectorLayerStorageUsed: "Vector storage consumption",
+                vectorLayerStorageRemain: "Vector storage remain",
+                subscription: "Subscriptions",
+                subscriptionUsed: "Subscription consumption",
+                subscriptionRemain: "Subscription remain",
+                smsAvailable: "Sms",
+
+                apiKeys: "API-keys",
+                apiKeyInvite: "To get a key use apropriate links below",
+                apiKeyDomain: "Domain API-key (for sites)",
+                apiKeyDomainCap: "Domain API-key",
+                apiKeyDirect: "Direct access API-key (for applications)",
+                apiKeyDirectCap: "Direct access API-key",
+                apiKeyList: "Issued API-keys list",
+                apiKeyListCap: "Issued API-keys list",
+                apiKeyDirectShort: "Direct access key",
+                apiKeyFilter: "Key or domain",
+                apiKeyFilterApply: "Search",
+                apiKeyEnabled: "enabled",
+                apiKeyDisabled: "disabled",
+                apiKeyCreated: "created",
+
+                directKeyPurpose1: "API-ключ для приложений используется для обращений к REST-сервисам (https://geomixer.ru/docs/dev-manual/rest-api/get-started/) для подключения данных в настольные и/или веб-приложения. API-ключ для приложений НЕ может быть использован на публичных сайтах.",
+                directKeyPurpose2: "Ключ прямого доступа не может быть использован на сайте.",
+                apiKeySite: "Site:",
+                apiKeyReadAgreement: "Пожалуйста, ознакомьтесь с ",
+                apiKeyAgreement: "я согласен с ",
+                apiKeyConditions: "условиями использования",
+                apiKeyGet: "Get the key",
+                apiKeyUrge: "Необходимо принять условия использования",
+                apiKeyAccept: "Accept",
+                apiKeyCancel: "Cancel",
+                apiKeyReceive: "Ваш новый ключ",
+
+                ErrorApiKeySiteEmpty: "Поле сайт не может быть пустым!",
+                ErrorApiKeySiteInvalid: "Введите корректный адрес вашего сайта! Например, http://kosmosnimki.ru",
+                ErrorApiKeyConditionsNotAccepted: "Для получения ключа необходимо согласиться с условиями использования!",
+
+                clientRegistration: "oAuth Client Registration",
+                appName: "Client Application",
+                clientID: "Client ID (client_id)",
+                clientSecret: "Client secret key (client_secret)",
+                redirectUri: "Redirect endpoint URI",
+                registerClient: "Issue new secret key",
+
+                password: "Password",
+                getNew: "change",
+                cancelNew: "close",
+                passwordSaved: "saved",
+                passwordChanged: "changed",
+                old: "Old password",
+                newp: "New password",
+                repeat: "Repeat",
+                submitp: "Change",
+
+                megabyte: " MB",
+                yes: "yes",
+                no: "no",
+
+                ErrorNOT_AUTHORIZED: "Authorization is required!",
+                ErrorLoginEmpty: "Nickname is required!",
+                ErrorLoginFormat: "Invalid nickname! Allowable nickname ",
+                ErrorLoginExists: "Nickname duplicates!",
+                ErrorAppName: "Application name is required!",
+                ErrorRedirectUri: "Valid redirect uri is required!",
+                ErrorOldPassword: "Password is invalid!",
+                ErrorNewPassword: "Password is required!",
+                ErrorNotMatch: "Passwords does not match!",
+
+                ErrorCapchaRequired: "Input a number!",
+                ErrorWrongCapcha: "Number mismatch!",
+                ErrorEmailEmpty: "Email is required!",
+                ErrorWrongEmail: "Invalid email!",
+                ErrorEmailExists: "Email duplicates!",
+
+                dataUpdateSuccess: "Saved successfully",
+
+                registration: "Registration",
+                registrationPageAnnotation: "Please fill all fields",
+                capcha: "Input a number",
+                register: "Register",
+                backOn: "Back to",
+                loginPage: "Login",
+                close: "Close"
+
+            }
+            });
+        };
+
+        var ppBackScreen = $("div.profilePanel"),
+        ppMainParts;
+
+        var showProfile = function () {
+            if (!ppBackScreen.length) {
+                // Create
+                ppBackScreen = $('<div class="profilePanel"><table width="100%" height="100%"><tr><td><img src="img/progress.gif"></td></tr></table></div>').hide().appendTo('#all');
+                var ppFrame = $('<div class="profilePanel-content"></div>');
+                var ppScrollableContainer = $('<div class="profilePanel-scrollable"></div>');
+                var ppMenu = $('<div class="profilePanel-menu"></div>');
+                var success = $('<div class="UpdateMessage"><div class="success">' + _gtxt('ProfilePlugin.dataUpdateSuccess') + '</div></div>');
+                var fail = $('<div class="UpdateMessage"><div class="fail">' + 'Error' + '</div></div>');
+
+                // Pages
+                var pageTemplate =
+                    '<div class="page">' +
+                        '{{#each items}}' +
+                            '{{#if form_caption}}' +
+                                '<div class="form-caption {{#if first}}first{{/if}}">{{text}}</div>' +
+                            '{{/if}}' +
+                            '{{#if span}}' +
+                                '<div>{{text}}: <span {{#if id}}class="{{id}}"{{/if}}></span></div>' +
+                            '{{/if}}' +
+                            '{{#if span_nl}}' +
+                                '<div>{{text}}:<br/><span {{#if id}}class="{{id}}"{{/if}}></span></div>' +
+                            '{{/if}}' +
+                            '{{#if block}}' +
+                                '<div>' +
+                                    '{{#content}}' +
+                                        '{{#if p}}<p>{{text}}</p>{{/if}}' +
+                                        '{{#if link_button}}<div {{#if id}}class="{{id}} link_button"{{/if}}><span>{{text}}</span></div>{{/if}}' +
+                                    '{{/content}}' +
+                                '</div>' +
+                            '{{/if}}' +
+                            '{{#if text_input}}' +
+                                '<div onclick="$(this).children().focus()" class="editable">{{text}}: <input {{#if id}}class="{{id}}"{{/if}} type="text" value=""></div>' +
+                            '{{/if}}' +
+                            '{{#if text_area}}' +
+                                '<div onclick="$(this).children().focus()" class="editable">{{text}}: <textarea {{#if id}}class="{{id}}"{{/if}}></textarea></div>' +
+                            '{{/if}}' +
+                            '{{#if error}}' +
+                                '<div class="ErrorSummary">error</div>' +
+                            '{{/if}}' +
+                            '{{#if button_input}}' +
+                                '<div class="SubmitBlock" {{#if width}}style="width:{{width}}"{{/if}}>' +
+                                '<input type="button" {{#if id}}class="{{id}}"{{/if}} value="{{text}}"/>' +
+                                '<img src="img/progress.gif"></div>' +
+                            '{{/if}}' +
+
+                            '{{#if checkbox_group}}' +
+                                '<table>' +
+                                '{{#each checkbox_group}}' +
+                                    '<tr><td><input type="checkbox" class="{{id}}" id="pp{{id}}"></td><td><label for="pp{{id}}">{{text}}</label></td></tr>' +
+                                '{{/each}}' +
+                                '</table>' +
+                            '{{/if}}' +
+                            '{{#if table}}' +
+                                '<table border=0 class="{{id}}">' +
+                                '{{#columns}}' + '<tr><th>{{column1}}</th><th>{{column2}}</th><th>{{column3}}</th></tr>' + '{{/columns}}' +
+                                '{{#rows}}' + '<tr>{{#cells}}<td class="{{id}}">{{text}}</td>{{/cells}}</tr>' + '{{/rows}}' +
+                                '</table>' +
+                            '{{/if}}' +
+                        '{{/each}}' +
+                    '</div>';
+                var page1 = $(Handlebars.compile(pageTemplate)(
+                { id: "page1", items: [
+                    { span: true, id: "Email", text: _gtxt('ProfilePlugin.email') },
+                    { text_input: true, id: "Login LoginEmpty LoginFormat LoginExists correct", text: _gtxt('ProfilePlugin.login') },
+                    { text_input: true, id: "FullName correct", text: _gtxt('ProfilePlugin.fullName') },
+                    { text_input: true, id: "Phone correct", text: _gtxt('ProfilePlugin.phone') },
+                    { text_input: true, id: "Company correct", text: _gtxt('ProfilePlugin.company') },
+                    { text_input: true, id: "CompanyProfile correct", text: _gtxt('ProfilePlugin.companyProfile') },
+                    { text_input: true, id: "CompanyPosition correct", text: _gtxt('ProfilePlugin.companyPosition') },
+                    { checkbox_group: [
+                        { id: "IsCompany", text: _gtxt('ProfilePlugin.isCompany') },
+                        { id: "Subscribe", text: _gtxt('ProfilePlugin.subscribe') }
+                    ]
+                    },
+                    { error: true },
+                    { button_input: true, id: "SaveChanges", text: _gtxt('ProfilePlugin.saveChanges') }
+                ]
+                })).appendTo(ppFrame),
+                page2 = $(Handlebars.compile(pageTemplate)(
+                { id: "page2", items: [
+                    { table: true, id: "ResourceTable",
+                        columns: [{ column1: "", column2: _gtxt('ProfilePlugin.used'), column3: _gtxt('ProfilePlugin.remain')}],
+                        rows: [
+                            { cells: [
+                            { id: "FileStorage", text: _gtxt('ProfilePlugin.fileStorage') },
+                            { id: "FileStorageUsed value", text: "b1" },
+                            { id: "FileStorageRemain value", text: "c1"}]
+                            },
+                            { cells: [
+                            { id: "VectorLayerStorage", text: _gtxt('ProfilePlugin.vectorLayerStorage') },
+                            { id: "VectorLayerStorageUsed value", text: "b2" },
+                            { id: "VectorLayerStorageRemain value", text: "c2"}]
+                            },
+                            { cells: [
+                            { id: "Subscription", text: _gtxt('ProfilePlugin.subscription') },
+                            { id: "SubscriptionUsed value", text: "b3" },
+                            { id: "SubscriptionRemain value", text: "c3"}]
+                            }
+                        ]
+
+                    },
+                    { span: true, id: "SmsAvailable", text: _gtxt('ProfilePlugin.smsAvailable') }
+                ]
+                })).appendTo(ppFrame),
+                page3 = $(Handlebars.compile(pageTemplate)(
+                { id: "page3", items: [
+                    { form_caption: true, text: _gtxt('ProfilePlugin.apiKeys'), first: true },
+                    { block: true, content: [{ link_button: true, text: _gtxt('ProfilePlugin.apiKeyList'), id: "apiKeyList"}] },
+                    { block: true, content: [
+                         { p: true, text: _gtxt('ProfilePlugin.apiKeyInvite') },
+                         { link_button: true, text: _gtxt('ProfilePlugin.apiKeyDomain'), id: "apiKeyDomain" },
+                         { link_button: true, text: _gtxt('ProfilePlugin.apiKeyDirect'), id: "apiKeyDirect" }
+                    ]
+                    },
+                    { form_caption: true, text: _gtxt('ProfilePlugin.clientRegistration') },
+                    { text_input: true, id: "AppName correct", text: _gtxt('ProfilePlugin.appName') },
+                    { span: true, id: "ClientID", text: _gtxt('ProfilePlugin.clientID') },
+                    { span_nl: true, id: "ClientSecret", text: _gtxt('ProfilePlugin.clientSecret') },
+                    { text_input: true, id: "RedirectUri correct", text: _gtxt('ProfilePlugin.redirectUri') },
+                    { error: true },
+                    { button_input: true, id: "RegisterClient", text: _gtxt('ProfilePlugin.registerClient'), width: '180px' }
+                ]
+                })).appendTo(ppFrame);
+
+                // Profile submit
+                var successmess_timeout;
+                page1.find('.SaveChanges').click(function () {
+                    changePassForm.slideUp("fast");
+                    changePassControls.first().val(_gtxt('ProfilePlugin.getNew'));
+                    success.hide();
+                    var wait = $(this).next().css('visibility', 'visible');
+                    clearTimeout(successmess_timeout);
+
+                    sendCrossDomainPostRequest(mykosmosnimki + "/Handler/Settings", { WrapStyle: 'message',
+                        Login: page1.find('.Login').val().trim(),
+                        FullName: page1.find('.FullName').val().trim(),
+                        Phone: page1.find('.Phone').val().trim(),
+                        Company: page1.find('.Company').val().trim(),
+                        Profile: page1.find('.CompanyProfile').val().trim(),
+                        Position: page1.find('.CompanyPosition').val().trim(),
+                        IsCompany: page1.find('.IsCompany').is(":checked"),
+                        Subscribe: page1.find('.Subscribe').is(":checked")
+                    },
+                          function (response) {
+                              wait.css('visibility', 'hidden');
+                              if (response.Status.toLowerCase() == 'ok' && response.Result) {
+                                  //page1.children('.ErrorSummary').text('error').css('visibility', 'hidden');
+                                  page1.children('.ErrorSummary').hide();
+                                  success.show();
+                                  successmess_timeout = setTimeout(function () { success.hide(); }, 2000);
+                              }
+                              else {
+                                  if (response.Result.length > 0 && response.Result[0].Key)
+                                      page1.trigger('onerror', [response.Result[0].Key, response.Result[0].Value.Errors[0].ErrorMessage]);
+                                  else
+                                      page1.trigger('onerror', response.Result.Message);
+                              }
+                          });
+                });
+
+                // Register client submit
+                var newsecret_timeout;
+                page3.find('.RegisterClient').click(function () {
+
+                    closeApiKeyDialog();
+                    var wait = $(this).next().css('visibility', 'visible');
+                    var client_secret = page3.find('.ClientSecret').removeClass('new');
+                    clearTimeout(newsecret_timeout);
+
+                    sendCrossDomainPostRequest(mykosmosnimki + "/Handler/RegisterClient", { WrapStyle: 'message',
+                        AppName: page3.find('.AppName').val(), RedirectUri: page3.find('.RedirectUri').val()
+                    },
+                          function (response) {
+                              wait.css('visibility', 'hidden');
+                              if (response.Status.toLowerCase() == 'ok' && response.Result) {
+                                  client_secret.addClass('new').text(response.Result.Key);
+                                  newsecret_timeout = setTimeout(function () { client_secret.removeClass('new'); }, 2000);
+                                  //page3.children('.ErrorSummary').css('visibility', 'hidden');
+                                  page3.children('.ErrorSummary').hide();
+                              }
+                              else {
+                                  page3.trigger('onerror', response.Result.Message);
+                              }
+                          });
+                });
+                var ppPages = ppFrame.find('div.page').hide();
+
+                // Change password form
+                var changePassControls = $(Handlebars.compile(
+                '<input style="width:80px; float:right; margin:6px 12px 0 0;" type="button" value="{{i "ProfilePlugin.getNew"}}"/>' +
+                '<div style="border:none; font-weight:normal;margin:10px 0 10px 12px;">{{i "ProfilePlugin.password"}} <span class="PasswordState">{{i "ProfilePlugin.passwordSaved"}}</span></div>')())
+                .insertAfter(page1.find('.Email').parent()),
+                changePassForm = $(Handlebars.compile(
+                '<div class="newpass-form">' +
+                    '{{i "ProfilePlugin.old"}}: <input type="password" class="OldPassword" value=""><br/>' +
+                    '{{i "ProfilePlugin.newp"}}: <input type="password" class="NewPassword NotMatch" value=""><br/>' +
+                    '{{i "ProfilePlugin.repeat"}}: <input type="password" class="PasswordRepeat NotMatch" value=""><br/>' +
+                    '<div class="ErrorSummary" style="padding-top:6px"></div>\
+                <div class="SubmitBlock">\
+                <input type="button" class="ChangePassword" value="{{i "ProfilePlugin.submitp"}}"/>\
+                <img src="img/progress.gif"></div>' +
+
+                '</div>')()),
+                changePass_timeout;
+
+                changePassForm.insertAfter(changePassControls.last());
+                changePassForm.find('.ChangePassword').click(function () {
+                    //clearPageErrors($(this));
+                    //clearPageErrors(page1);
+                    var wait = $(this).next().css('visibility', 'visible');
+                    sendCrossDomainPostRequest(mykosmosnimki + "/Handler/ChangePassword", { WrapStyle: 'message',
+                        oldpassword: changePassForm.children('.OldPassword').val().trim(),
+                        password: changePassForm.children('.NewPassword').val().trim(),
+                        repeat: changePassForm.children('.PasswordRepeat').val().trim()
+                    },
+                    function (response) {
+                        wait.css('visibility', 'hidden');
+                        clearTimeout(changePass_timeout);
+                        if (response.Status.toLowerCase() == 'ok' && response.Result) {
+                            var state = changePassForm.hide().prev().find('.PasswordState').text(_gtxt('ProfilePlugin.passwordChanged')).addClass('changed');
+                            changePassControls.first().val(_gtxt('ProfilePlugin.getNew'));
+                            changePass_timeout = setTimeout(function () {
+                                state.fadeOut("slow", function () {
+                                    $(this).text(_gtxt('ProfilePlugin.passwordSaved')).removeClass('changed');
+                                }).fadeIn("slow");
+                            }, 2000);
+                        }
+                        else
+                            changePassForm.trigger('onerror', response.Result.Message);
+                    });
+                });
+
+                changePassControls.first().click(function (e) {
+                    if (changePassForm.is(':visible')) {
+                        changePassForm.slideUp("fast");
+                        $(this).val(_gtxt('ProfilePlugin.getNew'));
+                    } else {
+                        changePassForm.slideDown("fast");
+                        $(this).val(_gtxt('ProfilePlugin.cancelNew'));
+                        changePassForm.trigger('onrender');
+                    }
+                });
+
+                // API-keys dialogs
+                var closeApiKeyDialog = function () {
+                    var akd = $('.apiKeyDialog');
+                    if (akd.length > 0) {
+                        akd.find('.licence').mCustomScrollbar("destroy");
+                        akd.find('.list').mCustomScrollbar("destroy");
+                        removeDialog($('.apiKeyDialog').parent()[0]);
+                    }
+                },
+                showApiKeyDialog = function (dtype) {
+                    //if ($('.apiKeyDialog').length > 0) {
+                    //  return;
+                    //}
+
+                    closeApiKeyDialog();
+                    clearPageErrors($('.page:visible'));
+
+                    if (dtype == 'List') {
+                        var startW = 556, startH = 340,
+                        akDialog = $('<div class="apiKeyDialog"></div>'),
+                        wait = $('<div style="position:absolute; top:120px; left:270px"><img src="img/progress.gif"></div>');
+                        akDialog.append(wait);
+                        window.showDialog(_gtxt('ProfilePlugin.apiKey' + dtype + 'Cap'), akDialog[0], startW, startH)
+                        .style.overflow = 'hidden';
+                        akDialog.parent().on("dialogresizestart", function (event, ui) {
+                            //startW = ui.size.width;
+                            //startH = ui.size.height;
+                        })
+                        .on("dialogresize", function (event, ui) {
+                            var list = akDialog.find('.list');
+                            list.height(list.height() + ui.size.height - startH);
+                            //startW = ui.size.width;
+                            startH = ui.size.height;
+                        });
+                        sendCrossDomainJSONRequest(mykosmosnimki
+                         + "/handler/apikeys?wrapstyle=func", function (response) {
+                             if (parseResponse(response) || response.Status == 'OK') {
+                                 wait.remove();
+                                 if (response.Result && response.Result.length > 0) {
+                                    var list = $('<div class="list"></div>'),
+    								apiKeyActivation = function(){
+    									var checkboxes = $('input[type="checkbox"]', list)
+    									.click(function(){
+    										checkboxes.prop('disabled', true);
+    										var progress = $('<span>&nbsp;</span><img src="img/progress.gif">');
+    										var checkbox = $(this);
+    										checkbox.parent().append(progress);									
+    										sendCrossDomainPostRequest(mykosmosnimki + "/Handler/ActivateKey", { 
+    											WrapStyle: 'message',
+    											Apikey: checkbox.val()
+    										},
+    										function (apiKeyResp) {
+    											checkboxes.prop('disabled', false);
+    											progress.remove();
+    											if (apiKeyResp.Status.toLowerCase() == 'ok') {
+    												for (var i = 0; i < response.Result.length; ++i)
+    													if (response.Result[i].Apikey==apiKeyResp.Result.Apikey){
+    														response.Result[i].IsActive = apiKeyResp.Result.IsActive;
+    														break;
+    													}
+    											}
+    											else{
+    												console.log(response);												
+    											}
+    												
+    										});
+    									});
+    								},
+                                    createTbl = function (filter) {
+                                        var tbl = '<div><table border=0>';
+                                        var re = new RegExp(filter, 'i');
+                                        for (var i = 0; i < response.Result.length; ++i)
+                                            if (filter == null || filter.search(/\S/) < 0 || response.Result[i].Apikey.search(re) != -1 || (response.Result[i].Domain != 'Direct' && response.Result[i].Domain.search(re) != -1))
+                                                tbl += '<tr><td>' + response.Result[i].Apikey + '</td><td style="word-break:break-all">' + (response.Result[i].AllowDirect ? _gtxt('ProfilePlugin.apiKeyDirectShort') : response.Result[i].Domain) +
+                                                //'</td><td>' + (response.Result[i].IsActive ? '<i class="icon-check">' : '') +
+    											'</td><td>' + '<input type="checkbox" '+(response.Result[i].IsActive ? 'checked' : '') + ' value="' + response.Result[i].Apikey + '">' +
+                                                '</td><td>' + response.Result[i].Created + '</td></tr>';
+                                        tbl += '</table></div>';
+                                        return tbl;
+                                    };
+                                     var filter = $('<div style="padding-left:6px">' + _gtxt('ProfilePlugin.apiKeyFilterApply') + ': <input type="text" placeholder="' + _gtxt('ProfilePlugin.apiKeyFilter') + '"></div>').appendTo(akDialog);
+                                     filter.find('input[type="text"]').keyup(function (e) {
+                                         list.find('table').parent().remove();
+                                         list.mCustomScrollbar('destroy')
+                                         .append(createTbl($(this).val())).mCustomScrollbar();
+    									 apiKeyActivation();
+                                         keys = list.find('table');
+                                         resize(akDialog.parent().dialog("option", "width") - startW);
+                                     });
+                                     list.appendTo(akDialog)
+                                    .append($(createTbl()))
+                                    .mCustomScrollbar();
+    								apiKeyActivation();
+    								
+                                     var header = list.before($(Handlebars.compile('<table border=0><tr><th>ключ</th><th>тип/сайт</th><th>активен</th><th>{{i "ProfilePlugin.apiKeyCreated"}}</th></tr></table>')())).prev(),
+                                    keys = list.find('table'),
+                                    resize = function (dif) {
+                                        var th = header.find('tr th');
+                                        var td = keys.find('tr:eq(0) td');
+                                        header.width(keys.width(514 + dif).width());
+                                        th.eq(0).width(td.eq(0).width(90).width());
+                                        th.eq(2).width(td.eq(2).width(70).width());
+                                        th.eq(3).width(td.eq(3).width(90).width());
+                                        th.eq(1).width(td.eq(1).width());
+                                    };
+                                     akDialog.parent().on("dialogresize", function (event, ui) {
+                                         resize(ui.size.width - startW);
+                                     });
+                                     resize(0);
+                                 }
+                             }
+                             else {
+                                 removeDialog(akDialog.parent()[0]);
+                             }
+                         });
+                    }
+                    else {
+                        var fordirect = dtype == 'Direct' ?
+                        '<div>{{{i "ProfilePlugin.directKeyPurpose1"}}}</div>' +
+                        '<div>{{i "ProfilePlugin.directKeyPurpose2"}}</div>'
+                        : '';
+                        var fordomain = dtype == 'Domain' ?
+                        '<div>{{i "ProfilePlugin.apiKeySite"}}<input type="text" tabindex="2" class="ApiKeySite ApiKeySiteEmpty ApiKeySiteInvalid" value="http://"></div>'
+                        : '';
+                        var akForm = $(Handlebars.compile('<div class="apiKeyDialog">' +
+                        '<div class="first">' +
+                        '<div>{{i "ProfilePlugin.apiKeyReadAgreement"}}<span class="showLicence hyperLink">{{i "ProfilePlugin.apiKeyConditions"}}</span></div>' +
+                        '<div><div style="float:left;margin:0"><input type="checkbox" tabindex="1" id="agree" class="agree"></div><div style="padding-left:10px"><label for="agree">{{i "ProfilePlugin.apiKeyAgreement"}} {{i "ProfilePlugin.apiKeyConditions"}}</div></div>' +
+                        fordomain +
+                        fordirect +
+                        '<div class="spacer"></div>' +
+                        '<div class="ErrorSummary"><span class="fail"></span><span class="success"></span><img class="wait" src="img/progress.gif"></div>' +
+                        '<div class="submit"><input tabindex="3" type="button" class="get" title="{{i "ProfilePlugin.apiKeyUrge"}}" value="{{i "ProfilePlugin.apiKeyGet"}}"/></div>' +
+                        '</div>' +
+                        '<div class="licence"></div>' +
+                        '<div class="submit"><input tabindex="1" type="button" class="accept" value="{{i "ProfilePlugin.apiKeyAccept"}}"/><input tabindex="2" type="button" class="cancel" value="{{i "ProfilePlugin.apiKeyCancel"}}"/></div>' +
+                        '</div>')());
+
+                        var licence = akForm.find('.licence'),
+                        spacer = akForm.find('.spacer'),
+                        startH;
+                        licence.hide().next().hide();
+                        if (dtype == 'Domain')
+                            spacer.height('20px');
+
+                        var summary = akForm.find('.ErrorSummary'),
+                        wait = summary.children('.wait'),
+                        site = akForm.find('.ApiKeySite'),
+                        agree = akForm.find('.agree'),
+                        getKey = akForm.find('.get').css('opacity', 0.5)
+                        .click(function () {
+                            var respHandler = function (response) {
+                                wait.css('visibility', 'hidden');
+                                if (response.Status.toLowerCase() == 'ok' && response.Result) {
+                                    summary.children('span.success').text(_gtxt('ProfilePlugin.apiKeyReceive') + ' ' + response.Result.Key);
+                                }
+                                else {
+                                    summary.children('span.fail').text(_gtxt('ProfilePlugin.Error' + response.Result.Message));
+                                    akForm.find('.' + response.Result.Message).addClass('error');
+                                }
+                            };
+                            clearError();
+                            wait.css('visibility', 'visible');
+                            if (site.length)
+                                sendCrossDomainPostRequest(mykosmosnimki
+                            + "/Handler/CreateKey", { WrapStyle: 'message', domain: site.val(), agree: agree.is(':checked') }
+                            , respHandler);
+                            else
+                                sendCrossDomainPostRequest(mykosmosnimki
+                            + "/Handler/CreateDirect", { WrapStyle: 'message', agree: agree.is(':checked') }
+                            , respHandler);
+                        });
+                        getKey.prop('disabled', true);
+                        site.prop('disabled', true).keydown(function (e) {
+                            if ($(this).is('.error')) clearError();
+                            if (e.which == 13)
+                                getKey.click();
+                        });
+                        var clearError = function () {
+                            summary.children('span').text('');
+                            site.removeClass('error');
+                        };
+                        akForm.find('.showLicence').click(function () {
+                            clearError();
+                            licence.show().prev().hide();
+                            licence.next().show();
+                            if (licence.text() == '')
+                                licence.load(gmxCore.getModulePath('ProfilePlugin') + 'license.html', function () { licence.mCustomScrollbar(); });
+                        });
+                        licence.next('div').children('input').click(function () {
+                            licence.next().hide();
+                            licence.hide().prev().show();
+                        })
+                        .first().click(function () {
+                            agree[0].checked = true;
+                            agree.change();
+                        })
+                        .next('.cancel').click(function () {
+                            agree[0].checked = false;
+                            agree.change();
+                        });
+                        agree.change(function () {
+                            getKey.prop('disabled', !agree.is(':checked'));
+                            site.prop('disabled', !agree.is(':checked'));
+
+                            if (agree.is(':checked')) {
+                                getKey.css('opacity', 1)
+                                .focus()
+                                .attr('title', _gtxt('ProfilePlugin.apiKeyGet'));
+                            }
+                            else {
+                                getKey.css('opacity', 0.5)
+                                .attr('title', _gtxt('ProfilePlugin.apiKeyUrge'));
+                            }
+                        });
+
+                        window.showDialog(_gtxt('ProfilePlugin.apiKey' + dtype + 'Cap'), akForm[0], 555, 320);
+                        akForm.parent('.ui-dialog-content').css('overflow', 'hidden');
+                        akForm.parent().on("dialogresizestart", function (event, ui) { startH = ui.size.height; })
+                        .on("dialogresize", function (event, ui) {
+                            licence.height(licence.height() + ui.size.height - startH);
+                            spacer.height(spacer.height() + ui.size.height - startH);
+                            startH = ui.size.height;
+                        });
+                    }
+                };
+                page3.find('.apiKeyDomain').click(function () { showApiKeyDialog('Domain'); });
+                page3.find('.apiKeyDirect').click(function () { showApiKeyDialog('Direct'); });
+                page3.find('.apiKeyList').click(function () { showApiKeyDialog('List'); });
+
+                ppPages.find('input[type="text"], input[type="password"]').keyup(function (e) {
+                    if (e.which == 13) {
+                        var submit = $(this).siblings('div.SubmitBlock').children('input[type="button"]');
+                        if (!submit.length)
+                            submit = $(this).parent().siblings('div.SubmitBlock').children('input[type="button"]');
+                        submit.click();
+                    }
+                    else
+                        clearInputErrors($(this));
+                })
+                .focusin(function (e) {
+                    closeApiKeyDialog();
+                    clearInputErrors($(this));
+                });
+
+                // Error display
+                var clearInputErrors = function (input) {
+                    if (input.val().search(/\S/) != -1 && input.is('.error')) {
+                        var es = input.nextAll('.ErrorSummary');
+                        if (es.length == 0)
+                            es = input.parent().nextAll('.ErrorSummary');
+                        if (input.is('.NotMatch')) {
+                            var s = input.siblings('.NotMatch');
+                            if (s.val() === input.val()) {
+                                input.removeClass('error');
+                                s.removeClass('error');
+                                es.slideUp(); //.hide();
+                            }
+                        }
+                        else {
+                            input.removeClass('error').addClass('correct');
+                            es.slideUp(); //.hide();
+                        }
+                    }
+                };
+                var clearPageErrors = function (page) {
+                    page.find('.ErrorSummary').hide();
+                    page.find('.error').removeClass('error');
+                };
+                changePassForm.bind('onerror', function (e, m) {
+                    $(this).children('.ErrorSummary').text(_gtxt('ProfilePlugin.Error' + m)).slideDown('slow');
+                    $(this).find('.' + m).addClass('error');
+                    $(this).find(':password,:text').filter(function () { return $(this).val() == ""; }).addClass('error');
+                    return false;
+                });
+                changePassForm.bind('onrender', function () {
+                    $(this).children('input[type="password"]').val('');
+                    clearPageErrors($(this));
+                    clearPageErrors(page1);
+                    return false;
+                });
+                ppPages.bind('onerror', function (e, m1, m2) {
+                    var m = _gtxt('ProfilePlugin.Error' + m1);
+                    if (m2)
+                        m += " " + m2;
+                    $(this).children('.ErrorSummary').text(m).slideDown('slow');
+                    $(this).find('.' + m1).removeClass('correct').addClass('error');
+                    return false;
+                });
+                ppPages.bind('onrender', function () {
+                    clearPageErrors($(this));
+                    changePassForm.hide();
+                    changePassControls.first().val(_gtxt('ProfilePlugin.getNew'));
+                    return false;
+                });
+
+                ppPages.first().show();
+                ppScrollableContainer.hide().appendTo('#all').append(ppFrame);
+
+                // Menu
+                var menuEntryTemplate = '<div class="MenuEntry">{{text}}</div>';
+                var showPage = function (e, page) {
+
+                    closeApiKeyDialog();
+
+                    ppMenu.children('.MenuEntry').removeClass('selected');
+                    ppPages.hide();
+                    page.show();
+                    $(e.target).removeClass('targeted').addClass('selected');
+                    page.trigger('onrender');
+                };
+                $(Handlebars.compile(menuEntryTemplate)({ text: _gtxt('ProfilePlugin.profile') })).appendTo(ppMenu).click(function (e) { showPage(e, page1); });
+                $(Handlebars.compile(menuEntryTemplate)({ text: _gtxt('ProfilePlugin.billing') })).appendTo(ppMenu).click(function (e) { showPage(e, page2); });
+                $(Handlebars.compile(menuEntryTemplate)({ text: _gtxt('ProfilePlugin.developer') })).appendTo(ppMenu).click(function (e) { showPage(e, page3); });
+
+                //wait.appendTo(ppMenu).hide();
+                success.appendTo(ppMenu).hide();
+                fail.appendTo(ppMenu).hide();
+                ppMenu.hide().appendTo('#all');
+                var ppMenuEntries = ppMenu.children('.MenuEntry');
+                ppMenuEntries.first().addClass('selected');
+                ppMenuEntries.mouseover(function (e) { if (!$(e.target).is('.selected')) $(e.target).addClass('targeted'); });
+                ppMenuEntries.mouseout(function (e) { if (!$(e.target).is('.selected')) $(e.target).removeClass('targeted'); });
+
+                // All together
+                ppMainParts = $([ppScrollableContainer, ppMenu]).map(function () { return this[0]; });
+                ppMainParts.data('ondataload', function () {
+                    if (ppBackScreen.is(':visible')) {
+                        ppPages.trigger('onrender');
+                        ppMainParts.show();
+                    }
+                });
+                $('body>div>div').mousedown(function (e) {
+                    if (!ppMainParts.is($(e.target)) && !ppMainParts.find($(e.target)).length) {
+                        ppBackScreen.hide();
+                        ppMainParts.hide();
+                        closeApiKeyDialog();
+                        if (!nsGmx.leafletMap.gmxControlsManager.get('layers')) {
+                            nsGmx.leafletMap.addControl(overlays);
+                        }
+                    }
+                });
+                ppScrollableContainer.mCustomScrollbar();
+                $(window).resize(resizePanel);
+            }
+
+            // Show
+            var overlays = nsGmx.leafletMap.gmxControlsManager.get('layers');
+            ppBackScreen.show();
+            fillProfile(ppMainParts.data('ondataload'), function () { ppBackScreen.hide(); });
+            resizePanel();
+        };
+
+        var fillProfile = function (onsuccess, onerror) {
+            sendCrossDomainJSONRequest(mykosmosnimki + "/currentuser.ashx", function (response) {
+                if (parseResponse(response) && response.Result) {
+                    var content = $('.profilePanel-content');
+                    content.find('.Email').text(response.Result[0].Email);
+                    content.find('.PasswordState').text(_gtxt('ProfilePlugin.passwordSaved'));
+                    content.find('.Login').val(response.Result[0].Login);
+                    content.find('.FullName').val(response.Result[0].FullName);
+                    content.find('.Phone').val(response.Result[0].Phone);
+                    content.find('.Company').val(response.Result[0].Company);
+                    content.find('.CompanyProfile').val(response.Result[0].CompanyProfile);
+                    content.find('.CompanyPosition').val(response.Result[0].CompanyPosition);
+                    content.find('.Subscribe').prop('checked', response.Result[0].Subscribe);
+                    content.find('.IsCompany').prop('checked', response.Result[0].IsCompany);
+                    fillBillingPage(content, response);
+                    fillDeveloperPage(content, response);
+                    onsuccess();
+                }
+                else {
+                    onerror();
+                }
+            });
+        };
+
+        var fillBillingPage = function (content, response) {
+            content.find('.FileStorageUsed').text((response.Result[0].FileStorageUsed / 1000000).toFixed(2) + _gtxt('ProfilePlugin.megabyte'));
+            content.find('.FileStorageRemain').text(response.Result[0].FileStorageAvailable == null ? '' : ((response.Result[0].FileStorageAvailable - response.Result[0].FileStorageUsed) / 1000000).toFixed(2) + _gtxt('ProfilePlugin.megabyte'));
+            content.find('.VectorLayerStorageUsed').text((response.Result[0].VectorLayerStorageUsed / 1000000).toFixed(2) + _gtxt('ProfilePlugin.megabyte'));
+            content.find('.VectorLayerStorageRemain').text(response.Result[0].VectorLayerStorageAvailable == null ? '' : ((response.Result[0].VectorLayerStorageAvailable - response.Result[0].VectorLayerStorageUsed) / 1000000).toFixed(2) + _gtxt('ProfilePlugin.megabyte'));
+            content.find('.VectorLayers').text(response.Result[0].VectorLayers);
+            content.find('.VectorLayerObjects').text(response.Result[0].VectorLayerObjects);
+
+            content.find('.SmsAvailable').text(response.Result[0].SmsAvailable == null || response.Result[0].SmsAvailable > 0 ? _gtxt('ProfilePlugin.yes') : _gtxt('ProfilePlugin.no'));
+            content.find('.SubscriptionUsed').text(response.Result[0].SubscriptionUsed != null ? response.Result[0].SubscriptionUsed : '');
+            content.find('.SubscriptionRemain').text(response.Result[0].SubscriptionRemain != null ? response.Result[0].SubscriptionRemain : '');
+        };
+
+        var fillDeveloperPage = function (content, response) {
+            content.find('.AppName').val(response.Result[0].AppName);
+            content.find('.ClientID').text(response.Result[0].ID);
+            content.find('.ClientSecret').text(response.Result[0].ClientSecret);
+            content.find('.RedirectUri').val(response.Result[0].RedirectUri);
+        };
+
+        var resizePanel = function () {
+            var h = $('#leftMenu').css('height');
+            $('.profilePanel, .profilePanel-scrollable, .profilePanel-menu').height(h);
+        };
+
+        // RegistrationForm
+        var showRegistrationForm = function (afterRegistration) {
+            var registrationForm = $(Handlebars.compile(
+            '<table style="width:100%;height:100%;" border="0"><tr><td>\
+        <form>\
+            <table class="registrationForm" border="0">\
+            <tr><td colspan="2" class="header">{{i "ProfilePlugin.registrationPageAnnotation"}}</td></tr>\
+			<tr><td colspan="2">\
+			<table border="0"><tr>\
+			<td>{{i "ProfilePlugin.firstName"}}</td><td align="right"><input type="text" tabindex="1" class="FirstName" id="RegFirstName" name="RegFirstName"/></td>\
+			<td class="LastNameLbl">{{i "ProfilePlugin.lastName"}}</td><td align="right"><input type="text" tabindex="1" class="LastName" id="RegLastName" name="RegLastName"/></td>\
+			</tr></table>\
+			</td></tr>\
+            <tr><td colspan="2"><table border="0"><tr><td>{{i "ProfilePlugin.email"}}</td><td align="right"><input type="text" tabindex="1" class="Login EmailEmpty WrongEmail EmailExists" id="RegEmail" name="RegEmail"/></td></tr></table></td></tr>\
+            <tr>\
+                <td>\
+                    <table border="0"><tr><td>{{i "ProfilePlugin.password"}}</td><td align="right"><input tabindex="2" type="password" class="Password NewPassword NotMatch"/></td></tr></table>\
+                </td>\
+                <td>\
+                    <table border="0"><tr><td>{{i "ProfilePlugin.repeat"}}</td><td align="right"><input type="password" tabindex="3" class="Repeat NotMatch"/></td></tr></table>\
+                </td>\
+            </tr>\
+            <tr>\
+                <td>\
+                    <table border="0"><tr><td>{{i "ProfilePlugin.login"}}</td><td align="right"><input type="text" tabindex="4" class="NickName LoginEmpty LoginFormat LoginExists" id="RegNick" name="RegNick"/></td></tr></table>\
+                </td>\
+                <td>\
+                    <table border="0"><tr><td>{{i "ProfilePlugin.capcha"}}</td><td align="right"><input type="text" tabindex="5" class="Capcha CapchaRequired WrongCapcha"/></td><td align="right">' +
+                        '<img src="' + mykosmosnimki + '/Account/Captcha?r=' + Math.round(Math.random() * Math.pow(10, 9)) + '">' +
+                        '</td></tr></table>\
+            </tr>\
+            <tr><td colspan="2" class="submit">\
+                <div class="ErrorSummary"></div>\
+                <div class="SubmitBlock">\
+                <input tabindex="6" type="button" value="{{i "ProfilePlugin.register"}}"/>\
+                <img src="img/progress.gif"></div>\
+            </td></tr>\
+            <tr><td colspan="2">\
+            <div class="policy">\
+            Нажимая на кнопку, вы соглашаетесь с <a target="blank" href="//my.kosmosnimki.ru/Docs/Политика конфиденциальности.pdf">политикой конфиденциальности</a>\
+            и <a target="blank" href="//my.kosmosnimki.ru/Docs/Политика оператора в отношении обработки и защиты персональных данных.pdf">политикой оператора</a> в отношении обработки и защиты персональных данных\
+            </td></tr>\
+            </table>\
+        </form>\
+        </td></tr></table>'
+            )()),
+            confirmScreen = $(Handlebars.compile('<div class="registrationConfirm"><div></div><div><input type="button" value="{{i "ProfilePlugin.close"}}"/></div></div>')()),
+            //errorSummaryHeight = 0,
+            submit = registrationForm.find('input[type="button"]').click(function () {
+                var errorSummary = registrationForm.find('.ErrorSummary'),
+                wait = submit.next('img').css('visibility', 'visible');
+                registrationForm.find('form').submit();
+
+                _mapHelper.createPermalink(function (id) {
+                    sendCrossDomainPostRequest(mykosmosnimki + "/Handler/RegistrationExt", { WrapStyle: 'message',
+    					firstName: registrationForm.find('.FirstName').val(),
+    					lastName: registrationForm.find('.LastName').val(),
+                        email: registrationForm.find('.Login').val(),
+                        login: registrationForm.find('.NickName').val(),
+                        password: registrationForm.find('.Password').val(),
+                        repeat: registrationForm.find('.Repeat').val(),
+                        captcha: registrationForm.find('.Capcha').val(),
+                        permalink: "http://" + window.location.host + window.location.pathname + "?permalink=" + id + (defaultMapID == globalMapName ? "" : ("&" + globalMapName))
+                    },
+                    function (response) {
+
+                        registrationForm.find('.Capcha').val("");
+                        registrationForm.find('input[type="button"]').focus();
+                        wait.css('visibility', 'hidden');
+
+                        if (response.Status.toLowerCase() == 'ok' && response.Result) {
+                            //afterRegistration();
+                            regFormDialog.style.height = errorSummaryHeight;
+                            registrationForm.fadeOut("slow", function () {
+                                $(this).replaceWith(confirmScreen); //.fadeIn("slow");
+                            });
+                            confirmScreen.children('div').first().text(response.Result.Message);
+                            confirmScreen.find('input').click(function () { removeDialog(regFormDialog); });
+                        }
+                        else {
+                            registrationForm.find('.error').removeClass('error');
+                            errorSummary.text('');
+                            registrationForm.find(':password,:text').filter(function () { return $(this).val() == ""; }).addClass('error');
+                            if (response.Result.length > 0 && response.Result[0].Key) {
+                                errorSummaryHeight = errorSummary.text(
+                                _gtxt('ProfilePlugin.Error' + response.Result[0].Key) + " " + response.Result[0].Value.Errors[0].ErrorMessage).height();
+                                registrationForm.find('.' + response.Result[0].Key).addClass('error');
+                            }
+                            else {
+                                errorSummaryHeight = errorSummary.text(_gtxt('ProfilePlugin.Error' + response.Result.Message)).height();
+                                registrationForm.find('.' + response.Result.Message).addClass('error');
+                            }
+                            errorSummary.slideDown();
+                            registrationForm.find('img').first().attr("src", mykosmosnimki + '/Account/Captcha/sort?r=' + Math.round(Math.random() * Math.pow(10, 9)));
+                        }
+                    });
+                });
+            });
+
+            registrationForm.find('form').submit(function (e) {
+                e.preventDefault();
+            });
+
+            var regFormDialog = window.showDialog(_gtxt('ProfilePlugin.registration'), registrationForm[0], 560, 272),
+            dialogFrame = $(regFormDialog).dialog('option', 'resizable', false);
+            regFormDialog.style.overflow = 'hidden';
+            errorSummaryHeight = regFormDialog.style.height;
+            regFormDialog.style.height = '';
+
+            var clearError = function () {
+                registrationForm.find('.error').removeClass('error');
+                registrationForm.find('.ErrorSummary').text('').slideUp();
+            };
+
+            registrationForm.find('input[type="text"], input[type="password"]')
+            .keydown(function (e) {
+                if (e.which == 13)
+                    submit.click();
+            })
+            .focusin(clearError);
+
+            return regFormDialog;
+        };
+
+        gmxCore.addModule('ProfilePlugin', {
+            pluginName: 'ProfilePlugin',
+            showProfile: showProfile,
+            showRegistrationForm: showRegistrationForm,
+            afterViewer: function () {
+                checkExist = setInterval(function () {
+                    if (nsGmx.widgets.authWidget && nsGmx.widgets.authWidget.getUserInfo() != null) {
+                        if (nsGmx.widgets.authWidget.getUserInfo().Login != null) {
+                            var a = $('a:contains("' + nsGmx.Translations.getText('auth.myAccount') + '")');
+                            a.attr({ 'class': 'dropdownMenuWidget-dropdownItemAnchor' });
+                            a.siblings('div').remove();
+                            a.attr('href', 'javascript:void(0)');
+                            a.removeAttr('target');
+                            a.click(function (event) {
+                                showProfile();
+                                event.stopPropagation();
+                            });
+                        }
+                        else {
+                            var showLoginDialog = nsGmx.widgets.authWidget._authManager.login,
+                            regForm;
+                            nsGmx.widgets.authWidget._authManager.login = function () {
+                                if (regForm && $(regForm).is(':visible')) {
+                                    removeDialog(regForm);
+                                    regForm = false;
+                                }
+                                showLoginDialog();
+                                var regLink = $(':ui-dialog .registration');
+                                regLink.off("click").click(function () {
+                                    regLink.parents(':ui-dialog').dialog("close");
+                                    regForm = showRegistrationForm(function () {
+                                        window.location.reload();
+                                    });
+                                });
+                            };
+                        }
+                        clearInterval(checkExist);
+                    }
+                }, 100);
+            }
+        },
+        {
+            // css: 'ProfilePlugin.css',
+            init: function (module, path) {
+                initTranslations();
+            }
+        });
+    })(jQuery);
 
     //Тут кратко описываются разные внешние классы для системы генерации документации
 
@@ -24033,7 +28345,7 @@
                                 id: 'mapTabsNew',
                                 title: _gtxt('Добавить закладку'),
                                 func: function() {
-                                    mapHelp.tabs.load('mapTabs');
+                                    mapHelp$1.tabs.load('mapTabs');
                                     _queryTabs.add();
                                 }
                             },
@@ -24144,8 +28456,8 @@
                     id: 'viewMenu',
                     title: _gtxt('Вид'),
                     childs: [
-                        { id: 'externalMaps', title: _gtxt('Дополнительные карты'), func: mapHelp.externalMaps.load },
-                        { id: 'mapTabs', title: _gtxt('Закладки'), func: mapHelp.tabs.load },
+                        { id: 'externalMaps', title: _gtxt('Дополнительные карты'), func: mapHelp$1.externalMaps.load },
+                        { id: 'mapTabs', title: _gtxt('Закладки'), func: mapHelp$1.tabs.load },
                         { id: 'DrawingObjects', title: _gtxt('Объекты'), func: oDrawingObjectGeomixer.Load }
                         // {id:'searchView',     title: _gtxt('Результаты поиска'),    func: oSearchControl.Load}
                     ]
@@ -24333,7 +28645,7 @@
                         title: _gtxt('Добавить закладку'),
                         addBefore: 'drawing'
                     }).on('click', function() {
-                        mapHelp.tabs.load('mapTabs');
+                        mapHelp$1.tabs.load('mapTabs');
                         _queryTabs.add();
                     }).addTo(lmap);
 
@@ -24534,8 +28846,8 @@
                     id: 'helpMenu',
                     title: _gtxt('Справка'),
                     childs: [
-                        { id: 'usage', title: _gtxt('Использование'), onsel: mapHelp.mapHelp.load, onunsel: mapHelp.mapHelp.unload },
-                        { id: 'serviceHelp', title: _gtxt('Сервисы'), onsel: mapHelp.serviceHelp.load, onunsel: mapHelp.serviceHelp.unload },
+                        { id: 'usage', title: _gtxt('Использование'), onsel: mapHelp$1.mapHelp.load, onunsel: mapHelp$1.mapHelp.unload },
+                        { id: 'serviceHelp', title: _gtxt('Сервисы'), onsel: mapHelp$1.serviceHelp.load, onunsel: mapHelp$1.serviceHelp.unload },
                         { id: 'about', title: _gtxt('О проекте'), func: _mapHelper.version }
                     ]
                 });
