@@ -983,7 +983,7 @@ function parsePropertiesDate(str)
 
 function stringDate(msec, isUtc)
 {
-	var date = new Date(msec);
+	var date = new Date(msec),
 		excDate = isUtc ? date.getUTCDate() : date.getDate(),
 		excMonth = (isUtc ? date.getUTCMonth() : date.getMonth()) + 1,
 		excYear = isUtc ? date.getUTCFullYear() : date.getFullYear();
@@ -993,7 +993,7 @@ function stringDate(msec, isUtc)
 
 function stringTime(msec, isUtc)
 {
-	var date = new Date(msec);
+	var date = new Date(msec),
 		excHour = isUtc ? date.getUTCHours() : date.getHours(),
 		excMin = isUtc ? date.getUTCMinutes() : date.getMinutes(),
 		excSec = isUtc ? date.getUTCSeconds() : date.getSeconds();

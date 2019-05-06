@@ -1,4 +1,6 @@
-﻿!function($){
+﻿import nsGmx from './nsGmx.js';
+
+!function($){
 
 /** Объект, описывающий один атрибут слоя. Формат для передачи на сервер
  * @typedef {Object} nsGmx.LayerProperties.Column

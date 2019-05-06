@@ -1,6 +1,7 @@
 ﻿import nsGmx from './nsGmx.js';
+import { _div, _title } from './utilities.js';
 
-!(function(_) {
+(function(_) {
 /** Разнообразные вспомогательные контролы (базовые элементы GUI)
     @namespace nsGmx.Controls
 */
@@ -8,7 +9,7 @@ nsGmx.Controls = {
 
 	/** Создаёт контрол выбора цвета */
 	createColorPicker: function(color, showFunc, hideFunc, changeFunc){
-		var colorPicker = _div(null, [['dir','className','colorSelector'], ['css','backgroundColor',nsGmx.Utils.convertColor(color)]]);
+		let colorPicker = _div(null, [['dir','className','colorSelector'], ['css','backgroundColor',nsGmx.Utils.convertColor(color)]]);
 
 		$(colorPicker).ColorPicker({
 			color: nsGmx.Utils.convertColor(color),
@@ -25,16 +26,16 @@ nsGmx.Controls = {
 	/** Создаёт иконку по описанию стиля слоя и типа геометрии
     */
 	createGeometryIcon: function(parentStyle, type){
-		var icon = _div(null, [['css','display','inline-block'],['dir','className','colorIcon'],['attr','styleType','color'],/*['css','backgroundColor','#FFFFFF']*/]);
+		let icon = _div(null, [['css','display','inline-block'],['dir','className','colorIcon'],['attr','styleType','color'],/*['css','backgroundColor','#FFFFFF']*/]);
 		if (window.newStyles) {
 			if (type.indexOf('linestring') < 0) {
 				if (parentStyle.fill && parentStyle.fill.pattern) {
-					var opaqueStyle = L.gmxUtil.fromServerStyle($.extend(true, {}, parentStyle, {fill: {opacity: 100}})),
+					let opaqueStyle = L.gmxUtil.fromServerStyle($.extend(true, {}, parentStyle, {fill: {opacity: 100}})),
 						patternData = L.gmxUtil.getPatternIcon(null, opaqueStyle);
 					icon = patternData ? patternData.canvas : document.createElement('canvas');
 					_(icon, [], [['dir','className','icon'],['attr','styleType','icon'],['css','width','13px'],['css','height','13px']]);
 				} else {
-					var fill = _div(null, [['dir','className','fillIcon'],['css','backgroundColor', parentStyle.fillColor ? color2Hex(parentStyle.fillColor) : "#FFFFFF"]]),
+					let fill = _div(null, [['dir','className','fillIcon'],['css','backgroundColor', parentStyle.fillColor ? color2Hex(parentStyle.fillColor) : "#FFFFFF"]]),
 						fillOpacity = (typeof parentStyle.fillOpacity !== 'undefined') ? parentStyle.fillOpacity : 1,
 						border = _div(null, [['dir','className','borderIcon'],['attr','styleType','color'],['css','borderColor', parentStyle.color ? color2Hex(parentStyle.color) : "#0000FF"]]),
 						borderOpacity = (typeof parentStyle.opacity !== 'undefined') ? parentStyle.opacity : 1;
@@ -59,7 +60,7 @@ nsGmx.Controls = {
 					_(icon, [border, fill]);
 				}
 			} else {
-				var border = _div(null, [['dir','className','borderIcon'],['attr','styleType','color'],['css','borderColor', parentStyle.color ? color2Hex(parentStyle.color) : "#0000FF"]]),
+				let border = _div(null, [['dir','className','borderIcon'],['attr','styleType','color'],['css','borderColor', parentStyle.color ? color2Hex(parentStyle.color) : "#0000FF"]]),
 					borderOpacity = (parentStyle.opacity !== 'undefined') ? parentStyle.opacity : 1;
 
 				border.style.opacity = borderOpacity;
@@ -76,12 +77,12 @@ nsGmx.Controls = {
 		} else {
 			if (type.indexOf('linestring') < 0) {
 				if (parentStyle.fill && parentStyle.fill.pattern) {
-					var opaqueStyle = L.gmxUtil.fromServerStyle($.extend(true, {}, parentStyle, {fill: {opacity: 100}})),
+					let opaqueStyle = L.gmxUtil.fromServerStyle($.extend(true, {}, parentStyle, {fill: {opacity: 100}})),
 						patternData = L.gmxUtil.getPatternIcon(null, opaqueStyle);
 					icon = patternData ? patternData.canvas : document.createElement('canvas');
 					_(icon, [], [['dir','className','icon'],['attr','styleType','icon'],['css','width','13px'],['css','height','13px']]);
 				} else {
-					var fill = _div(null, [['dir','className','fillIcon'],['css','backgroundColor',(parentStyle.fill && typeof parentStyle.fill.color != 'undefined') ? nsGmx.Utils.convertColor(parentStyle.fill.color) : "#FFFFFF"]]),
+					let fill = _div(null, [['dir','className','fillIcon'],['css','backgroundColor',(parentStyle.fill && typeof parentStyle.fill.color != 'undefined') ? nsGmx.Utils.convertColor(parentStyle.fill.color) : "#FFFFFF"]]),
 						border = _div(null, [['dir','className','borderIcon'],['attr','styleType','color'],['css','borderColor',(parentStyle.outline && typeof parentStyle.outline.color != 'undefined') ? nsGmx.Utils.convertColor(parentStyle.outline.color) : "#0000FF"]]),
 						fillOpacity = (parentStyle.fill && typeof parentStyle.fill.opacity != 'undefined') ? parentStyle.fill.opacity : 100,
 						borderOpacity = (parentStyle.outline && typeof parentStyle.outline.opacity != 'undefined') ? parentStyle.outline.opacity : 100;
@@ -106,7 +107,7 @@ nsGmx.Controls = {
 					_(icon, [border, fill]);
 				}
 			} else {
-				var border = _div(null, [['dir','className','borderIcon'],['attr','styleType','color'],['css','borderColor',(parentStyle.outline && typeof parentStyle.outline.color != 'undefined') ? nsGmx.Utils.convertColor(parentStyle.outline.color) : "#0000FF"]]),
+				let border = _div(null, [['dir','className','borderIcon'],['attr','styleType','color'],['css','borderColor',(parentStyle.outline && typeof parentStyle.outline.color != 'undefined') ? nsGmx.Utils.convertColor(parentStyle.outline.color) : "#0000FF"]]),
 					borderOpacity = (parentStyle.outline && typeof parentStyle.outline.opacity != 'undefined') ? parentStyle.outline.opacity : 100;
 
 
@@ -145,7 +146,7 @@ nsGmx.Controls = {
 	/** Создаёт контрол "слайдер".
     */
 	createSlider: function(opacity, changeFunc)	{
-		var divSlider = _div(null, [['css','width','86px'],['css','height','8px'],['css','border','1px solid #cdcdcd']]);
+		let divSlider = _div(null, [['css','width','86px'],['css','height','8px'],['css','border','1px solid #cdcdcd']]);
 
 		$(divSlider).slider(
 			{
@@ -192,7 +193,7 @@ nsGmx.Controls = {
 	},
 
 	createInput: function(value, changeFunc){
-		var input = _input(null, [['dir','className','inputStyle'],['css','width','30px'],['attr','value',value]]);
+		let input = _input(null, [['dir','className','inputStyle'],['css','width','30px'],['attr','value',value]]);
 		input.onkeyup = changeFunc;
 		return input;
 	},
@@ -209,7 +210,7 @@ nsGmx.Controls = {
     */
     chooseDrawingBorderDialog: function(name, callback, params)
     {
-        var TYPE_CONVERT_DICT = {
+        let TYPE_CONVERT_DICT = {
             Polyline: 'linestring',
             MultiPolyline: 'linestring',
             Rectangle: 'polygon',
@@ -217,7 +218,7 @@ nsGmx.Controls = {
             MultiPolygon: 'polygon',
             Point: 'point'
         }
-        var _params = $.extend({
+        let _params = $.extend({
             title:         _gtxt("Выбор контура"),
             geomType:      null,
             errorTitle:   _gtxt("$$phrase$$_12"),
@@ -228,7 +229,7 @@ nsGmx.Controls = {
         if ($('#drawingBorderDialog' + name).length)
             return;
 
-        var drawingObjs = [],
+        let drawingObjs = [],
             _this = this;
 
         nsGmx.leafletMap.gmxDrawing.getFeatures().forEach(function(obj)
@@ -243,15 +244,15 @@ nsGmx.Controls = {
         else
         {
             gmxCore.loadModule('DrawingObjects').done(function(drawing) {
-                var canvas = _div();
-                var collection = new drawing.DrawingObjectCollection(nsGmx.leafletMap);
+                let canvas = _div();
+                let collection = new drawing.DrawingObjectCollection(nsGmx.leafletMap);
 
-                for (var i = 0; i < drawingObjs.length; i++)
+                for (let i = 0; i < drawingObjs.length; i++)
                 {
                     collection.Add(drawingObjs[i]);
                 }
 
-                var list = new drawing.DrawingObjectList(nsGmx.leafletMap, canvas, collection, {
+                let list = new drawing.DrawingObjectList(nsGmx.leafletMap, canvas, collection, {
                     allowDelete: false,
                     editStyle: false,
                     showButtons: false,
@@ -261,7 +262,7 @@ nsGmx.Controls = {
                     }
                 });
 
-                var jDialog = nsGmx.Utils.showDialog(
+                let jDialog = nsGmx.Utils.showDialog(
                         _params.title,
                         _div([canvas], [['attr','id','drawingBorderDialog' + name],['dir','className','drawingObjectsCanvas']]),
                         {
@@ -283,21 +284,21 @@ nsGmx.Controls = {
     */
     CollapsibleWidget: function(title, titleElem, managedElems, isCollapsed)
     {
-        //var contentTr = _tr([_td([layerTagsParent], [['dir', 'colSpan', '2']])]);
-        var collapseTagIcon = $('<div/>').addClass('collabsible-icon');
-        var _isCollapsed = !!isCollapsed;
+        //let contentTr = _tr([_td([layerTagsParent], [['dir', 'colSpan', '2']])]);
+        let collapseTagIcon = $('<div/>').addClass('collabsible-icon');
+        let _isCollapsed = !!isCollapsed;
 
         managedElems = managedElems || [];
         if (!$.isArray(managedElems))
             managedElems = [managedElems];
 
-        var updateElems = function()
+        let updateElems = function()
         {
-            for (var iE = 0; iE < managedElems.length; iE++)
+            for (let iE = 0; iE < managedElems.length; iE++)
             $(managedElems[iE]).toggle(!_isCollapsed);
         }
 
-        var updateView = function()
+        let updateView = function()
         {
             collapseTagIcon
                 .toggleClass('collabsible-icon-hidden', _isCollapsed)
@@ -328,11 +329,11 @@ nsGmx.Controls = {
     /** Показывает аттрибутивную информацию объекта в виде таблички в отдельном диалоге */
     showLayerInfo: function(layer, obj)
     {
-        var trs = [];
-        var typeSpans = {};
-        for (var key in obj.properties)
+        let trs = [];
+        let typeSpans = {};
+        for (let key in obj.properties)
         {
-            var content = _div(),
+            let content = _div(),
                 contentText = String(obj.properties[key]);
 
             if (contentText.indexOf("http://") == 0 || contentText.indexOf("https://") == 0 || contentText.indexOf("www.") == 0)
@@ -340,14 +341,14 @@ nsGmx.Controls = {
 
             content.innerHTML = contentText;
 
-            var typeSpan = _span([_t(key)]);
+            let typeSpan = _span([_t(key)]);
 
             typeSpans[key] = typeSpan;
 
             trs.push(_tr([_td([typeSpan], [['css','width','30%']]), _td([content], [['css','width','70%']])]));
         }
 
-        var title = _span(null, [['dir','className','title'], ['css','cursor','default']]),
+        let title = _span(null, [['dir','className','title'], ['css','cursor','default']]),
             summary = _span(null, [['dir','className','summary']]),
             div;
 
@@ -368,14 +369,14 @@ nsGmx.Controls = {
 
             if (layer.properties.Legend)
             {
-                var legend = _div();
+                let legend = _div();
 
                 legend.innerHTML = layer.properties.Legend;
 
                 _(div, [legend])
             }
 
-            var dialogTitle = div.parentNode.parentNode.firstChild.firstChild;
+            let dialogTitle = div.parentNode.parentNode.firstChild.firstChild;
 
             $(dialogTitle).empty();
 
@@ -392,7 +393,7 @@ nsGmx.Controls = {
 
             if (layer.properties.Legend)
             {
-                var legend = _div();
+                let legend = _div();
 
                 legend.innerHTML = layer.properties.Legend;
 
@@ -406,8 +407,8 @@ nsGmx.Controls = {
         //подстраиваем ширину
         setTimeout(function()
         {
-            var dialogDiv = $('#layerPropertiesInfo')[0].parentNode;
-            var width = $(div).find('.vectorInfoParams').width();
+            let dialogDiv = $('#layerPropertiesInfo')[0].parentNode;
+            let width = $(div).find('.vectorInfoParams').width();
             if (width > 340) {
                 $(dialogDiv).dialog('option', 'width', width + 18);
             }
@@ -415,7 +416,7 @@ nsGmx.Controls = {
 
         nsGmx.TagMetaInfo.loadFromServer(function(tagInfo)
         {
-            for (var key in typeSpans)
+            for (let key in typeSpans)
             {
                 if (tagInfo.isTag(key))
                     $(typeSpans[key]).attr('title', tagInfo.getTagDescription(key));

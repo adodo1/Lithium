@@ -1,3 +1,4 @@
+import { eslint } from 'rollup-plugin-eslint';
 import svelte from 'rollup-plugin-svelte';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
@@ -19,9 +20,10 @@ export default {
         }             
     },
     external: ['leaflet', 'leaflet-geomixer' ],
-    plugins: [       
+    plugins: [        
         svelte(),
         resolve(),            
+        eslint({}),
         commonjs(),
         json(),
         css({dest: 'public/main.css', minified: true}),

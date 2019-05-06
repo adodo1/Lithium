@@ -39,6 +39,7 @@ import './EditObjectControl/EditObjectControl.js';
 import _queryTabs from './queryTabs.js';
 import './ProfilePlugin/ProfilePlugin.css';
 import './ProfilePlugin/ProfilePlugin.js';
+import './LayerProperties.js';
 
 //Тут кратко описываются разные внешние классы для системы генерации документации
 
@@ -1211,14 +1212,14 @@ nsGmx.widgets = nsGmx.widgets || {};
 
                 //self public interface
                 execute: function() {
-                    if (this._script) {
-                        var evalStr = '(' + this._script + ')';
-                        try {
-                            eval(evalStr)();
-                        } catch (e) {
-                            console.error(e);
-                        }
-                    }
+                    // if (this._script) {
+                    //     var evalStr = '(' + this._script + ')';
+                    //     try {
+                    //         eval(evalStr)();
+                    //     } catch (e) {
+                    //         console.error(e);
+                    //     }
+                    // }
                 },
                 get: function() {
                     return this._script;
