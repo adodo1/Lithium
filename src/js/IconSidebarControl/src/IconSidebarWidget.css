@@ -72,8 +72,7 @@
   display: none;
   right: 0;
   box-sizing: border-box;
-  height: 100%;
-  padding: 5px;
+  height: 100%;  
 }
 
 .iconSidebarControl-pane.iconSidebarControl-pane-active { display: block;  }

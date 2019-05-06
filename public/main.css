@@ -3321,14 +3321,14 @@ input:checked + .switch-slider:before {
 }
 
 .gmx-sidebar-opened {
-    width: 387px !important;
+    width: 360px !important;
 }
 
 /*.iconSidebarControl-content  */
 /* .gmx-sidebar-content  */
 .iconSidebarControl-content
 {
-    width: 387px;
+    width: 360px;
     float: right;
     height: 100%;
     background-color: #FFF;
@@ -5417,8 +5417,7 @@ div.tableBody tr.rowSelected td
   display: none;
   right: 0;
   box-sizing: border-box;
-  height: 100%;
-  padding: 5px;
+  height: 100%;  
 }
 
 .iconSidebarControl-pane.iconSidebarControl-pane-active { display: block;  }

@@ -26,7 +26,7 @@ export default {
         commonjs(),
         json(),
         eslint(),        
-        css({dest: 'public/main.css', minified: true}),
+        css({dest: 'public/main.css', minified: false}),
         copy({
             targets: [                    
                 'src/img',
