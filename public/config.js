@@ -9,7 +9,7 @@
 // var defaultMapID = 'DefaultMap';
 // var mapHostName = false;
 // var apiKey = '33959EF7AFB4FB92EEC2E7B73AE8458B';
-var serverBase = 'http://maps.kosmosnimki.ru/'; // Адрес для выполнения серверных запросов
+var serverBase = 'https://maps.kosmosnimki.ru/'; // Адрес для выполнения серверных запросов
 // var copyright = false;
 // var pagetitle = false;
 // var usecatalog = true;
