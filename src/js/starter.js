@@ -1,4 +1,19 @@
-﻿import nsGmx from './nsGmx.js';
+﻿import '../css/common.css';
+import '../css/PluginEditor.css';
+import '../css/print.css';
+import '../css/search.css';
+import '../css/menu.css';
+import '../css/buttons.css';
+import '../css/treeview.css';
+import '../css/security.css';
+import '../css/drawing.css';
+import '../css/layerstylesmenu.css';
+import '../css/swich-slider.css';
+import '../css/adapter.css';
+import '../css/sidebar.css';
+import '../css/leafletGmx.css';
+
+import nsGmx from './nsGmx.js';
 import './lang_ru.js';
 import './lang_en.js';
 import {leftMenu, _menuUp} from './menu.js';
@@ -8,7 +23,7 @@ import gmxCore from './gmxcore.js';
 import './PluginsManager.js';
 import {mapHelp} from './mapHelper.js';
 import './AuthManager.js';
-import {readCookie, eraseCookie, getWindowHeight, getWindowWidth, showErrorMessage} from './utilities.js';
+import {_, _div, readCookie, eraseCookie, getWindowHeight, getWindowWidth, showErrorMessage} from './utilities.js';
 import './userObjects.js';
 import './HeaderWidget/HeaderWidget.js'
 import './LanguageWidget/languageWidget.js';
@@ -21,8 +36,10 @@ import './AuthWidget/AuthWidget.js';
 import './AuthWidget.js';
 import './version.js';
 import './drawingObjects.js';
-import './IconSidebarControl/src/IconSidebarWidget.css';
+// import './IconSidebarControl/src/IconSidebarWidget.css';
 import IconSidebarWidget from './IconSidebarControl/src/IconSidebarWidget.js';
+// import 'scanex-sidebar/dist/scanex-sidebar.css';
+// import IconSidebarWidget from 'scanex-sidebar';
 import './contextMenuController.js';
 import './LayersTree.js';
 import './SearchLogic/SearchLogic.js';
@@ -40,6 +57,8 @@ import _queryTabs from './queryTabs.js';
 import './ProfilePlugin/ProfilePlugin.css';
 import './ProfilePlugin/ProfilePlugin.js';
 import './LayerProperties.js';
+import './LayerEditor.js';
+import nsMapCommon from './mapCommon.js';
 
 //Тут кратко описываются разные внешние классы для системы генерации документации
 
@@ -2426,4 +2445,4 @@ nsGmx.widgets = nsGmx.widgets || {};
     };
 })();
 
-export default nsGmx;
+nsGmx.initGeoMixer();

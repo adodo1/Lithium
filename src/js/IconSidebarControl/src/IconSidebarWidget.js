@@ -1,5 +1,5 @@
 import EventTarget from 'scanex-event-target';
-import { extend, copy } from 'scanex-object-extensions';
+import { extend } from 'scanex-object-extensions';
 
 import './IconSidebarWidget.css';
 

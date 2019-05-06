@@ -116,3 +116,5 @@
 
     return publicInterface;
 }(jQuery);
+
+export default nsMapCommon;

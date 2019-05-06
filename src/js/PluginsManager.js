@@ -1,6 +1,5 @@
 ﻿import nsGmx from './nsGmx.js';
 import gmxCore from './gmxcore.js';
-import _ from './jquery/underscore-min.js';
 
 (function(){
 

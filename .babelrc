@@ -4,6 +4,5 @@
       "@babel/env", { "modules": false }
     ]
   ],
-  "plugins": [    
-  ]
+  "plugins": []
 }
