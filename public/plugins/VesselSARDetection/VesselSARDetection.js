@@ -323,7 +323,7 @@ VesselSARDetection.prototype.showFieldsTable = function (layer) {
     };
     l.on("click", this._onClickListenerID);
 
-    $("#agroFieldsTableParent .tableBody").mCustomScrollbar();
+    // $("#agroFieldsTableParent .tableBody").mCustomScrollbar();
     $("#agroFieldsTableParent .tableBody table").css("table-layout", "fixed");
     $("#agroFieldsTableHeader table").css("table-layout", "fixed");
 

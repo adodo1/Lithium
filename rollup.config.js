@@ -22,7 +22,7 @@ export default {
     external: ['leaflet', 'leaflet-geomixer' ],
     plugins: [        
         // svelte(),
-        resolve(),        
+        resolve({jsnext: true}),
         commonjs(),
         json(),
         eslint(),        

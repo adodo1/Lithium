@@ -1,4 +1,5 @@
 ﻿import '../css/common.css';
+import '../css/scroll.css';
 import '../css/PluginEditor.css';
 import '../css/print.css';
 import '../css/search.css';
@@ -23,7 +24,18 @@ import gmxCore from './gmxcore.js';
 import './PluginsManager.js';
 import {mapHelp} from './mapHelper.js';
 import './AuthManager.js';
-import {_, _div, readCookie, eraseCookie, getWindowHeight, getWindowWidth, showErrorMessage} from './utilities.js';
+import {
+    addParseResponseHook,
+    _,
+    _div,
+    readCookie,
+    eraseCookie,
+    getWindowHeight,
+    getWindowWidth,
+    removeDialog,
+    showDialog,
+    showErrorMessage
+} from './utilities.js';
 import './userObjects.js';
 import './HeaderWidget/HeaderWidget.js'
 import './LanguageWidget/languageWidget.js';
@@ -35,7 +47,12 @@ import './AuthWidget/AuthWidget.css';
 import './AuthWidget/AuthWidget.js';
 import './AuthWidget.js';
 import './version.js';
-import './drawingObjects.js';
+import {
+    DrawingObjectCollection,
+	DrawingObjectInfoRow,
+	DrawingObjectList,
+	DrawingObjectGeomixer
+} from './drawingObjects.js';
 // import './IconSidebarControl/src/IconSidebarWidget.css';
 import IconSidebarWidget from './IconSidebarControl/src/IconSidebarWidget.js';
 // import 'scanex-sidebar/dist/scanex-sidebar.css';
@@ -1984,7 +2001,7 @@ nsGmx.widgets = nsGmx.widgets || {};
                 //инициализация контролов пользовательских объектов
                 //соответствующий модуль уже загружен
                 var oDrawingObjectsModule = gmxCore.getModule('DrawingObjects');
-                window.oDrawingObjectGeomixer = new oDrawingObjectsModule.DrawingObjectGeomixer();
+                window.oDrawingObjectGeomixer = new DrawingObjectGeomixer();
                 window.oDrawingObjectGeomixer.Init(nsGmx.leafletMap, nsGmx.gmxMap);
 
                 //для всех слоёв должно выполняться следующее условие: если хотя бы одна групп-предков невидима, то слой тоже невидим.
@@ -2118,7 +2135,7 @@ nsGmx.widgets = nsGmx.widgets || {};
 
                 window.iconSidebarWidget.open("layers-tree");
 
-                 $('.leftContent').mCustomScrollbar();
+                // $('.leftContent').mCustomScrollbar();
 
                  function handleSidebarResize(e) {
                      var sidebarWidth = window.iconSidebarWidget.getWidth(),

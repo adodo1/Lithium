@@ -895,37 +895,33 @@ function sendCrossDomainPostRequest(url, params, callback, baseForm)
     }
 }
 
-(function() {
+var hooks = {};
 
-    var hooks = {};
+/** Добавляет "хук", который будет вызван при ответе сервера соответвующего типа
+* @param type {object} - тип хука (соответствует полю "Status" ответа сервера) или '*' - добавить к любому ответу
+* @param hookFunction {function(response, customErrorDescriptions)} - собственно хук
+*/
+function addParseResponseHook (type, hookFunction) {
+    hooks[type] = hooks[type] || [];
+    hooks[type].push(hookFunction);
+}
 
-    /** Добавляет "хук", который будет вызван при ответе сервера соответвующего типа
-    * @param type {object} - тип хука (соответствует полю "Status" ответа сервера) или '*' - добавить к любому ответу
-    * @param hookFunction {function(response, customErrorDescriptions)} - собственно хук
-    */
-    window.addParseResponseHook = function(type, hookFunction) {
-        hooks[type] = hooks[type] || [];
-        hooks[type].push(hookFunction);
-    }
+/** Обрабатывает результат выполнения серверного скрипта.
+* Для выполнения действий вызывает "хуки" соответствующиего типа, добавленные через addParseResponseHook()
+* @function
+* @global
+* @param {object} response JSON, вернувшийся с сервера
+* @param {object} customErrorDescriptions хэш "тип ошибки" -> "кастомное сообщение пользователям".
+* @return true, если статус ответа "ok", иначе false
+*/
+function parseResponse (response, customErrorDescriptions)
+{
+    var responseHooks = (hooks[response.Status] || []).concat(hooks['*'] || []);
+    for (var h = 0; h < responseHooks.length; h++)
+        responseHooks[h](response, customErrorDescriptions);
 
-    /** Обрабатывает результат выполнения серверного скрипта.
-    * Для выполнения действий вызывает "хуки" соответствующиего типа, добавленные через addParseResponseHook()
-    * @function
-    * @global
-    * @param {object} response JSON, вернувшийся с сервера
-    * @param {object} customErrorDescriptions хэш "тип ошибки" -> "кастомное сообщение пользователям".
-    * @return true, если статус ответа "ok", иначе false
-    */
-    window.parseResponse = function(response, customErrorDescriptions)
-    {
-        var responseHooks = (hooks[response.Status] || []).concat(hooks['*'] || []);
-        for (var h = 0; h < responseHooks.length; h++)
-            responseHooks[h](response, customErrorDescriptions);
-
-        return response.Status == 'ok';
-    }
-
-})();
+    return response.Status == 'ok';
+}
 
 function _title(elem, title)
 {
@@ -1825,6 +1821,7 @@ const {
 } = domManipulation;
 
 export {
+    addParseResponseHook,
     attachEffects,    
     _br, 
     _checkbox,    

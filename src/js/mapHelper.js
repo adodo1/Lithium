@@ -1292,7 +1292,7 @@ mapHelper.prototype.exportMap = function(params) {
 		$('.leaflet-control-container').hide();
 	}
 
-    $('#leftContent').mCustomScrollbar({live:"off"});
+    // $('#leftContent').mCustomScrollbar({live:"off"});
 
 	var exportCssParams = {
 		top: '0px',

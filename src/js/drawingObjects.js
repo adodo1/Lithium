@@ -8,8 +8,6 @@ import {makeLinkButton, hide} from './utilities.js';
 * @namespace DrawingObjects
 * @description SDK для редактирования объектов на карте
 */
-!(function($, _){
-
 nsGmx.Translations.addText('rus', {
     drawingObjects: {
         editStyleTitle: 'Редактировать стиль',
@@ -876,8 +874,13 @@ var publicInterface = {
 	DrawingObjectInfoRow: DrawingObjectInfoRow,
 	DrawingObjectList: DrawingObjectList,
 	DrawingObjectGeomixer: DrawingObjectGeomixer
-}
+};
 
 gmxCore.addModule("DrawingObjects", publicInterface);
 
-})(jQuery, nsGmx.Utils._);
+export {
+    DrawingObjectCollection,
+	DrawingObjectInfoRow,
+	DrawingObjectList,
+	DrawingObjectGeomixer
+};

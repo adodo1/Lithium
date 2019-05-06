@@ -483,8 +483,8 @@
             var closeApiKeyDialog = function () {
                 var akd = $('.apiKeyDialog');
                 if (akd.length > 0) {
-                    akd.find('.licence').mCustomScrollbar("destroy");
-                    akd.find('.list').mCustomScrollbar("destroy");
+                    // akd.find('.licence').mCustomScrollbar("destroy");
+                    // akd.find('.list').mCustomScrollbar("destroy");
                     removeDialog($('.apiKeyDialog').parent()[0]);
                 }
             },
