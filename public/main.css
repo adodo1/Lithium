@@ -2002,6 +2002,81 @@ leaflet-control-layers-toggle {
 ::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.1);
 }
+
+@media print {
+    #header, #leftMenu, #leftCollapser, #bottomContent, #tooltip, .ui-datepicker-div, .print-ui {
+        display: none !important;
+    }
+
+    .leaflet-gmx-icon-hide {
+        display: none !important;
+    }
+
+    .print-preview-all {
+        height: 100%;
+        overflow: hidden;
+    }
+
+    #flash {
+        /*margin: 0%;*/
+        width: 100%;
+        /*height: 10%;*/
+    }
+}
+
+
+@media screen {
+    .print-preview-hide {
+        display: none !important;
+    }
+
+    .print-ui {
+        position: absolute;
+        top: 10px;
+        left: 0px;
+        right: 0px;
+        text-align: center;
+    }
+
+    .print-ui-inner {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 15px;
+    }
+
+    .print-ui > label {
+        display: block;
+        margin: 2px;
+    }
+
+    .layoutContainer {
+        margin: 4px;
+    }
+
+    .layoutContainer > label {
+        margin-right: 9px;
+    }
+    input[name="layout"] {
+        margin-right: 2px;
+    }
+
+
+
+    .print-ui-close, .print-ui-print {
+        padding: 3px;
+        margin: 3px;
+    }
+
+    .print-preview-all {
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .print-preview-all .leaflet-gmx-icon-hide {
+        display: none !important;
+    }
+
+}
+
 .pluginEditor-pluginList
 {
     height: 190px;
@@ -2144,81 +2219,6 @@ leaflet-control-layers-toggle {
     font-weight: bold;
     cursor: pointer;
 }
-
-@media print {
-    #header, #leftMenu, #leftCollapser, #bottomContent, #tooltip, .ui-datepicker-div, .print-ui {
-        display: none !important;
-    }
-
-    .leaflet-gmx-icon-hide {
-        display: none !important;
-    }
-
-    .print-preview-all {
-        height: 100%;
-        overflow: hidden;
-    }
-
-    #flash {
-        /*margin: 0%;*/
-        width: 100%;
-        /*height: 10%;*/
-    }
-}
-
-
-@media screen {
-    .print-preview-hide {
-        display: none !important;
-    }
-
-    .print-ui {
-        position: absolute;
-        top: 10px;
-        left: 0px;
-        right: 0px;
-        text-align: center;
-    }
-
-    .print-ui-inner {
-        background: rgba(255, 255, 255, 0.9);
-        padding: 15px;
-    }
-
-    .print-ui > label {
-        display: block;
-        margin: 2px;
-    }
-
-    .layoutContainer {
-        margin: 4px;
-    }
-
-    .layoutContainer > label {
-        margin-right: 9px;
-    }
-    input[name="layout"] {
-        margin-right: 2px;
-    }
-
-
-
-    .print-ui-close, .print-ui-print {
-        padding: 3px;
-        margin: 3px;
-    }
-
-    .print-preview-all {
-        height: 100%;
-        overflow: hidden;
-    }
-
-    .print-preview-all .leaflet-gmx-icon-hide {
-        display: none !important;
-    }
-
-}
-
 /* search */
 .SearchInputControl 
 {
@@ -2710,107 +2710,6 @@ span.buttonLinkHover
 {
 	color: #fc830b;
 }
-.treeview, 
-.treeview ul
-{ 
-	padding: 0;
-	margin: 0;
-	list-style-image:none;
-	list-style-position:outside;
-	list-style-type:none;
-}
-
-.treeview ul
-{
-	margin-top: 4px;
-}
-
-.treeview .hitarea
-{
-	/*background: url(img/treeview-new.png) -64px -25px no-repeat;*/
-    background: url(img/redesign/icons2.png) -97px -4px no-repeat;
-	height: 16px;
-	width: 6px;
-	margin-left: -16px;
-	float: left;
-	cursor: pointer;
-}
-/* fix for IE6 */
-* html .hitarea
-{
-	display: inline;
-	float:none;
-}
-
-.treeview li,
-.actions li
-{
-	margin: 0;
-	padding: 1px 0pt 0px 12px;
-}
-
-.treeview a.selected
-{
-	background-color: #eee;
-}
-
-.treeview li 
-{
-	/*background: url(img/treeview-new-line.png) 0 0 no-repeat;*/
-}
-.treeview li.collapsable, .treeview li.expandable
-{
-	background-position: 0 -176px;
-}
-
-.treeview .expandable-hitarea
-{
-	background-position: -115px -3px;
-}
-
-.treeview li.last
-{
-	background-position: 0 -1766px
-}
-.treeview li.lastCollapsable, .treeview li.lastExpandable 
-{
-	/*background-image: url(img/treeview-new.png); */
-}
-.treeview li.lastCollapsable 
-{
-	background-position: 0 -111px
-}
-.treeview li.lastExpandable
-{
-	background-position: -32px -67px
-}
-
-.treeview div.lastCollapsable-hitarea,
-.treeview div.lastExpandable-hitarea 
-{
-	/*background-position: 0;*/
-}
-
-.droppable-active,
-div.droppable-active
-{
-	background-color: #C8D7E3;
-}
-.droppable-hover 
-{
-	border: 2px dashed #ABCDEF;
-}
-
-div.singleHitarea
-{
-	/*background: url(img/treeview-new.png) 0px -111px no-repeat;*/
-	height: 16px;
-	width: 16px;
-	margin-left: -16px;
-	float: left;
-	cursor: pointer;
-}
-
 .security-header-table {
     width: 100%;
     height: 22px;
@@ -2975,6 +2874,107 @@ div.singleHitarea
 
 .security-dialog {
     overflow: hidden;
+}
+
+.treeview, 
+.treeview ul
+{ 
+	padding: 0;
+	margin: 0;
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+}
+
+.treeview ul
+{
+	margin-top: 4px;
+}
+
+.treeview .hitarea
+{
+	/*background: url(img/treeview-new.png) -64px -25px no-repeat;*/
+    background: url(img/redesign/icons2.png) -97px -4px no-repeat;
+	height: 16px;
+	width: 6px;
+	margin-left: -16px;
+	float: left;
+	cursor: pointer;
+}
+/* fix for IE6 */
+* html .hitarea
+{
+	display: inline;
+	float:none;
+}
+
+.treeview li,
+.actions li
+{
+	margin: 0;
+	padding: 1px 0pt 0px 12px;
+}
+
+.treeview a.selected
+{
+	background-color: #eee;
+}
+
+.treeview li 
+{
+	/*background: url(img/treeview-new-line.png) 0 0 no-repeat;*/
+}
+.treeview li.collapsable, .treeview li.expandable
+{
+	background-position: 0 -176px;
+}
+
+.treeview .expandable-hitarea
+{
+	background-position: -115px -3px;
+}
+
+.treeview li.last
+{
+	background-position: 0 -1766px
+}
+.treeview li.lastCollapsable, .treeview li.lastExpandable 
+{
+	/*background-image: url(img/treeview-new.png); */
+}
+.treeview li.lastCollapsable 
+{
+	background-position: 0 -111px
+}
+.treeview li.lastExpandable
+{
+	background-position: -32px -67px
+}
+
+.treeview div.lastCollapsable-hitarea,
+.treeview div.lastExpandable-hitarea 
+{
+	/*background-position: 0;*/
+}
+
+.droppable-active,
+div.droppable-active
+{
+	background-color: #C8D7E3;
+}
+.droppable-hover 
+{
+	border: 2px dashed #ABCDEF;
+}
+
+div.singleHitarea
+{
+	/*background: url(img/treeview-new.png) 0px -111px no-repeat;*/
+	height: 16px;
+	width: 16px;
+	margin-left: -16px;
+	float: left;
+	cursor: pointer;
 }
 
 .DrawingObjectsLeftMenu
@@ -4537,6 +4537,27 @@ input:checked + .switch-slider:before {
 .obj-edit-proptable tr td:first-child {
     width: 100px;
 }
+.languageWidget {
+  display: table;
+}
+.languageWidget-item {
+  padding: 3px;
+  display: table-cell;
+  color: #343434;
+}
+.languageWidget-link {
+  color: #000000;
+}
+.languageWidget-link:hover {
+  color: #000000;
+}
+.languageWidget-disabled {
+  color: #6f6f6f;
+}
+.languageWidget-item_current {
+  text-decoration: underline;
+}
+
 .headerWidget {
   display: table;
   height: 35px;
@@ -4670,27 +4691,6 @@ div#header {
   right: 0;
   min-width: 150px;
   position: fixed;
-}
-
-.languageWidget {
-  display: table;
-}
-.languageWidget-item {
-  padding: 3px;
-  display: table-cell;
-  color: #343434;
-}
-.languageWidget-link {
-  color: #000000;
-}
-.languageWidget-link:hover {
-  color: #000000;
-}
-.languageWidget-disabled {
-  color: #6f6f6f;
-}
-.languageWidget-item_current {
-  text-decoration: underline;
 }
 
 .leaflet-iconLayers {

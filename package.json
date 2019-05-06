@@ -2,9 +2,8 @@
   "name": "scanex-lithium",
   "repository": "https://github.com/Scanex/Lithium",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "browser": "public/main.js",
+  "description": "",  
+  "main": "public/main.js",
   "scripts": {
     "build": "rollup -c",
     "watch": "rollup -c -w",

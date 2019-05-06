@@ -1873,6 +1873,8 @@
         _t$1 = domManipulation._t,
         _tr$1 = domManipulation._tr,
         _ul$1 = domManipulation._ul;
+    window.addParseResponseHook = addParseResponseHook;
+    window.parseResponse = parseResponse$1;
 
     !function () {
 
@@ -17831,7 +17833,7 @@
 
     exports.copy = copy;
     exports.extend = extend;
-
+    //# sourceMappingURL=scanex-object-extensions.cjs.js.map
     });
 
     unwrapExports(scanexObjectExtensions_cjs);
@@ -20652,7 +20654,7 @@
     exports.OsmDataProvider = OsmDataProvider;
     exports.SearchControl = SearchControl;
     exports.SearchWidget = SearchWidget;
-
+    //# sourceMappingURL=main.js.map
     });
 
     unwrapExports(main);

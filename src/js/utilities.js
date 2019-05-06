@@ -1820,6 +1820,9 @@ const {
     _ul
 } = domManipulation;
 
+window.addParseResponseHook = addParseResponseHook;
+window.parseResponse = parseResponse;
+
 export {
     addParseResponseHook,
     attachEffects,    
@@ -1839,6 +1842,7 @@ export {
     makeLinkButton,
     objLength,
     _option,    
+    parseResponse,
     readCookie,
     removeDialog,
     sendCrossDomainJSONRequest,

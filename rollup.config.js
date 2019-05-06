@@ -11,7 +11,7 @@ import pkg from './package.json';
 export default {
     input: './src/js/starter.js',
     output: {
-        file: pkg.browser,
+        file: pkg.main,
         format: 'iife',
         sourcemap: false,
         name: 'App',
@@ -22,7 +22,7 @@ export default {
     external: ['leaflet', 'leaflet-geomixer' ],
     plugins: [        
         // svelte(),
-        resolve({jsnext: true}),
+        resolve(),
         commonjs(),
         json(),
         eslint(),        
