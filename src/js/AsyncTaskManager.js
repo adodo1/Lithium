@@ -1,7 +1,9 @@
 ﻿import nsGmx from './nsGmx.js';
-
-var tasks = {};
-var tasksByName = {};
+import {
+    parseResponse,
+    sendCrossDomainJSONRequest,
+    sendCrossDomainPostRequest,
+} from './utilities.js';
 
 var UPDATE_INTERVAL = 2000;
 
@@ -24,7 +26,7 @@ var sendGmxRequest = function(requestType, url, params) {
         var taskID = response.Result.TaskID;
         
         var interval = setInterval(function(){
-            sendCrossDomainJSONRequest(serverBase + "AsyncTask.ashx?WrapStyle=func&TaskID=" + taskID, 
+            sendCrossDomainJSONRequest(window.serverBase + "AsyncTask.ashx?WrapStyle=func&TaskID=" + taskID, 
                 function(response)
                 {
                     var res = response.Result;

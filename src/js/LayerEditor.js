@@ -20,7 +20,6 @@ import {
     _tr,	
 	_td,
     _ul,    
-    _,
 } from './utilities.js';
 import './ShpEncodingWidget.js';
 import './LayerEditor/TemporalLayerParamsWidget.js';
@@ -28,6 +27,9 @@ import './LayerEditor/LayerQuicklookWidget.js';
 import './AttrSuggestWidget.js';
 import './LayerEditor/ManualAttrModel.js';
 import './LayerEditor/ManualAttrView.js';
+import {mapHelper} from './mapHelper.js';
+import gmxCore from './gmxcore.js';
+import './fileBrowser.js';
 
 //Создание интерфейса редактирования свойств слоя
 
@@ -241,7 +243,7 @@ var LayerEditor = function(div, type, parent, properties, params) {
         }
 
         for (var i in _params.additionalUI) {
-            var tab = nsGmx._.findWhere(_this._originalTabs, {name: i});
+            var tab = nsGmx.Utils._.findWhere(_this._originalTabs, {name: i});
             if (tab) {
                 var container = tab.container.firstChild;
                 _params.additionalUI[i].forEach(function(ui) {
@@ -311,7 +313,7 @@ var LayerEditor = function(div, type, parent, properties, params) {
                 layerTitle = layerProperties.get('Title');
 
             //doneCallback вызываем при первом progress notification - признаке того, что вызов непосредственно скрипта модификации слоя прошёл успешно
-            var onceCallback = nsGmx._.once(function(){
+            var onceCallback = _.once(function(){
                 _params.doneCallback && _params.doneCallback(def, layerTitle);
             });
 
@@ -553,7 +555,7 @@ LayerEditor.prototype._createPageVectorSource = function(layerProperties, params
     //TODO: использовать события модели
     shapeFileLink.onclick = function()
     {
-        _fileBrowser.createBrowser(_gtxt("Файл"), ['shp','tab', 'xls', 'xlsx', 'xlsm', 'mif', 'gpx', 'kml', 'csv', 'sxf', 'gdbtable', 'geojson', 'kmz','sqlite'], function(path)
+        window._fileBrowser.createBrowser(_gtxt("Файл"), ['shp','tab', 'xls', 'xlsx', 'xlsm', 'mif', 'gpx', 'kml', 'csv', 'sxf', 'gdbtable', 'geojson', 'kmz','sqlite'], function(path)
         {
             shapePathInput.value = path;
             layerProperties.set('ShapePath', {Path: path});

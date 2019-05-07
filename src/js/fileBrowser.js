@@ -1,4 +1,33 @@
-!(function(_){
+import nsGmx from './nsGmx.js';
+import {
+    attachEffects,    
+    _br, 
+    _checkbox,    
+    _div,
+	_img,    
+    _input,    
+    _li,
+    makeImageButton,
+    makeLinkButton,    
+    _option,    
+    parseResponse,    
+    sendCrossDomainJSONRequest,
+    sendCrossDomainPostRequest,
+    showDialog,    
+    _span,
+	_a,
+    _t,
+    _title,
+	_table,
+    _tbody,
+    _textarea,
+	_thead,
+    _tr,
+	_th,
+	_td,
+    _ul,    
+    _,
+} from './utilities.js';
 
 /** 
 * @class Веб браузер для выбора и загрузки файлов на сервер
@@ -211,7 +240,7 @@ fileBrowser.prototype.close = function(path)
 fileBrowser.prototype.loadInfo = function()
 {
 	var _this = this;
-	sendCrossDomainJSONRequest(serverBase + "FileBrowser/GetDrives.ashx?WrapStyle=func", function(response)
+	sendCrossDomainJSONRequest(window.serverBase + "FileBrowser/GetDrives.ashx?WrapStyle=func", function(response)
 	{
 		if (!parseResponse(response))
 			return;
@@ -239,7 +268,7 @@ fileBrowser.prototype._uploadFilesAjax = function(formData) {
         _this.progressBar.progressbar('option', 'value', e.loaded / e.total * 100);
     }, false);
     
-    xhr.open('POST', serverBase + 'FileBrowser/Upload.ashx');
+    xhr.open('POST', window.serverBase + 'FileBrowser/Upload.ashx');
     xhr.withCredentials = true;
     xhr.onload = function () {
         _this.progressBar.hide();
@@ -386,7 +415,7 @@ fileBrowser.prototype.createHeader = function()
 		createFolder = function()
 		{
             _this._status.start();
-			sendCrossDomainJSONRequest(serverBase + 'FileBrowser/CreateFolder.ashx?WrapStyle=func&FullName=' + encodeURIComponent(_this._path.get() + newFolderName.value), function(response)
+			sendCrossDomainJSONRequest(window.serverBase + 'FileBrowser/CreateFolder.ashx?WrapStyle=func&FullName=' + encodeURIComponent(_this._path.get() + newFolderName.value), function(response)
 			{
                 _this._status.stop();
 				if (!parseResponse(response))
@@ -455,7 +484,7 @@ fileBrowser.prototype.createUpload = function()
 	var div = _div(null, [['css','height','30px']]),
 		_this = this;
 	
-	var formFile = _form(null,[['attr','enctype','multipart/form-data'],['dir','method','post'],['dir','action', serverBase + 'FileBrowser/Upload.ashx?WrapStyle=message'],['attr','target','fileBrowserUpload_iframe']]);
+	var formFile = _form(null,[['attr','enctype','multipart/form-data'],['dir','method','post'],['dir','action', window.serverBase + 'FileBrowser/Upload.ashx?WrapStyle=message'],['attr','target','fileBrowserUpload_iframe']]);
 
 	var attach = _input(null,[['attr','type','file'],['dir','name','rawdata'],['css','width','200px'], ['attr','multiple','multiple']]);
 	_(formFile, [attach]);
@@ -475,7 +504,7 @@ fileBrowser.prototype.createUpload = function()
             return;
         }
         
-        sendCrossDomainPostRequest(serverBase + 'FileBrowser/Upload.ashx', 
+        sendCrossDomainPostRequest(window.serverBase + 'FileBrowser/Upload.ashx', 
             {
                 WrapStyle: 'message',
                 ParentDir: _this._path.get()
@@ -528,12 +557,12 @@ fileBrowser.prototype.getFiles = function(path)
     }
 
     this._status.start();
-	sendCrossDomainJSONRequest(serverBase + "FileBrowser/GetDirectoryContent.ashx?WrapStyle=func&root=" + encodeURIComponent(path), function(response)
+	sendCrossDomainJSONRequest(window.serverBase + "FileBrowser/GetDirectoryContent.ashx?WrapStyle=func&root=" + encodeURIComponent(path), function(response)
 	{
         if (response.Status !== 'ok' && alternativePath) {
             path = alternativePath;
             _this._path.set(alternativePath);
-            sendCrossDomainJSONRequest(serverBase + "FileBrowser/GetDirectoryContent.ashx?WrapStyle=func&root=" + encodeURIComponent(alternativePath), doProcessResponce);
+            sendCrossDomainJSONRequest(window.serverBase + "FileBrowser/GetDirectoryContent.ashx?WrapStyle=func&root=" + encodeURIComponent(alternativePath), doProcessResponce);
         } else {
             doProcessResponce(response);
         }
@@ -947,7 +976,7 @@ var zipUnzipActionFactory = function(isZip)
 		clickCallback: function(context)
 		{
             context.fileBrowser._status.start();
-			sendCrossDomainJSONRequest(serverBase + (context.enableUnzip ? 'FileBrowser/Unzip.ashx' : 'FileBrowser/Zip.ashx') + '?WrapStyle=func&FullName=' + encodeURIComponent(context.fullPath), function(response)
+			sendCrossDomainJSONRequest(window.serverBase + (context.enableUnzip ? 'FileBrowser/Unzip.ashx' : 'FileBrowser/Zip.ashx') + '?WrapStyle=func&FullName=' + encodeURIComponent(context.fullPath), function(response)
 			{
                 context.fileBrowser._status.stop();
                 
@@ -973,7 +1002,7 @@ nsGmx.ContextMenuController.addContextMenuElem({
 	title: function() { return _gtxt("Скачать"); },
 	clickCallback: function(context)
 	{
-		var form = _form([_input(null,[['attr','name','FullName'], ['attr','value', context.fullPath]])], [['css','display','none'],['attr','method','POST'],['attr','action',serverBase + "FileBrowser/Download.ashx"]]);
+		var form = _form([_input(null,[['attr','name','FullName'], ['attr','value', context.fullPath]])], [['css','display','none'],['attr','method','POST'],['attr','action',window.serverBase + "FileBrowser/Download.ashx"]]);
 		
 		_(document.body, [form]);
 		
@@ -988,7 +1017,7 @@ nsGmx.ContextMenuController.addContextMenuElem({
 	clickCallback: function(context)
 	{
         context.fileBrowser._status.start();
-		sendCrossDomainJSONRequest(serverBase + 'FileBrowser/Delete.ashx?WrapStyle=func&FullName=' + encodeURIComponent(context.fullPath), function(response)
+		sendCrossDomainJSONRequest(window.serverBase + 'FileBrowser/Delete.ashx?WrapStyle=func&FullName=' + encodeURIComponent(context.fullPath), function(response)
 		{
             context.fileBrowser._status.stop();
 			if (!parseResponse(response))
@@ -1004,7 +1033,7 @@ nsGmx.ContextMenuController.addContextMenuElem({
 	clickCallback: function(context)
 	{
         context.fileBrowser._status.start();
-		sendCrossDomainJSONRequest(serverBase + 'FileBrowser/CleanFolder.ashx?WrapStyle=func&FullName=' + encodeURIComponent(context.fullPath), function(response)
+		sendCrossDomainJSONRequest(window.serverBase + 'FileBrowser/CleanFolder.ashx?WrapStyle=func&FullName=' + encodeURIComponent(context.fullPath), function(response)
 		{
             context.fileBrowser._status.stop();
 			if (!parseResponse(response))
@@ -1020,5 +1049,3 @@ nsGmx.ContextMenuController.addContextMenuElem(zipUnzipActionFactory(true), ['Fi
 
 //распаковываем только файлы
 nsGmx.ContextMenuController.addContextMenuElem(zipUnzipActionFactory(false), 'FileBrowserFile');
-
-})(nsGmx.Utils._);

@@ -12251,7 +12251,7 @@
           if (response.Status === 'ok' && !response.ErrorInfo) {
             def.resolve(response);
           } else {
-            parseResponse(response);
+            parseResponse$1(response);
             def.reject(response);
           }
 
@@ -12261,12 +12261,12 @@
         def.notify(response.Result);
         var taskID = response.Result.TaskID;
         var interval = setInterval(function () {
-          sendCrossDomainJSONRequest(serverBase + "AsyncTask.ashx?WrapStyle=func&TaskID=" + taskID, function (response) {
+          sendCrossDomainJSONRequest$1(window.serverBase + "AsyncTask.ashx?WrapStyle=func&TaskID=" + taskID, function (response) {
             var res = response.Result;
 
             if (response.Status !== 'ok' || res.ErrorInfo) {
               res.Status = 'error';
-              parseResponse(res);
+              parseResponse$1(res);
               clearInterval(interval);
               def.reject(res);
             } else if (res.Completed) {
@@ -12291,12 +12291,12 @@
         }
 
         var sepSym = url.indexOf('?') == -1 ? '?' : '&';
-        sendCrossDomainJSONRequest(url + sepSym + paramStrItems.join('&'), processResponse, null, def.reject.bind(def));
+        sendCrossDomainJSONRequest$1(url + sepSym + paramStrItems.join('&'), processResponse, null, def.reject.bind(def));
       } else if (requestType === 'post') {
         var localParams = $.extend({
           WrapStyle: 'message'
         }, params);
-        sendCrossDomainPostRequest(url, localParams, processResponse);
+        sendCrossDomainPostRequest$1(url, localParams, processResponse);
       } else {
         throw 'Wrong request type';
       }
@@ -27146,6 +27146,865 @@
       };
     };
 
+    /** 
+    * @class Веб браузер для выбора и загрузки файлов на сервер
+    */
+
+    var fileBrowser = function fileBrowser() {
+      var _this = this;
+
+      this.parentCanvas = null;
+      this._homeDir = '';
+      this._status = {
+        _state: false,
+        start: function start() {
+          this._state = true;
+          var me = this;
+          setTimeout(function () {
+            if (me._state) {
+              $(_this.statusContainer).show();
+            }
+          }, 100);
+        },
+        stop: function stop() {
+          $(_this.statusContainer).hide();
+          this._state = false;
+        }
+      };
+
+      this._path = function () {
+        var path;
+        var alternativePath;
+        return {
+          set: function set(newPath, newAlternativePath) {
+            path = newPath + (newPath.charAt(newPath.length - 1) === _this.slash ? '' : _this.slash);
+
+            if (newAlternativePath) {
+              alternativePath = newAlternativePath + (newAlternativePath.charAt(newAlternativePath.length - 1) === _this.slash ? '' : _this.slash);
+            } else {
+              alternativePath = undefined;
+            }
+
+            $(this).change();
+          },
+          get: function get() {
+            return path;
+          },
+          getAlternative: function getAlternative() {
+            return alternativePath;
+          },
+          isRoot: function isRoot() {
+            return path && path.indexOf(_this.slash) === path.length - 1;
+          },
+          isInited: function isInited() {
+            return typeof path !== 'undefined';
+          },
+          isInHome: function isInHome() {
+            return path && path.indexOf(_this._homeDir) === 0;
+          },
+          getRoot: function getRoot() {
+            var index = String(path).indexOf(_this.slash);
+            return newPath = String(path).substr(0, index + 1);
+          },
+          getParentFolder: function getParentFolder() {
+            var index = String(path).lastIndexOf(_this.slash, path.length - 2);
+            return String(path).substr(0, index + 1);
+          }
+        };
+      }();
+
+      this.currentFiles = [];
+      this.slash = "\\";
+      this.fileCanvas = null;
+      this.fileHeader = null;
+      this.fileUpload = null;
+      this.sortFuncs = {
+        name: [function (_a, _b) {
+          var a = String(_a.Name).toLowerCase(),
+              b = String(_b.Name).toLowerCase();
+          if (a > b) return 1;else if (a < b) return -1;else return 0;
+        }, function (_a, _b) {
+          var a = String(_a.Name).toLowerCase(),
+              b = String(_b.Name).toLowerCase();
+          if (a < b) return 1;else if (a > b) return -1;else return 0;
+        }],
+        ext: [function (_a, _b) {
+          var a = String(_a.Name).toLowerCase(),
+              b = String(_b.Name).toLowerCase(),
+              index1 = a.lastIndexOf('.'),
+              ext1 = a.substr(index1 + 1, a.length),
+              index2 = b.lastIndexOf('.'),
+              ext2 = b.substr(index2 + 1, b.length);
+          if (ext1 > ext2) return 1;else if (ext1 < ext2) return -1;else return 0;
+        }, function (_a, _b) {
+          var a = String(_a.Name).toLowerCase(),
+              b = String(_b.Name).toLowerCase(),
+              index1 = a.lastIndexOf('.'),
+              ext1 = a.substr(index1 + 1, a.length),
+              index2 = b.lastIndexOf('.'),
+              ext2 = b.substr(index2 + 1, b.length);
+          if (ext1 < ext2) return 1;else if (ext1 > ext2) return -1;else return 0;
+        }],
+        size: [function (a, b) {
+          return a.Size - b.Size;
+        }, function (a, b) {
+          return b.Size - a.Size;
+        }],
+        date: [function (a, b) {
+          return a.Date - b.Date;
+        }, function (a, b) {
+          return b.Date - a.Date;
+        }]
+      };
+      this.currentSortType = 'name';
+      this.currentSortIndex = {
+        name: 0,
+        ext: 0,
+        size: 0,
+        date: 0
+      };
+      this.shownPathScroll = false;
+      this.returnMask = ['noname'];
+      this._discs = null;
+      this._params = null;
+      this.ext7z = ['7Z', 'ZIP', 'GZIP', 'BZIP2', 'TAR', 'ARJ', 'CAB', 'CHM', 'CPIO', 'DEB', 'DMG', 'HFS', 'ISO', 'LZH', 'LZMA', 'MSI', 'NSIS', 'RAR', 'RPM', 'UDF', 'WIM', 'XAR', 'Z'];
+    };
+
+    fileBrowser.MAX_UPLOAD_SIZE = 500 * 1024 * 1024;
+    /**
+     Показать браузер пользователю. Если браузер уже показывается, он будет закрыт и открыт новый
+     @param {String} title Заголовок окна браузера
+     @param {String[]} mask Массив допустимых для выбора разрешений файлов. Если массив пустой, то выбираются директории, а не отдельные файлы
+     @param {function(path)} closeFunc Функция, которая будет вызвана при выборе файла/директории (если браузер просто закрыли, не вызовется)
+     @param {Object} params Параметры браузера
+     @param {String} params.restrictDir Ограничивающая директория (поддерево). Нельзя посмотреть файлы вне этой директории (даже для админов)
+     @param {String} params.startDir Начальная директория. Если нет, то будет открыто в том же месте, где и закрыт в прошлый раз.
+    */
+
+    fileBrowser.prototype.createBrowser = function (title, mask, closeFunc, params) {
+      this._params = $.extend({
+        restrictDir: null,
+        startDir: null
+      }, params);
+      if (this._params.startDir !== null) this._path.set(this._params.startDir);
+
+      if ($('#fileBrowserDialog').length) {
+        $('#fileBrowserDialog').parent().dialog("destroy");
+        $('#fileBrowserDialog').parent().remove();
+      }
+
+      var canvas = _div$1(null, [['attr', 'id', 'fileBrowserDialog']]);
+
+      var oDialog = showDialog$1(title, canvas, 800, 400, false, false, this.resize);
+      this.returnMask = mask;
+      this.parentCanvas = canvas;
+      this.closeFunc = closeFunc;
+      this._homeDir = nsGmx$1.AuthManager.getUserFolder();
+      if (this._discs === null) // && nsGmx.AuthManager.canDoAction(nsGmx.ACTION_SEE_FILE_STRUCTURE )
+        this.loadInfo();else this.loadInfoHandler();
+      return oDialog;
+    };
+
+    fileBrowser.prototype.resize = function () {
+      if (!$("#fileBrowserDialog").find(".fileCanvas").length) return;
+      var container = $('#fileBrowserDialog')[0];
+      var titleHeight = container.parentNode.parentNode.firstChild.offsetHeight;
+      container.childNodes[1].lastChild.style.height = container.parentNode.parentNode.offsetHeight - titleHeight - 6 - container.lastChild.offsetHeight - container.firstChild.offsetHeight - container.childNodes[1].firstChild.offsetHeight - 20 + 'px';
+    };
+
+    fileBrowser.prototype.close = function (path) {
+      this.closeFunc(path);
+      var canvas = $('#fileBrowserDialog')[0];
+      $(canvas.parentNode).dialog("destroy");
+      canvas.parentNode.removeNode(true);
+    };
+
+    fileBrowser.prototype.loadInfo = function () {
+      var _this = this;
+
+      sendCrossDomainJSONRequest$1(window.serverBase + "FileBrowser/GetDrives.ashx?WrapStyle=func", function (response) {
+        if (!parseResponse$1(response)) return;
+        _this._discs = response.Result;
+
+        _this.loadInfoHandler();
+      });
+    };
+
+    fileBrowser.prototype._showWarningDialog = function () {
+      var canvas = _div$1([_t$1(_gtxt("FileBrowser.ExceedLimitMessage"))], [['dir', 'className', 'CustomErrorText']]);
+
+      showDialog$1(_gtxt("Ошибка!"), canvas, 220, 100);
+    };
+
+    fileBrowser.prototype._uploadFilesAjax = function (formData) {
+      var _this = this;
+
+      this.progressBar.progressbar('option', 'value', 0);
+      this.progressBar.show();
+      formData.append('WrapStyle', 'None');
+      var xhr = new XMLHttpRequest();
+      xhr.upload.addEventListener("progress", function (e) {
+        _this.progressBar.progressbar('option', 'value', e.loaded / e.total * 100);
+      }, false);
+      xhr.open('POST', window.serverBase + 'FileBrowser/Upload.ashx');
+      xhr.withCredentials = true;
+
+      xhr.onload = function () {
+        _this.progressBar.hide();
+
+        if (xhr.status === 200) {
+          response = JSON.parse(xhr.responseText);
+          if (!parseResponse$1(response)) return;
+
+          if (typeof response.Result == 'string') {
+            var indexSlash = String(response.Result).lastIndexOf(_this.slash),
+                fileName = String(response.Result).substring(indexSlash + 1, response.Result.length);
+            _this.shownPath = fileName;
+          }
+
+          _this.getFiles();
+        }
+      };
+
+      xhr.send(formData);
+    };
+
+    fileBrowser.prototype.loadInfoHandler = function () {
+      var _this = this;
+
+      if (!this._path.isInited()) {
+        var mapFolder = _layersTree.treeModel.getMapProperties().LayersDir;
+
+        if (mapFolder) {
+          this._path.set(_layersTree.treeModel.getMapProperties().LayersDir, nsGmx$1.AuthManager.getUserFolder());
+        } else {
+          this._path.set(nsGmx$1.AuthManager.getUserFolder());
+        }
+      }
+
+      this.currentSortFunc = this.sortFuncs['name'][0];
+      this.fileUpload = _div$1(null, [['dir', 'className', 'fileUpload']]);
+      this.fileHeader = _div$1(null, [['css', 'height', '24px']]);
+      this.fileCanvas = _div$1(null, [['dir', 'className', 'fileCanvas']]);
+      $(this.parentCanvas).bind('dragover', function () {
+        return false;
+      });
+      $(this.parentCanvas).bind('drop', function (e) {
+        if (!window.FormData) return false;
+        var files = e.originalEvent.dataTransfer.files;
+        var formData = new FormData();
+        var totalSize = 0;
+
+        for (var f = 0; f < files.length; f++) {
+          totalSize += files[f].size;
+        }
+
+        if (totalSize > fileBrowser.MAX_UPLOAD_SIZE) {
+          _this._showWarningDialog();
+
+          return false;
+        }
+
+        for (var f = 0; f < files.length; f++) {
+          formData.append('rawdata', files[f]);
+        }
+
+        formData.append('ParentDir', _this._path.get());
+
+        _this._uploadFilesAjax(formData);
+
+        return false;
+      });
+
+      _$1(this.parentCanvas, [this.fileHeader, this.fileCanvas, this.fileUpload]);
+
+      this.createHeader();
+      this.createUpload();
+
+      this._updateUploadVisibility();
+
+      this.getFiles();
+    };
+
+    fileBrowser.prototype._updateUploadVisibility = function () {
+      $([this.fileUpload, this.tdAddFolder]).toggle(nsGmx$1.AuthManager.isRole(nsGmx$1.ROLE_ADMIN) || this._path.isInHome());
+    };
+
+    fileBrowser.prototype.createHeader = function () {
+      var reloadButton = makeImageButton$1("img/reload.png"),
+          homeButton = makeImageButton$1("img/home.png"),
+          discButtonTds = [],
+          _this = this;
+
+      reloadButton.style.margin = '0px 5px 0px 10px';
+      homeButton.style.margin = '0px 10px 0px 5px';
+      reloadButton.style.width = '14px';
+      reloadButton.style.height = '15px';
+      homeButton.style.width = '15px';
+      homeButton.style.height = '15px';
+
+      _title$1(reloadButton, _gtxt("Обновить"));
+
+      _title$1(homeButton, _gtxt("Домашняя директория"));
+
+      reloadButton.onclick = function () {
+        _this.getFiles();
+      };
+
+      homeButton.onclick = function () {
+        _this._path.set(_layersTree.treeModel.getMapProperties().LayersDir, _this._homeDir);
+
+        _this.getFiles(_layersTree.treeModel.getMapProperties().LayersDir);
+      }; //if ( nsGmx.AuthManager.canDoAction(nsGmx.ACTION_SEE_FILE_STRUCTURE ) )
+      //{
+
+
+      for (var i = 0; i < this._discs.length; i++) {
+        var discButtons = makeButton(this._discs[i]);
+
+        (function (i) {
+          discButtons.onclick = function () {
+            _this.getFiles(_this._discs[i]);
+          };
+        })(i);
+
+        discButtonTds.push(_td$1([discButtons]));
+      } //}
+
+
+      discButtonTds.push(_td$1([reloadButton], [['attr', 'vAlign', 'top']]));
+      discButtonTds.push(_td$1([homeButton], [['attr', 'vAlign', 'top']]));
+
+      var newFolderName = _input$1(null, [['dir', 'className', 'inputStyle'], ['css', 'width', '150px']]),
+          showFolderButton = makeImageButton$1("img/newfolder.png"),
+          newFolderButton = makeButton(_gtxt("Создать")),
+          createFolder = function createFolder() {
+        _this._status.start();
+
+        sendCrossDomainJSONRequest$1(window.serverBase + 'FileBrowser/CreateFolder.ashx?WrapStyle=func&FullName=' + encodeURIComponent(_this._path.get() + newFolderName.value), function (response) {
+          _this._status.stop();
+
+          if (!parseResponse$1(response)) return;
+          _this.shownPath = newFolderName.value;
+          newFolderName.value = '';
+
+          _this.getFiles();
+        });
+      };
+
+      showFolderButton.style.width = '16px';
+      showFolderButton.style.height = '13px';
+      newFolderName.style.margin = '0px 3px';
+
+      _title$1(showFolderButton, _gtxt("Новая папка"));
+
+      showFolderButton.style.marginRight = '10px';
+
+      showFolderButton.onclick = function () {
+        $(newFolderName).toggle().focus();
+        $(newFolderButton).toggle();
+      };
+
+      newFolderName.style.display = 'none';
+      newFolderButton.style.display = 'none';
+      $(newFolderName).on('keydown', function (e) {
+        if (e.keyCode === 13) {
+          if (newFolderName.value != '') createFolder();else inputError(newFolderName);
+          return false;
+        }
+      });
+
+      newFolderButton.onclick = function () {
+        if (newFolderName.value != '') createFolder();else inputError(newFolderName);
+      };
+
+      this.tdAddFolder = _td$1([_table$1([_tbody$1([_tr$1([_td$1([showFolderButton], [['attr', 'vAlign', 'top']]), _td$1([newFolderName]), _td$1([newFolderButton])])])])], [['attr', 'vAlign', 'top'], ['css', 'height', '20px']]);
+      discButtonTds.push(this.tdAddFolder);
+
+      _$1(this.fileHeader, [_table$1([_tbody$1([_tr$1(discButtonTds)])])]);
+    };
+
+    fileBrowser.prototype.createUpload = function () {
+      var div = _div$1(null, [['css', 'height', '30px']]),
+          _this = this;
+
+      var formFile = _form(null, [['attr', 'enctype', 'multipart/form-data'], ['dir', 'method', 'post'], ['dir', 'action', window.serverBase + 'FileBrowser/Upload.ashx?WrapStyle=message'], ['attr', 'target', 'fileBrowserUpload_iframe']]);
+
+      var attach = _input$1(null, [['attr', 'type', 'file'], ['dir', 'name', 'rawdata'], ['css', 'width', '200px'], ['attr', 'multiple', 'multiple']]);
+
+      _$1(formFile, [attach]);
+
+      attach.onchange = function () {
+        if (attach.files && attach.files[0] && attach.files[0].size > fileBrowser.MAX_UPLOAD_SIZE) {
+          _this._showWarningDialog();
+
+          return;
+        } //если можем послать через AJAX, посылаем - будет работать прогресс-бар
+
+
+        if (window.FormData) {
+          var formData = new FormData(formFile);
+          formData.append('ParentDir', _this._path.get());
+
+          _this._uploadFilesAjax(formData);
+
+          return;
+        }
+
+        sendCrossDomainPostRequest$1(window.serverBase + 'FileBrowser/Upload.ashx', {
+          WrapStyle: 'message',
+          ParentDir: _this._path.get()
+        }, function (response) {
+          if (!parseResponse$1(response)) return;
+          var indexSlash = String(response.Result).lastIndexOf(_this.slash),
+              fileName = String(response.Result).substring(indexSlash + 1, response.Result.length);
+          _this.shownPath = fileName;
+
+          _this.getFiles();
+        }, formFile);
+      };
+
+      var dropInfoDiv = window.FormData ? _div$1([_t$1(_gtxt('FileBrowser.DropInfo'))], [['dir', 'className', 'fileBrowser-dragFileMessage']]) : _div$1();
+
+      _$1(div, [dropInfoDiv, _table$1([_tbody$1([_tr$1([_td$1([formFile], [['css', 'paddingTop', '18px']])])])])]);
+
+      this.progressBar = $('<div/>').addClass('fileBrowser-progressBar').progressbar({
+        value: 100
+      }).hide();
+
+      _$1(this.fileUpload, [this.progressBar[0], div]);
+    };
+
+    fileBrowser.prototype.getFiles = function (path) {
+      var path = typeof path != 'undefined' ? path : this._path.get();
+
+      var alternativePath = this._path.getAlternative();
+
+      var _this = this;
+
+      if (this._isRestrictedPath(path)) return;
+
+      var doProcessResponce = function doProcessResponce(response) {
+        _this._status.stop();
+
+        if (!parseResponse$1(response)) return;
+
+        _this.getFilesHandler(response.Result, path);
+      };
+
+      this._status.start();
+
+      sendCrossDomainJSONRequest$1(window.serverBase + "FileBrowser/GetDirectoryContent.ashx?WrapStyle=func&root=" + encodeURIComponent(path), function (response) {
+        if (response.Status !== 'ok' && alternativePath) {
+          path = alternativePath;
+
+          _this._path.set(alternativePath);
+
+          sendCrossDomainJSONRequest$1(window.serverBase + "FileBrowser/GetDirectoryContent.ashx?WrapStyle=func&root=" + encodeURIComponent(alternativePath), doProcessResponce);
+        } else {
+          doProcessResponce(response);
+        }
+      });
+    };
+
+    fileBrowser.prototype.getFilesHandler = function (files, path) {
+      this._path.set(path);
+
+      this.currentFiles = files;
+
+      this._updateUploadVisibility();
+
+      this.reloadFiles();
+    };
+
+    fileBrowser.prototype.pathWidget = function () {
+      var shortPath = this._path.get();
+
+      var _this = this;
+
+      var parent = $('<span/>', {
+        'class': 'fileBrowser-pathWidget'
+      });
+      var pathElements = [];
+
+      var highlightPath = function highlightPath(index) {
+        for (var e = 0; e < pathElements.length; e++) {
+          if (e <= index) pathElements[e].addClass('fileBrowser-activePathElem');else pathElements[e].removeClass('fileBrowser-activePathElem');
+        }
+      };
+
+      var appendElem = function appendElem(text, path) {
+        var elemIndex = pathElements.length;
+        var newElem = $('<span/>', {
+          'class': 'fileBrowser-pathElem'
+        }).text(text + _this.slash).click(function () {
+          _this.getFiles(path[path.legnth - 1] === _this.slash ? path : path + _this.slash);
+        }).hover(function () {
+          highlightPath(elemIndex);
+        }, function () {
+          highlightPath(-1);
+        });
+        pathElements.push(newElem);
+        parent.append(newElem); //.append( $('<span/>').text(_this.slash) );
+      };
+
+      var curFolder = '';
+
+      while (shortPath.length) {
+        var index = shortPath.indexOf(this.slash);
+        if (index == 0) break;
+
+        if (index < 0) {
+          appendElem(shortPath, curFolder + shortPath);
+          break;
+        }
+
+        var curText = shortPath.substr(0, index);
+        curFolder += curText + this.slash;
+        shortPath = shortPath.substr(index + 1);
+        appendElem(curText, curFolder.substr(0, curFolder.length - 1));
+      }
+
+      return parent[0];
+    };
+
+    fileBrowser.prototype.quickSearch = function () {
+      var input = _input$1(null, [['dir', 'className', 'inputStyle'], ['css', 'width', '200px']]),
+          _this = this;
+
+      input.onkeyup = function () {
+        if (this.value != "") {
+          var scroll = _this.findContent(this.value);
+
+          if (scroll >= 0) _this.fileCanvas.lastChild.scrollTop = scroll;
+        }
+      };
+
+      return input;
+    };
+
+    fileBrowser.prototype.findContent = function (value) {
+      var tbody = this.fileCanvas.lastChild.firstChild.lastChild;
+
+      for (var i = 0; i < tbody.childNodes.length; ++i) {
+        var text = tbody.childNodes[i].textContent.toLowerCase();
+        if (text != "[..]" && text.indexOf(value.toLowerCase()) == 0) return tbody.childNodes[i].offsetTop;
+      }
+
+      return -1;
+    };
+
+    fileBrowser.prototype.reloadFiles = function () {
+      $(this.fileCanvas).empty();
+      this.statusContainer = _div$1(null, [['dir', 'className', 'fileBrowser-progress'], ['css', 'display', 'none']]);
+
+      _$1(this.fileCanvas, [_div$1([this.pathWidget(), _br$1(), _t$1(_gtxt("Фильтр")), this.quickSearch(), this.statusContainer], [['dir', 'className', 'currentDir'], ['css', 'color', '#153069'], ['css', 'fontSize', '12px']])]);
+
+      _$1(this.fileCanvas, [this.draw(this.currentFiles)]);
+
+      this.resize();
+
+      if (this.shownPathScroll) {
+        this.fileCanvas.lastChild.scrollTop = this.shownPathScroll.offsetTop;
+        this.shownPathScroll = false;
+      }
+    };
+
+    fileBrowser.prototype._getParentFolder = function (path) {
+      var index = String(path).lastIndexOf(this.slash),
+          newPath = String(path).substr(0, index);
+      if (new RegExp(/^[a-z]:$/i).test(newPath)) newPath += this.slash;
+      return newPath;
+    };
+
+    fileBrowser.prototype._isRestrictedPath = function (path) {
+      return this._params.restrictDir !== null && path.indexOf(this._params.restrictDir) != 0;
+    };
+
+    fileBrowser.prototype.draw = function (files) {
+      var nameSort = makeLinkButton$1(_gtxt("Имя")),
+          extSort = makeLinkButton$1(_gtxt("Тип")),
+          sizeSort = makeLinkButton$1(_gtxt("Размер")),
+          dateSort = makeLinkButton$1(_gtxt("Дата")),
+          _this = this;
+
+      nameSort.sortType = 'name';
+      extSort.sortType = 'ext';
+      sizeSort.sortType = 'size';
+      dateSort.sortType = 'date';
+
+      nameSort.onclick = extSort.onclick = sizeSort.onclick = dateSort.onclick = function () {
+        _this.currentSortType = this.sortType;
+        _this.currentSortIndex[_this.currentSortType] = 1 - _this.currentSortIndex[_this.currentSortType];
+
+        _this.reloadFiles();
+      };
+
+      var tdRoot = _td$1(null, [['css', 'width', '20px']]);
+
+      if (nsGmx$1.AuthManager.canDoAction(nsGmx$1.ACTION_SEE_FILE_STRUCTURE)) {
+        var rootButton = makeButton(this.slash);
+
+        _$1(tdRoot, [rootButton]);
+
+        rootButton.onclick = function () {
+          _this.getFiles(_this._path.getRoot());
+        };
+      }
+
+      var tableHeaderTr = _tr$1([tdRoot, _td$1([nameSort], [['css', 'textAlign', 'left']]), _td$1([extSort], [['css', 'width', '10%'], ['css', 'textAlign', 'center']]), _td$1([sizeSort], [['css', 'width', '15%'], ['css', 'textAlign', 'center']]), _td$1([dateSort], [['css', 'width', '25%'], ['css', 'textAlign', 'center']])]),
+          prevDirTr = _tr$1([_td$1(), _td$1([_t$1("[..]")]), _td$1(), _td$1(), _td$1()]),
+          tableFilesTrs = [];
+
+      var parentFolder = _this._path.getParentFolder();
+
+      if (parentFolder && !this._isRestrictedPath(parentFolder)) {
+        tableFilesTrs.push(prevDirTr);
+        attachEffects$1(prevDirTr, 'hover');
+
+        prevDirTr.onclick = function () {
+          _this.getFiles(parentFolder);
+        };
+      }
+
+      tableFilesTrs = tableFilesTrs.concat(this.drawFolders(files));
+      tableFilesTrs = tableFilesTrs.concat(this.drawFiles(files));
+      return _div$1([_table$1([_thead([tableHeaderTr]), _tbody$1(tableFilesTrs)], [['css', 'width', '100%']])], [['css', 'overflowY', 'scroll']]);
+    };
+
+    fileBrowser.prototype.getCurrentSortFunc = function () {
+      return this.sortFuncs[this.currentSortType][this.currentSortIndex[this.currentSortType]];
+    };
+
+    fileBrowser.prototype.formatDate = function (sec) {
+      var sysDate = new Date(sec * 1000),
+          date = [];
+      date[0] = sysDate.getDate(), date[1] = sysDate.getMonth() + 1, date[2] = sysDate.getFullYear(), date[3] = sysDate.getHours(), date[4] = sysDate.getMinutes(), date[5] = sysDate.getSeconds();
+
+      for (var i = 0; i < 6; i++) {
+        if (date[i] < 10) date[i] = '0' + date[i];
+      }
+
+      return date[0] + '.' + date[1] + '.' + date[2] + ' ' + date[3] + ':' + date[4] + ':' + date[5];
+    };
+
+    fileBrowser.prototype.drawFolders = function (arr) {
+      var folders = [],
+          trs = [],
+          _this = this;
+
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i].Directory) folders.push(arr[i]);
+      }
+
+      if (this.currentSortType == 'name' || this.currentSortType == 'date') folders = folders.sort(this.getCurrentSortFunc());
+
+      for (var i = 0; i < folders.length; i++) {
+        var tdReturn = _td$1();
+
+        if (!this.returnMask.length) {
+          var returnButton = makeImageButton$1("img/choose.png", "img/choose_a.png");
+          returnButton.style.cursor = 'pointer';
+          returnButton.style.marginLeft = '5px';
+
+          _title$1(returnButton, _gtxt("Выбрать"));
+
+          (function (i) {
+            returnButton.onclick = function (e) {
+              _this.close(_this._path.get() + folders[i].Name + _this.slash);
+            };
+          })(i);
+
+          _$1(tdReturn, [returnButton]);
+        }
+
+        var tr = _tr$1([tdReturn, _td$1([_div$1(null, [['dir', 'className', 'fileCanvas-folder-icon']]), this.createFolderActions(folders[i].Name)]), _td$1(), _td$1([_t$1(_gtxt("Папка"))], [['css', 'textAlign', 'center'], ['dir', 'className', 'invisible']]), _td$1([_t$1(this.formatDate(folders[i].Date))], [['css', 'textAlign', 'center'], ['dir', 'className', 'invisible']])]);
+
+        (function (i) {
+          tr.onclick = function () {
+            _this.getFiles(_this._path.get() + folders[i].Name);
+          };
+        })(i);
+
+        attachEffects$1(tr, 'hover');
+
+        if (this.shownPath && folders[i].Name == this.shownPath) {
+          $(tr).children("td").css('backgroundColor', '#CEEECE');
+          this.shownPath = null;
+          this.shownPathScroll = tr;
+        }
+
+        trs.push(tr);
+      }
+
+      return trs;
+    };
+
+    fileBrowser.prototype.drawFiles = function (arr) {
+      var files = [],
+          trs = [],
+          _this = this;
+
+      for (var i = 0; i < arr.length; i++) {
+        if (!arr[i].Directory) files.push(arr[i]);
+      }
+
+      files = files.sort(this.getCurrentSortFunc());
+
+      for (var i = 0; i < files.length; i++) {
+        var index = String(files[i].Name).lastIndexOf('.'),
+            name = String(files[i].Name).substr(0, index),
+            ext = String(files[i].Name).substr(index + 1, files[i].Name.length),
+            tdReturn = _td$1();
+
+        tdSize = _td$1([_t$1(this.makeSize(files[i].Size))], [['attr', 'size', files[i].Size], ['css', 'textAlign', 'right'], ['dir', 'className', 'invisible']]);
+
+        if (this.returnMask.length && valueInArray(this.returnMask, ext.toLowerCase())) {
+          var returnButton = makeImageButton$1("img/choose.png", "img/choose_a.png");
+          returnButton.style.cursor = 'pointer';
+          returnButton.style.marginLeft = '5px';
+
+          _title$1(returnButton, _gtxt("Выбрать"));
+
+          (function (i) {
+            returnButton.onclick = function (e) {
+              _this.close(_this._path.get() + files[i].Name);
+            };
+          })(i);
+
+          _$1(tdReturn, [returnButton]);
+        }
+
+        var tr = _tr$1([tdReturn, _td$1([this.createFileActions(name, ext)]), _td$1([_t$1(ext)], [['css', 'textAlign', 'right'], ['css', 'fontSize', '12px']]), tdSize, _td$1([_t$1(this.formatDate(files[i].Date))], [['css', 'textAlign', 'center'], ['dir', 'className', 'invisible']])]);
+
+        attachEffects$1(tr, 'hover');
+
+        if (this.shownPath && files[i].Name == this.shownPath) {
+          $(tr).children("td").css('backgroundColor', '#CEEECE');
+          this.shownPath = null;
+          this.shownPathScroll = tr;
+        }
+
+        trs.push(tr);
+      }
+
+      return trs;
+    };
+
+    fileBrowser.prototype.createFolderActions = function (name) {
+      var span = _span$1([_t$1(name)], [['css', 'fontSize', '12px']]),
+          spanParent = _div$1([span], [['css', 'display', 'inline-block'], ['css', 'position', 'relative']]),
+          _this = this;
+
+      nsGmx$1.ContextMenuController.bindMenuToElem(spanParent, 'FileBrowserFolder', function () {
+        return _this._path.isInHome() || nsGmx$1.AuthManager.canDoAction(nsGmx$1.ACTION_SEE_FILE_STRUCTURE);
+      }, {
+        fullPath: this._path.get() + name + this.slash,
+        fileBrowser: this,
+        enableZip: true
+      });
+      return spanParent;
+    };
+
+    fileBrowser.prototype.createFileActions = function (name, ext) {
+      var span = _span$1([_t$1(name)], [['css', 'fontSize', '12px']]),
+          spanParent = _div$1([span], [['css', 'display', 'inline-block'], ['css', 'position', 'relative']]),
+          _this = this;
+
+      nsGmx$1.ContextMenuController.bindMenuToElem(spanParent, 'FileBrowserFile', function () {
+        return _this._path.isInHome() || nsGmx$1.AuthManager.canDoAction(nsGmx$1.ACTION_SEE_FILE_STRUCTURE);
+      }, {
+        fullPath: this._path.get() + name + '.' + ext,
+        fileBrowser: this,
+        enableUnzip: valueInArray(_this.ext7z, ext.toUpperCase())
+      });
+      return spanParent;
+    }; //TODO: translate
+
+
+    fileBrowser.prototype.makeSize = function (size) {
+      if (size > 1024 * 1024 * 1024) return (size / (1024 * 1024 * 1024)).toFixed(2) + ' Гб';else if (size > 1024 * 1024) return (size / (1024 * 1024)).toFixed(2) + ' Мб';else if (size > 1024) return (size / 1024).toFixed(2) + ' Кб';
+      return size + ' б';
+    };
+
+    window.fileBrowser = fileBrowser;
+    window._fileBrowser = new fileBrowser(); ///////////////////////////////////////////////////////////////////////////////
+    ////////////////////////// Контекстное меню браузера //////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////
+    //фабрика, которая может возвращать элементы меню для архивирования (isZip=true) и разархивирования (isZip=false)
+
+    var zipUnzipActionFactory = function zipUnzipActionFactory(isZip) {
+      return {
+        title: function title() {
+          return isZip ? _gtxt("Упаковать") : _gtxt("Извлечь");
+        },
+        clickCallback: function clickCallback(context) {
+          context.fileBrowser._status.start();
+
+          sendCrossDomainJSONRequest$1(window.serverBase + (context.enableUnzip ? 'FileBrowser/Unzip.ashx' : 'FileBrowser/Zip.ashx') + '?WrapStyle=func&FullName=' + encodeURIComponent(context.fullPath), function (response) {
+            context.fileBrowser._status.stop();
+
+            if (!parseResponse$1(response)) return;
+            var indexSlash = String(response.Result).lastIndexOf('\\'),
+                fileName = String(response.Result).substring(indexSlash + 1, response.Result.length);
+            context.fileBrowser.shownPath = fileName;
+            context.fileBrowser.getFiles();
+          });
+        },
+        isVisible: function isVisible(context) {
+          return isZip ? !context.enableUnzip : context.enableUnzip; //XOR
+        }
+      };
+    };
+
+    nsGmx$1.ContextMenuController.addContextMenuElem({
+      title: function title() {
+        return _gtxt("Скачать");
+      },
+      clickCallback: function clickCallback(context) {
+        var form = _form([_input$1(null, [['attr', 'name', 'FullName'], ['attr', 'value', context.fullPath]])], [['css', 'display', 'none'], ['attr', 'method', 'POST'], ['attr', 'action', window.serverBase + "FileBrowser/Download.ashx"]]);
+
+        _$1(document.body, [form]);
+
+        form.submit();
+        form.removeNode(true);
+      }
+    }, ['FileBrowserFolder', 'FileBrowserFile']);
+    nsGmx$1.ContextMenuController.addContextMenuElem({
+      title: function title() {
+        return _gtxt("Удалить");
+      },
+      clickCallback: function clickCallback(context) {
+        context.fileBrowser._status.start();
+
+        sendCrossDomainJSONRequest$1(window.serverBase + 'FileBrowser/Delete.ashx?WrapStyle=func&FullName=' + encodeURIComponent(context.fullPath), function (response) {
+          context.fileBrowser._status.stop();
+
+          if (!parseResponse$1(response)) return;
+          context.fileBrowser.getFiles();
+        });
+      }
+    }, ['FileBrowserFolder', 'FileBrowserFile']);
+    nsGmx$1.ContextMenuController.addContextMenuElem({
+      title: function title() {
+        return _gtxt("Очистить");
+      },
+      clickCallback: function clickCallback(context) {
+        context.fileBrowser._status.start();
+
+        sendCrossDomainJSONRequest$1(window.serverBase + 'FileBrowser/CleanFolder.ashx?WrapStyle=func&FullName=' + encodeURIComponent(context.fullPath), function (response) {
+          context.fileBrowser._status.stop();
+
+          if (!parseResponse$1(response)) return;
+          context.fileBrowser.getFiles();
+        });
+      }
+    }, 'FileBrowserFolder'); //упаковываем и файлы и папки
+
+    nsGmx$1.ContextMenuController.addContextMenuElem(zipUnzipActionFactory(true), ['FileBrowserFolder', 'FileBrowserFile']); //распаковываем только файлы
+
+    nsGmx$1.ContextMenuController.addContextMenuElem(zipUnzipActionFactory(false), 'FileBrowserFile');
+
     /** Виджет для выбора полей для X и Y координат из списка полей
     * @function
     * @param parent {DOMElement} - контейнер для размещения виджета
@@ -27175,12 +28034,12 @@
           for (var i = 0; i < fields.length; i++) {
             var opt = _option$1([_t$1(fields[i])], [['attr', 'value', fields[i]]]);
 
-            _$1(selectLat, [opt.cloneNode(true)]);
+            _(selectLat, [opt.cloneNode(true)]);
 
-            _$1(selectLon, [opt.cloneNode(true)]);
+            _(selectLon, [opt.cloneNode(true)]);
           }
 
-          _$1(parent, [_table$1([_tbody$1([_tr$1([_td$1([_span$1([_t$1(_gtxt("Y (широта)"))], [['css', 'margin', '0px 3px']])], [['css', 'width', '73px'], ['css', 'border', 'none']]), _td$1([selectLat], [['css', 'width', '150px'], ['css', 'border', 'none']])]), _tr$1([_td$1([_span$1([_t$1(_gtxt("X (долгота)"))], [['css', 'margin', '0px 3px']])], [['css', 'width', '73px'], ['css', 'border', 'none']]), _td$1([selectLon], [['css', 'width', '150px'], ['css', 'border', 'none']])])])])]);
+          _(parent, [_table$1([_tbody$1([_tr$1([_td$1([_span$1([_t$1(_gtxt("Y (широта)"))], [['css', 'margin', '0px 3px']])], [['css', 'width', '73px'], ['css', 'border', 'none']]), _td$1([selectLat], [['css', 'width', '150px'], ['css', 'border', 'none']])]), _tr$1([_td$1([_span$1([_t$1(_gtxt("X (долгота)"))], [['css', 'margin', '0px 3px']])], [['css', 'width', '73px'], ['css', 'border', 'none']]), _td$1([selectLon], [['css', 'width', '150px'], ['css', 'border', 'none']])])])])]);
 
           if (columns.get('XCol')) {
             selectLon = switchSelect(selectLon, columns.get('XCol'));
@@ -27346,7 +28205,7 @@
         }
 
         for (var i in _params.additionalUI) {
-          var tab = nsGmx$1._.findWhere(_this._originalTabs, {
+          var tab = nsGmx$1.Utils._.findWhere(_this._originalTabs, {
             name: i
           });
 
@@ -27366,7 +28225,7 @@
               var span = $(div).find(".layer")[0];
               $(span).empty();
 
-              _$1(span, [_t$1(title)]);
+              _(span, [_t$1(title)]);
 
               divProperties.title = title;
             },
@@ -27411,7 +28270,7 @@
           var def = layerProperties.save(needRetiling, null, _params),
               layerTitle = layerProperties.get('Title'); //doneCallback вызываем при первом progress notification - признаке того, что вызов непосредственно скрипта модификации слоя прошёл успешно
 
-          var onceCallback = nsGmx$1._.once(function () {
+          var onceCallback = _.once(function () {
             _params.doneCallback && _params.doneCallback(def, layerTitle);
           });
 
@@ -27594,7 +28453,7 @@
       }
 
       if (layerProperties.get('Type') != "Vector") {
-        var selectImage = new mapHelper.ImageSelectionWidget();
+        var selectImage = new mapHelper$1.ImageSelectionWidget();
         selectImage.on('selected', function (url) {
           var imgHtml = '<img src="' + url + '"></img>';
           legend.value = imgHtml;
@@ -27620,7 +28479,7 @@
         leftWidth: 70
       });
 
-      _$1(parent, [_table$1([_tbody$1(trs)], [['dir', 'className', 'propertiesTable']])]);
+      _(parent, [_table$1([_tbody$1(trs)], [['dir', 'className', 'propertiesTable']])]);
 
       if (isReadonly) {
         $(parent).find('input, textarea').prop('disabled', true);
@@ -27630,7 +28489,7 @@
     LayerEditor.prototype._createPageVectorSource = function (layerProperties, params) {
       var _this = this;
 
-      var LatLngColumnsModel = new gmxCore.getModule('LayerProperties').LatLngColumnsModel;
+      var LatLngColumnsModel = new gmxCore$1.getModule('LayerProperties').LatLngColumnsModel;
       var shownProperties = [];
       var layerName = layerProperties.get('Name');
       var sourceType = layerProperties.get('SourceType');
@@ -27669,7 +28528,7 @@
 
 
       shapeFileLink.onclick = function () {
-        _fileBrowser.createBrowser(_gtxt("Файл"), ['shp', 'tab', 'xls', 'xlsx', 'xlsm', 'mif', 'gpx', 'kml', 'csv', 'sxf', 'gdbtable', 'geojson', 'kmz', 'sqlite'], function (path) {
+        window._fileBrowser.createBrowser(_gtxt("Файл"), ['shp', 'tab', 'xls', 'xlsx', 'xlsm', 'mif', 'gpx', 'kml', 'csv', 'sxf', 'gdbtable', 'geojson', 'kmz', 'sqlite'], function (path) {
           shapePathInput.value = path;
           layerProperties.set('ShapePath', {
             Path: path
@@ -27697,7 +28556,7 @@
 
       var sourceFile = _div$1(null, [['dir', 'id', 'fileSource' + layerName]]);
 
-      _$1(sourceFile, [shapePathInput, shapeFileLink, encodingParent, xlsColumnsParent
+      _(sourceFile, [shapePathInput, shapeFileLink, encodingParent, xlsColumnsParent
       /*, fileAddAttribute, fileColumnsContainer*/
       ]);
       /*------------ Источник: таблица ------------*/
@@ -27852,7 +28711,7 @@
         'manual': 2
       }[sourceType];
 
-      _$1(sourceTab, sourceContainers);
+      _(sourceTab, sourceContainers);
 
       $(sourceTab).tabs({
         active: selectedSource,
@@ -27955,7 +28814,7 @@
       };
 
       if (name) {
-        _$1(trShape.firstChild, [_br$1(), _t$1(_gtxt("Контур")), drawingBorderLink]);
+        _(trShape.firstChild, [_br$1(), _t$1(_gtxt("Контур")), drawingBorderLink]);
 
         if (shapePath.Path) shapeVisible(true);else {
           shapeVisible(false);
@@ -28110,7 +28969,7 @@
         props.set('Columns', fileAttrModel.toServerFormat());
       });
 
-      _$1(parent, [fileColumnsContainer]);
+      _(parent, [fileColumnsContainer]);
 
       props.on('change:SourceType', function () {
         var type = props.get('SourceType');
@@ -28228,7 +29087,7 @@
     };
 
     nsGmx$1.LayerEditor = LayerEditor;
-    gmxCore.addModule('LayerEditor', {
+    gmxCore$1.addModule('LayerEditor', {
       createLayerEditor: createLayerEditor,
       LayerEditor: LayerEditor
     }, {
