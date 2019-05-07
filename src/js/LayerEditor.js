@@ -31,6 +31,8 @@ import {mapHelper} from './mapHelper.js';
 import gmxCore from './gmxcore.js';
 import './fileBrowser.js';
 
+const _ = nsGmx.Utils._;
+
 //Создание интерфейса редактирования свойств слоя
 
 /** Виджет для выбора полей для X и Y координат из списка полей
@@ -243,7 +245,7 @@ var LayerEditor = function(div, type, parent, properties, params) {
         }
 
         for (var i in _params.additionalUI) {
-            var tab = nsGmx.Utils._.findWhere(_this._originalTabs, {name: i});
+            var tab = _.findWhere(_this._originalTabs, {name: i});
             if (tab) {
                 var container = tab.container.firstChild;
                 _params.additionalUI[i].forEach(function(ui) {

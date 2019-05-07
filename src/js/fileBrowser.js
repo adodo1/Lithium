@@ -25,9 +25,10 @@ import {
     _tr,
 	_th,
 	_td,
-    _ul,    
-    _,
+    _ul,        
 } from './utilities.js';
+
+const _ = nsGmx.Utils._;
 
 /** 
 * @class Веб браузер для выбора и загрузки файлов на сервер

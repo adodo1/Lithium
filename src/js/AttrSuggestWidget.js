@@ -6,6 +6,8 @@ import {
 }
 from "./utilities.js";
 
+const _ = nsGmx.Utils._;
+
 nsGmx.SuggestWidget = function(attrNames, textarea, textTemplate, func, valuesArr, addValueFlag, attrType) {
     var _this = this;
     this.textArea = textarea;

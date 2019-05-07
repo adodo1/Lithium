@@ -2,8 +2,6 @@ import nsGmx from '../nsGmx.js';
 
 !(function() {
 
-'use strict';
-
 nsGmx.AttrTable = nsGmx.AttrTable || {};
 
 var attrsTable = function(layerName, layerTitle)

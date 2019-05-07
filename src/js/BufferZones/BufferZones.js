@@ -1,4 +1,4 @@
-var nsGmx = window.nsGmx || {};
+import nsGmx from '../nsGmx.js';
 
 (function() {
     window._translationsHash.addtext('rus', {

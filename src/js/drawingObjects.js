@@ -9,6 +9,8 @@ import {
 	makeLinkButton, show, hide
 } from './utilities.js';
 
+const _ = nsGmx.Utils._;
+
 /**
 * @namespace DrawingObjects
 * @description SDK для редактирования объектов на карте
