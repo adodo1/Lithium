@@ -131,4 +131,4 @@ drawingObjects.loadShp.unload = function()
 {
 }
 
-export {drawingObjects};
+export {drawingObjects, _queryLoadShp};

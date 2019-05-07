@@ -1663,4 +1663,4 @@ nsGmx.createStylesDialog = gmxCore.createDeferredFunction('LayerStylesEditor', '
 nsGmx.showStyleLibraryDialog = gmxCore.createDeferredFunction('StyleLibrary', 'showStyleLibraryDialog');
 
 
-export {mapHelp, mapHelper};
+export {mapHelp, mapHelper, _mapHelper};

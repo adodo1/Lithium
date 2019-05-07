@@ -18734,7 +18734,7 @@
 
     exports.copy = copy;
     exports.extend = extend;
-    //# sourceMappingURL=scanex-object-extensions.cjs.js.map
+
     });
 
     unwrapExports(scanexObjectExtensions_cjs);
@@ -21555,7 +21555,7 @@
     exports.OsmDataProvider = OsmDataProvider;
     exports.SearchControl = SearchControl;
     exports.SearchWidget = SearchWidget;
-    //# sourceMappingURL=main.js.map
+
     });
 
     unwrapExports(main);
@@ -21831,18 +21831,18 @@
       }.bind(this));
     };
 
-    var _queryLoadShp$1 = new queryLoadShp();
+    var _queryLoadShp = new queryLoadShp();
 
     drawingObjects.loadShp.load = function () {
       if ('File' in window) {
         $('<input type="file" multiple>').change(function (e) {
-          _queryLoadShp$1.loadAndShowFiles(e.target.files);
+          _queryLoadShp.loadAndShowFiles(e.target.files);
         }).click();
       } else {
         //IE9
-        var alreadyLoaded = _queryLoadShp$1.createWorkCanvas(arguments[0] || "shp");
+        var alreadyLoaded = _queryLoadShp.createWorkCanvas(arguments[0] || "shp");
 
-        if (!alreadyLoaded) _queryLoadShp$1.load();
+        if (!alreadyLoaded) _queryLoadShp.load();
       }
     };
 
@@ -29360,8 +29360,7 @@
         @namespace
     */
 
-    nsGmx$1.widgets = nsGmx$1.widgets || {};
-    var gmxJSHost = window.gmxJSHost || '';
+    nsGmx$1.widgets = nsGmx$1.widgets || {}; // var gmxJSHost = window.gmxJSHost || '';
 
     if (!window.mapHostName && window.gmxJSHost) {
       window.mapHostName = /https?:\/\/(.*)\/api\//.exec(window.gmxJSHost)[1];
@@ -29379,7 +29378,11 @@
       _mapHostName = protocol + '//' + curUri.host + curUri.directory;
     }
 
-    var _serverBase = window.serverBase || /(.*)\/[^\/]*\//.exec(_mapHostName)[1] + '/'; //подставляет к локальному имени файла хост (window.gmxJSHost) и, опционально, рандомное поле для сброса кэша (window.gmxDropBrowserCache)
+    var _serverBase = window.serverBase || /(.*)\/[^\/]*\//.exec(_mapHostName)[1] + '/'; // //подставляет к локальному имени файла хост (window.gmxJSHost) и, опционально, рандомное поле для сброса кэша (window.gmxDropBrowserCache)
+    // var _getFileName = function(localName) {
+    //     return gmxJSHost + localName + (window.gmxDropBrowserCache ? '?' + Math.random() : '');
+    // }
+
 
     nsGmx$1.initGeoMixer = function () {
       var oSearchLeftMenu = new leftMenu$1();
@@ -29411,7 +29414,7 @@
 
           _menuUp.checkItem('mapGrid', isActive);
 
-          _mapHelper.gridView = isActive; //можно удалить?
+          _mapHelper$1.gridView = isActive; //можно удалить?
 
           if (this.state) {
             this.configureGrid();
@@ -29458,14 +29461,14 @@
               var paramsClone = $.extend(true, {}, plugin.params);
               plugin.body.afterViewer && plugin.body.afterViewer(paramsClone, nsGmx$1.leafletMap);
 
-              _mapHelper.mapPlugins.addPlugin(pluginName, plugin.params);
+              _mapHelper$1.mapPlugins.addPlugin(pluginName, plugin.params);
             });
           };
 
           var unsel = function unsel() {
             nsGmx$1.pluginsManager.setUsePlugin(pluginName, false);
             nsGmx$1.pluginsManager.done(function () {
-              _mapHelper.mapPlugins.remove(pluginName);
+              _mapHelper$1.mapPlugins.remove(pluginName);
 
               plugin.body.unload && plugin.body.unload();
             });
@@ -29521,7 +29524,7 @@
             id: 'shareMenu',
             title: _gtxt('Поделиться'),
             func: function func() {
-              _mapHelper.showPermalink();
+              _mapHelper$1.showPermalink();
             }
           }, // {id: 'codeMap',      title: _gtxt('Код для вставки'),   func: function(){_mapHelper.createAPIMapDialog()}, disabled: true},
           {
@@ -29536,7 +29539,7 @@
             id: 'printMap',
             title: _gtxt('Печать'),
             func: function func() {
-              _mapHelper.print();
+              _mapHelper$1.print();
             },
             delimiter: true
           }, {
@@ -29584,17 +29587,17 @@
             childs: [{
               id: 'createRasterLayer',
               title: _gtxt('Растровый'),
-              func: _mapHelper.createNewLayer.bind(_mapHelper, 'Raster'),
+              func: _mapHelper$1.createNewLayer.bind(_mapHelper$1, 'Raster'),
               disabled: !isMapEditor
             }, {
               id: 'createVectorLayer',
               title: _gtxt('Векторный'),
-              func: _mapHelper.createNewLayer.bind(_mapHelper, 'Vector'),
+              func: _mapHelper$1.createNewLayer.bind(_mapHelper$1, 'Vector'),
               disabled: !isMapEditor
             }, {
               id: 'createMultiLayer',
               title: _gtxt('Мультислой'),
-              func: _mapHelper.createNewLayer.bind(_mapHelper, 'Multi'),
+              func: _mapHelper$1.createNewLayer.bind(_mapHelper$1, 'Multi'),
               disabled: !isMapEditor
             }, {
               id: 'createVirtualLayer',
@@ -29683,7 +29686,7 @@
           }, {
             id: 'DrawingObjects',
             title: _gtxt('Объекты'),
-            func: oDrawingObjectGeomixer.Load // {id:'searchView',     title: _gtxt('Результаты поиска'),    func: oSearchControl.Load}
+            func: window.oDrawingObjectGeomixer.Load // {id:'searchView',     title: _gtxt('Результаты поиска'),    func: oSearchControl.Load}
 
           }]
         });
@@ -29700,7 +29703,7 @@
             onunsel: nsGmx$1.gridManager.setState.bind(nsGmx$1.gridManager, {
               isActive: false
             }),
-            checked: _mapHelper.gridView
+            checked: _mapHelper$1.gridView
           }, {
             id: 'mapIndexGrid',
             title: _gtxt('Индексная сетка'),
@@ -29773,7 +29776,7 @@
           childs: nsGmx$1.gmxMap.properties.MapID !== '31RJS' ? [{
             id: 'about',
             title: _gtxt('О проекте'),
-            func: _mapHelper.version
+            func: _mapHelper$1.version
           }].concat(window.mapsSite ? [{
             id: 'usage',
             title: _gtxt('Руководство пользователя'),
@@ -29808,7 +29811,7 @@
           options: {
             position: 'topleft'
           },
-          onAdd: function onAdd(map) {
+          onAdd: function onAdd() {
             var sliderContainer = $('<div class="gmx-slider-control"></div>');
             this._widget = new nsGmx$1.TransparencySliderWidget(sliderContainer);
             $(this._widget).on('slide slidechange', function (event, ui) {
@@ -29844,14 +29847,17 @@
             id: 'saveMap',
             title: _gtxt('Сохранить карту'),
             addBefore: 'drawing'
-          }).addTo(lmap).on('click', _queryMapLayers.saveMap.bind(_queryMapLayers)); //группа создания слоёв
+          });
+          saveMapIcon.addTo(lmap);
+          saveMapIcon.on('click', _queryMapLayers.saveMap.bind(_queryMapLayers)); //группа создания слоёв
 
           var createVectorLayerIcon = L.control.gmxIcon({
             id: 'createVectorLayer',
             title: _gtxt('Создать векторный слой'),
             addBefore: 'drawing'
-          }).on('click', function () {
-            _mapHelper.createNewLayer('Vector');
+          });
+          createVectorLayerIcon.on('click', function () {
+            _mapHelper$1.createNewLayer('Vector');
 
             createVectorLayerIcon.setActive(true);
             createRasterLayerIcon.setActive(false);
@@ -29860,8 +29866,9 @@
             id: 'createRasterLayer',
             title: _gtxt('Создать растровый слой'),
             addBefore: 'drawing'
-          }).on('click', function () {
-            _mapHelper.createNewLayer('Raster');
+          });
+          createRasterLayerIcon.on('click', function () {
+            _mapHelper$1.createNewLayer('Raster');
 
             createRasterLayerIcon.setActive(true);
             createVectorLayerIcon.setActive(false);
@@ -29872,16 +29879,19 @@
             //isCollapsible: false,
             items: [createVectorLayerIcon, createRasterLayerIcon],
             addBefore: 'drawing'
-          }).addTo(lmap);
+          });
+          createLayerIconGroup.addTo(lmap);
           var bookmarkIcon = L.control.gmxIcon({
             id: 'bookmark',
             title: _gtxt('Добавить закладку'),
             addBefore: 'drawing'
-          }).on('click', function () {
+          });
+          bookmarkIcon.on('click', function () {
             mapHelp$1.tabs.load('mapTabs');
 
             _queryTabs.add();
-          }).addTo(lmap);
+          });
+          bookmarkIcon.addTo(lmap);
           resolveToolConflict(createLayerIconGroup);
         } else {
           resolveToolConflict(lmap.gmxControlIconManager.get('drawing'));
@@ -29891,12 +29901,16 @@
           id: 'gmxprint',
           title: _gtxt('Печать'),
           addBefore: 'drawing'
-        }).addTo(lmap).on('click', _mapHelper.print.bind(_mapHelper));
+        });
+        printIcon.addTo(lmap);
+        printIcon.on('click', _mapHelper$1.print.bind(_mapHelper$1));
         var permalinkIcon = L.control.gmxIcon({
           id: 'permalink',
           title: _gtxt('Ссылка на карту'),
           addBefore: 'drawing'
-        }).addTo(lmap).on('click', _mapHelper.showPermalink.bind(_mapHelper));
+        });
+        permalinkIcon.addTo(lmap);
+        permalinkIcon.on('click', _mapHelper$1.showPermalink.bind(_mapHelper$1));
 
         if (window.mapsSite) {
           var shareIconControl = new nsGmx$1.ShareIconControl({
@@ -29909,7 +29923,7 @@
             togglable: true,
             permalinkManager: {
               save: function save() {
-                return $.when(_mapHelper.createPermalink(), nsMapCommon.generateWinniePermalink());
+                return $.when(_mapHelper$1.createPermalink(), nsMapCommon.generateWinniePermalink());
               }
             },
             permalinkUrlTemplate: '{{href}}?permalink={{permalinkId}}',
@@ -29925,14 +29939,16 @@
           title: _gtxt('Координатная сетка'),
           togglable: true,
           addBefore: 'drawing'
-        }).addTo(lmap).on('click', function () {
+        });
+        gridIcon.addTo(lmap);
+        gridIcon.on('click', function () {
           var state = {
             isActive: gridIcon.options.isActive
           };
           nsGmx$1.gridManager.setState(state);
         });
 
-        _mapHelper.customParamsManager.addProvider({
+        _mapHelper$1.customParamsManager.addProvider({
           name: 'GridManager',
           loadState: function loadState(state) {
             nsGmx$1.gridManager.setState(state);
@@ -30078,7 +30094,7 @@
           }, {
             id: 'about',
             title: _gtxt('О проекте'),
-            func: _mapHelper.version
+            func: _mapHelper$1.version
           }]
         });
       };
@@ -30123,7 +30139,7 @@
         window.shownTitle = window.pageTitle || _gtxt('ScanEx Web Geomixer - просмотр карты');
         document.title = window.shownTitle;
         window.serverBase = _serverBase;
-        addParseResponseHook('*', function (response, customErrorDescriptions) {
+        addParseResponseHook('*', function (response) {
           if (response.Warning) {
             //мы дожидаемся загрузки дерева слоёв, чтобы не добавлять notification widget слишком рано (до инициализации карты в контейнере)
             _queryMapLayers.loadDeferred.then(function () {
@@ -30137,7 +30153,7 @@
         addParseResponseHook('error', function (response, customErrorDescriptions) {
           var errInfo = response.ErrorInfo;
 
-          if (errInfo.ErrorMessage && !(errInfo.ErrorMessage in _mapHelper.customErrorsHash)) {
+          if (errInfo.ErrorMessage && !(errInfo.ErrorMessage in _mapHelper$1.customErrorsHash)) {
             if (customErrorDescriptions && errInfo.ExceptionType in customErrorDescriptions) {
               var canvas = $(customErrorTemplate({
                 description: customErrorDescriptions[errInfo.ExceptionType]
@@ -30163,7 +30179,7 @@
 
         nsGmx$1.pluginsManager = new (gmxCore$1.getModule('PluginsManager').PluginsManager)(); //будем сохранять в пермалинке все активные плагины
 
-        _mapHelper.customParamsManager.addProvider({
+        _mapHelper$1.customParamsManager.addProvider({
           name: 'PluginManager',
           loadState: function loadState(state) {
             for (var p in state.usage) {
@@ -30208,7 +30224,7 @@
           } else {
             var tinyRef = readCookie('TinyReference');
 
-            _mapHelper.restoreTinyReference(tinyRef, function (obj) {
+            _mapHelper$1.restoreTinyReference(tinyRef, function (obj) {
               if (obj.mapName) {
                 window.globalMapName = obj.mapName;
               }
@@ -30258,7 +30274,7 @@
         if (tinyRef) {
           eraseCookie$1('TinyReference');
 
-          _mapHelper.restoreTinyReference(tinyRef, function (obj) {
+          _mapHelper$1.restoreTinyReference(tinyRef, function (obj) {
             if (obj.mapName) {
               window.globalMapName = obj.mapName;
             }
@@ -30295,12 +30311,10 @@
 
         if (window.exportMode) {
           left = 0;
+        } else if (window.iconSidebarWidget) {
+          left = window.iconSidebarWidget.getWidth();
         } else {
-          if (window.iconSidebarWidget) {
-            left = window.iconSidebarWidget.getWidth();
-          } else {
-            left = window.layersShown ? 400 : 40;
-          }
+          left = window.layersShown ? 400 : 40;
         }
 
         mainDiv.style.left = left + 'px';
@@ -30352,7 +30366,7 @@
 
         nsGmx$1.ContextMenuController.addContextMenuElem({
           title: _gtxt('EditObject.drawingMenuTitle'),
-          isVisible: function isVisible(context) {
+          isVisible: function isVisible() {
             var active = $(_queryMapLayers.treeCanvas).find('.active'); //должен быть векторный слой
 
             if (!active[0] || !active[0].parentNode.getAttribute('LayerID') || !active[0].parentNode.gmxProperties.content.properties.type === 'Vector') {
@@ -30384,8 +30398,8 @@
           }
         }, 'Layer'); //добавляем тул в тублар карты
 
-        var listeners = {};
-        var pluginPath = gmxCore$1.getModulePath('EditObjectPlugin');
+        var listeners = {}; // var pluginPath = gmxCore.getModulePath('EditObjectPlugin');
+
         var editIcon = L.control.gmxIcon({
           id: 'editTool',
           title: _gtxt('Редактировать'),
@@ -30405,8 +30419,8 @@
               return true; // TODO: как oтключить дальнейшую обработку события
             };
 
-            for (var iL = 0; iL < nsGmx$1.gmxMap.layers.length; iL++) {
-              var layer = nsGmx$1.gmxMap.layers[iL],
+            for (var _iL = 0; _iL < nsGmx$1.gmxMap.layers.length; _iL++) {
+              var layer = nsGmx$1.gmxMap.layers[_iL],
                   props = layer.getGmxProperties();
 
               if (layer.disableFlip && layer.disablePopup) {
@@ -30422,15 +30436,16 @@
             }
           } else {
             for (var layerName in listeners) {
-              var pt = listeners[layerName];
-              var layer = nsGmx$1.gmxMap.layersByID[layerName];
+              // let pt = listeners[layerName];
+              var _layer = nsGmx$1.gmxMap.layersByID[layerName];
 
-              if (layer && layer instanceof L.gmx.VectorLayer) {
-                layer.off('click', listeners[layerName]);
+              if (_layer && _layer instanceof L.gmx.VectorLayer) {
+                _layer.off('click', listeners[layerName]);
 
-                if (layer.getGmxProperties().type !== 'Virtual') {
-                  layer.enableFlip();
-                  layer.enablePopup();
+                if (_layer.getGmxProperties().type !== 'Virtual') {
+                  _layer.enableFlip();
+
+                  _layer.enablePopup();
                 }
               }
             }
@@ -30451,7 +30466,7 @@
         };
 
         var nativeAuthWidget = new nsGmx$1.GeoMixerAuthWidget($('<div/>')[0], nsGmx$1.AuthManager, function () {
-          _mapHelper.reloadMap();
+          _mapHelper$1.reloadMap();
         }, {
           registrationCallback: registrationCallback
         }); // прокси между nsGmx.AuthManager редактора и AuthManager'а из общей библиотеки
@@ -30483,7 +30498,7 @@
                 Result: {}
               });
 
-              _mapHelper.reloadMap();
+              _mapHelper$1.reloadMap();
             });
             return def;
           },
@@ -30620,7 +30635,7 @@
           //так как в state может содержаться информация о включённых плагинах
 
           if (state.customParamsCollection) {
-            _mapHelper.customParamsManager.loadParams(state.customParamsCollection);
+            _mapHelper$1.customParamsManager.loadParams(state.customParamsCollection);
           } //после загрузки списка плагинов карты начали загружаться не глобальные плагины,
           //у которых имя плагина было прописано в конфиге. Ждём их загрузки.
 
@@ -30694,7 +30709,8 @@
 
 
               if (bl.id === 'OSM') {
-                bl.icon = iconPrefix + 'basemap_osm_' + (lang === 'rus' ? 'ru' : 'eng') + '.png', bl.layers[0].urlTemplate = 'http://{s}.tile.osm.kosmosnimki.ru/kosmo' + (lang === 'rus' ? '' : '-en') + '/{z}/{x}/{y}.png';
+                bl.icon = iconPrefix + 'basemap_osm_' + (lang === 'rus' ? 'ru' : 'eng') + '.png';
+                bl.layers[0].urlTemplate = 'http://{s}.tile.osm.kosmosnimki.ru/kosmo' + (lang === 'rus' ? '' : '-en') + '/{z}/{x}/{y}.png';
               } // у гибрида в конфиге нет урл
 
 
@@ -30719,6 +30735,7 @@
                     // заменяем в подложках с айди описания слоев на L.tileLayers
                     l[j] = L.tileLayer(l[j].urlTemplate, l[j]);
                   } else {
+                    // let currentTl = bl,
                     var layerID = l[j].layerID,
                         hostName = l[j].hostName || defaultHostName,
                         mapID = l[j].mapID || defaultMapID,
@@ -30800,6 +30817,7 @@
 
 
       function initHeader() {
+        // var rightLinks = [];
         nsGmx$1.widgets.header = new nsGmx$1.HeaderWidget({
           logo: window.gmxViewerUI && window.gmxViewerUI.logoImage || 'img/geomixer_transpar_small.svg'
         });
@@ -30877,7 +30895,7 @@
         var currentZoom = lmap.getZoom(),
             layerOrder = gmxMap.rawTree.properties.LayerOrder;
         updateZIndexes();
-        lmap.on('zoomend', function (e) {
+        lmap.on('zoomend', function () {
           currentZoom = lmap.getZoom();
           updateZIndexes();
         }); //clip polygons
@@ -30885,21 +30903,21 @@
         if (mapProps.MinViewX && mapProps.MinViewY && mapProps.MaxViewX && mapProps.MaxViewY) {
           lmap.on('layeradd', function (e) {
             if (e.layer.addClipPolygon) {
-              _mapHelper.clipLayer(e.layer, mapProps);
+              _mapHelper$1.clipLayer(e.layer, mapProps);
             }
           });
         } // bind clusters to photoLayers
 
 
-        for (var l = 0; l < gmxMap.layers.length; l++) {
-          var layer = gmxMap.layers[l],
-              props = layer.getGmxProperties();
+        for (var _l = 0; _l < gmxMap.layers.length; _l++) {
+          var _layer2 = gmxMap.layers[_l],
+              props = _layer2.getGmxProperties();
 
           if (props.IsPhotoLayer) {
-            layer.bindClusters({
+            _layer2.bindClusters({
               iconCreateFunction: function iconCreateFunction(cluster) {
                 var photoClusterIcon = L.divIcon({
-                  html: '<img src="' + (window.serverBase ? window.serverBase + _mapHelper.defaultPhotoIconStyles.point.marker.image : _mapHelper.defaultPhotoIconStyles.point.marker.image) + '" class="photo-icon"/><div class="marker-cluster-photo">' + cluster.getChildCount() + '</div>',
+                  html: '<img src="' + (window.serverBase ? window.serverBase + _mapHelper$1.defaultPhotoIconStyles.point.marker.image : _mapHelper$1.defaultPhotoIconStyles.point.marker.image) + '" class="photo-icon"/><div class="marker-cluster-photo">' + cluster.getChildCount() + '</div>',
                   className: 'photo-div-icon',
                   iconSize: [14, 12],
                   iconAnchor: [0, 0]
@@ -30940,9 +30958,9 @@
             switch (layerOrder) {
               case 'VectorOnTop':
                 if (props.type === 'Vector' && layer.setZIndexOffset) {
-                  var minZoom,
-                      rcMinZoom,
-                      quickLookMinZoom,
+                  // var minZoom,
+                  var rcMinZoom = void 0,
+                      quickLookMinZoom = void 0,
                       defaultMinZoom = 6;
 
                   if (props.IsRasterCatalog || props.Quicklook && props.Quicklook !== 'null') {
@@ -30982,7 +31000,7 @@
           return JSON.parse(localStorage.getItem('lastMapPosiotion_' + key));
         }
 
-        lmap.on('boxzoomstart', function (ev) {
+        lmap.on('boxzoomstart', function () {
           saveMapPosition('z');
         });
         L.DomEvent.on(document, 'keydown', function (ev) {
@@ -31022,7 +31040,7 @@
         });
         baseLayerDef.then(function () {
           nsGmx$1.gmxMap = gmxMap;
-          gmxAPI.layersByID = gmxMap.layersByID; // слои по layerID
+          window.gmxAPI.layersByID = gmxMap.layersByID; // слои по layerID
 
           var mapProp = gmxMap.rawTree.properties || {};
           var baseLayers = mapProp.BaseLayers ? JSON.parse(mapProp.BaseLayers) : [window.language === 'eng' ? 'mapbox' : 'sputnik', 'OSMHybrid', 'satellite'];
@@ -31046,8 +31064,8 @@
             for (var i = 0; i < layers.length; i++) {
               var layer = layers[i],
                   props = layer.getGmxProperties(),
-                  isVisible = props.visible,
-                  isTemporalLayer = layer instanceof L.gmx.VectorLayer && props.Temporal || props.type === 'Virtual' && layer.setDateInterval;
+                  // isVisible = props.visible,
+              isTemporalLayer = layer instanceof L.gmx.VectorLayer && props.Temporal || props.type === 'Virtual' && layer.setDateInterval;
 
               if (isTemporalLayer) {
                 // показываем виджет календаря, если в карте есть хоть один мультивременной слой
@@ -31088,9 +31106,9 @@
 
 
           $(_layersTree).on('activeNodeChange', function (e, p) {
-            var layerID = $(p).attr('layerid'),
-                calendar = nsGmx$1.widgets.commonCalendar.model.get('calendar'),
-                synchronyzed = nsGmx$1.widgets.commonCalendar.model.get('synchronyzed');
+            var layerID = $(p).attr('layerid'); // calendar = nsGmx.widgets.commonCalendar.model.get('calendar'),
+            // synchronyzed = nsGmx.widgets.commonCalendar.model.get('synchronyzed');
+
             lmap.fireEvent('layersTree.activeNodeChange', {
               layerID: layerID
             });
@@ -31100,58 +31118,55 @@
                 attrs = nsGmx$1.widgets.commonCalendar.model.toJSON(),
                 visible = props.visible,
                 layerID = props.LayerID,
-                calendar = attrs.calendar,
-                currentLayer = attrs.currentLayer,
+                // calendar = attrs.calendar,
+            currentLayer = attrs.currentLayer,
                 synchronyzed = attrs.synchronyzed;
 
             if (synchronyzed) {
               return;
-            } else {
-              if (layerID) {
-                var layer = nsGmx$1.gmxMap.layersByID[layerID],
-                    props = layer.getGmxProperties(),
-                    isTemporalLayer = layer instanceof L.gmx.VectorLayer && props.Temporal || props.type === 'Virtual' && layer.getDateInterval,
-                    visibleTemporalLayers,
-                    index;
+            } else if (layerID) {
+              var _layer3 = nsGmx$1.gmxMap.layersByID[layerID],
+                  _props = _layer3.getGmxProperties(),
+                  isTemporalLayer = _layer3 instanceof L.gmx.VectorLayer && _props.Temporal || _props.type === 'Virtual' && _layer3.getDateInterval,
+                  visibleTemporalLayers,
+                  index;
 
-                if (isTemporalLayer) {
-                  if (visible) {
-                    if (currentLayer) {
-                      return;
-                    } else {
-                      var dateInterval = layer.getDateInterval();
-
-                      if (dateInterval.beginDate && dateInterval.endDate) {
-                        nsGmx$1.widgets.commonCalendar.setDateInterval(dateInterval.beginDate, dateInterval.endDate, layer);
-                      }
-                    }
+              if (isTemporalLayer) {
+                if (visible) {
+                  if (currentLayer) {
+                    return;
                   } else {
-                    if (currentLayer) {
-                      if (layerID !== currentLayer) {
-                        return;
-                      } else {
-                        visibleTemporalLayers = getLayersListWithTarget(nsGmx$1.gmxMap.layers, layer), index = visibleTemporalLayers.indexOf(layer);
+                    var dateInterval = _layer3.getDateInterval();
 
-                        if (visibleTemporalLayers.length === 1) {
-                          nsGmx$1.widgets.commonCalendar.model.set('currentLayer', null);
-                        } else {
-                          if (index === 0) {
-                            var targetLayer = visibleTemporalLayers[index + 1],
-                                targetLayerID = targetLayer.getGmxProperties().LayerID,
-                                dateInterval = targetLayer.getDateInterval();
-                            nsGmx$1.widgets.commonCalendar.setDateInterval(dateInterval.beginDate, dateInterval.endDate, targetLayer); // nsGmx.widgets.commonCalendar.model.set('currentLayer', targetLayerID)
-                          } else {
-                            var targetLayer = visibleTemporalLayers[index - 1],
-                                targetLayerID = targetLayer.getGmxProperties().LayerID,
-                                dateInterval = targetLayer.getDateInterval();
-                            nsGmx$1.widgets.commonCalendar.setDateInterval(dateInterval.beginDate, dateInterval.endDate, targetLayer); // nsGmx.widgets.commonCalendar.model.set('currentLayer', targetLayerID)
-                          }
-                        }
-                      }
-                    } else {
-                      return;
+                    if (dateInterval.beginDate && dateInterval.endDate) {
+                      nsGmx$1.widgets.commonCalendar.setDateInterval(dateInterval.beginDate, dateInterval.endDate, _layer3);
                     }
                   }
+                } else if (currentLayer) {
+                  if (layerID !== currentLayer) {
+                    return;
+                  } else {
+                    visibleTemporalLayers = getLayersListWithTarget(nsGmx$1.gmxMap.layers, _layer3);
+                    index = visibleTemporalLayers.indexOf(_layer3);
+
+                    if (visibleTemporalLayers.length === 1) {
+                      nsGmx$1.widgets.commonCalendar.model.set('currentLayer', null);
+                    } else if (index === 0) {
+                      var targetLayer = visibleTemporalLayers[index + 1],
+                          // targetLayerID = targetLayer.getGmxProperties().LayerID,
+                      _dateInterval = targetLayer.getDateInterval();
+
+                      nsGmx$1.widgets.commonCalendar.setDateInterval(_dateInterval.beginDate, _dateInterval.endDate, targetLayer); // nsGmx.widgets.commonCalendar.model.set('currentLayer', targetLayerID)
+                    } else {
+                      var _targetLayer = visibleTemporalLayers[index - 1],
+                          // targetLayerID = targetLayer.getGmxProperties().LayerID,
+                      _dateInterval2 = _targetLayer.getDateInterval();
+
+                      nsGmx$1.widgets.commonCalendar.setDateInterval(_dateInterval2.beginDate, _dateInterval2.endDate, _targetLayer); // nsGmx.widgets.commonCalendar.model.set('currentLayer', targetLayerID)
+                    }
+                  }
+                } else {
+                  return;
                 }
               }
             }
@@ -31162,17 +31177,17 @@
               var visibleTemporalLayers = [];
 
               for (var i = 0; i < layers.length; i++) {
-                var layer = layers[i],
-                    props = layer.getGmxProperties && layer.getGmxProperties(),
-                    isTemporalLayer,
-                    isVisible;
+                var _layer4 = layers[i],
+                    _props2 = _layer4.getGmxProperties && _layer4.getGmxProperties(),
+                    _isTemporalLayer = void 0,
+                    isVisible = void 0;
 
-                if (props) {
-                  isTemporalLayer = layer instanceof L.gmx.VectorLayer && props.Temporal || props.type === 'Virtual' && layer.getDateInterval;
-                  isVisible = props.visible;
+                if (_props2) {
+                  _isTemporalLayer = _layer4 instanceof L.gmx.VectorLayer && _props2.Temporal || _props2.type === 'Virtual' && _layer4.getDateInterval;
+                  isVisible = _props2.visible;
 
-                  if (isTemporalLayer && isVisible || layer === targetLayer) {
-                    visibleTemporalLayers.push(layer);
+                  if (_isTemporalLayer && isVisible || _layer4 === targetLayer) {
+                    visibleTemporalLayers.push(_layer4);
                   }
                 }
               }
@@ -31205,7 +31220,7 @@
             it.setStyles(styles);
           });
 
-          _mapHelper.customParamsManager.addProvider({
+          _mapHelper$1.customParamsManager.addProvider({
             name: 'commonCalendar',
             loadState: function loadState(state) {
               if (!('version' in state)) {
@@ -31257,7 +31272,9 @@
                 dateBegin: dateBegin,
                 dateEnd: dateEnd
               });
-            } catch (e) {}
+            } catch (e) {
+              console.log(e);
+            }
           }
 
           nsGmx$1.pluginsManager.beforeViewer(); //для каждого ответа сервера об отсутствии авторизации (Status == 'auth') сообщаем об этом пользователю или предлагаем залогиниться
@@ -31273,14 +31290,13 @@
           });
           initAuthWidget(); //инициализация контролов пользовательских объектов
           //соответствующий модуль уже загружен
+          // let oDrawingObjectsModule = gmxCore.getModule('DrawingObjects');
 
-          var oDrawingObjectsModule = gmxCore$1.getModule('DrawingObjects');
           window.oDrawingObjectGeomixer = new DrawingObjectGeomixer();
           window.oDrawingObjectGeomixer.Init(nsGmx$1.leafletMap, nsGmx$1.gmxMap); //для всех слоёв должно выполняться следующее условие: если хотя бы одна групп-предков невидима, то слой тоже невидим.
 
           (function fixVisibilityConstrains(o) {
-            o.content.properties.visible = o.content.properties.visible;
-
+            // o.content.properties.visible = o.content.properties.visible;
             if (o.type === 'group') {
               var a = o.content.children;
               var isAnyVisibleChild = false;
@@ -31310,16 +31326,17 @@
           window.defaultLayersVisibility = {};
 
           for (var k = 0; k < gmxMap.layers.length; k++) {
-            var props = gmxMap.layers[k].getGmxProperties();
-            window.defaultLayersVisibility[props.name] = props.visible;
+            var _props3 = gmxMap.layers[k].getGmxProperties();
+
+            window.defaultLayersVisibility[_props3.name] = _props3.visible;
           } //основная карта всегда загружена с того-же сайта, что и серверные скрипты
 
 
           data.properties.hostName = window.serverBase.slice(7).slice(0, -1); //DEPRICATED. Do not use it!
 
-          _mapHelper.mapProperties = data.properties; //DEPRICATED. Do not use it!
+          _mapHelper$1.mapProperties = data.properties; //DEPRICATED. Do not use it!
 
-          _mapHelper.mapTree = data;
+          _mapHelper$1.mapTree = data;
 
           if (window.copyright && typeof window.copyright === 'string') {
             lmap.gmxControlsManager.get('copyright').setMapCopyright(window.copyright);
@@ -31398,12 +31415,30 @@
           });
           leftMainContainer.innerHTML = '<div class="leftMenu">' + '<div class="mainmap-title">' + data.properties.title + '</div>' + '<div id="leftPanelHeader" class="leftPanelHeader"></div>' + '<div id="leftContent" class="leftContent">' + '<div id="leftContentInner" class="leftContentInner"></div>' + '</div>' + '<div id="leftPanelFooter" class="leftPanelFooter"></div>' + '</div>';
           window.iconSidebarWidget.open("layers-tree"); // $('.leftContent').mCustomScrollbar();
+          // function handleSidebarResize (e) {
+          //     var sidebarWidth = window.iconSidebarWidget.getWidth(),
+          //         lmap = nsGmx.leafletMap,
+          //         newBottomLeft,
+          //         newBounds;
+          //     var c = lmap.getContainer();
+          //     var pBounds = lmap.getPixelBounds(),
+          //         bl = pBounds.getBottomLeft(),
+          //         tr = pBounds.getTopRight(),
+          //         blll = L.latLng(lmap.unproject(bl)),
+          //         trll = L.latLng(lmap.unproject(tr));
+          //     if (e.type === 'sidebar:opened') {
+          //         newBottomLeft = L.point(bl.x + sidebarWidth, bl.y);
+          //     } else {
+          //         newBottomLeft = L.point(bl.x - sidebarWidth, bl.y);
+          //     }
+          //     newBounds = L.latLngBounds(L.latLng(lmap.unproject(newBottomLeft)), trll);
+          // }
+
           /**
            *
            * SIDEBAR END
            *
            */
-
 
           _queryMapLayers.addLayers(data, condition, mapStyles, LayersTreePermalinkParams); // переписать на вкладку с деревом
 
@@ -31423,16 +31458,17 @@
             };
           }); // _menuUp.defaultHash = 'layers';
 
-          mapLayers.mapLayers.load(); //создаём тулбар
-
-          var iconContainer = _div$1(null, [['css', 'borderLeft', '1px solid #216b9c']]); // var searchContainer = nsGmx.widgets.header.getSearchPlaceholder()[0];
-
+          window.mapLayers.mapLayers.load(); //создаём тулбар
+          // var iconContainer = _div(null, [
+          //     ['css', 'borderLeft', '1px solid #216b9c']
+          // ]);
+          // var searchContainer = nsGmx.widgets.header.getSearchPlaceholder()[0];
 
           window.searchLogic.init({
             oMenu: oSearchLeftMenu
           }); //инициализация контролов поиска (модуль уже загружен)
-
-          var oSearchModule = gmxCore$1.getModule('search'); // window.oSearchControl = new oSearchModule.SearchGeomixer();
+          // var oSearchModule = gmxCore.getModule('search');
+          // window.oSearchControl = new oSearchModule.SearchGeomixer();
           // if (document.getElementById('searchCanvas')) {
           // window.oSearchControl.Init({
           //     Menu: oSearchLeftMenu,
@@ -31468,13 +31504,13 @@
           nsGmx$1.mappletLoader.execute(); //динамически добавляем пункты в меню. DEPRICATED.
 
           nsGmx$1.pluginsManager.addMenuItems(_menuUp);
-          _mapHelper.gridView = false;
+          _mapHelper$1.gridView = false;
 
           var updateLeftPanelVis = function updateLeftPanelVis() {
             // $('.leftCollapser-icon')
             //     .toggleClass('leftCollapser-right', !layersShown)
             //     .toggleClass('leftCollapser-left', !!layersShown);
-            resizeAll();
+            window.resizeAll();
           }; // $('#leftCollapser').click(function() {
           //     layersShown = !layersShown;
           //     updateLeftPanelVis();
@@ -31517,6 +31553,7 @@
               if (objInfo.opacity) {
                 lineStyle.opacity = objInfo.opacity / 100;
               }
+
               var featureOptions = $.extend(true, {}, objInfo.properties, {
                 lineStyle: lineStyle
               });
@@ -31540,11 +31577,11 @@
           }
 
           if (state.openPopups) {
-            for (var l in state.openPopups) {
-              var layer = nsGmx$1.gmxMap.layersByID[l];
+            for (var _l2 in state.openPopups) {
+              var _layer5 = nsGmx$1.gmxMap.layersByID[_l2];
 
-              if (layer && layer.addPopup) {
-                state.openPopups[l].forEach(layer.addPopup.bind(layer));
+              if (_layer5 && _layer5.addPopup) {
+                state.openPopups[_l2].forEach(_layer5.addPopup.bind(_layer5));
               }
             }
           }
@@ -31558,25 +31595,29 @@
           if (state.dateIntervals) {
             for (var lid in gmxMap.layersByID) {
               if (lid in state.dateIntervals) {
-                var l = gmxMap.layersByID[lid],
+                var _l3 = gmxMap.layersByID[lid],
                     beginDate = new Date(state.dateIntervals[lid].beginDate),
                     endDate = new Date(state.dateIntervals[lid].endDate);
-                l.setDateInterval(beginDate, endDate);
+
+                _l3.setDateInterval(beginDate, endDate);
               }
             }
           }
 
           if (state.filters) {
-            for (var key in state.filters) {
-              var l = nsGmx$1.gmxMap.layersByID[key],
-                  filtersArr = state.filters[key];
+            for (var _key in state.filters) {
+              var _l4 = nsGmx$1.gmxMap.layersByID[_key],
+                  filtersArr = state.filters[_key];
 
               for (var i = 0; i < filtersArr.length; i++) {
                 if ('filterById' in filtersArr[i]) {
-                  var filteredId = filtersArr[i]['filterById'];
-                  l.addLayerFilter(function (it) {
-                    return it.id === filteredId;
-                  });
+                  (function () {
+                    var filteredId = filtersArr[i]['filterById'];
+
+                    _l4.addLayerFilter(function (it) {
+                      return it.id === filteredId;
+                    });
+                  })();
                 }
               }
             }
@@ -31589,7 +31630,7 @@
             var layer = event.layer;
 
             if (layer.getGmxProperties) {
-              var layerProps = layer.getGmxProperties();
+              // var layerProps = layer.getGmxProperties();
               initEditUI();
               initTemporalLayers([layer]);
             }
@@ -31635,7 +31676,7 @@
           }); // экспорт карты
 
           if (state.exportMode) {
-            _mapHelper.exportMap(state);
+            _mapHelper$1.exportMap(state);
           }
         });
       }
@@ -31673,8 +31714,7 @@
           value: value
         }));
         ui.find('input').on('keydown', function (e) {
-          var evt = e || window.event;
-
+          // var evt = e || window.event;
           if (e.which === 13) {
             var coord = L.gmxUtil.parseCoordinates(this.value);
             nsGmx$1.leafletMap.panTo(coord);
