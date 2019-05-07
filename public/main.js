@@ -1879,7 +1879,9 @@
         _t$1 = domManipulation._t,
         _table$1 = domManipulation._table,
         _tbody$1 = domManipulation._tbody,
+        _thead = domManipulation._thead,
         _tr$1 = domManipulation._tr,
+        _th = domManipulation._th,
         _td$1 = domManipulation._td,
         _ul$1 = domManipulation._ul;
     window.addParseResponseHook = addParseResponseHook;
@@ -2148,7 +2150,6 @@
       "Экспорт": "Экспорт",
       "Ссылки": "Ссылки",
       "Карта пожаров": "Карта пожаров",
-      "Поиск снимков": "Поиск снимков",
       "Платформа Геомиксер": "Веб-ГИС GeoMixer",
       "http://fires.ru": "http://fires.ru",
       "https://search.kosmosnimki.ru": "https://search.kosmosnimki.ru",
@@ -2190,13 +2191,154 @@
       "Создать мультислой": "Создать мультислой",
       "Вид": "Вид",
       "Дерево слоев": "Дерево слоев",
-      "Объекты на карте": "Объекты на карте"
-    }, _defineProperty(_translationsHash$has, "\u0420\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442\u044B \u043F\u043E\u0438\u0441\u043A\u0430", "Результаты поиска"), _defineProperty(_translationsHash$has, "Координатная сетка", "Координатная сетка"), _defineProperty(_translationsHash$has, "Индексная сетка", "Индексная сетка"), _defineProperty(_translationsHash$has, "Панель оверлеев", "Панель оверлеев"), _defineProperty(_translationsHash$has, "\u0421\u0435\u0440\u0432\u0438\u0441\u044B", "Сервисы"), _defineProperty(_translationsHash$has, "Загрузить объекты", "Загрузить объекты"), _defineProperty(_translationsHash$has, "Загрузить фотографии", "Загрузить фотографии"), _defineProperty(_translationsHash$has, "Загрузить данные", "Загрузить данные"), _defineProperty(_translationsHash$has, "WFS сервер", "WFS сервер"), _defineProperty(_translationsHash$has, "WMS сервер", "WMS сервер"), _defineProperty(_translationsHash$has, "Кадастровые данные", "Кадастровые данные"), _defineProperty(_translationsHash$has, "Ссылка на карту", "Ссылка на карту"), _defineProperty(_translationsHash$has, "Код для вставки", "Код для вставки карты"), _defineProperty(_translationsHash$has, "Печать", "Печать"), _defineProperty(_translationsHash$has, "Привязать изображение", "Привязать изображение"), _defineProperty(_translationsHash$has, "Сообщить об ошибке на карте", "Сообщить об ошибке на карте"), _defineProperty(_translationsHash$has, "Справка", "Справка"), _defineProperty(_translationsHash$has, "Использование", "Использование"), _defineProperty(_translationsHash$has, "\u0421\u0435\u0440\u0432\u0438\u0441\u044B", "Сервисы"), _defineProperty(_translationsHash$has, "О проекте", "О проекте/Контакты"), _defineProperty(_translationsHash$has, "$$phrase$$_1", "Укажите карту в параметре defaultMapID в файле config.js"), _defineProperty(_translationsHash$has, "У вас нет прав на просмотр данной карты", "У вас нет прав на просмотр данной карты"), _defineProperty(_translationsHash$has, "Access error", "У вас нет прав на просмотр данной карты"), _defineProperty(_translationsHash$has, "Map not found", "Данная карта не существует"), _defineProperty(_translationsHash$has, "Unable to locate EXIF content", "отсутствуют координаты в EXIF"), _defineProperty(_translationsHash$has, "Развернуть карту", "Развернуть карту"), _defineProperty(_translationsHash$has, "Свернуть карту", "Свернуть карту"), _defineProperty(_translationsHash$has, "Точки на изображении:", "Точки на изображении:"), _defineProperty(_translationsHash$has, "Точки на карте:", "Точки на карте:"), _defineProperty(_translationsHash$has, "Координаты", "Координаты"), _defineProperty(_translationsHash$has, "Нарисовать", "Нарисовать"), _defineProperty(_translationsHash$has, "Восстановить", "Восстановить"), _defineProperty(_translationsHash$has, "Прозрачность", "Прозрачность"), _defineProperty(_translationsHash$has, "Видимость", "Видимость"), _defineProperty(_translationsHash$has, "Привязка изображения", "Привязка изображения"), _defineProperty(_translationsHash$has, "$$phrase$$_2", "Точка [value0] находится за пределами изображения"), _defineProperty(_translationsHash$has, "$$phrase$$_3", "Не задана точка [value0] на карте"), _defineProperty(_translationsHash$has, "Соответствие точек", "Соответствие точек"), _defineProperty(_translationsHash$has, "$$phrase$$_4", "Точки 1 и 2 на изображении совпадают"), _defineProperty(_translationsHash$has, "$$phrase$$_5", "Точки 1 и 3 на изображении совпадают"), _defineProperty(_translationsHash$has, "$$phrase$$_6", "Точки 2 и 3 на изображении совпадают"), _defineProperty(_translationsHash$has, "$$phrase$$_7", "Точки 1 и 2 на карте совпадают"), _defineProperty(_translationsHash$has, "$$phrase$$_8", "Точки 1 и 3 на карте совпадают"), _defineProperty(_translationsHash$has, "$$phrase$$_9", "Точки 2 и 3 на карте совпадают"), _defineProperty(_translationsHash$has, "$$phrase$$_10", "Точки на изображении лежат на одной прямой"), _defineProperty(_translationsHash$has, "Создать экскурсию", "Создать экскурсию"), _defineProperty(_translationsHash$has, "Чтобы пользоваться этим сайтом, установите Flash Player", "Чтобы пользоваться этим сайтом, установите Flash Player"), _defineProperty(_translationsHash$has, "из Интернет", "из Интернет"), _defineProperty(_translationsHash$has, "или с локального диска ", "или с локального диска "), _defineProperty(_translationsHash$has, "для Internet Explorer", "для Internet Explorer"), _defineProperty(_translationsHash$has, " или ", " или "), _defineProperty(_translationsHash$has, "для Internet Firefox", "для Internet Firefox"), _defineProperty(_translationsHash$has, "Скачать shp-файл", "Скачать shp-файл"), _defineProperty(_translationsHash$has, "shp-файл", "shp-файл"), _defineProperty(_translationsHash$has, "gpx-файл", "gpx-файл"), _defineProperty(_translationsHash$has, "Скачать фрагмент растра", "Скачать фрагмент растра"), _defineProperty(_translationsHash$has, "Очистить", "Очистить"), _defineProperty(_translationsHash$has, "точка", "точка"), _defineProperty(_translationsHash$has, "линия", "линия"), _defineProperty(_translationsHash$has, "прямоугольник", "прямоугольник"), _defineProperty(_translationsHash$has, "многоугольник", "многоугольник"), _defineProperty(_translationsHash$has, "Скачать", "Скачать"), _defineProperty(_translationsHash$has, "Введите имя файла для скачивания", "Введите имя файла для скачивания"), _defineProperty(_translationsHash$has, "Выберите область рамкой на карте", "Выберите область рамкой на карте"), _defineProperty(_translationsHash$has, "Вырезать фрагмент растра", "Вырезать фрагмент растра"), _defineProperty(_translationsHash$has, "К прямоугольнику не подходит ни одного растрового слоя", "К прямоугольнику не подходит ни одного растрового слоя"), _defineProperty(_translationsHash$has, "Загруженный shp-файл пуст", "Загруженный shp-файл пуст"), _defineProperty(_translationsHash$has, "Ошибка скачивания", "Ошибка скачивания"), _defineProperty(_translationsHash$has, "Обновить", "Обновить"), _defineProperty(_translationsHash$has, "Домашняя директория", "Директория проекта"), _defineProperty(_translationsHash$has, "Имя папки", "Имя папки"), _defineProperty(_translationsHash$has, "Имя", "Имя"), _defineProperty(_translationsHash$has, "Тип", "Тип"), _defineProperty(_translationsHash$has, "Размер", "Размер"), _defineProperty(_translationsHash$has, "Дата", "Дата"), _defineProperty(_translationsHash$has, "Дата создания", "Дата создания"), _defineProperty(_translationsHash$has, "Снять выделение", "Снять выделение"), _defineProperty(_translationsHash$has, "Скопировать", "Скопировать"), _defineProperty(_translationsHash$has, "Удалить", "Удалить"), _defineProperty(_translationsHash$has, "Извлечь", "Извлечь"), _defineProperty(_translationsHash$has, "Упаковать", "Упаковать"), _defineProperty(_translationsHash$has, "Загрузить", "Загрузить"), _defineProperty(_translationsHash$has, "Параметр", "Параметр"), _defineProperty(_translationsHash$has, "Значение", "Значение"), _defineProperty(_translationsHash$has, "VALUE", "VALUE"), _defineProperty(_translationsHash$has, "WHERE", "WHERE"), _defineProperty(_translationsHash$has, "Колонки", "Колонки"), _defineProperty(_translationsHash$has, "Операторы", "Операторы"), _defineProperty(_translationsHash$has, "Функции", "Функции"), _defineProperty(_translationsHash$has, "Метаданные", "Метаданные"), _defineProperty(_translationsHash$has, "Редактировать колонки", "Редактировать колонки"), _defineProperty(_translationsHash$has, "URL сервера", "URL сервера"), _defineProperty(_translationsHash$has, "Формат изображения", "Формат изображения"), _defineProperty(_translationsHash$has, "Введите имя gml-файла для скачивания:", "Введите имя gml-файла для скачивания:"), _defineProperty(_translationsHash$has, "точки", "точки"), _defineProperty(_translationsHash$has, "линии", "линии"), _defineProperty(_translationsHash$has, "полигоны", "полигоны"), _defineProperty(_translationsHash$has, "(ссылка)", "(ссылка)"), _defineProperty(_translationsHash$has, "Сохранить состояние карты", "Сохранить состояние карты"), _defineProperty(_translationsHash$has, "Ссылка на текущее состояние карты", "Ссылка на текущее состояние карты"), _defineProperty(_translationsHash$has, "Добавить стиль", "Добавить стиль"), _defineProperty(_translationsHash$has, "Атрибут >", "Атрибут >"), _defineProperty(_translationsHash$has, "Значение >", "Значение >"), _defineProperty(_translationsHash$has, "Операция >", "Операция >"), _defineProperty(_translationsHash$has, "Накладываемое изображение", "Накладываемое изображение"), _defineProperty(_translationsHash$has, "Цвет", "Цвет"), _defineProperty(_translationsHash$has, "\u041F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u043E\u0441\u0442\u044C", "Прозрачность"), _defineProperty(_translationsHash$has, "Авторизуйтесь для редактирования фильтров", "Авторизуйтесь для редактирования фильтров"), _defineProperty(_translationsHash$has, "Имя фильтра", "Имя фильтра"), _defineProperty(_translationsHash$has, "Переместить фильтр вверх", "Переместить фильтр вверх"), _defineProperty(_translationsHash$has, "Переместить фильтр вниз", "Переместить фильтр вниз"), _defineProperty(_translationsHash$has, "Удалить фильтр", "Удалить фильтр"), _defineProperty(_translationsHash$has, "Размер шрифта", "Размер шрифта"), _defineProperty(_translationsHash$has, "Смещение", "Смещение"), _defineProperty(_translationsHash$has, "Смещение по x", "Смещение по x"), _defineProperty(_translationsHash$has, "Смещение по y", "Смещение по y"), _defineProperty(_translationsHash$has, "Имя атрибута", "Имя атрибута"), _defineProperty(_translationsHash$has, "Граница обрезки", "Граница обрезки"), _defineProperty(_translationsHash$has, "Граница", "Граница"), _defineProperty(_translationsHash$has, "Толщина линии", "Толщина линии"), _defineProperty(_translationsHash$has, "Заливка", "Заливка"), _defineProperty(_translationsHash$has, "Заливка цветом", "Заливка цветом"), _defineProperty(_translationsHash$has, "Заливка штриховкой", "Заливка штриховкой"), _defineProperty(_translationsHash$has, "Заливка рисунком", "Заливка рисунком"), _defineProperty(_translationsHash$has, "Ширина паттерна", "Ширина паттерна"), _defineProperty(_translationsHash$has, "Ширина отступа", "Ширина отступа"), _defineProperty(_translationsHash$has, "URL рисунка", "URL рисунка"), _defineProperty(_translationsHash$has, "Маркер URL", "Маркер URL"), _defineProperty(_translationsHash$has, "URL изображения", "URL изображения"), _defineProperty(_translationsHash$has, "Изображение", "Изображение"), _defineProperty(_translationsHash$has, "Размер точек", "Размер точек"), _defineProperty(_translationsHash$has, "Редактировать стили", "Редактировать стили"), _defineProperty(_translationsHash$has, "Авторизуйтесь для редактирования настроек слоя", "Авторизуйтесь для редактирования настроек слоя"), _defineProperty(_translationsHash$has, "Недостаточно прав для редактирования настроек слоя", "Недостаточно прав для редактирования настроек слоя"), _defineProperty(_translationsHash$has, "Недостаточно прав для редактирования объектов слоя", "Недостаточно прав для редактирования объектов слоя"), _defineProperty(_translationsHash$has, "ID", "ID"), _defineProperty(_translationsHash$has, "Описание", "Описание"), _defineProperty(_translationsHash$has, "Файл", "Файл"), _defineProperty(_translationsHash$has, "Таблица", "Таблица"), _defineProperty(_translationsHash$has, "Каталог с тайлами", "Каталог с тайлами"), _defineProperty(_translationsHash$has, "Каталог растров", "Каталог растров"), _defineProperty(_translationsHash$has, "Источник", "Источник"), _defineProperty(_translationsHash$has, "Данные с датой", "Разбить по датам"), _defineProperty(_translationsHash$has, "Дополнительно", "Дополнительно"), _defineProperty(_translationsHash$has, "Шаблон названий объектов", "Шаблон названий объектов"), _defineProperty(_translationsHash$has, "Y (широта)", "Y (широта)"), _defineProperty(_translationsHash$has, "X (долгота)", "X (долгота)"), _defineProperty(_translationsHash$has, "Каталог", "Каталог"), _defineProperty(_translationsHash$has, "Изменить", "Изменить"), _defineProperty(_translationsHash$has, "\u0421\u043E\u0437\u0434\u0430\u0442\u044C", "Создать"), _defineProperty(_translationsHash$has, "Вид вложенных элементов", "Вид вложенных элементов"), _defineProperty(_translationsHash$has, "Использовать KosmosnimkiAPI", "Загрузить подложки Kosmosnimki"), _defineProperty(_translationsHash$has, "Использовать OpenStreetMap", "Использовать OpenStreetMap"), _defineProperty(_translationsHash$has, "Язык по умолчанию", "Язык по умолчанию"), _defineProperty(_translationsHash$has, "Единицы длины", "Единицы длины"), _defineProperty(_translationsHash$has, "Единицы площади", "Единицы площади"), _defineProperty(_translationsHash$has, "Формат координат", "Формат координат"), _defineProperty(_translationsHash$has, "units.auto", "авто"), _defineProperty(_translationsHash$has, "units.m", "м"), _defineProperty(_translationsHash$has, "units.km", "км"), _defineProperty(_translationsHash$has, "units.nm", "м. мили"), _defineProperty(_translationsHash$has, "units.m2", "м<sup>2"), _defineProperty(_translationsHash$has, "units.ha", "га"), _defineProperty(_translationsHash$has, "units.km2", "км<sup>2"), _defineProperty(_translationsHash$has, "coords.dd", "dd.dddd"), _defineProperty(_translationsHash$has, "coords.dms", "dd°mm′ss″"), _defineProperty(_translationsHash$has, "Генерализация", "Генерализация"), _defineProperty(_translationsHash$has, "gereralization.on", "включить"), _defineProperty(_translationsHash$has, "gereralization.off", "выключить"), _defineProperty(_translationsHash$has, "gereralization.disable", "использовать настройки слоев"), _defineProperty(_translationsHash$has, "Количество информационных окошек", "Количество информационных окошек"), _defineProperty(_translationsHash$has, "layerOrder.title", "Порядок слоёв"), _defineProperty(_translationsHash$has, "layerOrder.native", "Стандартный"), _defineProperty(_translationsHash$has, "layerOrder.vectorOnTop", "Вектора сверху"), _defineProperty(_translationsHash$has, "Разрешить поиск в векторных слоях", "Разрешить поиск в векторных слоях"), _defineProperty(_translationsHash$has, "Начальная позиция", "Начальная позиция"), _defineProperty(_translationsHash$has, "Широта", "Широта"), _defineProperty(_translationsHash$has, "Долгота", "Долгота"), _defineProperty(_translationsHash$has, "placeholder degrees", "dd.dddd"), _defineProperty(_translationsHash$has, "placeholder zoom", "1-21"), _defineProperty(_translationsHash$has, "placeholder minZoom", "1"), _defineProperty(_translationsHash$has, "placeholder maxZoom", "21"), _defineProperty(_translationsHash$has, "Зум", "Зум"), _defineProperty(_translationsHash$has, "Ссылка (permalink)", "Ссылка (permalink)"), _defineProperty(_translationsHash$has, "Разрешить скачивание", "Разрешить скачивание"), _defineProperty(_translationsHash$has, "Векторных слоев", "Векторных слоев"), _defineProperty(_translationsHash$has, "Растровых слоев", "Растровых слоев"), _defineProperty(_translationsHash$has, "Масштабирование в миникарте", "Масштабирование в миникарте"), _defineProperty(_translationsHash$has, "Показывать всплывающие подсказки", "Показывать всплывающие подсказки"), _defineProperty(_translationsHash$has, "Свойства", "Свойства"), _defineProperty(_translationsHash$has, "Создать копию слоя", "Создать копию слоя"), _defineProperty(_translationsHash$has, "Стили", "Стили"), _defineProperty(_translationsHash$has, "Изображение на карте", "Изображение на карте"), _defineProperty(_translationsHash$has, "Слой [value0]", "Слой [value0]"), _defineProperty(_translationsHash$has, "Стили слоя [value0]", "Стили слоя [value0]"), _defineProperty(_translationsHash$has, "Мультислой [value0]", "Мультислой [value0]"), _defineProperty(_translationsHash$has, "Группа [value0]", "Группа [value0]"), _defineProperty(_translationsHash$has, "Карта [value0]", "Карта [value0]"), _defineProperty(_translationsHash$has, "Редактировать стиль", "Редактировать стиль"), _defineProperty(_translationsHash$has, "Редактирование стилей объекта", "Редактирование стилей объекта"), _defineProperty(_translationsHash$has, "Стили слоя", "Стили слоя"), _defineProperty(_translationsHash$has, "Навигация по карте и инструменты", "Навигация по карте и инструменты"), _defineProperty(_translationsHash$has, "Список слоев", "Список слоев"), _defineProperty(_translationsHash$has, "Стиль векторного слоя", "Стиль векторного слоя"), _defineProperty(_translationsHash$has, "Управление содержанием карты", "Управление содержанием карты"), _defineProperty(_translationsHash$has, "Пользовательские инструменты", "Пользовательские инструменты"), _defineProperty(_translationsHash$has, "$$help$$_1", "Держите нажатой левую клавишу мыши – перетаскивайте карту курсором. Для приближения и удаления используйте колесико мыши (карта зуммируется к точке под курсором). Для перецентровки по координатам – введите их в строке поиска."), _defineProperty(_translationsHash$has, "$$help$$_2", "В левой панели отображается список слоев в виде дерева. Для перецентровки карты по экстенту слоя – кликните по его названию в списке. Если данная опция включена администратором карты, вы можете скачивать векторные слои и вырезать и скачивать фрагменты растровых слоев."), _defineProperty(_translationsHash$has, "$$help$$_3", "Для редактирования стиля векторного слоя кликните на иконку перед названием слоя."), _defineProperty(_translationsHash$has, "$$help$$_4", "Карта представляет собой набор слоев, отображение которого задается с помощью списка слоев. Чтобы иметь возможность редактировать набор слоев (создавать группы, изменять порядок отображения и т.д.) и сохранять изменения – необходимо авторизоваться. Более подробно см "), _defineProperty(_translationsHash$has, " - Руководство пользователя", " - Руководство пользователя"), _defineProperty(_translationsHash$has, "$$help$$_5", "Пользовательские инструменты одновременно служат для создания объектов на карте, которые затем можно сохранять через «ссылку на карту», и для выполнения простых аналитических функций. "), _defineProperty(_translationsHash$has, "В режиме маркеров: ", "В режиме маркеров: "), _defineProperty(_translationsHash$has, "$$help$$_6", "одиночный клик - добавить маркер. Двойной клик по маркеру - удалить. Клик на маркер – открыть всплывающее окошко (балун), клик по балуну – добавить надпись."), _defineProperty(_translationsHash$has, "В режиме линейка/измерения расстояния, полигон/измерение площади: ", "В режиме линейка/измерения расстояния, полигон/измерение площади: "), _defineProperty(_translationsHash$has, "$$help$$_7", "одиночный клик - добавить вершину. Двойной клик - завершить фигуру. Клик на линию - добавить вершину. Двойной клик по вершине - удалить."), _defineProperty(_translationsHash$has, "$$help$$_8", "Кликните по объекту в списке «объектов на карте», чтобы перецентровать карту на него. Вы можете скачать контуры объектов в shp/tab/kml формате."), _defineProperty(_translationsHash$has, "$$about$$_1", "это веб-приложение для интерактивного просмотра геоданных и доступа к источникам базовых геоданных в интернете, таким как: "), _defineProperty(_translationsHash$has, "$$about$$_2", "С помощью GeoMixer можно публиковать собственные геоданные во внутренней сети предприятий или в интернет, накладывать их поверх базовых источников и предоставлять к ним доступ для совместной работы сколь угодно большому числу пользователей, разграничивая права доступа."), _defineProperty(_translationsHash$has, "$$about$$_3", "GeoMixer также включает компонент API, который позволяет встраивать созданные проекты в сторонние веб-сайты и приложения и программно управлять фукционалом интерактивной карты."), _defineProperty(_translationsHash$has, " - Общее описание", " - Общее описание"), _defineProperty(_translationsHash$has, " - Руководство разработчика", " - Руководство разработчика"), _defineProperty(_translationsHash$has, "\u0421\u043E\u0437\u0434\u0430\u0442\u044C", "Создать"), _defineProperty(_translationsHash$has, "Получить API-ключ", "Получить API-ключ"), _defineProperty(_translationsHash$has, "Введите API-ключ", "Введите API-ключ"), _defineProperty(_translationsHash$has, "Печать карты", "Печать карты"), _defineProperty(_translationsHash$has, "$$serviceHelp$$_1", "Позволяет на лету загрузить shp/tab/kml файл небольшого размера в виде пользовательских объектов. После загрузки пользователь может редактировать геометрию объектов и скачивать объекты в том же наборе форматов."), _defineProperty(_translationsHash$has, "$$serviceHelp$$_2", "По ссылке запоминается текущее положение карты, а так же пользовательские объекты и надписи."), _defineProperty(_translationsHash$has, "$$serviceHelp$$_3", "Отправляет на печать текущий фрагмент карты."), _defineProperty(_translationsHash$has, "Редактировать", "Редактировать"), _defineProperty(_translationsHash$has, "Удалить объект?", "Удалить объект?"), _defineProperty(_translationsHash$has, "Удалить отмеченные объекты?", "Удалить отмеченные объекты?"), _defineProperty(_translationsHash$has, "\u041A\u043E\u043E\u0440\u0434\u0438\u043D\u0430\u0442\u044B", "Координаты"), _defineProperty(_translationsHash$has, "Длина", "Длина"), _defineProperty(_translationsHash$has, "Площадь", "Площадь"), _defineProperty(_translationsHash$has, "Добавить подгруппу", "Добавить группу"), _defineProperty(_translationsHash$has, "Введите имя группы", "Создание новой группы"), _defineProperty(_translationsHash$has, "Имя группы", "Имя группы"), _defineProperty(_translationsHash$has, "Включая вложенные слои", "Включая вложенные слои"), _defineProperty(_translationsHash$has, "Удаление группы [value0]", "Удаление группы [value0]"), _defineProperty(_translationsHash$has, "Сохранено", "Сохранено"), _defineProperty(_translationsHash$has, "Прозрачность выбранного слоя/группы/карты", "Прозрачность выбранного слоя/группы/карты"), _defineProperty(_translationsHash$has, "$$updateInfo$$_1", "Для отображения нового слоя необходимо сохранить и перезагрузить карту"), _defineProperty(_translationsHash$has, "Любой", "Любой"), _defineProperty(_translationsHash$has, "\u0412\u0435\u043A\u0442\u043E\u0440\u043D\u044B\u0439", "Векторный"), _defineProperty(_translationsHash$has, "\u0420\u0430\u0441\u0442\u0440\u043E\u0432\u044B\u0439", "Растровый"), _defineProperty(_translationsHash$has, "Название", "Название"), _defineProperty(_translationsHash$has, "Владелец", "Владелец"), _defineProperty(_translationsHash$has, "Последнее изменение", "Последнее изменение"), _defineProperty(_translationsHash$has, "\u0421\u043F\u0438\u0441\u043E\u043A \u0441\u043B\u043E\u0435\u0432", "Список слоев"), _defineProperty(_translationsHash$has, "Вы действительно хотите удалить этот слой?", "Вы действительно хотите удалить этот слой?"), _defineProperty(_translationsHash$has, "Ошибка!", "Ошибка!"), _defineProperty(_translationsHash$has, "Ошибка", "Ошибка"), _defineProperty(_translationsHash$has, "Выберите колонку", "Выберите колонку"), _defineProperty(_translationsHash$has, "Список карт", "Список карт"), _defineProperty(_translationsHash$has, "Показать", "Показать"), _defineProperty(_translationsHash$has, "загрузка...", "загрузка..."), _defineProperty(_translationsHash$has, "удаление...", "удаление..."), _defineProperty(_translationsHash$has, "Вы действительно хотите удалить эту карту?", "Вы действительно хотите удалить эту карту?"), _defineProperty(_translationsHash$has, "maplist.hint", "Группы и слои можно перетащить в текущую карту"), _defineProperty(_translationsHash$has, "Слоя нет в базе", "Слоя нет в базе"), _defineProperty(_translationsHash$has, "ScanEx Web Geomixer - просмотр карты", "ScanEx Web Geomixer - просмотр карты"), _defineProperty(_translationsHash$has, "Изменить параметры поиска", "Изменить параметры поиска"), _defineProperty(_translationsHash$has, "$$search$$_1", "Поиск по векторным слоям и адресной базе"), _defineProperty(_translationsHash$has, "$$search$$_2", "Поиск по адресной базе"), _defineProperty(_translationsHash$has, "Поиск не дал результатов", "Поиск не дал результатов"), _defineProperty(_translationsHash$has, "\u041E\u0447\u0438\u0441\u0442\u0438\u0442\u044C", "Очистить"), _defineProperty(_translationsHash$has, "Регистрация", "Регистрация"), _defineProperty(_translationsHash$has, "Восстановление пароля", "Восстановление пароля"), _defineProperty(_translationsHash$has, "Вход", "Вход"), _defineProperty(_translationsHash$has, "Выход", "Выход"), _defineProperty(_translationsHash$has, "Логин", "Логин"), _defineProperty(_translationsHash$has, "Пароль", "Пароль"), _defineProperty(_translationsHash$has, "пароль", "пароль"), _defineProperty(_translationsHash$has, "Псевдоним", "Псевдоним"), _defineProperty(_translationsHash$has, "Полное имя", "Полное имя"), _defineProperty(_translationsHash$has, "Пожалуйста, авторизуйтесь", "Пожалуйста, авторизуйтесь"), _defineProperty(_translationsHash$has, "адрес электронной почты", "адрес электронной почты"), _defineProperty(_translationsHash$has, "Ошибка сервера", "Ошибка сервера"), _defineProperty(_translationsHash$has, "Папка", "Папка"), _defineProperty(_translationsHash$has, " и ", " и "), _defineProperty(_translationsHash$has, "\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435", "Название"), _defineProperty(_translationsHash$has, "Рейтинг", "Рейтинг"), _defineProperty(_translationsHash$has, "Автор", "Автор"), _defineProperty(_translationsHash$has, "Тематика", "Тематика"), _defineProperty(_translationsHash$has, "Развлекательная", "Развлекательная"), _defineProperty(_translationsHash$has, "Спортивная", "Спортивная"), _defineProperty(_translationsHash$has, "Историческая", "Историческая"), _defineProperty(_translationsHash$has, "Экологическая", "Экологическая"), _defineProperty(_translationsHash$has, "Любая", "Любая"), _defineProperty(_translationsHash$has, "Создать новую тему", "Создать новую тему"), _defineProperty(_translationsHash$has, "Начало периода", "Начало периода"), _defineProperty(_translationsHash$has, "Окончание периода", "Окончание периода"), _defineProperty(_translationsHash$has, "Накладываемые тайлы", "Накладываемые тайлы"), _defineProperty(_translationsHash$has, "Отображать с зума", "Отображать с зума"), _defineProperty(_translationsHash$has, "По", "по"), _defineProperty(_translationsHash$has, "Фильтр", "Фильтр"), _defineProperty(_translationsHash$has, "Подпись", "Подпись"), _defineProperty(_translationsHash$has, "Балун", "Подсказка при наведении и клике"), _defineProperty(_translationsHash$has, "По умолчанию", "По умолчанию"), _defineProperty(_translationsHash$has, "Показывать при клике", "Показывать при клике"), _defineProperty(_translationsHash$has, "Показывать при наведении", "Показывать при наведении"), _defineProperty(_translationsHash$has, "Символика", "Символика"), _defineProperty(_translationsHash$has, "Библиотека стилей", "Библиотека стилей"), _defineProperty(_translationsHash$has, "Настройка стилей", "Настройка стилей"), _defineProperty(_translationsHash$has, "скопировать", "скопировать"), _defineProperty(_translationsHash$has, "применить везде", "применить везде"), _defineProperty(_translationsHash$has, "Применить", "Применить"), _defineProperty(_translationsHash$has, "Кластеризация", "Кластеризация"), _defineProperty(_translationsHash$has, "Минимальный", "Минимальный"), _defineProperty(_translationsHash$has, "Максимальный", "Максимальный"), _defineProperty(_translationsHash$has, "Мин. зум", "Мин. зум"), _defineProperty(_translationsHash$has, "Макс. зум", "Макс. зум"), _defineProperty(_translationsHash$has, "\u0422\u0438\u043F", "Тип"), _defineProperty(_translationsHash$has, "Пешеходная", "Пешеходная"), _defineProperty(_translationsHash$has, "Велосипедная", "Велосипедная"), _defineProperty(_translationsHash$has, "Автомобильная", "Автомобильная"), _defineProperty(_translationsHash$has, "Речная", "Речная"), _defineProperty(_translationsHash$has, "Места", "Места"), _defineProperty(_translationsHash$has, "Маршрут", "Маршрут"), _defineProperty(_translationsHash$has, "Редактировать экскурсию", "Редактировать экскурсию"), _defineProperty(_translationsHash$has, "Добавьте маршрут", "Добавьте маршрут"), _defineProperty(_translationsHash$has, "Выберете темы на пути следования", "Выберете темы на пути следования"), _defineProperty(_translationsHash$has, "$$phrase$$_11", "Добавьте маршрут при помощи инструмента \"Линия\" на панели инструментов"), _defineProperty(_translationsHash$has, "$$phrase$$_12", "Нет подходящих объектов на карте"), _defineProperty(_translationsHash$has, "Выбор маршрута", "Выбор маршрута"), _defineProperty(_translationsHash$has, "Выбор мест", "Выбор мест"), _defineProperty(_translationsHash$has, "$$phrase$$_13", "У вас нет опубликованных тем на карте. Вы можете добавить тему в разделе Вид-Обсуждения"), _defineProperty(_translationsHash$has, "Обсуждения", "Обсуждения"), _defineProperty(_translationsHash$has, "Экскурсии", "Экскурсии"), _defineProperty(_translationsHash$has, "$$phrase$$_14", "Невозможно удалить карту, использующуюся в качестве карты по умолчанию"), _defineProperty(_translationsHash$has, "$$phrase$$_15", "Невозможно удалить загруженную карту"), _defineProperty(_translationsHash$has, "Назад", "Назад"), _defineProperty(_translationsHash$has, "Вперед", "Вперед"), _defineProperty(_translationsHash$has, "$$phrase$$_16", "Альбома с указанным ID изображения не существует"), _defineProperty(_translationsHash$has, "Редактировать альбом", "Редактировать альбом"), _defineProperty(_translationsHash$has, "Оценить", "Оценить"), _defineProperty(_translationsHash$has, "Поставьте маркер", "Поставьте маркер"), _defineProperty(_translationsHash$has, "на карту и переместите его в нужное место.", "на карту и переместите его в нужное место."), _defineProperty(_translationsHash$has, "Недостаточно прав для совершения операции", "Недостаточно прав для совершения операции"), _defineProperty(_translationsHash$has, "Новая папка", "Новая папка"), _defineProperty(_translationsHash$has, "Выбрать", "Выбрать"), _defineProperty(_translationsHash$has, "Добавить", "Добавить"), _defineProperty(_translationsHash$has, "$$serviceHelp$$_4", "Пользователь может встроить созданную карту в другой сайт, скопировав код и вставив его внутрь HTML. Требуется указать api-ключ для сайта, на котором будет использоваться данный код."), _defineProperty(_translationsHash$has, "Масштаб", "Масштаб"), _defineProperty(_translationsHash$has, "Угол поворота", "Угол поворота"), _defineProperty(_translationsHash$has, "Диаграммы", "Диаграммы"), _defineProperty(_translationsHash$has, "График по времени", "График по времени"), _defineProperty(_translationsHash$has, "Круговая", "Круговая"), _defineProperty(_translationsHash$has, "Маска атрибутов", "Маска атрибутов"), _defineProperty(_translationsHash$has, "Закладки", "Закладки"), _defineProperty(_translationsHash$has, "Добавить закладку", "Добавить закладку"), _defineProperty(_translationsHash$has, "Имя закладки", "Имя закладки"), _defineProperty(_translationsHash$has, "Дерево", "Дерево"), _defineProperty(_translationsHash$has, "Поиск слоев", "Поиск слоев"), _defineProperty(_translationsHash$has, "Пример выражения", "[Атрибут1]\n[Атрибут2]\nпроизвольный текст"), _defineProperty(_translationsHash$has, "Шкала прозрачности", "Шкала прозрачности"), _defineProperty(_translationsHash$has, "Цвет заливки", "Цвет заливки"), _defineProperty(_translationsHash$has, "Цвет обводки", "Цвет обводки"), _defineProperty(_translationsHash$has, "Цвет шрифта", "Цвет шрифта"), _defineProperty(_translationsHash$has, "Легенда", "Легенда"), _defineProperty(_translationsHash$has, "Событие загрузки карты", "Событие загрузки карты"), _defineProperty(_translationsHash$has, "Мин", "Мин"), _defineProperty(_translationsHash$has, "Макс", "Макс"), _defineProperty(_translationsHash$has, "График", "График"), _defineProperty(_translationsHash$has, "Гистограмма", "Гистограмма"), _defineProperty(_translationsHash$has, "Столбчатая", "Столбчатая"), _defineProperty(_translationsHash$has, "Временная", "Временная"), _defineProperty(_translationsHash$has, "\u041A\u0440\u0443\u0433\u043E\u0432\u0430\u044F", "Круговая"), _defineProperty(_translationsHash$has, "Копировать стиль", "Копировать стиль"), _defineProperty(_translationsHash$has, "Применить стиль", "Применить стиль"), _defineProperty(_translationsHash$has, "Не выбран стиль", "Не выбран стиль"), _defineProperty(_translationsHash$has, "Невозможно применить стиль к другому типу геометрии", "Невозможно применить стиль к другому типу геометрии"), _defineProperty(_translationsHash$has, "Общие", "Общие"), _defineProperty(_translationsHash$has, "Доступ", "Доступ"), _defineProperty(_translationsHash$has, "Окно карты", "Окно карты"), _defineProperty(_translationsHash$has, "Загрузка", "Загрузка"), _defineProperty(_translationsHash$has, "Копирайт", "Копирайт"), _defineProperty(_translationsHash$has, "Инструменты", "Инструменты"), _defineProperty(_translationsHash$has, "Загрузить KML", "Загрузить KML"), _defineProperty(_translationsHash$has, "URL файла", "URL файла"), _defineProperty(_translationsHash$has, "Поиск", "Поиск"), _defineProperty(_translationsHash$has, "Подложки", "Подложки"), _defineProperty(_translationsHash$has, "Доступные подложки", "Доступные подложки"), _defineProperty(_translationsHash$has, "Подложки карты", "Подложки карты"), _defineProperty(_translationsHash$has, "Выберите слои для поиска по атрибутам", "Выберите слои для поиска по атрибутам"), _defineProperty(_translationsHash$has, "Включить синхронизацию слоев", "Включить синхронизацию слоев"), _defineProperty(_translationsHash$has, "Выключить синхронизацию слоев", "Выключить синхронизацию слоев"), _defineProperty(_translationsHash$has, "Редактирование прав доступа карты [value0]", "Редактирование прав доступа карты [value0]"), _defineProperty(_translationsHash$has, "Редактирование прав доступа слоя [value0]", "Редактирование прав доступа слоя [value0]"), _defineProperty(_translationsHash$has, "Редактирование прав доступа слоев карты [value0]", "Редактирование прав доступа слоев карты [value0]"), _defineProperty(_translationsHash$has, "Состав группы [value0]", "Состав группы [value0]"), _defineProperty(_translationsHash$has, "Роль", "Роль"), _defineProperty(_translationsHash$has, "Добавить пользователя", "Добавить пользователя"), _defineProperty(_translationsHash$has, "Права доступа", "Права доступа"), _defineProperty(_translationsHash$has, "Права доступа к слоям", "Права доступа к слоям"), _defineProperty(_translationsHash$has, "Пользователи без прав доступа:", "Пользователи без прав доступа:"), _defineProperty(_translationsHash$has, "Пользователи с правами доступа:", "Пользователи с правами доступа:"), _defineProperty(_translationsHash$has, "Выберите нового владельца", "Выберите нового владельца"), _defineProperty(_translationsHash$has, "Сменить владельца", "Сменить владельца"), _defineProperty(_translationsHash$has, "Объекты RuMap", "Данные RuMap"), _defineProperty(_translationsHash$has, "Объекты пользователей", "Данные пользователей"), _defineProperty(_translationsHash$has, "Контакты", "Контакты"), _defineProperty(_translationsHash$has, "Фотографии", "Фотографии"), _defineProperty(_translationsHash$has, "Момент съемки", "Момент съемки"), _defineProperty(_translationsHash$has, "Видео", "Видео"), _defineProperty(_translationsHash$has, "Сообщения", "Сообщения"), _defineProperty(_translationsHash$has, "Ссылка на место", "Ссылка на место"), _defineProperty(_translationsHash$has, "Ссылка на экскурсию", "Ссылка на экскурсию"), _defineProperty(_translationsHash$has, "Ссылка на событие", "Ссылка на событие"), _defineProperty(_translationsHash$has, "Создать новое событие", "Создать новое событие"), _defineProperty(_translationsHash$has, "События", "События"), _defineProperty(_translationsHash$has, "Календарь", "Календарь"), _defineProperty(_translationsHash$has, "Новости", "Новости"), _defineProperty(_translationsHash$has, "Мероприятия", "Мероприятия"), _defineProperty(_translationsHash$has, "Отмена", "Отмена"), _defineProperty(_translationsHash$has, "Пропустить", "Пропустить"), _defineProperty(_translationsHash$has, "Время", "Время"), _defineProperty(_translationsHash$has, "Альбом OpenPhotoVR", "Фотоальбом"), _defineProperty(_translationsHash$has, "Встраиваемый код", "Встраиваемое видео"), _defineProperty(_translationsHash$has, "Объекты экологического риска", "Объекты экологического риска"), _defineProperty(_translationsHash$has, "Санкционированные свалки", "Санкционированные свалки"), _defineProperty(_translationsHash$has, "Несанкционированные свалки", "Несанкционированные свалки"), _defineProperty(_translationsHash$has, "Полигоны отходов", "Полигоны отходов"), _defineProperty(_translationsHash$has, "Предприятия переработки отходов", "Предприятия переработки отходов"), _defineProperty(_translationsHash$has, "Факельные установки, ТЭЦ, трубы", "Факельные установки, ТЭЦ, трубы"), _defineProperty(_translationsHash$has, "Закрытые свалки", "Закрытые свалки"), _defineProperty(_translationsHash$has, "Пункты приема отходов", "Пункты приема отходов"), _defineProperty(_translationsHash$has, "Оползни", "Оползни"), _defineProperty(_translationsHash$has, "Карстовые явления", "Карстовые явления"), _defineProperty(_translationsHash$has, "Суффозионные явления", "Суффозионные явления"), _defineProperty(_translationsHash$has, "Государство и общество", "Государство и общество"), _defineProperty(_translationsHash$has, "Радио", "Радиостанции"), _defineProperty(_translationsHash$has, "Правительственные учреждения", "Правительственные учреждения"), _defineProperty(_translationsHash$has, "Оптики", "Оптики"), _defineProperty(_translationsHash$has, "Охранные агенства", "Охранные агенства"), _defineProperty(_translationsHash$has, "Травмпункты", "Травмпункты"), _defineProperty(_translationsHash$has, "Таможня", "Таможня"), _defineProperty(_translationsHash$has, "Ветеринарные клиники", "Ветеринарные клиники"), _defineProperty(_translationsHash$has, "ЗАГС", "ЗАГС"), _defineProperty(_translationsHash$has, "Больницы", "Больницы"), _defineProperty(_translationsHash$has, "Аптеки", "Аптеки"), _defineProperty(_translationsHash$has, "Поликлиники", "Поликлиники"), _defineProperty(_translationsHash$has, "Колледжи", "Колледжи"), _defineProperty(_translationsHash$has, "Университеты", "Университеты"), _defineProperty(_translationsHash$has, "ОВИР", "ОВИР"), _defineProperty(_translationsHash$has, "Посольства", "Посольства"), _defineProperty(_translationsHash$has, "Почтовые отделения", "Почтовые отделения"), _defineProperty(_translationsHash$has, "Суды", "Суды"), _defineProperty(_translationsHash$has, "Банки", "Банки"), _defineProperty(_translationsHash$has, "Родильные дома", "Родильные дома"), _defineProperty(_translationsHash$has, "Дома престарелых", "Дома престарелых"), _defineProperty(_translationsHash$has, "Детские сады", "Детские сады"), _defineProperty(_translationsHash$has, "Школы", "Школы"), _defineProperty(_translationsHash$has, "Инспекции", "Инспекции"), _defineProperty(_translationsHash$has, "Адвокаты", "Адвокаты"), _defineProperty(_translationsHash$has, "МЧС", "МЧС"), _defineProperty(_translationsHash$has, "Муниципальные учреждения", "Муниципальные учреждения"), _defineProperty(_translationsHash$has, "Администрация", "Администрация"), _defineProperty(_translationsHash$has, "Культура и отдых", "Культура и отдых"), _defineProperty(_translationsHash$has, "Боулинг", "Боулинг"), _defineProperty(_translationsHash$has, "Аквапарки", "Аквапарки"), _defineProperty(_translationsHash$has, "Парки развлечений", "Парки развлечений"), _defineProperty(_translationsHash$has, "Библиотеки", "Библиотеки"), _defineProperty(_translationsHash$has, "Памятники", "Памятники"), _defineProperty(_translationsHash$has, "Лагери отдыха", "Лагери отдыха"), _defineProperty(_translationsHash$has, "Кинотеатры", "Кинотеатры"), _defineProperty(_translationsHash$has, "Цирки", "Цирки"), _defineProperty(_translationsHash$has, "Галереи", "Галереи"), _defineProperty(_translationsHash$has, "Отели", "Отели"), _defineProperty(_translationsHash$has, "Мотели", "Мотели"), _defineProperty(_translationsHash$has, "Музеи", "Музеи"), _defineProperty(_translationsHash$has, "Концертные залы", "Концертные залы"), _defineProperty(_translationsHash$has, "Ночные клубы", "Ночные клубы"), _defineProperty(_translationsHash$has, "Театры", "Театры"), _defineProperty(_translationsHash$has, "Санатории", "Санатории"), _defineProperty(_translationsHash$has, "Зоопарки", "Зоопарки"), _defineProperty(_translationsHash$has, "Общественное питание", "Общественное питание"), _defineProperty(_translationsHash$has, "Кафе", "Кафе"), _defineProperty(_translationsHash$has, "Фастфуды", "Фастфуды"), _defineProperty(_translationsHash$has, "Рестораны", "Рестораны"), _defineProperty(_translationsHash$has, "Кафе-мороженое", "Кафе-мороженое"), _defineProperty(_translationsHash$has, "Столовые", "Столовые"), _defineProperty(_translationsHash$has, "Природные достопримечательности", "Природные достопримечательности"), _defineProperty(_translationsHash$has, "Ботанический сад", "Ботанические сады"), _defineProperty(_translationsHash$has, "Пещеры", "Пещеры"), _defineProperty(_translationsHash$has, "Водопады", "Водопады"), _defineProperty(_translationsHash$has, "Парки", "Парки"), _defineProperty(_translationsHash$has, "Источники", "Источники"), _defineProperty(_translationsHash$has, "Заповедники", "Заповедники"), _defineProperty(_translationsHash$has, "Прочие архитектурные и природные достопримечательности", "Архитектурные достопримечательности"), _defineProperty(_translationsHash$has, "Религия", "Религия"), _defineProperty(_translationsHash$has, "Культовые сооружения", "Культовые сооружения"), _defineProperty(_translationsHash$has, "Мечети", "Мечети"), _defineProperty(_translationsHash$has, "Монастыри", "Монастыри"), _defineProperty(_translationsHash$has, "Церкви других христианских конфессий", "Церкви других христианских конфессий"), _defineProperty(_translationsHash$has, "Православные церкви", "Православные церкви"), _defineProperty(_translationsHash$has, "Синагоги", "Синагоги"), _defineProperty(_translationsHash$has, "Спорт", "Спорт"), _defineProperty(_translationsHash$has, "Стадионы", "Стадионы"), _defineProperty(_translationsHash$has, "Теннисные корты", "Теннисные корты"), _defineProperty(_translationsHash$has, "Катки", "Катки"), _defineProperty(_translationsHash$has, "Ипподромы", "Ипподромы"), _defineProperty(_translationsHash$has, "Фитнес", "Фитнес"), _defineProperty(_translationsHash$has, "Бассейны", "Бассейны"), _defineProperty(_translationsHash$has, "Прокат спортинвентаря", "Прокат спортинвентаря"), _defineProperty(_translationsHash$has, "Торговля и услуги", "Торговля и услуги"), _defineProperty(_translationsHash$has, "Солярии", "Солярии"), _defineProperty(_translationsHash$has, "Интернет-кафе", "Интернет-кафе"), _defineProperty(_translationsHash$has, "Рынки", "Рынки"), _defineProperty(_translationsHash$has, "Стоматологические клиники", "Стоматологические клиники"), _defineProperty(_translationsHash$has, "Магазины одежды", "Магазины одежды"), _defineProperty(_translationsHash$has, "Парикмахерские", "Парикмахерские"), _defineProperty(_translationsHash$has, "Бани", "Бани"), _defineProperty(_translationsHash$has, "Магазины обуви", "Магазины обуви"), _defineProperty(_translationsHash$has, "Магазины", "Магазины"), _defineProperty(_translationsHash$has, "Ателье", "Ателье"), _defineProperty(_translationsHash$has, "Такси", "Такси"), _defineProperty(_translationsHash$has, "Туризм", "Туризм"), _defineProperty(_translationsHash$has, "Транспорт и услуги", "Транспорт и услуги"), _defineProperty(_translationsHash$has, "Аэропорты", "Аэропорты"), _defineProperty(_translationsHash$has, "Автосервисы", "Автосервисы"), _defineProperty(_translationsHash$has, "Автовокзалы", "Автовокзалы"), _defineProperty(_translationsHash$has, "ДПС", "ДПС"), _defineProperty(_translationsHash$has, "ГИБДД", "ГИБДД"), _defineProperty(_translationsHash$has, "Шиномонтаж", "Шиномонтаж"), _defineProperty(_translationsHash$has, "Парковки бесплатные", "Парковки бесплатные"), _defineProperty(_translationsHash$has, "Парковки платные", "Парковки платные"), _defineProperty(_translationsHash$has, "АЗС", "АЗС"), _defineProperty(_translationsHash$has, "Автомойки", "Автомойки"), _defineProperty(_translationsHash$has, "Экстренные службы", "Экстренные службы"), _defineProperty(_translationsHash$has, "Пожарные/спасатели", "Пожарные/спасатели"), _defineProperty(_translationsHash$has, "Милиция", "Милиция"), _defineProperty(_translationsHash$has, "Скорая помощь", "Скорая помощь"), _defineProperty(_translationsHash$has, "Другие темы", "Другие темы"), _defineProperty(_translationsHash$has, "Разное", "Разное"), _defineProperty(_translationsHash$has, "Изменение пароля", "Изменение пароля"), _defineProperty(_translationsHash$has, "Новый пароль", "Новый пароль"), _defineProperty(_translationsHash$has, "Старый пароль", "Старый пароль"), _defineProperty(_translationsHash$has, "Подтвердите пароль", "Подтвердите пароль"), _defineProperty(_translationsHash$has, "Контур", "Контур"), _defineProperty(_translationsHash$has, "$$phrase$$_17", "Добавьте контур при помощи инструмента \"Полигон\" на панели инструментов"), _defineProperty(_translationsHash$has, "Выбор контура", "Выбор контура"), _defineProperty(_translationsHash$has, "Таблица атрибутов слоя [value0]", "Таблица атрибутов слоя [value0]"), _defineProperty(_translationsHash$has, "Показать параметры поиска", "Показать параметры поиска"), _defineProperty(_translationsHash$has, "Скрыть параметры поиска", "Скрыть параметры поиска"), _defineProperty(_translationsHash$has, "Скрыть", "Скрыть"), _defineProperty(_translationsHash$has, "SQL-условие WHERE", "SQL-условие WHERE"), _defineProperty(_translationsHash$has, "Искать внутри полигона", "Искать внутри полигона"), _defineProperty(_translationsHash$has, "Искать по пересечению с объектом", "Искать по пересечению с объектом"), _defineProperty(_translationsHash$has, "\u041A\u043E\u043B\u043E\u043D\u043A\u0438", "Колонки"), _defineProperty(_translationsHash$has, "Показывать колонки", "Показывать колонки"), _defineProperty(_translationsHash$has, "Скрыть колонки", "Скрыть колонки"), _defineProperty(_translationsHash$has, "Найти", "Найти"), _defineProperty(_translationsHash$has, "Нет полей", "Нет полей"), _defineProperty(_translationsHash$has, "Нет данных", "Нет данных"), _defineProperty(_translationsHash$has, "Таблица атрибутов", "Таблица атрибутов"), _defineProperty(_translationsHash$has, "Разрешить поиск", "Разрешить поиск"), _defineProperty(_translationsHash$has, "Произвольный", "Произвольный"), _defineProperty(_translationsHash$has, "День", "День"), _defineProperty(_translationsHash$has, "Неделя", "Неделя"), _defineProperty(_translationsHash$has, "Месяц", "Месяц"), _defineProperty(_translationsHash$has, "Год", "Год"), _defineProperty(_translationsHash$has, "Ежегодно", "Ежегодно"), _defineProperty(_translationsHash$has, "Облачность", "Облачность"), _defineProperty(_translationsHash$has, "Период", "Период"), _defineProperty(_translationsHash$has, "Спутниковые покрытия", "Спутниковые покрытия"), _defineProperty(_translationsHash$has, "Редактировать объект слоя [value0]", "Редактировать объект слоя [value0]"), _defineProperty(_translationsHash$has, "Создать объект слоя [value0]", "Создать объект слоя [value0]"), _defineProperty(_translationsHash$has, "Геометрия", "Геометрия"), _defineProperty(_translationsHash$has, "Найти объекты", "Найти объекты"), _defineProperty(_translationsHash$has, "Добавить объекты", "Добавить объекты"), _defineProperty(_translationsHash$has, "Обновить объекты", "Обновить объекты"), _defineProperty(_translationsHash$has, "Копировать объекты", "Копировать объекты"), _defineProperty(_translationsHash$has, "Объекты скопированы", "Объекты скопированы"), _defineProperty(_translationsHash$has, "Объекты добавлены", "Объекты добавлены"), _defineProperty(_translationsHash$has, "Вставить объекты", "Вставить объекты"), _defineProperty(_translationsHash$has, "Вставить объекты не удалось", "Вставить объекты не удалось"), _defineProperty(_translationsHash$has, "Выберите правым кликом слой в левой панели и нажмите \"Вставить объекты\"", "Выберите правым кликом слой в левой панели и нажмите \"Вставить объекты\""), _defineProperty(_translationsHash$has, "Изменить колонки", "Изменить колонки"), _defineProperty(_translationsHash$has, "Обновить колонку", "Обновить колонку"), _defineProperty(_translationsHash$has, "Очистить поиск", "Очистить поиск"), _defineProperty(_translationsHash$has, "Скачать shp", "Скачать shp"), _defineProperty(_translationsHash$has, "Скачать gpx", "Скачать gpx"), _defineProperty(_translationsHash$has, "Скачать csv", "Скачать csv"), _defineProperty(_translationsHash$has, "Скачать geojson", "Скачать geojson"), _defineProperty(_translationsHash$has, "Рассчитать площадь", "Суммарная площадь"), _defineProperty(_translationsHash$has, "Создать столбец", "Создать столбец"), _defineProperty(_translationsHash$has, "Мультислой", "Мультислой"), _defineProperty(_translationsHash$has, "В дереве слоев остались несохраненные изменения!", "В дереве слоев остались несохраненные изменения!"), _defineProperty(_translationsHash$has, "файл версии отсутствует", "файл версии отсутствует"), _defineProperty(_translationsHash$has, "оверлеи отсутствуют", "оверлеи отсутствуют"), _defineProperty(_translationsHash$has, "Хост", "Хост"), _defineProperty(_translationsHash$has, "Дополнительные карты", "Дополнительные карты"), _defineProperty(_translationsHash$has, "Добавить карту", "Добавить карту"), _defineProperty(_translationsHash$has, "Добавить в таймлайн", "Добавить в таймлайн"), _defineProperty(_translationsHash$has, "Удалить из таймлайна", "Удалить из таймлайна"), _defineProperty(_translationsHash$has, "Невозможно загрузить карту [value0] с домена [value1]", "Невозможно загрузить карту [value0] с домена [value1]"), _defineProperty(_translationsHash$has, "Показывать", "Показывать"), _defineProperty(_translationsHash$has, "\u041F\u043E\u0438\u0441\u043A \u0441\u043D\u0438\u043C\u043A\u043E\u0432", "Поиск снимков"), _defineProperty(_translationsHash$has, "Принудительно обновить тайлы", "Принудительно обновить тайлы"), _defineProperty(_translationsHash$has, "Обводка", "Обводка"), _defineProperty(_translationsHash$has, "Карта имеет более новую версию. Сохранить?", "Карта имеет более новую версию. Сохранить?"), _defineProperty(_translationsHash$has, "Кодировка", "Кодировка"), _defineProperty(_translationsHash$has, "helpPostfix", "_rus.html"), _defineProperty(_translationsHash$has, "Показывать чекбокс видимости", "Чекбокс видимости"), _defineProperty(_translationsHash$has, "Разворачивать автоматически", "Разворачивать автоматически"), _defineProperty(_translationsHash$has, "Другая", "Другая"), _defineProperty(_translationsHash$has, "Временнóй слой", "Мультивременнóй слой"), _defineProperty(_translationsHash$has, "Колонка даты", "Колонка даты"), _defineProperty(_translationsHash$has, "Минимальный период", "Мин. период (дни)"), _defineProperty(_translationsHash$has, "Максимальный период", "Макс. период (дни)"), _defineProperty(_translationsHash$has, "Отсутствует временной атрибут", "Отсутствует атрибут типа 'Дата'"), _defineProperty(_translationsHash$has, "Период 1 день", "Период 1 день"), _defineProperty(_translationsHash$has, "Показывать на карте данные за", "Показывать на карте данные за"), _defineProperty(_translationsHash$has, "1 день", "1 день"), _defineProperty(_translationsHash$has, "произвольный период", "произвольный период"), _defineProperty(_translationsHash$has, "По границе экрана", "По границе экрана"), _defineProperty(_translationsHash$has, "По центру экрана", "По центру экрана"), _defineProperty(_translationsHash$has, "Пересечение", "Пересечение"), _defineProperty(_translationsHash$has, "Пролистывать слои", "Пролистывать слои"), _defineProperty(_translationsHash$has, "Следующий слой", "Следующий слой"), _defineProperty(_translationsHash$has, "Предыдущий слой", "Предыдущий слой"), _defineProperty(_translationsHash$has, "Геометрия не сохранена. Эта возможность будет реализована в будущих версиях Геомиксера.", "Геометрия не сохранена. Эта возможность будет реализована в будущих версиях Геомиксера."), _defineProperty(_translationsHash$has, "WMS доступ", "WMS/WFS доступ"), _defineProperty(_translationsHash$has, "ссылка", "ссылка"), _defineProperty(_translationsHash$has, "Слой '[value0]' уже есть в карте", "Слой '[value0]' уже есть в карте"), _defineProperty(_translationsHash$has, "Группа '[value0]' уже есть в карте", "Группа '[value0]' уже есть в карте"), _defineProperty(_translationsHash$has, "Плагины", "Плагины"), _defineProperty(_translationsHash$has, "Вручную", "Вручную"), _defineProperty(_translationsHash$has, "Добавить атрибут", "Добавить поле"), _defineProperty(_translationsHash$has, "Проекция", "Проекция"), _defineProperty(_translationsHash$has, "Широта/Долгота (EPSG:4326)", "Широта/Долгота (EPSG:4326)"), _defineProperty(_translationsHash$has, "Меркатор (EPSG:3395)", "Меркатор (EPSG:3395)"), _defineProperty(_translationsHash$has, "Из файла", "Из файла"), _defineProperty(_translationsHash$has, "Мультиполигон", "Мультиполигон"), _defineProperty(_translationsHash$has, "Мультилиния", "Мультилиния"), _defineProperty(_translationsHash$has, "Мультиточка", "Мультиточка"), _defineProperty(_translationsHash$has, "Администрирование", "Администрирование"), _defineProperty(_translationsHash$has, "Системные настройки", "Системные настройки"), _defineProperty(_translationsHash$has, "Управление группами", "Управление группами"), _defineProperty(_translationsHash$has, "Управление группами пользователей", "Управление группами пользователей"), _defineProperty(_translationsHash$has, "Добавить снимки", "Добавить растры"), _defineProperty(_translationsHash$has, "Существующие слои", "Существующие слои"), _defineProperty(_translationsHash$has, "Слои из карты", "Слои из карты"), _defineProperty(_translationsHash$has, "Слои из КР", "Слои из КР"), _defineProperty(_translationsHash$has, "Новый слой", "Новый слой"), _defineProperty(_translationsHash$has, "С экрана", "С экрана"), _defineProperty(_translationsHash$has, "Добавлен растр", "Добавлен растр"), _defineProperty(_translationsHash$has, "Добавлены растры", "Добавлены растры"), _defineProperty(_translationsHash$has, "Выбранный объект не имеет растра", "Выбранный объект не имеет растра"), _defineProperty(_translationsHash$has, "Этот растр уже был выбран", "Этот растр уже был выбран"), _defineProperty(_translationsHash$has, "Каталог Растров", "Каталог растров"), _defineProperty(_translationsHash$has, "Растр", "Растр"), _defineProperty(_translationsHash$has, "Добавить выбранные растры", "Добавить выбранные растры"), _defineProperty(_translationsHash$has, "EditObject.menuTitle", "Добавить объект"), _defineProperty(_translationsHash$has, "FileBrowser.ExceedLimitMessage", "Размер файла превышает 500 Мб. Используйте GeoMixerFileBrowser для загрузки больших файлов."), _defineProperty(_translationsHash$has, "FileBrowser.DropInfo", "Перетащите файлы сюда"), _defineProperty(_translationsHash$has, "EditObject.drawingMenuTitle", "Добавить объект в активный слой"), _defineProperty(_translationsHash$has, "Поставить маркер", "Поставить маркер"), _defineProperty(_translationsHash$has, "Центрировать", "Центрировать"), _defineProperty(_translationsHash$has, "Пароль изменён", "Пароль изменён"), _defineProperty(_translationsHash$has, "портретная", "портретная"), _defineProperty(_translationsHash$has, "альбомная", "альбомная"), _defineProperty(_translationsHash$has, "gmx_geometry", "gmx_geometry"), _translationsHash$has);
+      "Объекты на карте": "Объекты на карте",
+      "Координатная сетка": "Координатная сетка",
+      "Индексная сетка": "Индексная сетка",
+      "Панель оверлеев": "Панель оверлеев",
+      "Загрузить объекты": "Загрузить объекты",
+      "Загрузить фотографии": "Загрузить фотографии",
+      "Загрузить данные": "Загрузить данные",
+      "WFS сервер": "WFS сервер",
+      "WMS сервер": "WMS сервер",
+      "Кадастровые данные": "Кадастровые данные",
+      "Ссылка на карту": "Ссылка на карту",
+      "Код для вставки": "Код для вставки карты",
+      "Печать": "Печать",
+      "Привязать изображение": "Привязать изображение",
+      "Сообщить об ошибке на карте": "Сообщить об ошибке на карте",
+      "Справка": "Справка",
+      "Использование": "Использование",
+      "О проекте": "О проекте/Контакты",
+      "$$phrase$$_1": "Укажите карту в параметре defaultMapID в файле config.js",
+      "У вас нет прав на просмотр данной карты": "У вас нет прав на просмотр данной карты",
+      "Access error": "У вас нет прав на просмотр данной карты",
+      "Map not found": "Данная карта не существует",
+      "Unable to locate EXIF content": "отсутствуют координаты в EXIF",
+      "Развернуть карту": "Развернуть карту",
+      "Свернуть карту": "Свернуть карту",
+      "Точки на изображении:": "Точки на изображении:",
+      "Точки на карте:": "Точки на карте:",
+      "Координаты": "Координаты",
+      "Нарисовать": "Нарисовать",
+      "Восстановить": "Восстановить",
+      "Видимость": "Видимость",
+      "Привязка изображения": "Привязка изображения",
+      "$$phrase$$_2": "Точка [value0] находится за пределами изображения",
+      "$$phrase$$_3": "Не задана точка [value0] на карте",
+      "Соответствие точек": "Соответствие точек",
+      "$$phrase$$_4": "Точки 1 и 2 на изображении совпадают",
+      "$$phrase$$_5": "Точки 1 и 3 на изображении совпадают",
+      "$$phrase$$_6": "Точки 2 и 3 на изображении совпадают",
+      "$$phrase$$_7": "Точки 1 и 2 на карте совпадают",
+      "$$phrase$$_8": "Точки 1 и 3 на карте совпадают",
+      "$$phrase$$_9": "Точки 2 и 3 на карте совпадают",
+      "$$phrase$$_10": "Точки на изображении лежат на одной прямой",
+      "Создать экскурсию": "Создать экскурсию",
+      "Чтобы пользоваться этим сайтом, установите Flash Player": "Чтобы пользоваться этим сайтом, установите Flash Player",
+      "из Интернет": "из Интернет",
+      "или с локального диска ": "или с локального диска ",
+      "для Internet Explorer": "для Internet Explorer",
+      " или ": " или ",
+      "для Internet Firefox": "для Internet Firefox",
+      "Скачать shp-файл": "Скачать shp-файл",
+      "shp-файл": "shp-файл",
+      "gpx-файл": "gpx-файл",
+      "Скачать фрагмент растра": "Скачать фрагмент растра",
+      "точка": "точка",
+      "линия": "линия",
+      "прямоугольник": "прямоугольник",
+      "многоугольник": "многоугольник",
+      "Скачать": "Скачать",
+      "Введите имя файла для скачивания": "Введите имя файла для скачивания",
+      "Выберите область рамкой на карте": "Выберите область рамкой на карте",
+      "Вырезать фрагмент растра": "Вырезать фрагмент растра",
+      "К прямоугольнику не подходит ни одного растрового слоя": "К прямоугольнику не подходит ни одного растрового слоя",
+      "Загруженный shp-файл пуст": "Загруженный shp-файл пуст",
+      "Ошибка скачивания": "Ошибка скачивания",
+      "Обновить": "Обновить",
+      "Домашняя директория": "Директория проекта",
+      "Имя папки": "Имя папки",
+      "Имя": "Имя",
+      "Размер": "Размер",
+      "Дата": "Дата",
+      "Дата создания": "Дата создания",
+      "Снять выделение": "Снять выделение",
+      "Скопировать": "Скопировать",
+      "Удалить": "Удалить",
+      "Извлечь": "Извлечь",
+      "Упаковать": "Упаковать",
+      "Загрузить": "Загрузить",
+      "Параметр": "Параметр",
+      "Значение": "Значение",
+      "VALUE": "VALUE",
+      "WHERE": "WHERE",
+      "Операторы": "Операторы",
+      "Функции": "Функции",
+      "Метаданные": "Метаданные",
+      "Редактировать колонки": "Редактировать колонки",
+      "URL сервера": "URL сервера",
+      "Формат изображения": "Формат изображения",
+      "Введите имя gml-файла для скачивания:": "Введите имя gml-файла для скачивания:",
+      "точки": "точки",
+      "линии": "линии",
+      "полигоны": "полигоны",
+      "(ссылка)": "(ссылка)",
+      "Сохранить состояние карты": "Сохранить состояние карты",
+      "Ссылка на текущее состояние карты": "Ссылка на текущее состояние карты",
+      "Добавить стиль": "Добавить стиль",
+      "Атрибут >": "Атрибут >",
+      "Значение >": "Значение >",
+      "Операция >": "Операция >",
+      "Накладываемое изображение": "Накладываемое изображение",
+      "Цвет": "Цвет",
+      "Прозрачность": "Прозрачность",
+      "Авторизуйтесь для редактирования фильтров": "Авторизуйтесь для редактирования фильтров",
+      "Имя фильтра": "Имя фильтра",
+      "Переместить фильтр вверх": "Переместить фильтр вверх",
+      "Переместить фильтр вниз": "Переместить фильтр вниз",
+      "Удалить фильтр": "Удалить фильтр",
+      "Размер шрифта": "Размер шрифта",
+      "Смещение": "Смещение",
+      "Смещение по x": "Смещение по x",
+      "Смещение по y": "Смещение по y",
+      "Имя атрибута": "Имя атрибута",
+      "Граница обрезки": "Граница обрезки",
+      "Граница": "Граница",
+      "Толщина линии": "Толщина линии",
+      "Заливка": "Заливка",
+      "Заливка цветом": "Заливка цветом",
+      "Заливка штриховкой": "Заливка штриховкой",
+      "Заливка рисунком": "Заливка рисунком",
+      "Ширина паттерна": "Ширина паттерна",
+      "Ширина отступа": "Ширина отступа",
+      "URL рисунка": "URL рисунка",
+      "Маркер URL": "Маркер URL",
+      "URL изображения": "URL изображения",
+      "Изображение": "Изображение",
+      "Размер точек": "Размер точек",
+      "Редактировать стили": "Редактировать стили",
+      "Авторизуйтесь для редактирования настроек слоя": "Авторизуйтесь для редактирования настроек слоя",
+      "Недостаточно прав для редактирования настроек слоя": "Недостаточно прав для редактирования настроек слоя",
+      "Недостаточно прав для редактирования объектов слоя": "Недостаточно прав для редактирования объектов слоя",
+      "ID": "ID",
+      "Описание": "Описание",
+      "Файл": "Файл",
+      "Таблица": "Таблица",
+      "Каталог с тайлами": "Каталог с тайлами",
+      "Каталог растров": "Каталог растров",
+      "Источник": "Источник",
+      "Данные с датой": "Разбить по датам",
+      "Дополнительно": "Дополнительно",
+      "Шаблон названий объектов": "Шаблон названий объектов",
+      "Y (широта)": "Y (широта)",
+      "X (долгота)": "X (долгота)",
+      "Каталог": "Каталог",
+      "Изменить": "Изменить"
+    }, _defineProperty(_translationsHash$has, "\u0421\u043E\u0437\u0434\u0430\u0442\u044C", "Создать"), _defineProperty(_translationsHash$has, "Вид вложенных элементов", "Вид вложенных элементов"), _defineProperty(_translationsHash$has, "Использовать KosmosnimkiAPI", "Загрузить подложки Kosmosnimki"), _defineProperty(_translationsHash$has, "Использовать OpenStreetMap", "Использовать OpenStreetMap"), _defineProperty(_translationsHash$has, "Язык по умолчанию", "Язык по умолчанию"), _defineProperty(_translationsHash$has, "Единицы длины", "Единицы длины"), _defineProperty(_translationsHash$has, "Единицы площади", "Единицы площади"), _defineProperty(_translationsHash$has, "Формат координат", "Формат координат"), _defineProperty(_translationsHash$has, "units.auto", "авто"), _defineProperty(_translationsHash$has, "units.m", "м"), _defineProperty(_translationsHash$has, "units.km", "км"), _defineProperty(_translationsHash$has, "units.nm", "м. мили"), _defineProperty(_translationsHash$has, "units.m2", "м<sup>2"), _defineProperty(_translationsHash$has, "units.ha", "га"), _defineProperty(_translationsHash$has, "units.km2", "км<sup>2"), _defineProperty(_translationsHash$has, "coords.dd", "dd.dddd"), _defineProperty(_translationsHash$has, "coords.dms", "dd°mm′ss″"), _defineProperty(_translationsHash$has, "Генерализация", "Генерализация"), _defineProperty(_translationsHash$has, "gereralization.on", "включить"), _defineProperty(_translationsHash$has, "gereralization.off", "выключить"), _defineProperty(_translationsHash$has, "gereralization.disable", "использовать настройки слоев"), _defineProperty(_translationsHash$has, "Количество информационных окошек", "Количество информационных окошек"), _defineProperty(_translationsHash$has, "layerOrder.title", "Порядок слоёв"), _defineProperty(_translationsHash$has, "layerOrder.native", "Стандартный"), _defineProperty(_translationsHash$has, "layerOrder.vectorOnTop", "Вектора сверху"), _defineProperty(_translationsHash$has, "Разрешить поиск в векторных слоях", "Разрешить поиск в векторных слоях"), _defineProperty(_translationsHash$has, "Начальная позиция", "Начальная позиция"), _defineProperty(_translationsHash$has, "Широта", "Широта"), _defineProperty(_translationsHash$has, "Долгота", "Долгота"), _defineProperty(_translationsHash$has, "placeholder degrees", "dd.dddd"), _defineProperty(_translationsHash$has, "placeholder zoom", "1-21"), _defineProperty(_translationsHash$has, "placeholder minZoom", "1"), _defineProperty(_translationsHash$has, "placeholder maxZoom", "21"), _defineProperty(_translationsHash$has, "Зум", "Зум"), _defineProperty(_translationsHash$has, "Ссылка (permalink)", "Ссылка (permalink)"), _defineProperty(_translationsHash$has, "Разрешить скачивание", "Разрешить скачивание"), _defineProperty(_translationsHash$has, "Векторных слоев", "Векторных слоев"), _defineProperty(_translationsHash$has, "Растровых слоев", "Растровых слоев"), _defineProperty(_translationsHash$has, "Масштабирование в миникарте", "Масштабирование в миникарте"), _defineProperty(_translationsHash$has, "Показывать всплывающие подсказки", "Показывать всплывающие подсказки"), _defineProperty(_translationsHash$has, "Свойства", "Свойства"), _defineProperty(_translationsHash$has, "Создать копию слоя", "Создать копию слоя"), _defineProperty(_translationsHash$has, "Стили", "Стили"), _defineProperty(_translationsHash$has, "Изображение на карте", "Изображение на карте"), _defineProperty(_translationsHash$has, "Слой [value0]", "Слой [value0]"), _defineProperty(_translationsHash$has, "Стили слоя [value0]", "Стили слоя [value0]"), _defineProperty(_translationsHash$has, "Мультислой [value0]", "Мультислой [value0]"), _defineProperty(_translationsHash$has, "Группа [value0]", "Группа [value0]"), _defineProperty(_translationsHash$has, "Карта [value0]", "Карта [value0]"), _defineProperty(_translationsHash$has, "Редактировать стиль", "Редактировать стиль"), _defineProperty(_translationsHash$has, "Редактирование стилей объекта", "Редактирование стилей объекта"), _defineProperty(_translationsHash$has, "Стили слоя", "Стили слоя"), _defineProperty(_translationsHash$has, "Навигация по карте и инструменты", "Навигация по карте и инструменты"), _defineProperty(_translationsHash$has, "Стиль векторного слоя", "Стиль векторного слоя"), _defineProperty(_translationsHash$has, "Управление содержанием карты", "Управление содержанием карты"), _defineProperty(_translationsHash$has, "Пользовательские инструменты", "Пользовательские инструменты"), _defineProperty(_translationsHash$has, "$$help$$_1", "Держите нажатой левую клавишу мыши – перетаскивайте карту курсором. Для приближения и удаления используйте колесико мыши (карта зуммируется к точке под курсором). Для перецентровки по координатам – введите их в строке поиска."), _defineProperty(_translationsHash$has, "$$help$$_2", "В левой панели отображается список слоев в виде дерева. Для перецентровки карты по экстенту слоя – кликните по его названию в списке. Если данная опция включена администратором карты, вы можете скачивать векторные слои и вырезать и скачивать фрагменты растровых слоев."), _defineProperty(_translationsHash$has, "$$help$$_3", "Для редактирования стиля векторного слоя кликните на иконку перед названием слоя."), _defineProperty(_translationsHash$has, "$$help$$_4", "Карта представляет собой набор слоев, отображение которого задается с помощью списка слоев. Чтобы иметь возможность редактировать набор слоев (создавать группы, изменять порядок отображения и т.д.) и сохранять изменения – необходимо авторизоваться. Более подробно см "), _defineProperty(_translationsHash$has, " - Руководство пользователя", " - Руководство пользователя"), _defineProperty(_translationsHash$has, "$$help$$_5", "Пользовательские инструменты одновременно служат для создания объектов на карте, которые затем можно сохранять через «ссылку на карту», и для выполнения простых аналитических функций. "), _defineProperty(_translationsHash$has, "В режиме маркеров: ", "В режиме маркеров: "), _defineProperty(_translationsHash$has, "$$help$$_6", "одиночный клик - добавить маркер. Двойной клик по маркеру - удалить. Клик на маркер – открыть всплывающее окошко (балун), клик по балуну – добавить надпись."), _defineProperty(_translationsHash$has, "В режиме линейка/измерения расстояния, полигон/измерение площади: ", "В режиме линейка/измерения расстояния, полигон/измерение площади: "), _defineProperty(_translationsHash$has, "$$help$$_7", "одиночный клик - добавить вершину. Двойной клик - завершить фигуру. Клик на линию - добавить вершину. Двойной клик по вершине - удалить."), _defineProperty(_translationsHash$has, "$$help$$_8", "Кликните по объекту в списке «объектов на карте», чтобы перецентровать карту на него. Вы можете скачать контуры объектов в shp/tab/kml формате."), _defineProperty(_translationsHash$has, "$$about$$_1", "это веб-приложение для интерактивного просмотра геоданных и доступа к источникам базовых геоданных в интернете, таким как: "), _defineProperty(_translationsHash$has, "$$about$$_2", "С помощью GeoMixer можно публиковать собственные геоданные во внутренней сети предприятий или в интернет, накладывать их поверх базовых источников и предоставлять к ним доступ для совместной работы сколь угодно большому числу пользователей, разграничивая права доступа."), _defineProperty(_translationsHash$has, "$$about$$_3", "GeoMixer также включает компонент API, который позволяет встраивать созданные проекты в сторонние веб-сайты и приложения и программно управлять фукционалом интерактивной карты."), _defineProperty(_translationsHash$has, " - Общее описание", " - Общее описание"), _defineProperty(_translationsHash$has, " - Руководство разработчика", " - Руководство разработчика"), _defineProperty(_translationsHash$has, "Получить API-ключ", "Получить API-ключ"), _defineProperty(_translationsHash$has, "Введите API-ключ", "Введите API-ключ"), _defineProperty(_translationsHash$has, "Печать карты", "Печать карты"), _defineProperty(_translationsHash$has, "$$serviceHelp$$_1", "Позволяет на лету загрузить shp/tab/kml файл небольшого размера в виде пользовательских объектов. После загрузки пользователь может редактировать геометрию объектов и скачивать объекты в том же наборе форматов."), _defineProperty(_translationsHash$has, "$$serviceHelp$$_2", "По ссылке запоминается текущее положение карты, а так же пользовательские объекты и надписи."), _defineProperty(_translationsHash$has, "$$serviceHelp$$_3", "Отправляет на печать текущий фрагмент карты."), _defineProperty(_translationsHash$has, "Редактировать", "Редактировать"), _defineProperty(_translationsHash$has, "Удалить объект?", "Удалить объект?"), _defineProperty(_translationsHash$has, "Удалить отмеченные объекты?", "Удалить отмеченные объекты?"), _defineProperty(_translationsHash$has, "Длина", "Длина"), _defineProperty(_translationsHash$has, "Площадь", "Площадь"), _defineProperty(_translationsHash$has, "Добавить подгруппу", "Добавить группу"), _defineProperty(_translationsHash$has, "Введите имя группы", "Создание новой группы"), _defineProperty(_translationsHash$has, "Имя группы", "Имя группы"), _defineProperty(_translationsHash$has, "Включая вложенные слои", "Включая вложенные слои"), _defineProperty(_translationsHash$has, "Удаление группы [value0]", "Удаление группы [value0]"), _defineProperty(_translationsHash$has, "Сохранено", "Сохранено"), _defineProperty(_translationsHash$has, "Прозрачность выбранного слоя/группы/карты", "Прозрачность выбранного слоя/группы/карты"), _defineProperty(_translationsHash$has, "$$updateInfo$$_1", "Для отображения нового слоя необходимо сохранить и перезагрузить карту"), _defineProperty(_translationsHash$has, "Любой", "Любой"), _defineProperty(_translationsHash$has, "Владелец", "Владелец"), _defineProperty(_translationsHash$has, "Последнее изменение", "Последнее изменение"), _defineProperty(_translationsHash$has, "Список слоев", "Список слоев"), _defineProperty(_translationsHash$has, "Вы действительно хотите удалить этот слой?", "Вы действительно хотите удалить этот слой?"), _defineProperty(_translationsHash$has, "Ошибка!", "Ошибка!"), _defineProperty(_translationsHash$has, "Ошибка", "Ошибка"), _defineProperty(_translationsHash$has, "Выберите колонку", "Выберите колонку"), _defineProperty(_translationsHash$has, "Список карт", "Список карт"), _defineProperty(_translationsHash$has, "Показать", "Показать"), _defineProperty(_translationsHash$has, "загрузка...", "загрузка..."), _defineProperty(_translationsHash$has, "удаление...", "удаление..."), _defineProperty(_translationsHash$has, "Вы действительно хотите удалить эту карту?", "Вы действительно хотите удалить эту карту?"), _defineProperty(_translationsHash$has, "maplist.hint", "Группы и слои можно перетащить в текущую карту"), _defineProperty(_translationsHash$has, "Слоя нет в базе", "Слоя нет в базе"), _defineProperty(_translationsHash$has, "ScanEx Web Geomixer - просмотр карты", "ScanEx Web Geomixer - просмотр карты"), _defineProperty(_translationsHash$has, "Изменить параметры поиска", "Изменить параметры поиска"), _defineProperty(_translationsHash$has, "$$search$$_1", "Поиск по векторным слоям и адресной базе"), _defineProperty(_translationsHash$has, "$$search$$_2", "Поиск по адресной базе"), _defineProperty(_translationsHash$has, "Поиск не дал результатов", "Поиск не дал результатов"), _defineProperty(_translationsHash$has, "Очистить", "Очистить"), _defineProperty(_translationsHash$has, "Регистрация", "Регистрация"), _defineProperty(_translationsHash$has, "Восстановление пароля", "Восстановление пароля"), _defineProperty(_translationsHash$has, "Вход", "Вход"), _defineProperty(_translationsHash$has, "Выход", "Выход"), _defineProperty(_translationsHash$has, "Логин", "Логин"), _defineProperty(_translationsHash$has, "Пароль", "Пароль"), _defineProperty(_translationsHash$has, "пароль", "пароль"), _defineProperty(_translationsHash$has, "Псевдоним", "Псевдоним"), _defineProperty(_translationsHash$has, "Полное имя", "Полное имя"), _defineProperty(_translationsHash$has, "Пожалуйста, авторизуйтесь", "Пожалуйста, авторизуйтесь"), _defineProperty(_translationsHash$has, "адрес электронной почты", "адрес электронной почты"), _defineProperty(_translationsHash$has, "Ошибка сервера", "Ошибка сервера"), _defineProperty(_translationsHash$has, "Папка", "Папка"), _defineProperty(_translationsHash$has, " и ", " и "), _defineProperty(_translationsHash$has, "Название", "Название"), _defineProperty(_translationsHash$has, "Рейтинг", "Рейтинг"), _defineProperty(_translationsHash$has, "Автор", "Автор"), _defineProperty(_translationsHash$has, "Тематика", "Тематика"), _defineProperty(_translationsHash$has, "Развлекательная", "Развлекательная"), _defineProperty(_translationsHash$has, "Спортивная", "Спортивная"), _defineProperty(_translationsHash$has, "Историческая", "Историческая"), _defineProperty(_translationsHash$has, "Экологическая", "Экологическая"), _defineProperty(_translationsHash$has, "Любая", "Любая"), _defineProperty(_translationsHash$has, "Создать новую тему", "Создать новую тему"), _defineProperty(_translationsHash$has, "Начало периода", "Начало периода"), _defineProperty(_translationsHash$has, "Окончание периода", "Окончание периода"), _defineProperty(_translationsHash$has, "Накладываемые тайлы", "Накладываемые тайлы"), _defineProperty(_translationsHash$has, "Отображать с зума", "Отображать с зума"), _defineProperty(_translationsHash$has, "По", "по"), _defineProperty(_translationsHash$has, "Фильтр", "Фильтр"), _defineProperty(_translationsHash$has, "Подпись", "Подпись"), _defineProperty(_translationsHash$has, "Балун", "Подсказка при наведении и клике"), _defineProperty(_translationsHash$has, "По умолчанию", "По умолчанию"), _defineProperty(_translationsHash$has, "Показывать при клике", "Показывать при клике"), _defineProperty(_translationsHash$has, "Показывать при наведении", "Показывать при наведении"), _defineProperty(_translationsHash$has, "Символика", "Символика"), _defineProperty(_translationsHash$has, "Библиотека стилей", "Библиотека стилей"), _defineProperty(_translationsHash$has, "Настройка стилей", "Настройка стилей"), _defineProperty(_translationsHash$has, "скопировать", "скопировать"), _defineProperty(_translationsHash$has, "применить везде", "применить везде"), _defineProperty(_translationsHash$has, "Применить", "Применить"), _defineProperty(_translationsHash$has, "Кластеризация", "Кластеризация"), _defineProperty(_translationsHash$has, "Минимальный", "Минимальный"), _defineProperty(_translationsHash$has, "Максимальный", "Максимальный"), _defineProperty(_translationsHash$has, "Мин. зум", "Мин. зум"), _defineProperty(_translationsHash$has, "Макс. зум", "Макс. зум"), _defineProperty(_translationsHash$has, "Тип", "Тип"), _defineProperty(_translationsHash$has, "Пешеходная", "Пешеходная"), _defineProperty(_translationsHash$has, "Велосипедная", "Велосипедная"), _defineProperty(_translationsHash$has, "Автомобильная", "Автомобильная"), _defineProperty(_translationsHash$has, "Речная", "Речная"), _defineProperty(_translationsHash$has, "Места", "Места"), _defineProperty(_translationsHash$has, "Маршрут", "Маршрут"), _defineProperty(_translationsHash$has, "Редактировать экскурсию", "Редактировать экскурсию"), _defineProperty(_translationsHash$has, "Добавьте маршрут", "Добавьте маршрут"), _defineProperty(_translationsHash$has, "Выберете темы на пути следования", "Выберете темы на пути следования"), _defineProperty(_translationsHash$has, "$$phrase$$_11", "Добавьте маршрут при помощи инструмента \"Линия\" на панели инструментов"), _defineProperty(_translationsHash$has, "$$phrase$$_12", "Нет подходящих объектов на карте"), _defineProperty(_translationsHash$has, "Выбор маршрута", "Выбор маршрута"), _defineProperty(_translationsHash$has, "Выбор мест", "Выбор мест"), _defineProperty(_translationsHash$has, "$$phrase$$_13", "У вас нет опубликованных тем на карте. Вы можете добавить тему в разделе Вид-Обсуждения"), _defineProperty(_translationsHash$has, "Обсуждения", "Обсуждения"), _defineProperty(_translationsHash$has, "Экскурсии", "Экскурсии"), _defineProperty(_translationsHash$has, "$$phrase$$_14", "Невозможно удалить карту, использующуюся в качестве карты по умолчанию"), _defineProperty(_translationsHash$has, "$$phrase$$_15", "Невозможно удалить загруженную карту"), _defineProperty(_translationsHash$has, "Назад", "Назад"), _defineProperty(_translationsHash$has, "Вперед", "Вперед"), _defineProperty(_translationsHash$has, "$$phrase$$_16", "Альбома с указанным ID изображения не существует"), _defineProperty(_translationsHash$has, "Редактировать альбом", "Редактировать альбом"), _defineProperty(_translationsHash$has, "Оценить", "Оценить"), _defineProperty(_translationsHash$has, "Поставьте маркер", "Поставьте маркер"), _defineProperty(_translationsHash$has, "на карту и переместите его в нужное место.", "на карту и переместите его в нужное место."), _defineProperty(_translationsHash$has, "Недостаточно прав для совершения операции", "Недостаточно прав для совершения операции"), _defineProperty(_translationsHash$has, "Новая папка", "Новая папка"), _defineProperty(_translationsHash$has, "Выбрать", "Выбрать"), _defineProperty(_translationsHash$has, "Добавить", "Добавить"), _defineProperty(_translationsHash$has, "$$serviceHelp$$_4", "Пользователь может встроить созданную карту в другой сайт, скопировав код и вставив его внутрь HTML. Требуется указать api-ключ для сайта, на котором будет использоваться данный код."), _defineProperty(_translationsHash$has, "Масштаб", "Масштаб"), _defineProperty(_translationsHash$has, "Угол поворота", "Угол поворота"), _defineProperty(_translationsHash$has, "Диаграммы", "Диаграммы"), _defineProperty(_translationsHash$has, "График по времени", "График по времени"), _defineProperty(_translationsHash$has, "Маска атрибутов", "Маска атрибутов"), _defineProperty(_translationsHash$has, "Закладки", "Закладки"), _defineProperty(_translationsHash$has, "Добавить закладку", "Добавить закладку"), _defineProperty(_translationsHash$has, "Имя закладки", "Имя закладки"), _defineProperty(_translationsHash$has, "Дерево", "Дерево"), _defineProperty(_translationsHash$has, "Поиск слоев", "Поиск слоев"), _defineProperty(_translationsHash$has, "Пример выражения", "[Атрибут1]\n[Атрибут2]\nпроизвольный текст"), _defineProperty(_translationsHash$has, "Шкала прозрачности", "Шкала прозрачности"), _defineProperty(_translationsHash$has, "Цвет заливки", "Цвет заливки"), _defineProperty(_translationsHash$has, "Цвет обводки", "Цвет обводки"), _defineProperty(_translationsHash$has, "Цвет шрифта", "Цвет шрифта"), _defineProperty(_translationsHash$has, "Легенда", "Легенда"), _defineProperty(_translationsHash$has, "Событие загрузки карты", "Событие загрузки карты"), _defineProperty(_translationsHash$has, "Мин", "Мин"), _defineProperty(_translationsHash$has, "Макс", "Макс"), _defineProperty(_translationsHash$has, "График", "График"), _defineProperty(_translationsHash$has, "Гистограмма", "Гистограмма"), _defineProperty(_translationsHash$has, "Столбчатая", "Столбчатая"), _defineProperty(_translationsHash$has, "Временная", "Временная"), _defineProperty(_translationsHash$has, "Круговая", "Круговая"), _defineProperty(_translationsHash$has, "Копировать стиль", "Копировать стиль"), _defineProperty(_translationsHash$has, "Применить стиль", "Применить стиль"), _defineProperty(_translationsHash$has, "Не выбран стиль", "Не выбран стиль"), _defineProperty(_translationsHash$has, "Невозможно применить стиль к другому типу геометрии", "Невозможно применить стиль к другому типу геометрии"), _defineProperty(_translationsHash$has, "Общие", "Общие"), _defineProperty(_translationsHash$has, "Доступ", "Доступ"), _defineProperty(_translationsHash$has, "Окно карты", "Окно карты"), _defineProperty(_translationsHash$has, "Загрузка", "Загрузка"), _defineProperty(_translationsHash$has, "Копирайт", "Копирайт"), _defineProperty(_translationsHash$has, "Инструменты", "Инструменты"), _defineProperty(_translationsHash$has, "Загрузить KML", "Загрузить KML"), _defineProperty(_translationsHash$has, "URL файла", "URL файла"), _defineProperty(_translationsHash$has, "Поиск", "Поиск"), _defineProperty(_translationsHash$has, "Подложки", "Подложки"), _defineProperty(_translationsHash$has, "Доступные подложки", "Доступные подложки"), _defineProperty(_translationsHash$has, "Подложки карты", "Подложки карты"), _defineProperty(_translationsHash$has, "Выберите слои для поиска по атрибутам", "Выберите слои для поиска по атрибутам"), _defineProperty(_translationsHash$has, "Включить синхронизацию слоев", "Включить синхронизацию слоев"), _defineProperty(_translationsHash$has, "Выключить синхронизацию слоев", "Выключить синхронизацию слоев"), _defineProperty(_translationsHash$has, "Редактирование прав доступа карты [value0]", "Редактирование прав доступа карты [value0]"), _defineProperty(_translationsHash$has, "Редактирование прав доступа слоя [value0]", "Редактирование прав доступа слоя [value0]"), _defineProperty(_translationsHash$has, "Редактирование прав доступа слоев карты [value0]", "Редактирование прав доступа слоев карты [value0]"), _defineProperty(_translationsHash$has, "Состав группы [value0]", "Состав группы [value0]"), _defineProperty(_translationsHash$has, "Роль", "Роль"), _defineProperty(_translationsHash$has, "Добавить пользователя", "Добавить пользователя"), _defineProperty(_translationsHash$has, "Права доступа", "Права доступа"), _defineProperty(_translationsHash$has, "Права доступа к слоям", "Права доступа к слоям"), _defineProperty(_translationsHash$has, "Пользователи без прав доступа:", "Пользователи без прав доступа:"), _defineProperty(_translationsHash$has, "Пользователи с правами доступа:", "Пользователи с правами доступа:"), _defineProperty(_translationsHash$has, "Выберите нового владельца", "Выберите нового владельца"), _defineProperty(_translationsHash$has, "Сменить владельца", "Сменить владельца"), _defineProperty(_translationsHash$has, "Объекты RuMap", "Данные RuMap"), _defineProperty(_translationsHash$has, "Объекты пользователей", "Данные пользователей"), _defineProperty(_translationsHash$has, "Контакты", "Контакты"), _defineProperty(_translationsHash$has, "Фотографии", "Фотографии"), _defineProperty(_translationsHash$has, "Момент съемки", "Момент съемки"), _defineProperty(_translationsHash$has, "Видео", "Видео"), _defineProperty(_translationsHash$has, "Сообщения", "Сообщения"), _defineProperty(_translationsHash$has, "Ссылка на место", "Ссылка на место"), _defineProperty(_translationsHash$has, "Ссылка на экскурсию", "Ссылка на экскурсию"), _defineProperty(_translationsHash$has, "Ссылка на событие", "Ссылка на событие"), _defineProperty(_translationsHash$has, "Создать новое событие", "Создать новое событие"), _defineProperty(_translationsHash$has, "События", "События"), _defineProperty(_translationsHash$has, "Календарь", "Календарь"), _defineProperty(_translationsHash$has, "Новости", "Новости"), _defineProperty(_translationsHash$has, "Мероприятия", "Мероприятия"), _defineProperty(_translationsHash$has, "Отмена", "Отмена"), _defineProperty(_translationsHash$has, "Пропустить", "Пропустить"), _defineProperty(_translationsHash$has, "Время", "Время"), _defineProperty(_translationsHash$has, "Альбом OpenPhotoVR", "Фотоальбом"), _defineProperty(_translationsHash$has, "Встраиваемый код", "Встраиваемое видео"), _defineProperty(_translationsHash$has, "Объекты экологического риска", "Объекты экологического риска"), _defineProperty(_translationsHash$has, "Санкционированные свалки", "Санкционированные свалки"), _defineProperty(_translationsHash$has, "Несанкционированные свалки", "Несанкционированные свалки"), _defineProperty(_translationsHash$has, "Полигоны отходов", "Полигоны отходов"), _defineProperty(_translationsHash$has, "Предприятия переработки отходов", "Предприятия переработки отходов"), _defineProperty(_translationsHash$has, "Факельные установки, ТЭЦ, трубы", "Факельные установки, ТЭЦ, трубы"), _defineProperty(_translationsHash$has, "Закрытые свалки", "Закрытые свалки"), _defineProperty(_translationsHash$has, "Пункты приема отходов", "Пункты приема отходов"), _defineProperty(_translationsHash$has, "Оползни", "Оползни"), _defineProperty(_translationsHash$has, "Карстовые явления", "Карстовые явления"), _defineProperty(_translationsHash$has, "Суффозионные явления", "Суффозионные явления"), _defineProperty(_translationsHash$has, "Государство и общество", "Государство и общество"), _defineProperty(_translationsHash$has, "Радио", "Радиостанции"), _defineProperty(_translationsHash$has, "Правительственные учреждения", "Правительственные учреждения"), _defineProperty(_translationsHash$has, "Оптики", "Оптики"), _defineProperty(_translationsHash$has, "Охранные агенства", "Охранные агенства"), _defineProperty(_translationsHash$has, "Травмпункты", "Травмпункты"), _defineProperty(_translationsHash$has, "Таможня", "Таможня"), _defineProperty(_translationsHash$has, "Ветеринарные клиники", "Ветеринарные клиники"), _defineProperty(_translationsHash$has, "ЗАГС", "ЗАГС"), _defineProperty(_translationsHash$has, "Больницы", "Больницы"), _defineProperty(_translationsHash$has, "Аптеки", "Аптеки"), _defineProperty(_translationsHash$has, "Поликлиники", "Поликлиники"), _defineProperty(_translationsHash$has, "Колледжи", "Колледжи"), _defineProperty(_translationsHash$has, "Университеты", "Университеты"), _defineProperty(_translationsHash$has, "ОВИР", "ОВИР"), _defineProperty(_translationsHash$has, "Посольства", "Посольства"), _defineProperty(_translationsHash$has, "Почтовые отделения", "Почтовые отделения"), _defineProperty(_translationsHash$has, "Суды", "Суды"), _defineProperty(_translationsHash$has, "Банки", "Банки"), _defineProperty(_translationsHash$has, "Родильные дома", "Родильные дома"), _defineProperty(_translationsHash$has, "Дома престарелых", "Дома престарелых"), _defineProperty(_translationsHash$has, "Детские сады", "Детские сады"), _defineProperty(_translationsHash$has, "Школы", "Школы"), _defineProperty(_translationsHash$has, "Инспекции", "Инспекции"), _defineProperty(_translationsHash$has, "Адвокаты", "Адвокаты"), _defineProperty(_translationsHash$has, "МЧС", "МЧС"), _defineProperty(_translationsHash$has, "Муниципальные учреждения", "Муниципальные учреждения"), _defineProperty(_translationsHash$has, "Администрация", "Администрация"), _defineProperty(_translationsHash$has, "Культура и отдых", "Культура и отдых"), _defineProperty(_translationsHash$has, "Боулинг", "Боулинг"), _defineProperty(_translationsHash$has, "Аквапарки", "Аквапарки"), _defineProperty(_translationsHash$has, "Парки развлечений", "Парки развлечений"), _defineProperty(_translationsHash$has, "Библиотеки", "Библиотеки"), _defineProperty(_translationsHash$has, "Памятники", "Памятники"), _defineProperty(_translationsHash$has, "Лагери отдыха", "Лагери отдыха"), _defineProperty(_translationsHash$has, "Кинотеатры", "Кинотеатры"), _defineProperty(_translationsHash$has, "Цирки", "Цирки"), _defineProperty(_translationsHash$has, "Галереи", "Галереи"), _defineProperty(_translationsHash$has, "Отели", "Отели"), _defineProperty(_translationsHash$has, "Мотели", "Мотели"), _defineProperty(_translationsHash$has, "Музеи", "Музеи"), _defineProperty(_translationsHash$has, "Концертные залы", "Концертные залы"), _defineProperty(_translationsHash$has, "Ночные клубы", "Ночные клубы"), _defineProperty(_translationsHash$has, "Театры", "Театры"), _defineProperty(_translationsHash$has, "Санатории", "Санатории"), _defineProperty(_translationsHash$has, "Зоопарки", "Зоопарки"), _defineProperty(_translationsHash$has, "Общественное питание", "Общественное питание"), _defineProperty(_translationsHash$has, "Кафе", "Кафе"), _defineProperty(_translationsHash$has, "Фастфуды", "Фастфуды"), _defineProperty(_translationsHash$has, "Рестораны", "Рестораны"), _defineProperty(_translationsHash$has, "Кафе-мороженое", "Кафе-мороженое"), _defineProperty(_translationsHash$has, "Столовые", "Столовые"), _defineProperty(_translationsHash$has, "Природные достопримечательности", "Природные достопримечательности"), _defineProperty(_translationsHash$has, "Ботанический сад", "Ботанические сады"), _defineProperty(_translationsHash$has, "Пещеры", "Пещеры"), _defineProperty(_translationsHash$has, "Водопады", "Водопады"), _defineProperty(_translationsHash$has, "Парки", "Парки"), _defineProperty(_translationsHash$has, "Источники", "Источники"), _defineProperty(_translationsHash$has, "Заповедники", "Заповедники"), _defineProperty(_translationsHash$has, "Прочие архитектурные и природные достопримечательности", "Архитектурные достопримечательности"), _defineProperty(_translationsHash$has, "Религия", "Религия"), _defineProperty(_translationsHash$has, "Культовые сооружения", "Культовые сооружения"), _defineProperty(_translationsHash$has, "Мечети", "Мечети"), _defineProperty(_translationsHash$has, "Монастыри", "Монастыри"), _defineProperty(_translationsHash$has, "Церкви других христианских конфессий", "Церкви других христианских конфессий"), _defineProperty(_translationsHash$has, "Православные церкви", "Православные церкви"), _defineProperty(_translationsHash$has, "Синагоги", "Синагоги"), _defineProperty(_translationsHash$has, "Спорт", "Спорт"), _defineProperty(_translationsHash$has, "Стадионы", "Стадионы"), _defineProperty(_translationsHash$has, "Теннисные корты", "Теннисные корты"), _defineProperty(_translationsHash$has, "Катки", "Катки"), _defineProperty(_translationsHash$has, "Ипподромы", "Ипподромы"), _defineProperty(_translationsHash$has, "Фитнес", "Фитнес"), _defineProperty(_translationsHash$has, "Бассейны", "Бассейны"), _defineProperty(_translationsHash$has, "Прокат спортинвентаря", "Прокат спортинвентаря"), _defineProperty(_translationsHash$has, "Торговля и услуги", "Торговля и услуги"), _defineProperty(_translationsHash$has, "Солярии", "Солярии"), _defineProperty(_translationsHash$has, "Интернет-кафе", "Интернет-кафе"), _defineProperty(_translationsHash$has, "Рынки", "Рынки"), _defineProperty(_translationsHash$has, "Стоматологические клиники", "Стоматологические клиники"), _defineProperty(_translationsHash$has, "Магазины одежды", "Магазины одежды"), _defineProperty(_translationsHash$has, "Парикмахерские", "Парикмахерские"), _defineProperty(_translationsHash$has, "Бани", "Бани"), _defineProperty(_translationsHash$has, "Магазины обуви", "Магазины обуви"), _defineProperty(_translationsHash$has, "Магазины", "Магазины"), _defineProperty(_translationsHash$has, "Ателье", "Ателье"), _defineProperty(_translationsHash$has, "Такси", "Такси"), _defineProperty(_translationsHash$has, "Туризм", "Туризм"), _defineProperty(_translationsHash$has, "Транспорт и услуги", "Транспорт и услуги"), _defineProperty(_translationsHash$has, "Аэропорты", "Аэропорты"), _defineProperty(_translationsHash$has, "Автосервисы", "Автосервисы"), _defineProperty(_translationsHash$has, "Автовокзалы", "Автовокзалы"), _defineProperty(_translationsHash$has, "ДПС", "ДПС"), _defineProperty(_translationsHash$has, "ГИБДД", "ГИБДД"), _defineProperty(_translationsHash$has, "Шиномонтаж", "Шиномонтаж"), _defineProperty(_translationsHash$has, "Парковки бесплатные", "Парковки бесплатные"), _defineProperty(_translationsHash$has, "Парковки платные", "Парковки платные"), _defineProperty(_translationsHash$has, "АЗС", "АЗС"), _defineProperty(_translationsHash$has, "Автомойки", "Автомойки"), _defineProperty(_translationsHash$has, "Экстренные службы", "Экстренные службы"), _defineProperty(_translationsHash$has, "Пожарные/спасатели", "Пожарные/спасатели"), _defineProperty(_translationsHash$has, "Милиция", "Милиция"), _defineProperty(_translationsHash$has, "Скорая помощь", "Скорая помощь"), _defineProperty(_translationsHash$has, "Другие темы", "Другие темы"), _defineProperty(_translationsHash$has, "Разное", "Разное"), _defineProperty(_translationsHash$has, "Изменение пароля", "Изменение пароля"), _defineProperty(_translationsHash$has, "Новый пароль", "Новый пароль"), _defineProperty(_translationsHash$has, "Старый пароль", "Старый пароль"), _defineProperty(_translationsHash$has, "Подтвердите пароль", "Подтвердите пароль"), _defineProperty(_translationsHash$has, "Контур", "Контур"), _defineProperty(_translationsHash$has, "$$phrase$$_17", "Добавьте контур при помощи инструмента \"Полигон\" на панели инструментов"), _defineProperty(_translationsHash$has, "Выбор контура", "Выбор контура"), _defineProperty(_translationsHash$has, "Таблица атрибутов слоя [value0]", "Таблица атрибутов слоя [value0]"), _defineProperty(_translationsHash$has, "Показать параметры поиска", "Показать параметры поиска"), _defineProperty(_translationsHash$has, "Скрыть параметры поиска", "Скрыть параметры поиска"), _defineProperty(_translationsHash$has, "Скрыть", "Скрыть"), _defineProperty(_translationsHash$has, "SQL-условие WHERE", "SQL-условие WHERE"), _defineProperty(_translationsHash$has, "Искать внутри полигона", "Искать внутри полигона"), _defineProperty(_translationsHash$has, "Искать по пересечению с объектом", "Искать по пересечению с объектом"), _defineProperty(_translationsHash$has, "Колонки", "Колонки"), _defineProperty(_translationsHash$has, "Показывать колонки", "Показывать колонки"), _defineProperty(_translationsHash$has, "Скрыть колонки", "Скрыть колонки"), _defineProperty(_translationsHash$has, "Найти", "Найти"), _defineProperty(_translationsHash$has, "Нет полей", "Нет полей"), _defineProperty(_translationsHash$has, "Нет данных", "Нет данных"), _defineProperty(_translationsHash$has, "Таблица атрибутов", "Таблица атрибутов"), _defineProperty(_translationsHash$has, "Разрешить поиск", "Разрешить поиск"), _defineProperty(_translationsHash$has, "Произвольный", "Произвольный"), _defineProperty(_translationsHash$has, "День", "День"), _defineProperty(_translationsHash$has, "Неделя", "Неделя"), _defineProperty(_translationsHash$has, "Месяц", "Месяц"), _defineProperty(_translationsHash$has, "Год", "Год"), _defineProperty(_translationsHash$has, "Ежегодно", "Ежегодно"), _defineProperty(_translationsHash$has, "Облачность", "Облачность"), _defineProperty(_translationsHash$has, "Период", "Период"), _defineProperty(_translationsHash$has, "Спутниковые покрытия", "Спутниковые покрытия"), _defineProperty(_translationsHash$has, "Редактировать объект слоя [value0]", "Редактировать объект слоя [value0]"), _defineProperty(_translationsHash$has, "Создать объект слоя [value0]", "Создать объект слоя [value0]"), _defineProperty(_translationsHash$has, "Геометрия", "Геометрия"), _defineProperty(_translationsHash$has, "Найти объекты", "Найти объекты"), _defineProperty(_translationsHash$has, "Добавить объекты", "Добавить объекты"), _defineProperty(_translationsHash$has, "Обновить объекты", "Обновить объекты"), _defineProperty(_translationsHash$has, "Копировать объекты", "Копировать объекты"), _defineProperty(_translationsHash$has, "Объекты скопированы", "Объекты скопированы"), _defineProperty(_translationsHash$has, "Объекты добавлены", "Объекты добавлены"), _defineProperty(_translationsHash$has, "Вставить объекты", "Вставить объекты"), _defineProperty(_translationsHash$has, "Вставить объекты не удалось", "Вставить объекты не удалось"), _defineProperty(_translationsHash$has, "Выберите правым кликом слой в левой панели и нажмите \"Вставить объекты\"", "Выберите правым кликом слой в левой панели и нажмите \"Вставить объекты\""), _defineProperty(_translationsHash$has, "Изменить колонки", "Изменить колонки"), _defineProperty(_translationsHash$has, "Обновить колонку", "Обновить колонку"), _defineProperty(_translationsHash$has, "Очистить поиск", "Очистить поиск"), _defineProperty(_translationsHash$has, "Скачать shp", "Скачать shp"), _defineProperty(_translationsHash$has, "Скачать gpx", "Скачать gpx"), _defineProperty(_translationsHash$has, "Скачать csv", "Скачать csv"), _defineProperty(_translationsHash$has, "Скачать geojson", "Скачать geojson"), _defineProperty(_translationsHash$has, "Рассчитать площадь", "Суммарная площадь"), _defineProperty(_translationsHash$has, "Создать столбец", "Создать столбец"), _defineProperty(_translationsHash$has, "Мультислой", "Мультислой"), _defineProperty(_translationsHash$has, "В дереве слоев остались несохраненные изменения!", "В дереве слоев остались несохраненные изменения!"), _defineProperty(_translationsHash$has, "файл версии отсутствует", "файл версии отсутствует"), _defineProperty(_translationsHash$has, "оверлеи отсутствуют", "оверлеи отсутствуют"), _defineProperty(_translationsHash$has, "Хост", "Хост"), _defineProperty(_translationsHash$has, "Дополнительные карты", "Дополнительные карты"), _defineProperty(_translationsHash$has, "Добавить карту", "Добавить карту"), _defineProperty(_translationsHash$has, "Добавить в таймлайн", "Добавить в таймлайн"), _defineProperty(_translationsHash$has, "Удалить из таймлайна", "Удалить из таймлайна"), _defineProperty(_translationsHash$has, "Невозможно загрузить карту [value0] с домена [value1]", "Невозможно загрузить карту [value0] с домена [value1]"), _defineProperty(_translationsHash$has, "Показывать", "Показывать"), _defineProperty(_translationsHash$has, "Поиск снимков", "Поиск снимков"), _defineProperty(_translationsHash$has, "Принудительно обновить тайлы", "Принудительно обновить тайлы"), _defineProperty(_translationsHash$has, "Обводка", "Обводка"), _defineProperty(_translationsHash$has, "Карта имеет более новую версию. Сохранить?", "Карта имеет более новую версию. Сохранить?"), _defineProperty(_translationsHash$has, "Кодировка", "Кодировка"), _defineProperty(_translationsHash$has, "helpPostfix", "_rus.html"), _defineProperty(_translationsHash$has, "Показывать чекбокс видимости", "Чекбокс видимости"), _defineProperty(_translationsHash$has, "Разворачивать автоматически", "Разворачивать автоматически"), _defineProperty(_translationsHash$has, "Другая", "Другая"), _defineProperty(_translationsHash$has, "Временнóй слой", "Мультивременнóй слой"), _defineProperty(_translationsHash$has, "Колонка даты", "Колонка даты"), _defineProperty(_translationsHash$has, "Минимальный период", "Мин. период (дни)"), _defineProperty(_translationsHash$has, "Максимальный период", "Макс. период (дни)"), _defineProperty(_translationsHash$has, "Отсутствует временной атрибут", "Отсутствует атрибут типа 'Дата'"), _defineProperty(_translationsHash$has, "Период 1 день", "Период 1 день"), _defineProperty(_translationsHash$has, "Показывать на карте данные за", "Показывать на карте данные за"), _defineProperty(_translationsHash$has, "1 день", "1 день"), _defineProperty(_translationsHash$has, "произвольный период", "произвольный период"), _defineProperty(_translationsHash$has, "По границе экрана", "По границе экрана"), _defineProperty(_translationsHash$has, "По центру экрана", "По центру экрана"), _defineProperty(_translationsHash$has, "Пересечение", "Пересечение"), _defineProperty(_translationsHash$has, "Пролистывать слои", "Пролистывать слои"), _defineProperty(_translationsHash$has, "Следующий слой", "Следующий слой"), _defineProperty(_translationsHash$has, "Предыдущий слой", "Предыдущий слой"), _defineProperty(_translationsHash$has, "Геометрия не сохранена. Эта возможность будет реализована в будущих версиях Геомиксера.", "Геометрия не сохранена. Эта возможность будет реализована в будущих версиях Геомиксера."), _defineProperty(_translationsHash$has, "WMS доступ", "WMS/WFS доступ"), _defineProperty(_translationsHash$has, "ссылка", "ссылка"), _defineProperty(_translationsHash$has, "Слой '[value0]' уже есть в карте", "Слой '[value0]' уже есть в карте"), _defineProperty(_translationsHash$has, "Группа '[value0]' уже есть в карте", "Группа '[value0]' уже есть в карте"), _defineProperty(_translationsHash$has, "Плагины", "Плагины"), _defineProperty(_translationsHash$has, "Вручную", "Вручную"), _defineProperty(_translationsHash$has, "Добавить атрибут", "Добавить поле"), _defineProperty(_translationsHash$has, "Проекция", "Проекция"), _defineProperty(_translationsHash$has, "Широта/Долгота (EPSG:4326)", "Широта/Долгота (EPSG:4326)"), _defineProperty(_translationsHash$has, "Меркатор (EPSG:3395)", "Меркатор (EPSG:3395)"), _defineProperty(_translationsHash$has, "Из файла", "Из файла"), _defineProperty(_translationsHash$has, "Мультиполигон", "Мультиполигон"), _defineProperty(_translationsHash$has, "Мультилиния", "Мультилиния"), _defineProperty(_translationsHash$has, "Мультиточка", "Мультиточка"), _defineProperty(_translationsHash$has, "Администрирование", "Администрирование"), _defineProperty(_translationsHash$has, "Системные настройки", "Системные настройки"), _defineProperty(_translationsHash$has, "Управление группами", "Управление группами"), _defineProperty(_translationsHash$has, "Управление группами пользователей", "Управление группами пользователей"), _defineProperty(_translationsHash$has, "Добавить снимки", "Добавить растры"), _defineProperty(_translationsHash$has, "Существующие слои", "Существующие слои"), _defineProperty(_translationsHash$has, "Слои из карты", "Слои из карты"), _defineProperty(_translationsHash$has, "Слои из КР", "Слои из КР"), _defineProperty(_translationsHash$has, "Новый слой", "Новый слой"), _defineProperty(_translationsHash$has, "С экрана", "С экрана"), _defineProperty(_translationsHash$has, "Добавлен растр", "Добавлен растр"), _defineProperty(_translationsHash$has, "Добавлены растры", "Добавлены растры"), _defineProperty(_translationsHash$has, "Выбранный объект не имеет растра", "Выбранный объект не имеет растра"), _defineProperty(_translationsHash$has, "Этот растр уже был выбран", "Этот растр уже был выбран"), _defineProperty(_translationsHash$has, "Каталог Растров", "Каталог растров"), _defineProperty(_translationsHash$has, "Растр", "Растр"), _defineProperty(_translationsHash$has, "Добавить выбранные растры", "Добавить выбранные растры"), _defineProperty(_translationsHash$has, "EditObject.menuTitle", "Добавить объект"), _defineProperty(_translationsHash$has, "FileBrowser.ExceedLimitMessage", "Размер файла превышает 500 Мб. Используйте GeoMixerFileBrowser для загрузки больших файлов."), _defineProperty(_translationsHash$has, "FileBrowser.DropInfo", "Перетащите файлы сюда"), _defineProperty(_translationsHash$has, "EditObject.drawingMenuTitle", "Добавить объект в активный слой"), _defineProperty(_translationsHash$has, "Поставить маркер", "Поставить маркер"), _defineProperty(_translationsHash$has, "Центрировать", "Центрировать"), _defineProperty(_translationsHash$has, "Пароль изменён", "Пароль изменён"), _defineProperty(_translationsHash$has, "портретная", "портретная"), _defineProperty(_translationsHash$has, "альбомная", "альбомная"), _defineProperty(_translationsHash$has, "gmx_geometry", "gmx_geometry"), _translationsHash$has);
 
-    var _translationsHash$has$1;
     _translationsHash.flags["eng"] = "img/flag_en.png";
     _translationsHash.titles["eng"] = "English";
-    _translationsHash.hash["eng"] = (_translationsHash$has$1 = {
+    _translationsHash.hash["eng"] = {
       "Да": "Yes",
       "Нет": "No",
       "Карта": "Map",
@@ -2251,8 +2393,655 @@
       "Создать мультислой": "Create multilayer",
       "Вид": "View",
       "Дерево слоев": "Layers tree",
-      "Объекты на карте": "Objects on map"
-    }, _defineProperty(_translationsHash$has$1, "\u0420\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442\u044B \u043F\u043E\u0438\u0441\u043A\u0430", "Search results"), _defineProperty(_translationsHash$has$1, "Координатная сетка", "Coordinate grid"), _defineProperty(_translationsHash$has$1, "Индексная сетка", "Index grid"), _defineProperty(_translationsHash$has$1, "Панель оверлеев", "Overlays panel"), _defineProperty(_translationsHash$has$1, "\u0421\u0435\u0440\u0432\u0438\u0441\u044B", "Services"), _defineProperty(_translationsHash$has$1, "Загрузить объекты", "Upload objects"), _defineProperty(_translationsHash$has$1, "Загрузить фотографии", "Upload photos"), _defineProperty(_translationsHash$has$1, "Загрузить данные", "Load data"), _defineProperty(_translationsHash$has$1, "WFS сервер", "WFS server"), _defineProperty(_translationsHash$has$1, "WMS сервер", "WMS server"), _defineProperty(_translationsHash$has$1, "Кадастровые данные", "Cadastre data"), _defineProperty(_translationsHash$has$1, "Ссылка на карту", "Link to the map"), _defineProperty(_translationsHash$has$1, "Код для вставки", "Embed code"), _defineProperty(_translationsHash$has$1, "Печать", "Print"), _defineProperty(_translationsHash$has$1, "Привязать изображение", "Bind image"), _defineProperty(_translationsHash$has$1, "Сообщить об ошибке на карте", "Report a map error"), _defineProperty(_translationsHash$has$1, "Справка", "Help"), _defineProperty(_translationsHash$has$1, "Использование", "Usage"), _defineProperty(_translationsHash$has$1, "\u0421\u0435\u0440\u0432\u0438\u0441\u044B", "Services"), _defineProperty(_translationsHash$has$1, "О проекте", "About/Contacts"), _defineProperty(_translationsHash$has$1, "$$phrase$$_1", "Choose parameter defaultMapID in config.js file"), _defineProperty(_translationsHash$has$1, "У вас нет прав на просмотр данной карты", "Sorry, you don’t have permission to view this map"), _defineProperty(_translationsHash$has$1, "Access error", "Sorry, you don’t have permission to view this map"), _defineProperty(_translationsHash$has$1, "Map not found", "Sorry, this map not found"), _defineProperty(_translationsHash$has$1, "Unable to locate EXIF content", "Unable to locate EXIF content"), _defineProperty(_translationsHash$has$1, "Развернуть карту", "Unfold map"), _defineProperty(_translationsHash$has$1, "Свернуть карту", "Fold map"), _defineProperty(_translationsHash$has$1, "Точки на изображении:", "Points on image:"), _defineProperty(_translationsHash$has$1, "Точки на карте:", "Points on map:"), _defineProperty(_translationsHash$has$1, "Координаты", "Coordinates"), _defineProperty(_translationsHash$has$1, "Нарисовать", "Draw"), _defineProperty(_translationsHash$has$1, "Восстановить", "Restore"), _defineProperty(_translationsHash$has$1, "Прозрачность", "Transparency"), _defineProperty(_translationsHash$has$1, "Видимость", "Visibility"), _defineProperty(_translationsHash$has$1, "Привязка изображения", "Image binding"), _defineProperty(_translationsHash$has$1, "$$phrase$$_2", "Point [value0] is outside the limits of image"), _defineProperty(_translationsHash$has$1, "$$phrase$$_3", "Point [value0] is not specified on a map"), _defineProperty(_translationsHash$has$1, "Соответствие точек", "Point correspondence"), _defineProperty(_translationsHash$has$1, "$$phrase$$_4", "Points 1 and 2 coincide at the image"), _defineProperty(_translationsHash$has$1, "$$phrase$$_5", "Points 1 and 3 coincide at the image"), _defineProperty(_translationsHash$has$1, "$$phrase$$_6", "Points 2 and 3 coincide at the image"), _defineProperty(_translationsHash$has$1, "$$phrase$$_7", "Points 1 and 2 coincide at the map"), _defineProperty(_translationsHash$has$1, "$$phrase$$_8", "Points 1 and 3 coincide at the map "), _defineProperty(_translationsHash$has$1, "$$phrase$$_9", "Points 2 and 3 coincide at the map "), _defineProperty(_translationsHash$has$1, "$$phrase$$_10", "Points lie on a straight line at the image "), _defineProperty(_translationsHash$has$1, "Создать экскурсию", "Create guide"), _defineProperty(_translationsHash$has$1, "Чтобы пользоваться этим сайтом, установите Flash Player", "To use this web site, please, install Flash Player"), _defineProperty(_translationsHash$has$1, "из Интернет", "from Internet"), _defineProperty(_translationsHash$has$1, "или с локального диска ", "or from local disc"), _defineProperty(_translationsHash$has$1, "для Internet Explorer", "for Internet Explorer"), _defineProperty(_translationsHash$has$1, " или ", " or "), _defineProperty(_translationsHash$has$1, "для Firefox", "for Firefox"), _defineProperty(_translationsHash$has$1, "Скачать shp-файл", "Download shp-file"), _defineProperty(_translationsHash$has$1, "shp-файл", "shp-file"), _defineProperty(_translationsHash$has$1, "gpx-файл", "gpx-file"), _defineProperty(_translationsHash$has$1, "Скачать фрагмент растра", "Download fragment of raster"), _defineProperty(_translationsHash$has$1, "Очистить", "Delete"), _defineProperty(_translationsHash$has$1, "точка", "point"), _defineProperty(_translationsHash$has$1, "линия", "line"), _defineProperty(_translationsHash$has$1, "прямоугольник", "rectangle"), _defineProperty(_translationsHash$has$1, "многоугольник", "polygon"), _defineProperty(_translationsHash$has$1, "Скачать", "Download"), _defineProperty(_translationsHash$has$1, "Введите имя файла для скачивания", "Enter file name to download"), _defineProperty(_translationsHash$has$1, "Выберите область рамкой на карте", "Select region using frame"), _defineProperty(_translationsHash$has$1, "Вырезать фрагмент растра", "Cut fragment of raster"), _defineProperty(_translationsHash$has$1, "К прямоугольнику не подходит ни одного растрового слоя", "No one raster layer fit the rectangle"), _defineProperty(_translationsHash$has$1, "Загруженный shp-файл пуст", "The uploaded shp-file is empty"), _defineProperty(_translationsHash$has$1, "Ошибка скачивания", "Download error"), _defineProperty(_translationsHash$has$1, "Обновить", "Update"), _defineProperty(_translationsHash$has$1, "Домашняя директория", "Project directory"), _defineProperty(_translationsHash$has$1, "Имя папки", "Folder name"), _defineProperty(_translationsHash$has$1, "Имя", "Name"), _defineProperty(_translationsHash$has$1, "Тип", "Type"), _defineProperty(_translationsHash$has$1, "Размер", "Size"), _defineProperty(_translationsHash$has$1, "Дата", "Date"), _defineProperty(_translationsHash$has$1, "Дата создания", "Дата создания"), _defineProperty(_translationsHash$has$1, "Снять выделение", "Clear selection"), _defineProperty(_translationsHash$has$1, "Скопировать", "Copy"), _defineProperty(_translationsHash$has$1, "Удалить", "Delete"), _defineProperty(_translationsHash$has$1, "Извлечь", "Extract"), _defineProperty(_translationsHash$has$1, "Упаковать", "Add to archive"), _defineProperty(_translationsHash$has$1, "Загрузить", "Download"), _defineProperty(_translationsHash$has$1, "Параметр", "Parameter"), _defineProperty(_translationsHash$has$1, "Значение", "Value"), _defineProperty(_translationsHash$has$1, "VALUE", "VALUE"), _defineProperty(_translationsHash$has$1, "WHERE", "WHERE"), _defineProperty(_translationsHash$has$1, "Колонки", "Columns"), _defineProperty(_translationsHash$has$1, "Операторы", "Operators"), _defineProperty(_translationsHash$has$1, "Функции", "Functions"), _defineProperty(_translationsHash$has$1, "Метаданные", "Metadata"), _defineProperty(_translationsHash$has$1, "Редактировать колонки", "Edit columns"), _defineProperty(_translationsHash$has$1, "URL сервера", "Server URL"), _defineProperty(_translationsHash$has$1, "Формат изображения", "Image format"), _defineProperty(_translationsHash$has$1, "Введите имя gml-файла для скачивания:", "Enter gml-file name to download:"), _defineProperty(_translationsHash$has$1, "точки", "points"), _defineProperty(_translationsHash$has$1, "линии", "lines"), _defineProperty(_translationsHash$has$1, "полигоны", "polygons"), _defineProperty(_translationsHash$has$1, "(ссылка)", "(link)"), _defineProperty(_translationsHash$has$1, "Сохранить состояние карты", "Save map state"), _defineProperty(_translationsHash$has$1, "Ссылка на текущее состояние карты", "Link to the map"), _defineProperty(_translationsHash$has$1, "Добавить стиль", "Add style"), _defineProperty(_translationsHash$has$1, "Атрибут >", "Attribute >"), _defineProperty(_translationsHash$has$1, "Значение >", "Value >"), _defineProperty(_translationsHash$has$1, "Операция >", "Operation >"), _defineProperty(_translationsHash$has$1, "Накладываемое изображение", "Ground overlay"), _defineProperty(_translationsHash$has$1, "Цвет", "Color"), _defineProperty(_translationsHash$has$1, "Авторизуйтесь для редактирования фильтров", "Authorize to edit filters"), _defineProperty(_translationsHash$has$1, "Имя фильтра", "Filter name"), _defineProperty(_translationsHash$has$1, "Переместить фильтр вверх", "Move filter up"), _defineProperty(_translationsHash$has$1, "Переместить фильтр вниз", "Move filter down"), _defineProperty(_translationsHash$has$1, "Удалить фильтр", "Delete filter"), _defineProperty(_translationsHash$has$1, "Размер шрифта", "Typesize"), _defineProperty(_translationsHash$has$1, "Смещение", "Shift"), _defineProperty(_translationsHash$has$1, "Смещение по x", "X shift"), _defineProperty(_translationsHash$has$1, "Смещение по y", "Y shift"), _defineProperty(_translationsHash$has$1, "Имя атрибута", "Attribute name"), _defineProperty(_translationsHash$has$1, "Граница обрезки", "Clip region"), _defineProperty(_translationsHash$has$1, "Граница", "Outline"), _defineProperty(_translationsHash$has$1, "Толщина линии", "Line thickness"), _defineProperty(_translationsHash$has$1, "Заливка", "Fill"), _defineProperty(_translationsHash$has$1, "Заливка цветом", "Color fill"), _defineProperty(_translationsHash$has$1, "Заливка штриховкой", "Pattern fill"), _defineProperty(_translationsHash$has$1, "Заливка рисунком", "Image fill"), _defineProperty(_translationsHash$has$1, "Ширина паттерна", "Pattern width"), _defineProperty(_translationsHash$has$1, "Ширина отступа", "Indent width"), _defineProperty(_translationsHash$has$1, "URL рисунка", "Image URL"), _defineProperty(_translationsHash$has$1, "Маркер URL", "Icon URL "), _defineProperty(_translationsHash$has$1, "URL изображения", "Image URL"), _defineProperty(_translationsHash$has$1, "Изображение", "Image"), _defineProperty(_translationsHash$has$1, "Размер точек", "Point size"), _defineProperty(_translationsHash$has$1, "Редактировать стили", "Edit styles"), _defineProperty(_translationsHash$has$1, "Авторизуйтесь для редактирования настроек слоя", " Authorize to edit layer properties"), _defineProperty(_translationsHash$has$1, "Недостаточно прав для редактирования настроек слоя", "You have not enough permission to edit layer properties "), _defineProperty(_translationsHash$has$1, "Недостаточно прав для редактирования объектов слоя", "You have not enough permission to edit layer objects "), _defineProperty(_translationsHash$has$1, "ID", "ID"), _defineProperty(_translationsHash$has$1, "Описание", "Description"), _defineProperty(_translationsHash$has$1, "Файл", "File"), _defineProperty(_translationsHash$has$1, "Таблица", "Table"), _defineProperty(_translationsHash$has$1, "Каталог с тайлами", "Tile catalogue"), _defineProperty(_translationsHash$has$1, "Каталог растров", "Raster catalogue"), _defineProperty(_translationsHash$has$1, "Данные с датой", "Split through time"), _defineProperty(_translationsHash$has$1, "Источник", "Source"), _defineProperty(_translationsHash$has$1, "Дополнительно", "Advanced options"), _defineProperty(_translationsHash$has$1, "Шаблон названий объектов", "Objects title template"), _defineProperty(_translationsHash$has$1, "Y (широта)", "Y (latitude)"), _defineProperty(_translationsHash$has$1, "X (долгота)", "X (longitude)"), _defineProperty(_translationsHash$has$1, "Каталог", "Catalogue"), _defineProperty(_translationsHash$has$1, "Изменить", "Change"), _defineProperty(_translationsHash$has$1, "Вид вложенных элементов", "Form of attached elements"), _defineProperty(_translationsHash$has$1, "Использовать KosmosnimkiAPI", "Load Kosmosnimki base layers"), _defineProperty(_translationsHash$has$1, "Использовать OpenStreetMap", "Use OpenStreetMap"), _defineProperty(_translationsHash$has$1, "Язык по умолчанию", "Default language"), _defineProperty(_translationsHash$has$1, "Единицы длины", "Distance unit"), _defineProperty(_translationsHash$has$1, "Единицы площади", "Square unit"), _defineProperty(_translationsHash$has$1, "Формат координат", "Coordinates format"), _defineProperty(_translationsHash$has$1, "units.auto", "auto"), _defineProperty(_translationsHash$has$1, "units.m", "m"), _defineProperty(_translationsHash$has$1, "units.km", "km"), _defineProperty(_translationsHash$has$1, "units.nm", "nmi"), _defineProperty(_translationsHash$has$1, "units.m2", "m<sup>2</sup>"), _defineProperty(_translationsHash$has$1, "units.ha", "ha"), _defineProperty(_translationsHash$has$1, "units.km2", "km<sup>2</sup>"), _defineProperty(_translationsHash$has$1, "coords.dd", "dd.dddd"), _defineProperty(_translationsHash$has$1, "coords.dms", "dd°mm′ss″"), _defineProperty(_translationsHash$has$1, "Генерализация", "Generalization"), _defineProperty(_translationsHash$has$1, "gereralization.on", "on"), _defineProperty(_translationsHash$has$1, "gereralization.off", "off"), _defineProperty(_translationsHash$has$1, "gereralization.disable", "use layers settings"), _defineProperty(_translationsHash$has$1, "Количество информационных окошек", "Max popup count"), _defineProperty(_translationsHash$has$1, "layerOrder.title", "Layers order"), _defineProperty(_translationsHash$has$1, "layerOrder.native", "Native"), _defineProperty(_translationsHash$has$1, "layerOrder.vectorOnTop", "Vector on top"), _defineProperty(_translationsHash$has$1, "Разрешить поиск в векторных слоях", "Allow search vector layers"), _defineProperty(_translationsHash$has$1, "Начальная позиция", "Start position"), _defineProperty(_translationsHash$has$1, "Широта", "Latitude"), _defineProperty(_translationsHash$has$1, "Долгота", "Longitude"), _defineProperty(_translationsHash$has$1, "placeholder degrees", "dd.dddd"), _defineProperty(_translationsHash$has$1, "placeholder zoom", "1-21"), _defineProperty(_translationsHash$has$1, "placeholder minZoom", "1"), _defineProperty(_translationsHash$has$1, "placeholder maxZoom", "21"), _defineProperty(_translationsHash$has$1, "Зум", "Zoom"), _defineProperty(_translationsHash$has$1, "Ссылка (permalink)", "Permalink"), _defineProperty(_translationsHash$has$1, "Разрешить скачивание", "Allow to download"), _defineProperty(_translationsHash$has$1, "Векторных слоев", "Vector layers"), _defineProperty(_translationsHash$has$1, "Растровых слоев", "Raster layers"), _defineProperty(_translationsHash$has$1, "Масштабирование в миникарте", "Minimap zoom delta"), _defineProperty(_translationsHash$has$1, "Показывать всплывающие подсказки", "Show tooltips"), _defineProperty(_translationsHash$has$1, "Свойства", "Properties"), _defineProperty(_translationsHash$has$1, "Создать копию слоя", "Create layer copy"), _defineProperty(_translationsHash$has$1, "Стили", "Styles"), _defineProperty(_translationsHash$has$1, "Изображение на карте", "Ground overlay"), _defineProperty(_translationsHash$has$1, "Слой [value0]", "Layer [value0]"), _defineProperty(_translationsHash$has$1, "Стили слоя [value0]", "Styles of layer [value0]"), _defineProperty(_translationsHash$has$1, "Мультислой [value0]", "Multilayer [value0]"), _defineProperty(_translationsHash$has$1, "Группа [value0]", "Group [value0]"), _defineProperty(_translationsHash$has$1, "Карта [value0]", "Map [value0]"), _defineProperty(_translationsHash$has$1, "Редактировать стиль", "Edit style"), _defineProperty(_translationsHash$has$1, "Редактирование стилей объекта", "Object styles editing"), _defineProperty(_translationsHash$has$1, "Стили слоя", "Layer styles"), _defineProperty(_translationsHash$has$1, "Навигация по карте и инструменты", "Map navigation and tools"), _defineProperty(_translationsHash$has$1, "Список слоев", "List of layers"), _defineProperty(_translationsHash$has$1, "Стиль векторного слоя", "Vector layer style"), _defineProperty(_translationsHash$has$1, "Управление содержанием карты", "Map content management"), _defineProperty(_translationsHash$has$1, "Пользовательские инструменты", "Users tools"), _defineProperty(_translationsHash$has$1, "$$help$$_1", "Hold mouse left button – move map with cursor. To zoom in or out use mouse wheel (or map zoom slider to zoom to the cursor position). In order to move map center to specified coordinates – enter coordinates in search line."), _defineProperty(_translationsHash$has$1, "$$help$$_2", "Layer tree is represented in the left panel. To change map center according to layer extent – click its title in the list. If this option was activated by map administrator, you can download vector layers and cut and download raster layers fragments."), _defineProperty(_translationsHash$has$1, "$$help$$_3", "To edit vector layer style click icon near layer name."), _defineProperty(_translationsHash$has$1, "$$help$$_4", "Map is a collection of layers, which is displayed using layer tree. It is necessary to authorize to be able to edit the collection of layers (create groups, change display order etc.) and save changes. For more information see "), _defineProperty(_translationsHash$has$1, " - Руководство пользователя", " – User guide"), _defineProperty(_translationsHash$has$1, "$$help$$_5", "User tools serve the purpose of creation of objects on map, which can be saved via «save link to the map», and, at the same time, simple analytic functions fulfillment."), _defineProperty(_translationsHash$has$1, "В режиме маркеров: ", "Creating markers: "), _defineProperty(_translationsHash$has$1, "$$help$$_6", "single click – add marker. Double click on marker – delete. Click on marker – open pop-up window (balloon), click on balloon – add text."), _defineProperty(_translationsHash$has$1, "В режиме линейка/измерения расстояния, полигон/измерение площади: ", "Drawing lines/distance measurement, polygon/area measurement: "), _defineProperty(_translationsHash$has$1, "$$help$$_7", "single click – add vertex. Double click – complete figure. Click on line – add vertex. Double click on vertex – delete."), _defineProperty(_translationsHash$has$1, "$$help$$_8", "Click on object in list of «objects on map» to move map center to it. You can download object in shp/tab/kml format."), _defineProperty(_translationsHash$has$1, "$$about$$_1", "this web application for interactive geodata view and access to basic data sources in the Internet, such as: "), _defineProperty(_translationsHash$has$1, "$$about$$_2", " Using GeoMixer you can publish own geodata in intranet or in the Internet, put them over basic data coverages and give access to them for however large number of users, changing access permissions."), _defineProperty(_translationsHash$has$1, "$$about$$_3", "GeoMixer also includes API component, which enables integrating the created projects into other web sites and applications and carry out program control over interactive map functional."), _defineProperty(_translationsHash$has$1, " - Общее описание", " – General manual"), _defineProperty(_translationsHash$has$1, " - Руководство разработчика", " – Developer’s gudie"), _defineProperty(_translationsHash$has$1, "Получить API-ключ", "Get API-key"), _defineProperty(_translationsHash$has$1, "Введите API-ключ", "Enter API-key"), _defineProperty(_translationsHash$has$1, "$$serviceHelp$$_1", "Allows to upload small shp/tab/kml file on the fly in the form of user objects. After uploading user can edit geometry of objects and download objects in the same format kit."), _defineProperty(_translationsHash$has$1, "$$serviceHelp$$_2", "Link saves current map state, and also user objects and texts."), _defineProperty(_translationsHash$has$1, "$$serviceHelp$$_3", "Print current map fragment."), _defineProperty(_translationsHash$has$1, "Редактировать", "Edit"), _defineProperty(_translationsHash$has$1, "Удалить объект?", "Delete object?"), _defineProperty(_translationsHash$has$1, "Удалить отмеченные объекты?", "Delete selected objects?"), _defineProperty(_translationsHash$has$1, "Длина", "Length"), _defineProperty(_translationsHash$has$1, "Площадь", "Area"), _defineProperty(_translationsHash$has$1, "Добавить подгруппу", "Create group"), _defineProperty(_translationsHash$has$1, "Введите имя группы", "New group creation"), _defineProperty(_translationsHash$has$1, "Имя группы", "Group name"), _defineProperty(_translationsHash$has$1, "Включая вложенные слои", "Including attached layers"), _defineProperty(_translationsHash$has$1, "Удаление группы [value0]", "Delete group [value0]"), _defineProperty(_translationsHash$has$1, "Сохранено", "Saved"), _defineProperty(_translationsHash$has$1, "Прозрачность выбранного слоя/группы/карты", "Transparency of the selected layer/group/map"), _defineProperty(_translationsHash$has$1, "$$updateInfo$$_1", "To display new layer it is necessary to save and reload map"), _defineProperty(_translationsHash$has$1, "Любой", "Any"), _defineProperty(_translationsHash$has$1, "\u0412\u0435\u043A\u0442\u043E\u0440\u043D\u044B\u0439", "Vector"), _defineProperty(_translationsHash$has$1, "\u0420\u0430\u0441\u0442\u0440\u043E\u0432\u044B\u0439", "Raster"), _defineProperty(_translationsHash$has$1, "Название", "Name"), _defineProperty(_translationsHash$has$1, "Владелец", "Owner"), _defineProperty(_translationsHash$has$1, "Последнее изменение", "Last modification"), _defineProperty(_translationsHash$has$1, "\u0421\u043F\u0438\u0441\u043E\u043A \u0441\u043B\u043E\u0435\u0432", "Layers list"), _defineProperty(_translationsHash$has$1, "Вы действительно хотите удалить этот слой?", "Do you really want to delete the selected layer?"), _defineProperty(_translationsHash$has$1, "Ошибка!", "Error!"), _defineProperty(_translationsHash$has$1, "Ошибка", "Error"), _defineProperty(_translationsHash$has$1, "Выберите колонку", "Select column"), _defineProperty(_translationsHash$has$1, "Список карт", "Maps list"), _defineProperty(_translationsHash$has$1, "Показать", "Show"), _defineProperty(_translationsHash$has$1, "загрузка...", "loading..."), _defineProperty(_translationsHash$has$1, "удаление...", "deleting..."), _defineProperty(_translationsHash$has$1, "Вы действительно хотите удалить эту карту?", " Do you really want to delete the selected map?"), _defineProperty(_translationsHash$has$1, "maplist.hint", "You can drag layers and folders from here to current map"), _defineProperty(_translationsHash$has$1, "Слоя нет в базе", "Layer is not in base"), _defineProperty(_translationsHash$has$1, "ScanEx Web Geomixer - просмотр карты", "ScanEx Web Geomixer – map view"), _defineProperty(_translationsHash$has$1, "Изменить параметры поиска", "Change search parameters"), _defineProperty(_translationsHash$has$1, "$$search$$_1", "Search vector layers and address base"), _defineProperty(_translationsHash$has$1, "$$search$$_2", "Search address base"), _defineProperty(_translationsHash$has$1, "Поиск не дал результатов", "There are no search results"), _defineProperty(_translationsHash$has$1, "Регистрация", "Registration"), _defineProperty(_translationsHash$has$1, "Восстановление пароля", "Restore password"), _defineProperty(_translationsHash$has$1, "Вход", "Login"), _defineProperty(_translationsHash$has$1, "Выход", "Logout"), _defineProperty(_translationsHash$has$1, "Логин", "User name"), _defineProperty(_translationsHash$has$1, "Пароль", "Password"), _defineProperty(_translationsHash$has$1, "пароль", "password"), _defineProperty(_translationsHash$has$1, "Псевдоним", "Nickname"), _defineProperty(_translationsHash$has$1, "Полное имя", "Full name"), _defineProperty(_translationsHash$has$1, "Пожалуйста, авторизуйтесь", "Please, authorize"), _defineProperty(_translationsHash$has$1, "адрес электронной почты", "enter your e-mail"), _defineProperty(_translationsHash$has$1, "Ошибка сервера", "Server error"), _defineProperty(_translationsHash$has$1, "Папка", "Folder"), _defineProperty(_translationsHash$has$1, " и ", " and "), _defineProperty(_translationsHash$has$1, "\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435", "Title"), _defineProperty(_translationsHash$has$1, "Рейтинг", "Rating"), _defineProperty(_translationsHash$has$1, "Автор", "Author"), _defineProperty(_translationsHash$has$1, "Тематика", "Theme"), _defineProperty(_translationsHash$has$1, "Развлекательная", "Fun"), _defineProperty(_translationsHash$has$1, "Спортивная", "Sport"), _defineProperty(_translationsHash$has$1, "Историческая", "History"), _defineProperty(_translationsHash$has$1, "Экологическая", "Ecology"), _defineProperty(_translationsHash$has$1, "Любая", "All"), _defineProperty(_translationsHash$has$1, "Создать новую тему", "Create topic"), _defineProperty(_translationsHash$has$1, "Начало периода", "Since"), _defineProperty(_translationsHash$has$1, "Окончание периода", "Till"), _defineProperty(_translationsHash$has$1, "Накладываемые тайлы", "Ground tiles"), _defineProperty(_translationsHash$has$1, "Отображать с зума", "Show with zoom"), _defineProperty(_translationsHash$has$1, "По", "to"), _defineProperty(_translationsHash$has$1, "Фильтр", "Filter"), _defineProperty(_translationsHash$has$1, "Подпись", "Label"), _defineProperty(_translationsHash$has$1, "Балун", "Balloon"), _defineProperty(_translationsHash$has$1, "По умолчанию", "Default"), _defineProperty(_translationsHash$has$1, "Показывать при клике", "Show on click"), _defineProperty(_translationsHash$has$1, "Показывать при наведении", "Show on mouse over"), _defineProperty(_translationsHash$has$1, "Символика", "Shown style"), _defineProperty(_translationsHash$has$1, "Библиотека стилей", "Style library"), _defineProperty(_translationsHash$has$1, "Настройка стилей", "Style settings"), _defineProperty(_translationsHash$has$1, "скопировать", "copy style"), _defineProperty(_translationsHash$has$1, "применить везде", "apply to all"), _defineProperty(_translationsHash$has$1, "Применить", "Apply"), _defineProperty(_translationsHash$has$1, "Кластеризация", "Clustering"), _defineProperty(_translationsHash$has$1, "Минимальный", "Mininmal"), _defineProperty(_translationsHash$has$1, "Максимальный", "Maximal"), _defineProperty(_translationsHash$has$1, "Мин. зум", "Min. zoom"), _defineProperty(_translationsHash$has$1, "Макс. зум", "Max. zoom"), _defineProperty(_translationsHash$has$1, "Пешеходная", "Footpath"), _defineProperty(_translationsHash$has$1, "Велосипедная", "Bicycle"), _defineProperty(_translationsHash$has$1, "Автомобильная", "Automobile"), _defineProperty(_translationsHash$has$1, "Места", "Places"), _defineProperty(_translationsHash$has$1, "Маршрут", "Route"), _defineProperty(_translationsHash$has$1, "Редактировать экскурсию", "Edit excursion"), _defineProperty(_translationsHash$has$1, "Добавьте маршрут", "Add route"), _defineProperty(_translationsHash$has$1, "Выберете темы на пути следования", "Choose places throughout the journey"), _defineProperty(_translationsHash$has$1, "$$phrase$$_11", "Add route by clicking \"Line\" tool on toolbar"), _defineProperty(_translationsHash$has$1, "$$phrase$$_12", "There are no corresponding objects on the map"), _defineProperty(_translationsHash$has$1, "Выбор маршрута", "Routes choice"), _defineProperty(_translationsHash$has$1, "Выбор мест", "Places choice"), _defineProperty(_translationsHash$has$1, "$$phrase$$_13", "You haven't places om map. You can add place in View-Forum tab"), _defineProperty(_translationsHash$has$1, "Обсуждения", "Forum"), _defineProperty(_translationsHash$has$1, "Экскурсии", "Excursions"), _defineProperty(_translationsHash$has$1, "$$phrase$$_14", "Unable to delete default map"), _defineProperty(_translationsHash$has$1, "$$phrase$$_15", "Unable to delete current map"), _defineProperty(_translationsHash$has$1, "Назад", "Back"), _defineProperty(_translationsHash$has$1, "Вперед", "Forward"), _defineProperty(_translationsHash$has$1, "$$phrase$$_16", "There is no album with given image ID"), _defineProperty(_translationsHash$has$1, "Редактировать альбом", "Edit album"), _defineProperty(_translationsHash$has$1, "Оценить", "Vote"), _defineProperty(_translationsHash$has$1, "Поставьте маркер", "Add marker"), _defineProperty(_translationsHash$has$1, "на карту и переместите его в нужное место.", "to map and move it to choosen place."), _defineProperty(_translationsHash$has$1, "Недостаточно прав для совершения операции", "Insufficient rights to perform operation"), _defineProperty(_translationsHash$has$1, "Новая папка", "New folder"), _defineProperty(_translationsHash$has$1, "Выбрать", "Choose"), _defineProperty(_translationsHash$has$1, "Добавить", "Add"), _defineProperty(_translationsHash$has$1, "$$serviceHelp$$_4", "Embedding the map: the user can embed a map window into their site by copying and pasting an HTML snippet. An API key for the site's domain is required."), _defineProperty(_translationsHash$has$1, "Масштаб", "Scale"), _defineProperty(_translationsHash$has$1, "Угол поворота", "Angle"), _defineProperty(_translationsHash$has$1, "Диаграммы", "Charts"), _defineProperty(_translationsHash$has$1, "График по времени", "Time chart"), _defineProperty(_translationsHash$has$1, "Круговая", "Pie chart"), _defineProperty(_translationsHash$has$1, "Маска атрибутов", "Attributes mask"), _defineProperty(_translationsHash$has$1, "Закладки", "Bookmarks"), _defineProperty(_translationsHash$has$1, "Добавить закладку", "Add bookmark"), _defineProperty(_translationsHash$has$1, "Имя закладки", "Bookmark name"), _defineProperty(_translationsHash$has$1, "Дерево", "Tree view"), _defineProperty(_translationsHash$has$1, "Поиск слоев", "Layers search"), _defineProperty(_translationsHash$has$1, "Пример выражения", "[Field1]\n[Field2]\nsimple text"), _defineProperty(_translationsHash$has$1, "Шкала прозрачности", "Transparency bar"), _defineProperty(_translationsHash$has$1, "Цвет заливки", "Fill color"), _defineProperty(_translationsHash$has$1, "Цвет обводки", "Outline color"), _defineProperty(_translationsHash$has$1, "Цвет шрифта", "Font color"), _defineProperty(_translationsHash$has$1, "Легенда", "Legend"), _defineProperty(_translationsHash$has$1, "Событие загрузки карты", "Событие загрузки карты"), _defineProperty(_translationsHash$has$1, "Мин", "Min"), _defineProperty(_translationsHash$has$1, "Макс", "Max"), _defineProperty(_translationsHash$has$1, "График", "График"), _defineProperty(_translationsHash$has$1, "Гистограмма", "Гистограмма"), _defineProperty(_translationsHash$has$1, "Столбчатая", "Столбчатая"), _defineProperty(_translationsHash$has$1, "Временная", "Временная"), _defineProperty(_translationsHash$has$1, "\u041A\u0440\u0443\u0433\u043E\u0432\u0430\u044F", "Круговая"), _defineProperty(_translationsHash$has$1, "Копировать стиль", "Copy style"), _defineProperty(_translationsHash$has$1, "Применить стиль", "Apply style"), _defineProperty(_translationsHash$has$1, "Не выбран стиль", "There is no copied style"), _defineProperty(_translationsHash$has$1, "Невозможно применить стиль к другому типу геометрии", "Can't apply style to different geometry type"), _defineProperty(_translationsHash$has$1, "Общие", "Common"), _defineProperty(_translationsHash$has$1, "Доступ", "Policy"), _defineProperty(_translationsHash$has$1, "Окно карты", "View"), _defineProperty(_translationsHash$has$1, "Загрузка", "Onload"), _defineProperty(_translationsHash$has$1, "Копирайт", "Copyright"), _defineProperty(_translationsHash$has$1, "Инструменты", "Tools"), _defineProperty(_translationsHash$has$1, "Загрузить KML", "Load KML"), _defineProperty(_translationsHash$has$1, "URL файла", "File URL"), _defineProperty(_translationsHash$has$1, "Поиск", "Search"), _defineProperty(_translationsHash$has$1, "Подложки", "Base Layers"), _defineProperty(_translationsHash$has$1, "Доступные подложки", "Available base layers"), _defineProperty(_translationsHash$has$1, "Подложки карты", "Base layers on map"), _defineProperty(_translationsHash$has$1, "Выберите слои для поиска по атрибутам", "Select layers for attributes search"), _defineProperty(_translationsHash$has$1, "Включить синхронизацию слоев", "Enable sync layers"), _defineProperty(_translationsHash$has$1, "Выключить синхронизацию слоев", "Disable sync layers"), _defineProperty(_translationsHash$has$1, "Редактирование прав доступа карты [value0]", "Map [value0] access editor"), _defineProperty(_translationsHash$has$1, "Редактирование прав доступа слоя [value0]", "Layer [value0] access editor"), _defineProperty(_translationsHash$has$1, "Редактирование прав доступа слоев карты [value0]", "Map [value0] layers access editor"), _defineProperty(_translationsHash$has$1, "Состав группы [value0]", "Users of group [value0]"), _defineProperty(_translationsHash$has$1, "Роль", "Role"), _defineProperty(_translationsHash$has$1, "Добавить пользователя", "Add user"), _defineProperty(_translationsHash$has$1, "Права доступа", "Access permissions"), _defineProperty(_translationsHash$has$1, "Права доступа к слоям", "Layers access permissions"), _defineProperty(_translationsHash$has$1, "Пользователи без прав доступа:", "Users wihout access:"), _defineProperty(_translationsHash$has$1, "Пользователи с правами доступа:", "Users with access:"), _defineProperty(_translationsHash$has$1, "Выберите нового владельца", "Select new owner"), _defineProperty(_translationsHash$has$1, "Сменить владельца", "Change owner"), _defineProperty(_translationsHash$has$1, "Объекты RuMap", "RuMap objects"), _defineProperty(_translationsHash$has$1, "Объекты пользователей", "User objects"), _defineProperty(_translationsHash$has$1, "Контакты", "Contacts"), _defineProperty(_translationsHash$has$1, "Фотографии", "Photo"), _defineProperty(_translationsHash$has$1, "Момент съемки", "Image date"), _defineProperty(_translationsHash$has$1, "Видео", "Video"), _defineProperty(_translationsHash$has$1, "Сообщения", "Messages"), _defineProperty(_translationsHash$has$1, "Ссылка на место", "Ссылка на место"), _defineProperty(_translationsHash$has$1, "Ссылка на экскурсию", "Ссылка на экскурсию"), _defineProperty(_translationsHash$has$1, "Ссылка на событие", "Ссылка на событие"), _defineProperty(_translationsHash$has$1, "Создать новое событие", "Создать новое событие"), _defineProperty(_translationsHash$has$1, "События", "События"), _defineProperty(_translationsHash$has$1, "Календарь", "Календарь"), _defineProperty(_translationsHash$has$1, "Новости", "Новости"), _defineProperty(_translationsHash$has$1, "Мероприятия", "Мероприятия"), _defineProperty(_translationsHash$has$1, "Отмена", "Отмена"), _defineProperty(_translationsHash$has$1, "Пропустить", "Skip"), _defineProperty(_translationsHash$has$1, "Время", "Время"), _defineProperty(_translationsHash$has$1, "Альбом OpenPhotoVR", "Фотоальбом"), _defineProperty(_translationsHash$has$1, "Встраиваемый код", "Embed video"), _defineProperty(_translationsHash$has$1, "Объекты экологического риска", "Объекты экологического риска"), _defineProperty(_translationsHash$has$1, "Санкционированные свалки", "Санкционированные свалки"), _defineProperty(_translationsHash$has$1, "Несанкционированные свалки", "Несанкционированные свалки"), _defineProperty(_translationsHash$has$1, "Полигоны отходов", "Полигоны отходов"), _defineProperty(_translationsHash$has$1, "Предприятия переработки отходов", "Предприятия переработки отходов"), _defineProperty(_translationsHash$has$1, "Факельные установки, ТЭЦ, трубы", "Факельные установки, ТЭЦ, трубы"), _defineProperty(_translationsHash$has$1, "Закрытые свалки", "Закрытые свалки"), _defineProperty(_translationsHash$has$1, "Пункты приема отходов", "Пункты приема отходов"), _defineProperty(_translationsHash$has$1, "Оползни", "Оползни"), _defineProperty(_translationsHash$has$1, "Карстовые явления", "Карстовые явления"), _defineProperty(_translationsHash$has$1, "Суффозионные явления", "Суффозионные явления"), _defineProperty(_translationsHash$has$1, "Государство и общество", "Государство и общество"), _defineProperty(_translationsHash$has$1, "Радио", "Радио"), _defineProperty(_translationsHash$has$1, "Правительственные учреждения", "Правительственные учреждения"), _defineProperty(_translationsHash$has$1, "Оптики", "Оптики"), _defineProperty(_translationsHash$has$1, "Охранные агенства", "Охранные агенства"), _defineProperty(_translationsHash$has$1, "Травмпункты", "Травмпункты"), _defineProperty(_translationsHash$has$1, "Таможня", "Таможня"), _defineProperty(_translationsHash$has$1, "Ветеринарные клиники", "Ветеринарные клиники"), _defineProperty(_translationsHash$has$1, "ЗАГС", "ЗАГС"), _defineProperty(_translationsHash$has$1, "Больницы", "Больницы"), _defineProperty(_translationsHash$has$1, "Аптеки", "Аптеки"), _defineProperty(_translationsHash$has$1, "Поликлиники", "Поликлиники"), _defineProperty(_translationsHash$has$1, "Колледжи", "Колледжи"), _defineProperty(_translationsHash$has$1, "Университеты", "Университеты"), _defineProperty(_translationsHash$has$1, "ОВИР", "ОВИР"), _defineProperty(_translationsHash$has$1, "Посольства", "Посольства"), _defineProperty(_translationsHash$has$1, "Почтовые отделения", "Почтовые отделения"), _defineProperty(_translationsHash$has$1, "Суды", "Суды"), _defineProperty(_translationsHash$has$1, "Банки", "Банки"), _defineProperty(_translationsHash$has$1, "Родильные дома", "Родильные дома"), _defineProperty(_translationsHash$has$1, "Дома престарелых", "Дома престарелых"), _defineProperty(_translationsHash$has$1, "Детские сады", "Детские сады"), _defineProperty(_translationsHash$has$1, "Школы", "Школы"), _defineProperty(_translationsHash$has$1, "Инспекции", "Инспекции"), _defineProperty(_translationsHash$has$1, "Адвокаты", "Адвокаты"), _defineProperty(_translationsHash$has$1, "МЧС", "МЧС"), _defineProperty(_translationsHash$has$1, "Муниципальные учреждения", "Муниципальные учреждения"), _defineProperty(_translationsHash$has$1, "Администрация", "Администрация"), _defineProperty(_translationsHash$has$1, "Культура и отдых", "Культура и отдых"), _defineProperty(_translationsHash$has$1, "Боулинг", "Боулинг"), _defineProperty(_translationsHash$has$1, "Аквапарки", "Аквапарки"), _defineProperty(_translationsHash$has$1, "Парки развлечений", "Парки развлечений"), _defineProperty(_translationsHash$has$1, "Библиотеки", "Библиотеки"), _defineProperty(_translationsHash$has$1, "Памятники", "Памятники"), _defineProperty(_translationsHash$has$1, "Лагери отдыха", "Лагери отдыха"), _defineProperty(_translationsHash$has$1, "Кинотеатры", "Кинотеатры"), _defineProperty(_translationsHash$has$1, "Цирки", "Цирки"), _defineProperty(_translationsHash$has$1, "Галереи", "Галереи"), _defineProperty(_translationsHash$has$1, "Отели", "Отели"), _defineProperty(_translationsHash$has$1, "Мотели", "Мотели"), _defineProperty(_translationsHash$has$1, "Музеи", "Музеи"), _defineProperty(_translationsHash$has$1, "Концертные залы", "Концертные залы"), _defineProperty(_translationsHash$has$1, "Ночные клубы", "Ночные клубы"), _defineProperty(_translationsHash$has$1, "Театры", "Театры"), _defineProperty(_translationsHash$has$1, "Санатории", "Санатории"), _defineProperty(_translationsHash$has$1, "Зоопарки", "Зоопарки"), _defineProperty(_translationsHash$has$1, "Общественное питание", "Общественное питание"), _defineProperty(_translationsHash$has$1, "Кафе", "Кафе"), _defineProperty(_translationsHash$has$1, "Фастфуды", "Фастфуды"), _defineProperty(_translationsHash$has$1, "Рестораны", "Рестораны"), _defineProperty(_translationsHash$has$1, "Кафе-мороженое", "Кафе-мороженое"), _defineProperty(_translationsHash$has$1, "Столовые", "Столовые"), _defineProperty(_translationsHash$has$1, "Природные достопримечательности", "Природные достопримечательности"), _defineProperty(_translationsHash$has$1, "Ботанический сад", "Ботанические сады"), _defineProperty(_translationsHash$has$1, "Пещеры", "Пещеры"), _defineProperty(_translationsHash$has$1, "Водопады", "Водопады"), _defineProperty(_translationsHash$has$1, "Парки", "Парки"), _defineProperty(_translationsHash$has$1, "Источники", "Источники"), _defineProperty(_translationsHash$has$1, "Заповедники", "Заповедники"), _defineProperty(_translationsHash$has$1, "Прочие архитектурные и природные достопримечательности", "Архитектурные достопримечательности"), _defineProperty(_translationsHash$has$1, "Религия", "Религия"), _defineProperty(_translationsHash$has$1, "Культовые сооружения", "Культовые сооружения"), _defineProperty(_translationsHash$has$1, "Мечети", "Мечети"), _defineProperty(_translationsHash$has$1, "Монастыри", "Монастыри"), _defineProperty(_translationsHash$has$1, "Церкви других христианских конфессий", "Церкви других христианских конфессий"), _defineProperty(_translationsHash$has$1, "Православные церкви", "Православные церкви"), _defineProperty(_translationsHash$has$1, "Синагоги", "Синагоги"), _defineProperty(_translationsHash$has$1, "Спорт", "Спорт"), _defineProperty(_translationsHash$has$1, "Стадионы", "Стадионы"), _defineProperty(_translationsHash$has$1, "Теннисные корты", "Теннисные корты"), _defineProperty(_translationsHash$has$1, "Катки", "Катки"), _defineProperty(_translationsHash$has$1, "Ипподромы", "Ипподромы"), _defineProperty(_translationsHash$has$1, "Фитнес", "Фитнес"), _defineProperty(_translationsHash$has$1, "Бассейны", "Бассейны"), _defineProperty(_translationsHash$has$1, "Прокат спортинвентаря", "Прокат спортинвентаря"), _defineProperty(_translationsHash$has$1, "Торговля и услуги", "Торговля и услуги"), _defineProperty(_translationsHash$has$1, "Солярии", "Солярии"), _defineProperty(_translationsHash$has$1, "Интернет-кафе", "Интернет-кафе"), _defineProperty(_translationsHash$has$1, "Рынки", "Рынки"), _defineProperty(_translationsHash$has$1, "Стоматологические клиники", "Стоматологические клиники"), _defineProperty(_translationsHash$has$1, "Магазины одежды", "Магазины одежды"), _defineProperty(_translationsHash$has$1, "Парикмахерские", "Парикмахерские"), _defineProperty(_translationsHash$has$1, "Бани", "Бани"), _defineProperty(_translationsHash$has$1, "Магазины обуви", "Магазины обуви"), _defineProperty(_translationsHash$has$1, "Магазины", "Магазины"), _defineProperty(_translationsHash$has$1, "Ателье", "Ателье"), _defineProperty(_translationsHash$has$1, "Такси", "Такси"), _defineProperty(_translationsHash$has$1, "Туризм", "Туризм"), _defineProperty(_translationsHash$has$1, "Транспорт и услуги", "Транспорт и услуги"), _defineProperty(_translationsHash$has$1, "Аэропорты", "Аэропорты"), _defineProperty(_translationsHash$has$1, "Автосервисы", "Автосервисы"), _defineProperty(_translationsHash$has$1, "Автовокзалы", "Автовокзалы"), _defineProperty(_translationsHash$has$1, "ДПС", "ДПС"), _defineProperty(_translationsHash$has$1, "ГИБДД", "ГИБДД"), _defineProperty(_translationsHash$has$1, "Шиномонтаж", "Шиномонтаж"), _defineProperty(_translationsHash$has$1, "Парковки бесплатные", "Парковки бесплатные"), _defineProperty(_translationsHash$has$1, "Парковки платные", "Парковки платные"), _defineProperty(_translationsHash$has$1, "АЗС", "АЗС"), _defineProperty(_translationsHash$has$1, "Автомойки", "Автомойки"), _defineProperty(_translationsHash$has$1, "Экстренные службы", "Экстренные службы"), _defineProperty(_translationsHash$has$1, "Пожарные/спасатели", "Пожарные/спасатели"), _defineProperty(_translationsHash$has$1, "Милиция", "Милиция"), _defineProperty(_translationsHash$has$1, "Скорая помощь", "Скорая помощь"), _defineProperty(_translationsHash$has$1, "Другие темы", "Другие темы"), _defineProperty(_translationsHash$has$1, "Разное", "Разное"), _defineProperty(_translationsHash$has$1, "Изменение пароля", "Password change"), _defineProperty(_translationsHash$has$1, "Новый пароль", "New password"), _defineProperty(_translationsHash$has$1, "Старый пароль", "Old password"), _defineProperty(_translationsHash$has$1, "Подтвердите пароль", "Confirm password"), _defineProperty(_translationsHash$has$1, "Контур", "Border"), _defineProperty(_translationsHash$has$1, "$$phrase$$_17", "Add border by clicking \"Polygon\" tool on toolbar"), _defineProperty(_translationsHash$has$1, "Выбор контура", "Border select"), _defineProperty(_translationsHash$has$1, "Таблица атрибутов слоя [value0]", "[value0] attributes table"), _defineProperty(_translationsHash$has$1, "Показать параметры поиска", "Show search params"), _defineProperty(_translationsHash$has$1, "Скрыть параметры поиска", "Hide search params"), _defineProperty(_translationsHash$has$1, "Скрыть", "Hide"), _defineProperty(_translationsHash$has$1, "Искать внутри полигона", "Search inside polygon"), _defineProperty(_translationsHash$has$1, "Искать по пересечению с объектом", "Search by geometry"), _defineProperty(_translationsHash$has$1, "SQL-условие WHERE", "WHERE SQL expression"), _defineProperty(_translationsHash$has$1, "\u041A\u043E\u043B\u043E\u043D\u043A\u0438", "Columns"), _defineProperty(_translationsHash$has$1, "Показывать колонки", "Show columns"), _defineProperty(_translationsHash$has$1, "Скрыть колонки", "Hide columns"), _defineProperty(_translationsHash$has$1, "Найти", "Search"), _defineProperty(_translationsHash$has$1, "Нет полей", "Empty fields"), _defineProperty(_translationsHash$has$1, "Нет данных", "Empty data"), _defineProperty(_translationsHash$has$1, "Таблица атрибутов", "Attributes table"), _defineProperty(_translationsHash$has$1, "Разрешить поиск", "Allow search"), _defineProperty(_translationsHash$has$1, "Произвольный", "Any"), _defineProperty(_translationsHash$has$1, "День", "Day"), _defineProperty(_translationsHash$has$1, "Неделя", "Week"), _defineProperty(_translationsHash$has$1, "Месяц", "Month"), _defineProperty(_translationsHash$has$1, "Год", "Year"), _defineProperty(_translationsHash$has$1, "Ежегодно", "Every year"), _defineProperty(_translationsHash$has$1, "Облачность", "Clouds"), _defineProperty(_translationsHash$has$1, "Период", "Period"), _defineProperty(_translationsHash$has$1, "Спутниковые покрытия", "Satellite cover"), _defineProperty(_translationsHash$has$1, "Редактировать объект слоя [value0]", "Edit layer [value0] object"), _defineProperty(_translationsHash$has$1, "Создать объект слоя [value0]", "Add layer [value0] object"), _defineProperty(_translationsHash$has$1, "Геометрия", "Geometry"), _defineProperty(_translationsHash$has$1, "Найти объекты", "Find objects"), _defineProperty(_translationsHash$has$1, "Добавить объекты", "Add objects"), _defineProperty(_translationsHash$has$1, "Обновить объекты", "Update objects"), _defineProperty(_translationsHash$has$1, "Копировать объекты", "Copy objects"), _defineProperty(_translationsHash$has$1, "Объекты скопированы", "Objects are copied"), _defineProperty(_translationsHash$has$1, "Объекты добавлены", "Объекты добавлены"), _defineProperty(_translationsHash$has$1, "Вставить объекты", "Paste objects"), _defineProperty(_translationsHash$has$1, "Вставить объекты не удалось", "Paste objects failed"), _defineProperty(_translationsHash$has$1, "Выберите правым кликом слой в левой панели и нажмите \"Вставить объекты\"", "Right-click on layer name and select \"Paste objects\""), _defineProperty(_translationsHash$has$1, "Изменить колонки", "Update columns"), _defineProperty(_translationsHash$has$1, "Обновить колонку", "Update column"), _defineProperty(_translationsHash$has$1, "Очистить поиск", "Clean search"), _defineProperty(_translationsHash$has$1, "Скачать shp", "Download shp"), _defineProperty(_translationsHash$has$1, "Скачать gpx", "Download gpx"), _defineProperty(_translationsHash$has$1, "Скачать csv", "Download csv"), _defineProperty(_translationsHash$has$1, "Скачать geojson", "Download geojson"), _defineProperty(_translationsHash$has$1, "Рассчитать площадь", "Total square"), _defineProperty(_translationsHash$has$1, "Создать столбец", "Create column"), _defineProperty(_translationsHash$has$1, "Мультислой", "Multilayer"), _defineProperty(_translationsHash$has$1, "В дереве слоев остались несохраненные изменения!", "There are unsaved changes on layers tree!"), _defineProperty(_translationsHash$has$1, "файл версии отсутствует", "version file doesn't exists"), _defineProperty(_translationsHash$has$1, "оверлеи отсутствуют", "no overlays present"), _defineProperty(_translationsHash$has$1, "Хост", "Host"), _defineProperty(_translationsHash$has$1, "Дополнительные карты", "Additional maps"), _defineProperty(_translationsHash$has$1, "Добавить карту", "Add map"), _defineProperty(_translationsHash$has$1, "Добавить в таймлайн", "Add to timeLine"), _defineProperty(_translationsHash$has$1, "Удалить из таймлайна", "Remove from timeline"), _defineProperty(_translationsHash$has$1, "Невозможно загрузить карту [value0] с домена [value1]", "Unable to load map [value0] from domain [value1]"), _defineProperty(_translationsHash$has$1, "Показывать", "Show"), _defineProperty(_translationsHash$has$1, "\u041F\u043E\u0438\u0441\u043A \u0441\u043D\u0438\u043C\u043A\u043E\u0432", "Search imagery"), _defineProperty(_translationsHash$has$1, "Принудительно обновить тайлы", "Forced retiling"), _defineProperty(_translationsHash$has$1, "Обводка", "Outline"), _defineProperty(_translationsHash$has$1, "Карта имеет более новую версию. Сохранить?", "The map has a newer version. Save anyway?"), _defineProperty(_translationsHash$has$1, "Кодировка", "Encoding"), _defineProperty(_translationsHash$has$1, "helpPostfix", "_eng.html"), _defineProperty(_translationsHash$has$1, "Показывать чекбокс видимости", "Visibility checkbox"), _defineProperty(_translationsHash$has$1, "Разворачивать автоматически", "Expand automatically"), _defineProperty(_translationsHash$has$1, "Другая", "Another"), _defineProperty(_translationsHash$has$1, "Временнóй слой", "Multitemporal layer"), _defineProperty(_translationsHash$has$1, "Колонка даты", "Date column"), _defineProperty(_translationsHash$has$1, "Минимальный период", "Min. period (days)"), _defineProperty(_translationsHash$has$1, "Максимальный период", "Max. period (days)"), _defineProperty(_translationsHash$has$1, "Отсутствует временной атрибут", "Missing attribute with type 'Date'"), _defineProperty(_translationsHash$has$1, "Период 1 день", "Period 1 day"), _defineProperty(_translationsHash$has$1, "Показывать на карте данные за", "Show data on map within"), _defineProperty(_translationsHash$has$1, "1 день", "single day"), _defineProperty(_translationsHash$has$1, "произвольный период", "arbitrary period"), _defineProperty(_translationsHash$has$1, "По границе экрана", "Screen border"), _defineProperty(_translationsHash$has$1, "По центру экрана", "Screen center"), _defineProperty(_translationsHash$has$1, "Пересечение", "Intersection"), _defineProperty(_translationsHash$has$1, "Пролистывать слои", "Scroll layers"), _defineProperty(_translationsHash$has$1, "Следующий слой", "Next layer"), _defineProperty(_translationsHash$has$1, "Предыдущий слой", "Previous layer"), _defineProperty(_translationsHash$has$1, "Геометрия не сохранена. Эта возможность будет реализована в будущих версиях Геомиксера.", "Geometry is not saved. This feature will be implemented in future Geomixer versions"), _defineProperty(_translationsHash$has$1, "WMS доступ", "WMS/WFS access"), _defineProperty(_translationsHash$has$1, "ссылка", "link"), _defineProperty(_translationsHash$has$1, "Слой '[value0]' уже есть в карте", "Layer '[value0]' already exists in this map"), _defineProperty(_translationsHash$has$1, "Группа '[value0]' уже есть в карте", "Group '[value0]' already exists in this map"), _defineProperty(_translationsHash$has$1, "Плагины", "Plugins"), _defineProperty(_translationsHash$has$1, "Вручную", "Manually"), _defineProperty(_translationsHash$has$1, "Добавить атрибут", "Add attribute"), _defineProperty(_translationsHash$has$1, "Проекция", "Projection"), _defineProperty(_translationsHash$has$1, "Широта/Долгота (EPSG:4326)", "Lat/Lon (EPSG:4326)"), _defineProperty(_translationsHash$has$1, "Меркатор (EPSG:3395)", "Mercator (EPSG:3395)"), _defineProperty(_translationsHash$has$1, "Из файла", "From file"), _defineProperty(_translationsHash$has$1, "Мультиполигон", "Multipolygon"), _defineProperty(_translationsHash$has$1, "Мультилиния", "Multipolyline"), _defineProperty(_translationsHash$has$1, "Мультиточка", "Multipoint"), _defineProperty(_translationsHash$has$1, "Администрирование", "Administration"), _defineProperty(_translationsHash$has$1, "Системные настройки", "System settings"), _defineProperty(_translationsHash$has$1, "Управление группами", "User group management"), _defineProperty(_translationsHash$has$1, "Управление группами пользователей", "User group management"), _defineProperty(_translationsHash$has$1, "Добавить снимки", "Add rasters"), _defineProperty(_translationsHash$has$1, "Существующие слои", "Existing layers"), _defineProperty(_translationsHash$has$1, "Слои из карты", "Layers from map"), _defineProperty(_translationsHash$has$1, "Слои из КР", "Layers from RC"), _defineProperty(_translationsHash$has$1, "Новый слой", "New layer"), _defineProperty(_translationsHash$has$1, "С экрана", "Select on map"), _defineProperty(_translationsHash$has$1, "Добавлен растр", "Raster is added"), _defineProperty(_translationsHash$has$1, "Добавлены растры", "Rasters are added"), _defineProperty(_translationsHash$has$1, "Выбранный объект не имеет растра", "Selected object has no raster"), _defineProperty(_translationsHash$has$1, "Этот растр уже был выбран", "This raster is already selected"), _defineProperty(_translationsHash$has$1, "Каталог Растров", "Raster catalog"), _defineProperty(_translationsHash$has$1, "Растр", "Raster"), _defineProperty(_translationsHash$has$1, "Добавить выбранные растры", "Add selected rasters"), _defineProperty(_translationsHash$has$1, "EditObject.menuTitle", "Add object"), _defineProperty(_translationsHash$has$1, "FileBrowser.ExceedLimitMessage", "File size exceeds 500 Mb. Use GeoMixerFileBrowser tool to upload large files."), _defineProperty(_translationsHash$has$1, "FileBrowser.DropInfo", "Drop files here"), _defineProperty(_translationsHash$has$1, "EditObject.drawingMenuTitle", "Add object to active layer"), _defineProperty(_translationsHash$has$1, "Поставить маркер", "Add marker"), _defineProperty(_translationsHash$has$1, "Центрировать", "Set center"), _defineProperty(_translationsHash$has$1, "Пароль изменён", "Password has been changed"), _defineProperty(_translationsHash$has$1, "портретная", "portrait view"), _defineProperty(_translationsHash$has$1, "альбомная", "layout view"), _defineProperty(_translationsHash$has$1, "gmx_geometry", "gmx_geometry"), _translationsHash$has$1);
+      "Объекты на карте": "Objects on map",
+      "Координатная сетка": "Coordinate grid",
+      "Индексная сетка": "Index grid",
+      "Панель оверлеев": "Overlays panel",
+      "Загрузить объекты": "Upload objects",
+      "Загрузить фотографии": "Upload photos",
+      "Загрузить данные": "Load data",
+      "WFS сервер": "WFS server",
+      "WMS сервер": "WMS server",
+      "Кадастровые данные": "Cadastre data",
+      "Ссылка на карту": "Link to the map",
+      "Код для вставки": "Embed code",
+      "Печать": "Print",
+      "Привязать изображение": "Bind image",
+      "Сообщить об ошибке на карте": "Report a map error",
+      "Справка": "Help",
+      "Использование": "Usage",
+      "О проекте": "About/Contacts",
+      "$$phrase$$_1": "Choose parameter defaultMapID in config.js file",
+      "У вас нет прав на просмотр данной карты": "Sorry, you don’t have permission to view this map",
+      "Access error": "Sorry, you don’t have permission to view this map",
+      "Map not found": "Sorry, this map not found",
+      "Unable to locate EXIF content": "Unable to locate EXIF content",
+      "Развернуть карту": "Unfold map",
+      "Свернуть карту": "Fold map",
+      "Точки на изображении:": "Points on image:",
+      "Точки на карте:": "Points on map:",
+      "Координаты": "Coordinates",
+      "Нарисовать": "Draw",
+      "Восстановить": "Restore",
+      "Прозрачность": "Transparency",
+      "Видимость": "Visibility",
+      "Привязка изображения": "Image binding",
+      "$$phrase$$_2": "Point [value0] is outside the limits of image",
+      "$$phrase$$_3": "Point [value0] is not specified on a map",
+      "Соответствие точек": "Point correspondence",
+      "$$phrase$$_4": "Points 1 and 2 coincide at the image",
+      "$$phrase$$_5": "Points 1 and 3 coincide at the image",
+      "$$phrase$$_6": "Points 2 and 3 coincide at the image",
+      "$$phrase$$_7": "Points 1 and 2 coincide at the map",
+      "$$phrase$$_8": "Points 1 and 3 coincide at the map ",
+      "$$phrase$$_9": "Points 2 and 3 coincide at the map ",
+      "$$phrase$$_10": "Points lie on a straight line at the image ",
+      "Создать экскурсию": "Create guide",
+      "Чтобы пользоваться этим сайтом, установите Flash Player": "To use this web site, please, install Flash Player",
+      "из Интернет": "from Internet",
+      "или с локального диска ": "or from local disc",
+      "для Internet Explorer": "for Internet Explorer",
+      " или ": " or ",
+      "для Firefox": "for Firefox",
+      "Скачать shp-файл": "Download shp-file",
+      "shp-файл": "shp-file",
+      "gpx-файл": "gpx-file",
+      "Скачать фрагмент растра": "Download fragment of raster",
+      "Очистить": "Delete",
+      "точка": "point",
+      "линия": "line",
+      "прямоугольник": "rectangle",
+      "многоугольник": "polygon",
+      "Скачать": "Download",
+      "Введите имя файла для скачивания": "Enter file name to download",
+      "Выберите область рамкой на карте": "Select region using frame",
+      "Вырезать фрагмент растра": "Cut fragment of raster",
+      "К прямоугольнику не подходит ни одного растрового слоя": "No one raster layer fit the rectangle",
+      "Загруженный shp-файл пуст": "The uploaded shp-file is empty",
+      "Ошибка скачивания": "Download error",
+      "Обновить": "Update",
+      "Домашняя директория": "Project directory",
+      "Имя папки": "Folder name",
+      "Имя": "Name",
+      "Тип": "Type",
+      "Размер": "Size",
+      "Дата": "Date",
+      "Дата создания": "Дата создания",
+      "Снять выделение": "Clear selection",
+      "Скопировать": "Copy",
+      "Удалить": "Delete",
+      "Извлечь": "Extract",
+      "Упаковать": "Add to archive",
+      "Загрузить": "Download",
+      "Параметр": "Parameter",
+      "Значение": "Value",
+      "VALUE": "VALUE",
+      "WHERE": "WHERE",
+      "Колонки": "Columns",
+      "Операторы": "Operators",
+      "Функции": "Functions",
+      "Метаданные": "Metadata",
+      "Редактировать колонки": "Edit columns",
+      "URL сервера": "Server URL",
+      "Формат изображения": "Image format",
+      "Введите имя gml-файла для скачивания:": "Enter gml-file name to download:",
+      "точки": "points",
+      "линии": "lines",
+      "полигоны": "polygons",
+      "(ссылка)": "(link)",
+      "Сохранить состояние карты": "Save map state",
+      "Ссылка на текущее состояние карты": "Link to the map",
+      "Добавить стиль": "Add style",
+      "Атрибут >": "Attribute >",
+      "Значение >": "Value >",
+      "Операция >": "Operation >",
+      "Накладываемое изображение": "Ground overlay",
+      "Цвет": "Color",
+      "Авторизуйтесь для редактирования фильтров": "Authorize to edit filters",
+      "Имя фильтра": "Filter name",
+      "Переместить фильтр вверх": "Move filter up",
+      "Переместить фильтр вниз": "Move filter down",
+      "Удалить фильтр": "Delete filter",
+      "Размер шрифта": "Typesize",
+      "Смещение": "Shift",
+      "Смещение по x": "X shift",
+      "Смещение по y": "Y shift",
+      "Имя атрибута": "Attribute name",
+      "Граница обрезки": "Clip region",
+      "Граница": "Outline",
+      "Толщина линии": "Line thickness",
+      "Заливка": "Fill",
+      "Заливка цветом": "Color fill",
+      "Заливка штриховкой": "Pattern fill",
+      "Заливка рисунком": "Image fill",
+      "Ширина паттерна": "Pattern width",
+      "Ширина отступа": "Indent width",
+      "URL рисунка": "Image URL",
+      "Маркер URL": "Icon URL ",
+      "URL изображения": "Image URL",
+      "Изображение": "Image",
+      "Размер точек": "Point size",
+      "Редактировать стили": "Edit styles",
+      "Авторизуйтесь для редактирования настроек слоя": " Authorize to edit layer properties",
+      "Недостаточно прав для редактирования настроек слоя": "You have not enough permission to edit layer properties ",
+      "Недостаточно прав для редактирования объектов слоя": "You have not enough permission to edit layer objects ",
+      "ID": "ID",
+      "Описание": "Description",
+      "Файл": "File",
+      "Таблица": "Table",
+      "Каталог с тайлами": "Tile catalogue",
+      "Каталог растров": "Raster catalogue",
+      "Данные с датой": "Split through time",
+      "Источник": "Source",
+      "Дополнительно": "Advanced options",
+      "Шаблон названий объектов": "Objects title template",
+      "Y (широта)": "Y (latitude)",
+      "X (долгота)": "X (longitude)",
+      "Каталог": "Catalogue",
+      "Изменить": "Change",
+      "Вид вложенных элементов": "Form of attached elements",
+      "Использовать KosmosnimkiAPI": "Load Kosmosnimki base layers",
+      "Использовать OpenStreetMap": "Use OpenStreetMap",
+      "Язык по умолчанию": "Default language",
+      "Единицы длины": "Distance unit",
+      "Единицы площади": "Square unit",
+      "Формат координат": "Coordinates format",
+      "units.auto": "auto",
+      "units.m": "m",
+      "units.km": "km",
+      "units.nm": "nmi",
+      "units.m2": "m<sup>2</sup>",
+      "units.ha": "ha",
+      "units.km2": "km<sup>2</sup>",
+      "coords.dd": "dd.dddd",
+      "coords.dms": "dd°mm′ss″",
+      "Генерализация": "Generalization",
+      "gereralization.on": "on",
+      "gereralization.off": "off",
+      "gereralization.disable": "use layers settings",
+      "Количество информационных окошек": "Max popup count",
+      "layerOrder.title": "Layers order",
+      "layerOrder.native": "Native",
+      "layerOrder.vectorOnTop": "Vector on top",
+      "Разрешить поиск в векторных слоях": "Allow search vector layers",
+      "Начальная позиция": "Start position",
+      "Широта": "Latitude",
+      "Долгота": "Longitude",
+      "placeholder degrees": "dd.dddd",
+      "placeholder zoom": "1-21",
+      "placeholder minZoom": "1",
+      "placeholder maxZoom": "21",
+      "Зум": "Zoom",
+      "Ссылка (permalink)": "Permalink",
+      "Разрешить скачивание": "Allow to download",
+      "Векторных слоев": "Vector layers",
+      "Растровых слоев": "Raster layers",
+      "Масштабирование в миникарте": "Minimap zoom delta",
+      "Показывать всплывающие подсказки": "Show tooltips",
+      "Свойства": "Properties",
+      "Создать копию слоя": "Create layer copy",
+      "Стили": "Styles",
+      "Изображение на карте": "Ground overlay",
+      "Слой [value0]": "Layer [value0]",
+      "Стили слоя [value0]": "Styles of layer [value0]",
+      "Мультислой [value0]": "Multilayer [value0]",
+      "Группа [value0]": "Group [value0]",
+      "Карта [value0]": "Map [value0]",
+      "Редактировать стиль": "Edit style",
+      "Редактирование стилей объекта": "Object styles editing",
+      "Стили слоя": "Layer styles",
+      "Навигация по карте и инструменты": "Map navigation and tools",
+      "Список слоев": "List of layers",
+      "Стиль векторного слоя": "Vector layer style",
+      "Управление содержанием карты": "Map content management",
+      "Пользовательские инструменты": "Users tools",
+      "$$help$$_1": "Hold mouse left button – move map with cursor. To zoom in or out use mouse wheel (or map zoom slider to zoom to the cursor position). In order to move map center to specified coordinates – enter coordinates in search line.",
+      "$$help$$_2": "Layer tree is represented in the left panel. To change map center according to layer extent – click its title in the list. If this option was activated by map administrator, you can download vector layers and cut and download raster layers fragments.",
+      "$$help$$_3": "To edit vector layer style click icon near layer name.",
+      "$$help$$_4": "Map is a collection of layers, which is displayed using layer tree. It is necessary to authorize to be able to edit the collection of layers (create groups, change display order etc.) and save changes. For more information see ",
+      " - Руководство пользователя": " – User guide",
+      "$$help$$_5": "User tools serve the purpose of creation of objects on map, which can be saved via «save link to the map», and, at the same time, simple analytic functions fulfillment.",
+      "В режиме маркеров: ": "Creating markers: ",
+      "$$help$$_6": "single click – add marker. Double click on marker – delete. Click on marker – open pop-up window (balloon), click on balloon – add text.",
+      "В режиме линейка/измерения расстояния, полигон/измерение площади: ": "Drawing lines/distance measurement, polygon/area measurement: ",
+      "$$help$$_7": "single click – add vertex. Double click – complete figure. Click on line – add vertex. Double click on vertex – delete.",
+      "$$help$$_8": "Click on object in list of «objects on map» to move map center to it. You can download object in shp/tab/kml format.",
+      "$$about$$_1": "this web application for interactive geodata view and access to basic data sources in the Internet, such as: ",
+      "$$about$$_2": " Using GeoMixer you can publish own geodata in intranet or in the Internet, put them over basic data coverages and give access to them for however large number of users, changing access permissions.",
+      "$$about$$_3": "GeoMixer also includes API component, which enables integrating the created projects into other web sites and applications and carry out program control over interactive map functional.",
+      " - Общее описание": " – General manual",
+      " - Руководство разработчика": " – Developer’s gudie",
+      "Получить API-ключ": "Get API-key",
+      "Введите API-ключ": "Enter API-key",
+      "$$serviceHelp$$_1": "Allows to upload small shp/tab/kml file on the fly in the form of user objects. After uploading user can edit geometry of objects and download objects in the same format kit.",
+      "$$serviceHelp$$_2": "Link saves current map state, and also user objects and texts.",
+      "$$serviceHelp$$_3": "Print current map fragment.",
+      "Редактировать": "Edit",
+      "Удалить объект?": "Delete object?",
+      "Удалить отмеченные объекты?": "Delete selected objects?",
+      "Длина": "Length",
+      "Площадь": "Area",
+      "Добавить подгруппу": "Create group",
+      "Введите имя группы": "New group creation",
+      "Имя группы": "Group name",
+      "Включая вложенные слои": "Including attached layers",
+      "Удаление группы [value0]": "Delete group [value0]",
+      "Сохранено": "Saved",
+      "Прозрачность выбранного слоя/группы/карты": "Transparency of the selected layer/group/map",
+      "$$updateInfo$$_1": "To display new layer it is necessary to save and reload map",
+      "Любой": "Any",
+      "Владелец": "Owner",
+      "Последнее изменение": "Last modification",
+      "Вы действительно хотите удалить этот слой?": "Do you really want to delete the selected layer?",
+      "Ошибка!": "Error!",
+      "Ошибка": "Error",
+      "Выберите колонку": "Select column",
+      "Список карт": "Maps list",
+      "Показать": "Show",
+      "загрузка...": "loading...",
+      "удаление...": "deleting...",
+      "Вы действительно хотите удалить эту карту?": " Do you really want to delete the selected map?",
+      "maplist.hint": "You can drag layers and folders from here to current map",
+      "Слоя нет в базе": "Layer is not in base",
+      "ScanEx Web Geomixer - просмотр карты": "ScanEx Web Geomixer – map view",
+      "Изменить параметры поиска": "Change search parameters",
+      "$$search$$_1": "Search vector layers and address base",
+      "$$search$$_2": "Search address base",
+      "Поиск не дал результатов": "There are no search results",
+      "Регистрация": "Registration",
+      "Восстановление пароля": "Restore password",
+      "Вход": "Login",
+      "Выход": "Logout",
+      "Логин": "User name",
+      "Пароль": "Password",
+      "пароль": "password",
+      "Псевдоним": "Nickname",
+      "Полное имя": "Full name",
+      "Пожалуйста, авторизуйтесь": "Please, authorize",
+      "адрес электронной почты": "enter your e-mail",
+      "Ошибка сервера": "Server error",
+      "Папка": "Folder",
+      " и ": " and ",
+      "Название": "Title",
+      "Рейтинг": "Rating",
+      "Автор": "Author",
+      "Тематика": "Theme",
+      "Развлекательная": "Fun",
+      "Спортивная": "Sport",
+      "Историческая": "History",
+      "Экологическая": "Ecology",
+      "Любая": "All",
+      "Создать новую тему": "Create topic",
+      "Начало периода": "Since",
+      "Окончание периода": "Till",
+      "Накладываемые тайлы": "Ground tiles",
+      "Отображать с зума": "Show with zoom",
+      "По": "to",
+      "Фильтр": "Filter",
+      "Подпись": "Label",
+      "Балун": "Balloon",
+      "По умолчанию": "Default",
+      "Показывать при клике": "Show on click",
+      "Показывать при наведении": "Show on mouse over",
+      "Символика": "Shown style",
+      "Библиотека стилей": "Style library",
+      "Настройка стилей": "Style settings",
+      "скопировать": "copy style",
+      "применить везде": "apply to all",
+      "Применить": "Apply",
+      "Кластеризация": "Clustering",
+      "Минимальный": "Mininmal",
+      "Максимальный": "Maximal",
+      "Мин. зум": "Min. zoom",
+      "Макс. зум": "Max. zoom",
+      "Пешеходная": "Footpath",
+      "Велосипедная": "Bicycle",
+      "Автомобильная": "Automobile",
+      "Места": "Places",
+      "Маршрут": "Route",
+      "Редактировать экскурсию": "Edit excursion",
+      "Добавьте маршрут": "Add route",
+      "Выберете темы на пути следования": "Choose places throughout the journey",
+      "$$phrase$$_11": "Add route by clicking \"Line\" tool on toolbar",
+      "$$phrase$$_12": "There are no corresponding objects on the map",
+      "Выбор маршрута": "Routes choice",
+      "Выбор мест": "Places choice",
+      "$$phrase$$_13": "You haven't places om map. You can add place in View-Forum tab",
+      "Обсуждения": "Forum",
+      "Экскурсии": "Excursions",
+      "$$phrase$$_14": "Unable to delete default map",
+      "$$phrase$$_15": "Unable to delete current map",
+      "Назад": "Back",
+      "Вперед": "Forward",
+      "$$phrase$$_16": "There is no album with given image ID",
+      "Редактировать альбом": "Edit album",
+      "Оценить": "Vote",
+      "Поставьте маркер": "Add marker",
+      "на карту и переместите его в нужное место.": "to map and move it to choosen place.",
+      "Недостаточно прав для совершения операции": "Insufficient rights to perform operation",
+      "Новая папка": "New folder",
+      "Выбрать": "Choose",
+      "Добавить": "Add",
+      "$$serviceHelp$$_4": "Embedding the map: the user can embed a map window into their site by copying and pasting an HTML snippet. An API key for the site's domain is required.",
+      "Масштаб": "Scale",
+      "Угол поворота": "Angle",
+      "Диаграммы": "Charts",
+      "График по времени": "Time chart",
+      "Круговая": "Pie chart",
+      "Маска атрибутов": "Attributes mask",
+      "Закладки": "Bookmarks",
+      "Добавить закладку": "Add bookmark",
+      "Имя закладки": "Bookmark name",
+      "Дерево": "Tree view",
+      "Поиск слоев": "Layers search",
+      "Пример выражения": "[Field1]\n[Field2]\nsimple text",
+      "Шкала прозрачности": "Transparency bar",
+      "Цвет заливки": "Fill color",
+      "Цвет обводки": "Outline color",
+      "Цвет шрифта": "Font color",
+      "Легенда": "Legend",
+      "Событие загрузки карты": "Событие загрузки карты",
+      "Мин": "Min",
+      "Макс": "Max",
+      "График": "График",
+      "Гистограмма": "Гистограмма",
+      "Столбчатая": "Столбчатая",
+      "Временная": "Временная",
+      "Копировать стиль": "Copy style",
+      "Применить стиль": "Apply style",
+      "Не выбран стиль": "There is no copied style",
+      "Невозможно применить стиль к другому типу геометрии": "Can't apply style to different geometry type",
+      "Общие": "Common",
+      "Доступ": "Policy",
+      "Окно карты": "View",
+      "Загрузка": "Onload",
+      "Копирайт": "Copyright",
+      "Инструменты": "Tools",
+      "Загрузить KML": "Load KML",
+      "URL файла": "File URL",
+      "Поиск": "Search",
+      "Подложки": "Base Layers",
+      "Доступные подложки": "Available base layers",
+      "Подложки карты": "Base layers on map",
+      "Выберите слои для поиска по атрибутам": "Select layers for attributes search",
+      "Включить синхронизацию слоев": "Enable sync layers",
+      "Выключить синхронизацию слоев": "Disable sync layers",
+      "Редактирование прав доступа карты [value0]": "Map [value0] access editor",
+      "Редактирование прав доступа слоя [value0]": "Layer [value0] access editor",
+      "Редактирование прав доступа слоев карты [value0]": "Map [value0] layers access editor",
+      "Состав группы [value0]": "Users of group [value0]",
+      "Роль": "Role",
+      "Добавить пользователя": "Add user",
+      "Права доступа": "Access permissions",
+      "Права доступа к слоям": "Layers access permissions",
+      "Пользователи без прав доступа:": "Users wihout access:",
+      "Пользователи с правами доступа:": "Users with access:",
+      "Выберите нового владельца": "Select new owner",
+      "Сменить владельца": "Change owner",
+      "Объекты RuMap": "RuMap objects",
+      "Объекты пользователей": "User objects",
+      "Контакты": "Contacts",
+      "Фотографии": "Photo",
+      "Момент съемки": "Image date",
+      "Видео": "Video",
+      "Сообщения": "Messages",
+      "Ссылка на место": "Ссылка на место",
+      "Ссылка на экскурсию": "Ссылка на экскурсию",
+      "Ссылка на событие": "Ссылка на событие",
+      "Создать новое событие": "Создать новое событие",
+      "События": "События",
+      "Календарь": "Календарь",
+      "Новости": "Новости",
+      "Мероприятия": "Мероприятия",
+      "Отмена": "Отмена",
+      "Пропустить": "Skip",
+      "Время": "Время",
+      "Альбом OpenPhotoVR": "Фотоальбом",
+      "Встраиваемый код": "Embed video",
+      "Объекты экологического риска": "Объекты экологического риска",
+      "Санкционированные свалки": "Санкционированные свалки",
+      "Несанкционированные свалки": "Несанкционированные свалки",
+      "Полигоны отходов": "Полигоны отходов",
+      "Предприятия переработки отходов": "Предприятия переработки отходов",
+      "Факельные установки, ТЭЦ, трубы": "Факельные установки, ТЭЦ, трубы",
+      "Закрытые свалки": "Закрытые свалки",
+      "Пункты приема отходов": "Пункты приема отходов",
+      "Оползни": "Оползни",
+      "Карстовые явления": "Карстовые явления",
+      "Суффозионные явления": "Суффозионные явления",
+      "Государство и общество": "Государство и общество",
+      "Радио": "Радио",
+      "Правительственные учреждения": "Правительственные учреждения",
+      "Оптики": "Оптики",
+      "Охранные агенства": "Охранные агенства",
+      "Травмпункты": "Травмпункты",
+      "Таможня": "Таможня",
+      "Ветеринарные клиники": "Ветеринарные клиники",
+      "ЗАГС": "ЗАГС",
+      "Больницы": "Больницы",
+      "Аптеки": "Аптеки",
+      "Поликлиники": "Поликлиники",
+      "Колледжи": "Колледжи",
+      "Университеты": "Университеты",
+      "ОВИР": "ОВИР",
+      "Посольства": "Посольства",
+      "Почтовые отделения": "Почтовые отделения",
+      "Суды": "Суды",
+      "Банки": "Банки",
+      "Родильные дома": "Родильные дома",
+      "Дома престарелых": "Дома престарелых",
+      "Детские сады": "Детские сады",
+      "Школы": "Школы",
+      "Инспекции": "Инспекции",
+      "Адвокаты": "Адвокаты",
+      "МЧС": "МЧС",
+      "Муниципальные учреждения": "Муниципальные учреждения",
+      "Администрация": "Администрация",
+      "Культура и отдых": "Культура и отдых",
+      "Боулинг": "Боулинг",
+      "Аквапарки": "Аквапарки",
+      "Парки развлечений": "Парки развлечений",
+      "Библиотеки": "Библиотеки",
+      "Памятники": "Памятники",
+      "Лагери отдыха": "Лагери отдыха",
+      "Кинотеатры": "Кинотеатры",
+      "Цирки": "Цирки",
+      "Галереи": "Галереи",
+      "Отели": "Отели",
+      "Мотели": "Мотели",
+      "Музеи": "Музеи",
+      "Концертные залы": "Концертные залы",
+      "Ночные клубы": "Ночные клубы",
+      "Театры": "Театры",
+      "Санатории": "Санатории",
+      "Зоопарки": "Зоопарки",
+      "Общественное питание": "Общественное питание",
+      "Кафе": "Кафе",
+      "Фастфуды": "Фастфуды",
+      "Рестораны": "Рестораны",
+      "Кафе-мороженое": "Кафе-мороженое",
+      "Столовые": "Столовые",
+      "Природные достопримечательности": "Природные достопримечательности",
+      "Ботанический сад": "Ботанические сады",
+      "Пещеры": "Пещеры",
+      "Водопады": "Водопады",
+      "Парки": "Парки",
+      "Источники": "Источники",
+      "Заповедники": "Заповедники",
+      "Прочие архитектурные и природные достопримечательности": "Архитектурные достопримечательности",
+      "Религия": "Религия",
+      "Культовые сооружения": "Культовые сооружения",
+      "Мечети": "Мечети",
+      "Монастыри": "Монастыри",
+      "Церкви других христианских конфессий": "Церкви других христианских конфессий",
+      "Православные церкви": "Православные церкви",
+      "Синагоги": "Синагоги",
+      "Спорт": "Спорт",
+      "Стадионы": "Стадионы",
+      "Теннисные корты": "Теннисные корты",
+      "Катки": "Катки",
+      "Ипподромы": "Ипподромы",
+      "Фитнес": "Фитнес",
+      "Бассейны": "Бассейны",
+      "Прокат спортинвентаря": "Прокат спортинвентаря",
+      "Торговля и услуги": "Торговля и услуги",
+      "Солярии": "Солярии",
+      "Интернет-кафе": "Интернет-кафе",
+      "Рынки": "Рынки",
+      "Стоматологические клиники": "Стоматологические клиники",
+      "Магазины одежды": "Магазины одежды",
+      "Парикмахерские": "Парикмахерские",
+      "Бани": "Бани",
+      "Магазины обуви": "Магазины обуви",
+      "Магазины": "Магазины",
+      "Ателье": "Ателье",
+      "Такси": "Такси",
+      "Туризм": "Туризм",
+      "Транспорт и услуги": "Транспорт и услуги",
+      "Аэропорты": "Аэропорты",
+      "Автосервисы": "Автосервисы",
+      "Автовокзалы": "Автовокзалы",
+      "ДПС": "ДПС",
+      "ГИБДД": "ГИБДД",
+      "Шиномонтаж": "Шиномонтаж",
+      "Парковки бесплатные": "Парковки бесплатные",
+      "Парковки платные": "Парковки платные",
+      "АЗС": "АЗС",
+      "Автомойки": "Автомойки",
+      "Экстренные службы": "Экстренные службы",
+      "Пожарные/спасатели": "Пожарные/спасатели",
+      "Милиция": "Милиция",
+      "Скорая помощь": "Скорая помощь",
+      "Другие темы": "Другие темы",
+      "Разное": "Разное",
+      "Изменение пароля": "Password change",
+      "Новый пароль": "New password",
+      "Старый пароль": "Old password",
+      "Подтвердите пароль": "Confirm password",
+      "Контур": "Border",
+      "$$phrase$$_17": "Add border by clicking \"Polygon\" tool on toolbar",
+      "Выбор контура": "Border select",
+      "Таблица атрибутов слоя [value0]": "[value0] attributes table",
+      "Показать параметры поиска": "Show search params",
+      "Скрыть параметры поиска": "Hide search params",
+      "Скрыть": "Hide",
+      "Искать внутри полигона": "Search inside polygon",
+      "Искать по пересечению с объектом": "Search by geometry",
+      "SQL-условие WHERE": "WHERE SQL expression",
+      "Показывать колонки": "Show columns",
+      "Скрыть колонки": "Hide columns",
+      "Найти": "Search",
+      "Нет полей": "Empty fields",
+      "Нет данных": "Empty data",
+      "Таблица атрибутов": "Attributes table",
+      "Разрешить поиск": "Allow search",
+      "Произвольный": "Any",
+      "День": "Day",
+      "Неделя": "Week",
+      "Месяц": "Month",
+      "Год": "Year",
+      "Ежегодно": "Every year",
+      "Облачность": "Clouds",
+      "Период": "Period",
+      "Спутниковые покрытия": "Satellite cover",
+      "Редактировать объект слоя [value0]": "Edit layer [value0] object",
+      "Создать объект слоя [value0]": "Add layer [value0] object",
+      "Геометрия": "Geometry",
+      "Найти объекты": "Find objects",
+      "Добавить объекты": "Add objects",
+      "Обновить объекты": "Update objects",
+      "Копировать объекты": "Copy objects",
+      "Объекты скопированы": "Objects are copied",
+      "Объекты добавлены": "Объекты добавлены",
+      "Вставить объекты": "Paste objects",
+      "Вставить объекты не удалось": "Paste objects failed",
+      "Выберите правым кликом слой в левой панели и нажмите \"Вставить объекты\"": "Right-click on layer name and select \"Paste objects\"",
+      "Изменить колонки": "Update columns",
+      "Обновить колонку": "Update column",
+      "Очистить поиск": "Clean search",
+      "Скачать shp": "Download shp",
+      "Скачать gpx": "Download gpx",
+      "Скачать csv": "Download csv",
+      "Скачать geojson": "Download geojson",
+      "Рассчитать площадь": "Total square",
+      "Создать столбец": "Create column",
+      "Мультислой": "Multilayer",
+      "В дереве слоев остались несохраненные изменения!": "There are unsaved changes on layers tree!",
+      "файл версии отсутствует": "version file doesn't exists",
+      "оверлеи отсутствуют": "no overlays present",
+      "Хост": "Host",
+      "Дополнительные карты": "Additional maps",
+      "Добавить карту": "Add map",
+      "Добавить в таймлайн": "Add to timeLine",
+      "Удалить из таймлайна": "Remove from timeline",
+      "Невозможно загрузить карту [value0] с домена [value1]": "Unable to load map [value0] from domain [value1]",
+      "Показывать": "Show",
+      "Принудительно обновить тайлы": "Forced retiling",
+      "Обводка": "Outline",
+      "Карта имеет более новую версию. Сохранить?": "The map has a newer version. Save anyway?",
+      "Кодировка": "Encoding",
+      "helpPostfix": "_eng.html",
+      "Показывать чекбокс видимости": "Visibility checkbox",
+      "Разворачивать автоматически": "Expand automatically",
+      "Другая": "Another",
+      "Временнóй слой": "Multitemporal layer",
+      "Колонка даты": "Date column",
+      "Минимальный период": "Min. period (days)",
+      "Максимальный период": "Max. period (days)",
+      "Отсутствует временной атрибут": "Missing attribute with type 'Date'",
+      "Период 1 день": "Period 1 day",
+      "Показывать на карте данные за": "Show data on map within",
+      "1 день": "single day",
+      "произвольный период": "arbitrary period",
+      "По границе экрана": "Screen border",
+      "По центру экрана": "Screen center",
+      "Пересечение": "Intersection",
+      "Пролистывать слои": "Scroll layers",
+      "Следующий слой": "Next layer",
+      "Предыдущий слой": "Previous layer",
+      "Геометрия не сохранена. Эта возможность будет реализована в будущих версиях Геомиксера.": "Geometry is not saved. This feature will be implemented in future Geomixer versions",
+      "WMS доступ": "WMS/WFS access",
+      "ссылка": "link",
+      "Слой '[value0]' уже есть в карте": "Layer '[value0]' already exists in this map",
+      "Группа '[value0]' уже есть в карте": "Group '[value0]' already exists in this map",
+      "Плагины": "Plugins",
+      "Вручную": "Manually",
+      "Добавить атрибут": "Add attribute",
+      "Проекция": "Projection",
+      "Широта/Долгота (EPSG:4326)": "Lat/Lon (EPSG:4326)",
+      "Меркатор (EPSG:3395)": "Mercator (EPSG:3395)",
+      "Из файла": "From file",
+      "Мультиполигон": "Multipolygon",
+      "Мультилиния": "Multipolyline",
+      "Мультиточка": "Multipoint",
+      "Администрирование": "Administration",
+      "Системные настройки": "System settings",
+      "Управление группами": "User group management",
+      "Управление группами пользователей": "User group management",
+      "Добавить снимки": "Add rasters",
+      "Существующие слои": "Existing layers",
+      "Слои из карты": "Layers from map",
+      "Слои из КР": "Layers from RC",
+      "Новый слой": "New layer",
+      "С экрана": "Select on map",
+      "Добавлен растр": "Raster is added",
+      "Добавлены растры": "Rasters are added",
+      "Выбранный объект не имеет растра": "Selected object has no raster",
+      "Этот растр уже был выбран": "This raster is already selected",
+      "Каталог Растров": "Raster catalog",
+      "Растр": "Raster",
+      "Добавить выбранные растры": "Add selected rasters",
+      "EditObject.menuTitle": "Add object",
+      "FileBrowser.ExceedLimitMessage": "File size exceeds 500 Mb. Use GeoMixerFileBrowser tool to upload large files.",
+      "FileBrowser.DropInfo": "Drop files here",
+      "EditObject.drawingMenuTitle": "Add object to active layer",
+      "Поставить маркер": "Add marker",
+      "Центрировать": "Set center",
+      "Пароль изменён": "Password has been changed",
+      "портретная": "portrait view",
+      "альбомная": "layout view",
+      "gmx_geometry": "gmx_geometry"
+    };
 
     /**
       @class
@@ -3402,7 +4191,7 @@
 
         var elemProperties = div.gmxProperties.content ? div.gmxProperties.content.properties : div.gmxProperties.properties,
             newName = elemProperties.title,
-            inputIndex = _input(null, [['attr', 'value', newName + ' ' + newIndex], ['dir', 'className', 'inputStyle'], ['css', 'width', '140px']]),
+            inputIndex = _input$1(null, [['attr', 'value', newName + ' ' + newIndex], ['dir', 'className', 'inputStyle'], ['css', 'width', '140px']]),
             create = makeButton(_gtxt('Создать')),
             pos = nsGmx$1.Utils.getDialogPos(div, true, 100),
             createSubGroup = function createSubGroup() {
@@ -3467,7 +4256,7 @@
         });
         create.style.marginTop = '5px';
 
-        var parentDiv = _div$1([inputIndex, _br(), create], [['css', 'textAlign', 'center']]);
+        var parentDiv = _div$1([inputIndex, _br$1(), create], [['css', 'textAlign', 'center']]);
 
         var trs = [{
           name: _gtxt("Имя группы"),
@@ -3478,9 +4267,9 @@
           leftWidth: 100
         });
 
-        var propsTable = _div$1([_table([_tbody(trsControls)], [['dir', 'className', 'propertiesTable']])]);
+        var propsTable = _div$1([_table$1([_tbody$1(trsControls)], [['dir', 'className', 'propertiesTable']])]);
 
-        _(parentDiv, [propsTable, _br(), create]);
+        _(parentDiv, [propsTable, _br$1(), create]);
 
         var dialogDiv = showDialog$1(_gtxt("Введите имя группы"), parentDiv, 270, 220, pos.left, pos.top);
       };
@@ -3490,7 +4279,7 @@
 
         var rawTree = mainLayersTree.treeModel.getRawTree();
 
-        var title = _input(null, [['attr', 'value', typeof elemProperties.title != 'undefined' ? elemProperties.title : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '206px']]);
+        var title = _input$1(null, [['attr', 'value', typeof elemProperties.title != 'undefined' ? elemProperties.title : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '206px']]);
 
         var visibilityProperties = new GroupVisibilityPropertiesModel({
           isChildRadio: elemProperties.list,
@@ -3538,7 +4327,7 @@
           var span = $(div).find(".groupLayer")[0];
           $(span).empty();
 
-          _(span, [_t(title.value)]);
+          _(span, [_t$1(title.value)]);
 
           if (isMap) {
             $('.mainmap-title').text(title.value);
@@ -3569,7 +4358,7 @@
               layerOrder = $('<select class="selectStyle">' + '<option value="Native">' + _gtxt('layerOrder.native') + '</label>' + '<option value="VectorOnTop">' + _gtxt('layerOrder.vectorOnTop') + '</label>' + '</select>')[0],
               downloadVectors = _checkbox$1(elemProperties.CanDownloadVectors, 'checkbox'),
               downloadRasters = _checkbox$1(elemProperties.CanDownloadRasters, 'checkbox'),
-              WMSLink = _a([_t(_gtxt('ссылка'))], [['attr', 'href', serverBase + 'TileService.ashx?map=' + elemProperties.name]]),
+              WMSLink = _a$1([_t$1(_gtxt('ссылка'))], [['attr', 'href', serverBase + 'TileService.ashx?map=' + elemProperties.name]]),
               WMSLinks = $(Handlebars.compile('<div>' + '<ul>' + '{{#each this.services}}' + '<li>' + '{{this.upper}}: {{this.url}}rest/ver1/service/{{this.name}}?map={{this.mapName}}{{#if this.site}}&apikey=[APIKEY_VALUE]{{/if}}' + '</li>' + '<br>' + '{{/each}}' + '</ul>' + '</div>')({
             services: [{
               site: window.mapsSite,
@@ -3586,18 +4375,18 @@
             }]
           }))[0],
               WMSAccess = _checkbox$1(elemProperties.WMSAccess, 'checkbox'),
-              defLat = _input(null, [['attr', 'placeholder', _gtxt("placeholder degrees")], ['attr', 'value', elemProperties.DefaultLat !== null ? elemProperties.DefaultLat : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '62px']]),
-              defLong = _input(null, [['attr', 'placeholder', _gtxt("placeholder degrees")], ['attr', 'value', elemProperties.DefaultLong !== null ? elemProperties.DefaultLong : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '62px']]),
-              defPermalink = _input(null, [['attr', 'value', elemProperties.ViewUrl != null ? elemProperties.ViewUrl : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '206px']]),
-              defZoom = _input(null, [['attr', 'placeholder', _gtxt("placeholder zoom")], ['attr', 'value', elemProperties.DefaultZoom != null ? elemProperties.DefaultZoom : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '60px']]),
+              defLat = _input$1(null, [['attr', 'placeholder', _gtxt("placeholder degrees")], ['attr', 'value', elemProperties.DefaultLat !== null ? elemProperties.DefaultLat : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '62px']]),
+              defLong = _input$1(null, [['attr', 'placeholder', _gtxt("placeholder degrees")], ['attr', 'value', elemProperties.DefaultLong !== null ? elemProperties.DefaultLong : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '62px']]),
+              defPermalink = _input$1(null, [['attr', 'value', elemProperties.ViewUrl != null ? elemProperties.ViewUrl : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '206px']]),
+              defZoom = _input$1(null, [['attr', 'placeholder', _gtxt("placeholder zoom")], ['attr', 'value', elemProperties.DefaultZoom != null ? elemProperties.DefaultZoom : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '60px']]),
               onLoad = _textarea(null, [['dir', 'className', 'inputStyle group-editor-onload']]),
-              copyright = _input(null, [['attr', 'value', elemProperties.Copyright != null ? elemProperties.Copyright : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '206px']]),
-              minViewX = _input(null, [['attr', 'placeholder', _gtxt("placeholder degrees")], ['attr', 'value', elemProperties.MinViewX != null && elemProperties.MinViewX != 0 ? elemProperties.MinViewX : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '62px']]),
-              minViewY = _input(null, [['attr', 'placeholder', _gtxt("placeholder degrees")], ['attr', 'value', elemProperties.MinViewY != null && elemProperties.MinViewY != 0 ? elemProperties.MinViewY : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '62px']]),
-              maxViewX = _input(null, [['attr', 'placeholder', _gtxt("placeholder degrees")], ['attr', 'value', elemProperties.MaxViewX != null && elemProperties.MaxViewX != 0 ? elemProperties.MaxViewX : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '62px']]),
-              maxViewY = _input(null, [['attr', 'placeholder', _gtxt("placeholder degrees")], ['attr', 'value', elemProperties.MaxViewY != null && elemProperties.MaxViewY != 0 ? elemProperties.MaxViewY : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '62px']]),
-              minZoom = _input(null, [['attr', 'placeholder', _gtxt("placeholder minZoom")], ['attr', 'value', elemProperties.MinZoom != null ? elemProperties.MinZoom : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '62px']]),
-              maxZoom = _input(null, [['attr', 'placeholder', _gtxt("placeholder maxZoom")], ['attr', 'value', elemProperties.MaxZoom != null ? elemProperties.MaxZoom : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '62px']]);
+              copyright = _input$1(null, [['attr', 'value', elemProperties.Copyright != null ? elemProperties.Copyright : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '206px']]),
+              minViewX = _input$1(null, [['attr', 'placeholder', _gtxt("placeholder degrees")], ['attr', 'value', elemProperties.MinViewX != null && elemProperties.MinViewX != 0 ? elemProperties.MinViewX : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '62px']]),
+              minViewY = _input$1(null, [['attr', 'placeholder', _gtxt("placeholder degrees")], ['attr', 'value', elemProperties.MinViewY != null && elemProperties.MinViewY != 0 ? elemProperties.MinViewY : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '62px']]),
+              maxViewX = _input$1(null, [['attr', 'placeholder', _gtxt("placeholder degrees")], ['attr', 'value', elemProperties.MaxViewX != null && elemProperties.MaxViewX != 0 ? elemProperties.MaxViewX : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '62px']]),
+              maxViewY = _input$1(null, [['attr', 'placeholder', _gtxt("placeholder degrees")], ['attr', 'value', elemProperties.MaxViewY != null && elemProperties.MaxViewY != 0 ? elemProperties.MaxViewY : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '62px']]),
+              minZoom = _input$1(null, [['attr', 'placeholder', _gtxt("placeholder minZoom")], ['attr', 'value', elemProperties.MinZoom != null ? elemProperties.MinZoom : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '62px']]),
+              maxZoom = _input$1(null, [['attr', 'placeholder', _gtxt("placeholder maxZoom")], ['attr', 'value', elemProperties.MaxZoom != null ? elemProperties.MaxZoom : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '62px']]);
 
           onLoad.value = nsGmx$1.mappletLoader.get();
 
@@ -3800,7 +4589,7 @@
           }]),
               shownPolicyProperties = [{
             name: _gtxt("Разрешить скачивание"),
-            elem: _table([_tbody([_tr([_td([_t(_gtxt('Векторных слоев'))], [['css', 'width', '100px'], ['css', 'height', '20px'], ['css', 'paddingLeft', '3px']]), _td([downloadVectors])]), _tr([_td([_t(_gtxt('Растровых слоев'))], [['css', 'width', '100px'], ['css', 'height', '20px'], ['css', 'paddingLeft', '3px']]), _td([downloadRasters])])])])
+            elem: _table$1([_tbody$1([_tr$1([_td$1([_t$1(_gtxt('Векторных слоев'))], [['css', 'width', '100px'], ['css', 'height', '20px'], ['css', 'paddingLeft', '3px']]), _td$1([downloadVectors])]), _tr$1([_td$1([_t$1(_gtxt('Растровых слоев'))], [['css', 'width', '100px'], ['css', 'height', '20px'], ['css', 'paddingLeft', '3px']]), _td$1([downloadRasters])])])])
           }, {
             name: _gtxt("WMS доступ"),
             elem: _div$1([WMSAccess
@@ -3809,17 +4598,17 @@
           }],
               shownViewProperties = [{
             name: _gtxt("Начальная позиция"),
-            elem: _table([_tbody([_tr([_td([_span([_t(_gtxt('Широта'))], [['css', 'marginLeft', '3px']]), _br(), defLat], [['css', 'width', '70px']]), _td([_span([_t(_gtxt('Долгота'))], [['css', 'marginLeft', '3px']]), _br(), defLong], [['css', 'width', '70px']]), _td([_span([_t(_gtxt('Зум'))], [['css', 'marginLeft', '3px']]), _br(), defZoom], [['css', 'width', '68px']])])])], [['css', 'borderCollapse', 'collapse']])
+            elem: _table$1([_tbody$1([_tr$1([_td$1([_span$1([_t$1(_gtxt('Широта'))], [['css', 'marginLeft', '3px']]), _br$1(), defLat], [['css', 'width', '70px']]), _td$1([_span$1([_t$1(_gtxt('Долгота'))], [['css', 'marginLeft', '3px']]), _br$1(), defLong], [['css', 'width', '70px']]), _td$1([_span$1([_t$1(_gtxt('Зум'))], [['css', 'marginLeft', '3px']]), _br$1(), defZoom], [['css', 'width', '68px']])])])], [['css', 'borderCollapse', 'collapse']])
           }, {
             name: _gtxt("Зум"),
-            elem: _table([_tbody([_tr([_td([_span([_t(_gtxt('Мин'))], [['css', 'marginLeft', '3px']]), _br(), minZoom], [['css', 'width', '70px']]), _td([_span([_t(_gtxt('Макс'))], [['css', 'marginLeft', '3px']]), _br(), maxZoom], [['css', 'width', '70px'], ['css', 'rowspan', '2']])])])], [['css', 'borderCollapse', 'collapse']])
+            elem: _table$1([_tbody$1([_tr$1([_td$1([_span$1([_t$1(_gtxt('Мин'))], [['css', 'marginLeft', '3px']]), _br$1(), minZoom], [['css', 'width', '70px']]), _td$1([_span$1([_t$1(_gtxt('Макс'))], [['css', 'marginLeft', '3px']]), _br$1(), maxZoom], [['css', 'width', '70px'], ['css', 'rowspan', '2']])])])], [['css', 'borderCollapse', 'collapse']])
           }, {
             name: _gtxt("Граница обрезки"),
-            elem: _table([_tbody([_tr([_td([_span(null, [['css', 'marginLeft', '3px']]), _br()], [['css', 'width', '73px']]), _td([_span([_t(_gtxt('Широта'))], [['css', 'marginLeft', '3px']])], [['css', 'width', '70px']]), _td([_span([_t(_gtxt('Долгота'))], [['css', 'marginLeft', '3px']])], [['css', 'width', '68px']])]), _tr([_td([_span([_t(_gtxt('Мин'))], [['css', 'marginLeft', '3px']])]), _td([minViewY]), _td([minViewX])]), _tr([_td([_span([_t(_gtxt('Макс'))], [['css', 'marginLeft', '3px']])]), _td([maxViewY]), _td([maxViewX])])])], [['css', 'borderCollapse', 'collapse']])
+            elem: _table$1([_tbody$1([_tr$1([_td$1([_span$1(null, [['css', 'marginLeft', '3px']]), _br$1()], [['css', 'width', '73px']]), _td$1([_span$1([_t$1(_gtxt('Широта'))], [['css', 'marginLeft', '3px']])], [['css', 'width', '70px']]), _td$1([_span$1([_t$1(_gtxt('Долгота'))], [['css', 'marginLeft', '3px']])], [['css', 'width', '68px']])]), _tr$1([_td$1([_span$1([_t$1(_gtxt('Мин'))], [['css', 'marginLeft', '3px']])]), _td$1([minViewY]), _td$1([minViewX])]), _tr$1([_td$1([_span$1([_t$1(_gtxt('Макс'))], [['css', 'marginLeft', '3px']])]), _td$1([maxViewY]), _td$1([maxViewX])])])], [['css', 'borderCollapse', 'collapse']])
           }];
 
           var id = 'mapProperties' + String(Math.random()).substring(2, 12),
-              tabMenu = _div$1([_ul([_li([_a([_t(_gtxt("Общие"))], [['attr', 'href', '#common' + id]])]), _li([_a([_t(_gtxt("Подложки"))], [['attr', 'href', '#baselayers' + id]])]), _li([_a([_t(_gtxt("Доступ"))], [['attr', 'href', '#policy' + id]])]), _li([_a([_t(_gtxt("Поиск"))], [['attr', 'href', '#search' + id]])]), _li([_a([_t(_gtxt("Окно карты"))], [['attr', 'href', '#view' + id]])]), _li([_a([_t(_gtxt("Загрузка"))], [['attr', 'href', '#onload' + id]])]), _li([_a([_t(_gtxt("Плагины"))], [['attr', 'href', '#plugins' + id]])])])]),
+              tabMenu = _div$1([_ul$1([_li$1([_a$1([_t$1(_gtxt("Общие"))], [['attr', 'href', '#common' + id]])]), _li$1([_a$1([_t$1(_gtxt("Подложки"))], [['attr', 'href', '#baselayers' + id]])]), _li$1([_a$1([_t$1(_gtxt("Доступ"))], [['attr', 'href', '#policy' + id]])]), _li$1([_a$1([_t$1(_gtxt("Поиск"))], [['attr', 'href', '#search' + id]])]), _li$1([_a$1([_t$1(_gtxt("Окно карты"))], [['attr', 'href', '#view' + id]])]), _li$1([_a$1([_t$1(_gtxt("Загрузка"))], [['attr', 'href', '#onload' + id]])]), _li$1([_a$1([_t$1(_gtxt("Плагины"))], [['attr', 'href', '#plugins' + id]])])])]),
               divCommon = _div$1(null, [['attr', 'id', 'common' + id], ['css', 'width', '320px']]),
               divBaseLayers = _div$1(null, [['attr', 'id', 'baselayers' + id], ['dir', 'className', 'group-editor-tab-container'], ['css', 'overflowY', 'auto']]),
               divPolicy = _div$1(null, [['attr', 'id', 'policy' + id], ['css', 'width', '320px']]),
@@ -3832,11 +4621,11 @@
 
           var baseLayersControl = new BaseLayersControl(divBaseLayers, nsGmx$1.leafletMap.gmxBaseLayersManager);
 
-          _(divCommon, [_table([_tbody(addProperties(shownCommonProperties))], [['css', 'width', '100%'], ['dir', 'className', 'propertiesTable']])]);
+          _(divCommon, [_table$1([_tbody$1(addProperties(shownCommonProperties))], [['css', 'width', '100%'], ['dir', 'className', 'propertiesTable']])]);
 
-          _(divPolicy, [_table([_tbody(addProperties(shownPolicyProperties))], [['css', 'width', '100%'], ['dir', 'className', 'propertiesTable']]), WMSLinks]);
+          _(divPolicy, [_table$1([_tbody$1(addProperties(shownPolicyProperties))], [['css', 'width', '100%'], ['dir', 'className', 'propertiesTable']]), WMSLinks]);
 
-          _(divView, [_table([_tbody(addProperties(shownViewProperties))], [['css', 'width', '100%'], ['dir', 'className', 'propertiesTable']])]);
+          _(divView, [_table$1([_tbody$1(addProperties(shownViewProperties))], [['css', 'width', '100%'], ['dir', 'className', 'propertiesTable']])]);
 
           _(divOnload, [onLoad]);
 
@@ -3923,7 +4712,7 @@
             name: _gtxt("ID"),
             field: 'GroupID'
           }].concat(visibilityPropertiesView);
-          return _div$1([_table([_tbody(addProperties(shownProperties))], [['css', 'width', '100%']])], [['css', 'width', '320px'], ['dir', 'className', 'propertiesTable']]);
+          return _div$1([_table$1([_tbody$1(addProperties(shownProperties))], [['css', 'width', '100%']])], [['css', 'width', '320px'], ['dir', 'className', 'propertiesTable']]);
         }
       };
 
@@ -12169,7 +12958,7 @@
             this._state = false;
           }
         };
-        this.limitSel = nsGmx$1.Utils._select([_option$1([_t("10")], [['attr', 'value', 10]]), _option$1([_t("20")], [['attr', 'value', 20]]), _option$1([_t("50")], [['attr', 'value', 50]]), _option$1([_t("100")], [['attr', 'value', 100]]), _option$1([_t("200")], [['attr', 'value', 200]]), _option$1([_t("500")], [['attr', 'value', 500]])], [['dir', 'className', 'selectStyle floatRight'], ['css', 'width', '60px']]);
+        this.limitSel = nsGmx$1.Utils._select([_option$1([_t$1("10")], [['attr', 'value', 10]]), _option$1([_t$1("20")], [['attr', 'value', 20]]), _option$1([_t$1("50")], [['attr', 'value', 50]]), _option$1([_t$1("100")], [['attr', 'value', 100]]), _option$1([_t$1("200")], [['attr', 'value', 200]]), _option$1([_t$1("500")], [['attr', 'value', 500]])], [['dir', 'className', 'selectStyle floatRight'], ['css', 'width', '60px']]);
       };
       /** Установка провайдера данных
        @param {nsGmx.ScrollTable.IDataProvider} dataProvider Провайдер данных
@@ -12235,14 +13024,14 @@
 
         if (this._pageVals.length == 0) _(this.tableBody, [_tr$1(null, [['css', 'height', '1px'], ['attr', 'empty', true]])]);
         $(this.tableCount).empty();
-        this.statusContainer = _div(null, [['dir', 'className', 'fileBrowser-progress'], ['css', 'display', 'none']]);
+        this.statusContainer = _div$1(null, [['dir', 'className', 'fileBrowser-progress'], ['css', 'display', 'none']]);
 
         if (this._currValsCount) {
           var cntStr = this._currValsCount === 100001 ? 'более 100000' : this._currValsCount;
 
-          _(this.tableCount, [_span([_t(this.reportStart + 1 + '-' + Math.min(this.reportStart + this.limit, this._currValsCount)), _span([_t(' ')], [['css', 'margin', '0px 3px']]), _t("(" + cntStr + ")")]), this.statusContainer]);
+          _(this.tableCount, [_span$1([_t$1(this.reportStart + 1 + '-' + Math.min(this.reportStart + this.limit, this._currValsCount)), _span$1([_t$1(' ')], [['css', 'margin', '0px 3px']]), _t$1("(" + cntStr + ")")]), this.statusContainer]);
         } else {
-          _(this.tableCount, [_span([_t("0-0"), _span([_t(' ')], [['css', 'margin', '0px 3px']]), _t("(0)")]), this.statusContainer]);
+          _(this.tableCount, [_span$1([_t$1("0-0"), _span$1([_t$1(' ')], [['css', 'margin', '0px 3px']]), _t$1("(0)")]), this.statusContainer]);
         }
 
         $(this).triggerHandler('redraw');
@@ -12254,7 +13043,7 @@
         for (var i = this.start + 1; i <= end; i++) {
           // текущий элемент
           if (i - 1 == this.reportStart / this.limit) {
-            var el = _span([_t(i.toString())]);
+            var el = _span$1([_t$1(i.toString())]);
 
             _(_this.tablePages, [el]);
 
@@ -12362,7 +13151,7 @@
         var tds = [],
             _this = this;
 
-        var headerElemFactory = this._isWidthScroll ? _th : _td;
+        var headerElemFactory = this._isWidthScroll ? _th : _td$1;
 
         this._fields.forEach(function (field) {
           if (!field.isActive) return;
@@ -12372,7 +13161,7 @@
           if (title != '' && field.isSortable) {
             button = makeLinkButton$1(title);
             button.sortType = title;
-          } else button = _t(title);
+          } else button = _t$1(title);
 
           var td = headerElemFactory([button], [['css', 'width', field.width]]);
 
@@ -12449,10 +13238,10 @@
           _this._drawTable();
         };
 
-        this.tableCount = _div();
-        this.tableLimit = _div([this.limitSel]);
-        this.tablePages = _div(null, [['dir', 'className', 'tablePages']]);
-        this.tableBody = _tbody(null, [['attr', 'id', name + 'TableBody']]);
+        this.tableCount = _div$1();
+        this.tableLimit = _div$1([this.limitSel]);
+        this.tablePages = _div$1(null, [['dir', 'className', 'tablePages']]);
+        this.tableBody = _tbody$1(null, [['attr', 'id', name + 'TableBody']]);
         this._tableHeaderRow = _tr$1();
 
         if (this._isWidthScroll) {
@@ -12460,20 +13249,20 @@
         } else {
           //как формировать фиксированный заголовок таблицы, зависит от того, будет ли у таблицы фиксированный размер или нет
           //TODO: убрать возможность задавать фиксированный размер
-          if (params.baseWidth) this.tableHeader = _tbody([this._tableHeaderRow], [['attr', 'id', name + 'TableHeader']]);else this.tableHeader = _tbody([_tr$1([_td([_table([_tbody([this._tableHeaderRow])])]), _td(null, [['css', 'width', '20px']])])], [['attr', 'id', name + 'TableHeader']]);
+          if (params.baseWidth) this.tableHeader = _tbody$1([this._tableHeaderRow], [['attr', 'id', name + 'TableHeader']]);else this.tableHeader = _tbody$1([_tr$1([_td$1([_table$1([_tbody$1([this._tableHeaderRow])])]), _td$1(null, [['css', 'width', '20px']])])], [['attr', 'id', name + 'TableHeader']]);
         }
 
         this._drawHeader();
 
         if (this._isWidthScroll) {
-          this.tableParent = _div([_table([this.tableHeader, this.tableBody], [['css', 'width', '100%']])], [['attr', 'id', name + 'TableParent'], ['dir', 'className', 'scrollTable'], ['css', 'width', baseWidth ? baseWidth + 'px' : "100%"], ['css', 'height', this._params.height], ['css', 'overflow', 'auto']]);
+          this.tableParent = _div$1([_table$1([this.tableHeader, this.tableBody], [['css', 'width', '100%']])], [['attr', 'id', name + 'TableParent'], ['dir', 'className', 'scrollTable'], ['css', 'width', baseWidth ? baseWidth + 'px' : "100%"], ['css', 'height', this._params.height], ['css', 'overflow', 'auto']]);
         } else {
-          this.tableParent = _div([_div([_table([this.tableHeader])], [['dir', 'className', 'tableHeader']]), _div([_table([this.tableBody])], [['dir', 'className', 'tableBody'], ['css', 'height', this._params.height ? this._params.height - 20 + 'px' : ''], ['css', 'width', params.baseWidth ? params.baseWidth + 20 + 'px' : "100%"]])], [['attr', 'id', name + 'TableParent'], ['dir', 'className', 'scrollTable'], ['css', 'height', this._params.height ? this._params.height + 'px' : ''], ['css', 'width', params.baseWidth ? params.baseWidth + 'px' : "100%"]]);
+          this.tableParent = _div$1([_div$1([_table$1([this.tableHeader])], [['dir', 'className', 'tableHeader']]), _div$1([_table$1([this.tableBody])], [['dir', 'className', 'tableBody'], ['css', 'height', this._params.height ? this._params.height - 20 + 'px' : ''], ['css', 'width', params.baseWidth ? params.baseWidth + 20 + 'px' : "100%"]])], [['attr', 'id', name + 'TableParent'], ['dir', 'className', 'scrollTable'], ['css', 'height', this._params.height ? this._params.height + 'px' : ''], ['css', 'width', params.baseWidth ? params.baseWidth + 'px' : "100%"]]);
         }
 
         _(params.parent, [this.tableParent]);
 
-        if (this._params.showFooter) _(params.parent, [_table([_tbody([_tr$1([_td([this.tableCount], [['css', 'width', '20%']]), _td([this.tablePages]), _td([this.tableLimit], [['css', 'width', '20%']])])])], [['css', 'width', '100%']])]);
+        if (this._params.showFooter) _(params.parent, [_table$1([_tbody$1([_tr$1([_td$1([this.tableCount], [['css', 'width', '20%']]), _td$1([this.tablePages]), _td$1([this.tableLimit], [['css', 'width', '20%']])])])], [['css', 'width', '100%']])]);
         this.drawFunc = params.drawFunc;
         this.start = 0; //Первый номер страницы, показываемый на экране (это не текущая страница!)
 
@@ -12985,7 +13774,7 @@
         load.onclick = function () {
           $(mapsManager._mapPreview).empty();
 
-          var loading = _div$1([_img(null, [['attr', 'src', 'img/progress.gif'], ['css', 'marginRight', '10px']]), _t(_gtxt('загрузка...'))], [['css', 'margin', '3px 0px 3px 20px']]);
+          var loading = _div$1([_img$1(null, [['attr', 'src', 'img/progress.gif'], ['css', 'marginRight', '10px']]), _t$1(_gtxt('загрузка...'))], [['css', 'margin', '3px 0px 3px 20px']]);
 
           if (!mapsManager._mapPreview) {
             mapsManager._mapPreview = _div$1(null, [['css', 'marginTop', '5px'], ['css', 'borderTop', '1px solid #216B9C'], ['css', 'overflowY', 'auto']]);
@@ -13016,9 +13805,9 @@
           }
 
           if (confirm(_gtxt("Вы действительно хотите удалить эту карту?"))) {
-            var loading = loading = _div$1([_img(null, [['attr', 'src', 'img/progress.gif']]), _t(_gtxt('удаление...'))], [['css', 'marginLeft', '5px']]);
+            var loading = loading = _div$1([_img$1(null, [['attr', 'src', 'img/progress.gif']]), _t$1(_gtxt('удаление...'))], [['css', 'marginLeft', '5px']]);
 
-            $(remove.parentNode.parentNode).replaceWith(_tr([_td([loading], [['attr', 'colSpan', 5]])]));
+            $(remove.parentNode.parentNode).replaceWith(_tr$1([_td$1([loading], [['attr', 'colSpan', 5]])]));
             sendCrossDomainJSONRequest$1(serverBase + "Map/Delete.ashx?WrapStyle=func&MapID=" + map.MapID, function (response) {
               mapsManager._deleteMapHandler(response, map.MapID);
             });
@@ -13028,7 +13817,7 @@
         var date = new Date(map.LastModificationDateTime * 1000);
         var modificationDateString = $.datepicker.formatDate('dd.mm.yy', date); // + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 
-        var tr = _tr([_td([load], [['css', 'textAlign', 'center']]), _td([name]), _td([_t(map.Owner)], [['css', 'textAlign', 'center'], ['dir', 'className', 'invisible maps-manager-owner'], ['dir', 'title', map.Owner]]), _td([_t(modificationDateString)], [['css', 'textAlign', 'center'], ['dir', 'className', 'invisible']]), _td([remove], [['css', 'textAlign', 'center']])]);
+        var tr = _tr$1([_td$1([load], [['css', 'textAlign', 'center']]), _td$1([name]), _td$1([_t$1(map.Owner)], [['css', 'textAlign', 'center'], ['dir', 'className', 'invisible maps-manager-owner'], ['dir', 'title', map.Owner]]), _td$1([_t$1(modificationDateString)], [['css', 'textAlign', 'center'], ['dir', 'className', 'invisible']]), _td$1([remove], [['css', 'textAlign', 'center']])]);
 
         for (var i = 0; i < tr.childNodes.length; i++) {
           tr.childNodes[i].style.width = this._fields[i].width;
@@ -14137,7 +14926,7 @@
             icon = res.firstChild.cloneNode(true),
             remove = makeImageButton$1("img/recycle.png", "img/recycle_a.png"),
             tr,
-            tdRemove = layer.Access == 'edit' ? _td([remove], [['css', 'textAlign', 'center']]) : _td(),
+            tdRemove = layer.Access == 'edit' ? _td$1([remove], [['css', 'textAlign', 'center']]) : _td$1(),
             removeLayerFromList = function removeLayerFromList() {
           var active = $(_queryMapLayers.buildedTree).find(".active");
           var gmxProperties = $(res).find("span[dragg]")[0].parentNode.parentNode.gmxProperties;
@@ -14152,15 +14941,15 @@
         },
             _this = this;
 
-        _title(remove, _gtxt("Удалить"));
+        _title$1(remove, _gtxt("Удалить"));
 
         res.firstChild.removeNode(true);
 
         remove.onclick = function () {
           if (confirm(_gtxt("Вы действительно хотите удалить этот слой?"))) {
-            var loading = loading = _div([_img(null, [['attr', 'src', 'img/progress.gif']]), _t('удаление...')], [['css', 'marginLeft', '5px']]);
+            var loading = loading = _div$1([_img$1(null, [['attr', 'src', 'img/progress.gif']]), _t$1('удаление...')], [['css', 'marginLeft', '5px']]);
 
-            $(remove.parentNode.parentNode).replaceWith(_tr([_td([loading], [['attr', 'colSpan', 5]])]));
+            $(remove.parentNode.parentNode).replaceWith(_tr$1([_td$1([loading], [['attr', 'colSpan', 5]])]));
 
             var deleteLayerHandler = function deleteLayerHandler(response, id, flag) {
               if (!parseResponse(response)) return;
@@ -14203,11 +14992,11 @@
           });
         }
 
-        var nameDivInternal = _div([res], [['css', 'position', 'absolute'], ['css', 'width', '100%'], ['css', 'padding', "1px 0px"], ['css', 'overflowX', 'hidden'], ['css', 'whiteSpace', 'nowrap']]);
+        var nameDivInternal = _div$1([res], [['css', 'position', 'absolute'], ['css', 'width', '100%'], ['css', 'padding', "1px 0px"], ['css', 'overflowX', 'hidden'], ['css', 'whiteSpace', 'nowrap']]);
 
-        var nameDiv = _div([nameDivInternal], [['css', 'position', 'relative'], ['css', 'height', '100%']]);
+        var nameDiv = _div$1([nameDivInternal], [['css', 'position', 'relative'], ['css', 'height', '100%']]);
 
-        tr = _tr([_td(), _td([icon], [['css', 'textAlign', 'center']]), _td([nameDiv]), _td([_t(layer.date)], [['css', 'textAlign', 'center'], ['dir', 'className', 'invisible']]), _td([_t(layer.Owner)], [['css', 'textAlign', 'center'], ['dir', 'className', 'invisible']]), tdRemove]);
+        tr = _tr$1([_td$1(), _td$1([icon], [['css', 'textAlign', 'center']]), _td$1([nameDiv]), _td$1([_t$1(layer.date)], [['css', 'textAlign', 'center'], ['dir', 'className', 'invisible']]), _td$1([_t$1(layer.Owner)], [['css', 'textAlign', 'center'], ['dir', 'className', 'invisible']]), tdRemove]);
 
         for (var i = 0; i < tr.childNodes.length; i++) {
           tr.childNodes[i].style.width = this._fields[i].width;
@@ -14236,13 +15025,13 @@
 
         if (typeof _params.fixType === 'string') _params.fixType = [_params.fixType];
 
-        var canvas = _div(null, [['attr', 'id', 'layersList']]),
-            searchCanvas = _div(null, [['dir', 'className', 'layersSearchCanvas']]);
+        var canvas = _div$1(null, [['attr', 'id', 'layersList']]),
+            searchCanvas = _div$1(null, [['dir', 'className', 'layersSearchCanvas']]);
 
-        var layerName = _input(null, [['dir', 'className', 'inputStyle'], ['css', 'width', '185px']]),
-            layerOwner = _input(null, [['dir', 'className', 'inputStyle'], ['css', 'width', '185px']]);
+        var layerName = _input$1(null, [['dir', 'className', 'inputStyle'], ['css', 'width', '185px']]),
+            layerOwner = _input$1(null, [['dir', 'className', 'inputStyle'], ['css', 'width', '185px']]);
 
-        var typeSel = nsGmx$1.Utils._select([_option([_t(_gtxt("Любой"))], [['attr', 'value', '']]), _option([_t(_gtxt("Векторный"))], [['attr', 'value', 'vector']]), _option([_t(_gtxt("Растровый"))], [['attr', 'value', 'raster']]), _option([_t(_gtxt("Мультислой"))], [['attr', 'value', 'multilayer']]), _option([_t(_gtxt("Каталог растров"))], [['attr', 'value', 'catalog']])], [['dir', 'className', 'selectStyle'], ['css', 'width', '100px']]);
+        var typeSel = nsGmx$1.Utils._select([_option$1([_t$1(_gtxt("Любой"))], [['attr', 'value', '']]), _option$1([_t$1(_gtxt("Векторный"))], [['attr', 'value', 'vector']]), _option$1([_t$1(_gtxt("Растровый"))], [['attr', 'value', 'raster']]), _option$1([_t$1(_gtxt("Мультислой"))], [['attr', 'value', 'multilayer']]), _option$1([_t$1(_gtxt("Каталог растров"))], [['attr', 'value', 'catalog']])], [['dir', 'className', 'selectStyle'], ['css', 'width', '100px']]);
 
         var calendar = new nsGmx$1.CalendarWidget({
           minimized: false,
@@ -14260,13 +15049,13 @@
 
         var _disabledLayers = {};
 
-        _(searchCanvas, [_div([_table([_tbody([_tr([_td([_span([_t(_gtxt("Название"))], [['css', 'fontSize', '12px']])]), _td([layerName])]), _tr([_td([_span([_t(_gtxt("Владелец"))], [['css', 'fontSize', '12px']])]), _td([layerOwner])]), _tr([_td([_span([_t(_gtxt("Период"))], [['css', 'fontSize', '12px']])]), _td([calendar.canvas[0]])]), _tr([_td([_span([_t(_gtxt("Тип"))], [['css', 'fontSize', '12px']])]), _td([typeSel])])])])], [['css', 'marginBottom', '10px']])]);
+        _(searchCanvas, [_div$1([_table$1([_tbody$1([_tr$1([_td$1([_span$1([_t$1(_gtxt("Название"))], [['css', 'fontSize', '12px']])]), _td$1([layerName])]), _tr$1([_td$1([_span$1([_t$1(_gtxt("Владелец"))], [['css', 'fontSize', '12px']])]), _td$1([layerOwner])]), _tr$1([_td$1([_span$1([_t$1(_gtxt("Период"))], [['css', 'fontSize', '12px']])]), _td$1([calendar.canvas[0]])]), _tr$1([_td$1([_span$1([_t$1(_gtxt("Тип"))], [['css', 'fontSize', '12px']])]), _td$1([typeSel])])])])], [['css', 'marginBottom', '10px']])]);
 
         $.each(_params.fixType, function (i, type) {
           if (type !== '') $("tr:last", searchCanvas).hide();
         });
 
-        var tableParent = _div();
+        var tableParent = _div$1();
 
         var sortColumns = {};
         sortColumns[_gtxt('Имя')] = true;
@@ -14275,9 +15064,9 @@
         // if (_params.fixType.length > 1 || _params.fixType[0] === '')
         // sortColumns[_gtxt('Тип')] = true;
 
-        var tagsParent = _div(null, [['css', 'height', '100px'], ['css', 'overflow', 'auto']]);
+        var tagsParent = _div$1(null, [['css', 'height', '100px'], ['css', 'overflow', 'auto']]);
 
-        _(canvas, [_table([_tbody([_tr([_td([searchCanvas], [['css', 'width', '50%']]), _td([tagsParent])])])], [['css', 'width', '100%']])]);
+        _(canvas, [_table$1([_tbody$1([_tr$1([_td$1([searchCanvas], [['css', 'width', '50%']]), _td$1([tagsParent])])])], [['css', 'width', '100%']])]);
 
         var LayersFilterParams = function () {
           var prevLayerName, prevLayerOwner;
@@ -16915,12 +17704,12 @@
           return;
         }
 
-        var canvas = _div(null, [['css', 'marginTop', '10px']]),
-            outlineParent = _tr(),
+        var canvas = _div$1(null, [['css', 'marginTop', '10px']]),
+            outlineParent = _tr$1(),
             outlineTitleTds = [],
             outlineTds = [];
 
-        outlineTitleTds.push(_td([_t(_gtxt('drawingObjects.edit.border'))], [['css', 'width', '70px']]));
+        outlineTitleTds.push(_td$1([_t$1(_gtxt('drawingObjects.edit.border'))], [['css', 'width', '70px']]));
         var outlineColor = nsGmx$1.Controls.createColorPicker(templateStyle.outline.color, function (colpkr) {
           $(colpkr).fadeIn(500);
           return false;
@@ -16937,7 +17726,7 @@
 
         _title$1(outlineColor, _gtxt('drawingObjects.edit.color'));
 
-        outlineTds.push(_td([outlineColor], [['css', 'width', '40px']]));
+        outlineTds.push(_td$1([outlineColor], [['css', 'width', '40px']]));
         var divSlider = nsGmx$1.Controls.createSlider(templateStyle.outline.opacity, function (event, ui) {
           templateStyle.outline.opacity = ui.value;
           setDrawingFeatureStyle(parentObject, templateStyle);
@@ -16945,7 +17734,7 @@
 
         _title$1(divSlider, _gtxt('drawingObjects.edit.transparency'));
 
-        outlineTds.push(_td([divSlider], [['css', 'width', '100px'], ['css', 'padding', '4px 5px 3px 5px']]));
+        outlineTds.push(_td$1([divSlider], [['css', 'width', '100px'], ['css', 'padding', '4px 5px 3px 5px']]));
 
         var outlineThick = nsGmx$1.Controls.createInput(templateStyle.outline && typeof templateStyle.outline.thickness != 'undefined' ? templateStyle.outline.thickness : 2, function () {
           templateStyle.outline.thickness = Number(this.value);
@@ -16963,9 +17752,9 @@
 
         _title$1(outlineThick, _gtxt('drawingObjects.edit.lineWidth'));
 
-        outlineTds.push(_td([outlineThick], [['css', 'width', '30px']]));
+        outlineTds.push(_td$1([outlineThick], [['css', 'width', '30px']]));
 
-        _(outlineParent, outlineTitleTds.concat(_td([_div([_table([_tbody([_tr(outlineTds)])])], [['attr', 'fade', true]])])));
+        _(outlineParent, outlineTitleTds.concat(_td$1([_div$1([_table$1([_tbody$1([_tr$1(outlineTds)])])], [['attr', 'fade', true]])])));
 
         var text = _input(null, [['attr', 'value', parentObject.options.title || ""], ['dir', 'className', 'inputStyle'], ['css', 'width', '180px']]);
 
@@ -16982,7 +17771,7 @@
           return true;
         });
 
-        _(canvas, [_table([_tbody([_tr([_td([_t(_gtxt('drawingObjects.edit.description'))], [['css', 'width', '70px']]), _td([text])])])]), _br(), _table([_tbody([outlineParent])])]);
+        _(canvas, [_table$1([_tbody$1([_tr$1([_td$1([_t$1(_gtxt('drawingObjects.edit.description'))], [['css', 'width', '70px']]), _td$1([text])])])]), _br(), _table$1([_tbody$1([outlineParent])])]);
 
         var pos = nsGmx$1.Utils.getDialogPos(elemCanvas, false, 80);
         jQueryDialog = showDialog(_gtxt('drawingObjects.edit.title'), canvas, 280, 130, pos.left, pos.top, false, closeFunc);
@@ -17128,13 +17917,13 @@
 
       var _map = oInitMap;
 
-      var _canvas = _div(null, [['dir', 'className', 'drawingObjectsItemCanvas']]);
+      var _canvas = _div$1(null, [['dir', 'className', 'drawingObjectsItemCanvas']]);
 
-      var _title = _span(null, [['dir', 'className', 'drawingObjectsItemTitle']]);
+      var _title = _span$1(null, [['dir', 'className', 'drawingObjectsItemTitle']]);
 
-      var _text = _span(null, [['dir', 'className', 'drawingObjectsItemTitle']]);
+      var _text = _span$1(null, [['dir', 'className', 'drawingObjectsItemTitle']]);
 
-      var _summary = _span(null, [['dir', 'className', 'summary']]);
+      var _summary = _span$1(null, [['dir', 'className', 'summary']]);
 
       if (_options.click) {
         _canvas.onclick = function (e) {
@@ -17163,9 +17952,9 @@
           icon = CreateDrawingStylesEditorIcon(regularDrawingStyle, geom.type.toLowerCase());
           CreateDrawingStylesEditor(_drawingObject, regularDrawingStyle, icon);
         }
-      } else icon = _span(null, [['dir', 'className', geom.type + (L.gmxUtil.isRectangle(geom.coordinates) ? ' RECTANGLE' : '')]]);
+      } else icon = _span$1(null, [['dir', 'className', geom.type + (L.gmxUtil.isRectangle(geom.coordinates) ? ' RECTANGLE' : '')]]);
 
-      var remove = _span();
+      var remove = _span$1();
 
       if (_options.allowDelete) {
         remove.setAttribute('title', _gtxt('drawingObjects.removeObject'));
@@ -17176,7 +17965,7 @@
         };
       }
 
-      _(_canvas, [_span([icon, _title, _text, _summary], [['dir', 'className', 'drawingObjectsItem']]), remove]);
+      _(_canvas, [_span$1([icon, _title, _text, _summary], [['dir', 'className', 'drawingObjectsItem']]), remove]);
 
       _(oInitContainer, [_canvas]);
 
@@ -17204,20 +17993,20 @@
         $(_summary).empty();
 
         if (type === 'Point') {
-          _(_title, [_t(_gtxt('drawingObjects.pointTitle'))]);
+          _(_title, [_t$1(_gtxt('drawingObjects.pointTitle'))]);
 
-          _(_summary, [_t("(" + summary + ")")]);
+          _(_summary, [_t$1("(" + summary + ")")]);
         } else if (type === 'Polyline' || type === 'MultiPolyline') {
-          _(_title, [_t(_gtxt('drawingObjects.lineTitle'))]);
+          _(_title, [_t$1(_gtxt('drawingObjects.lineTitle'))]);
 
-          _(_summary, [_t("(" + summary + ")")]);
+          _(_summary, [_t$1("(" + summary + ")")]);
         } else if (type === 'Polygon' || type === 'MultiPolygon' || type === 'Rectangle') {
-          _(_title, [_t(type === 'Rectangle' ? _gtxt('drawingObjects.rectangleTitle') : _gtxt('drawingObjects.polygonTitle'))]);
+          _(_title, [_t$1(type === 'Rectangle' ? _gtxt('drawingObjects.rectangleTitle') : _gtxt('drawingObjects.polygonTitle'))]);
 
-          _(_summary, [_t("(" + summary + ")")]);
+          _(_summary, [_t$1("(" + summary + ")")]);
         }
 
-        _(_text, [_t(text ? text.replace(/<[^<>]*>/g, " ") : "")]);
+        _(_text, [_t$1(text ? text.replace(/<[^<>]*>/g, " ") : "")]);
 
         if (text) _title.style.display = 'none';else _title.style.display = '';
       };
@@ -17288,15 +18077,15 @@
       var _map = oInitMap;
       var _collection = oInitDrawingObjectCollection;
 
-      var _divList = _div(null, [['dir', 'className', 'DrawingObjectList']]);
+      var _divList = _div$1(null, [['dir', 'className', 'DrawingObjectList']]);
 
-      var _divButtons = _div();
+      var _divButtons = _div$1();
       /** Добавляет объект в "список объектов на карте"
       @param {drawingObject} drawingObject добавляемый объект */
 
 
       var add = function add(drawingObject) {
-        var divRow = _div();
+        var divRow = _div$1();
 
         _(_divList, [divRow]);
 
@@ -17374,7 +18163,7 @@
       var delAll = makeLinkButton$1(_gtxt('drawingObjects.removeAll'));
       delAll.onclick = this.Clear;
 
-      _(_divButtons, [_div([delAll])]);
+      _(_divButtons, [_div$1([delAll])]);
 
       _(oInitContainer, [_divList, _divButtons]);
 
@@ -17423,7 +18212,7 @@
       var gmxMap = null;
       var oMenu = new leftMenu$1();
 
-      var oListDiv = _div(null, [['dir', 'className', 'DrawingObjectsLeftMenu']]);
+      var oListDiv = _div$1(null, [['dir', 'className', 'DrawingObjectsLeftMenu']]);
 
       var bVisible = false;
       var oCollection = null;
@@ -17553,7 +18342,7 @@
         }
       };
 
-      var downloadContainer = _div();
+      var downloadContainer = _div$1();
       /** Встраивает список объектов на карте в геомиксер*/
 
 
@@ -17577,7 +18366,7 @@
         $(oCollection).bind('onRemove onAdd', checkDownloadVisibility);
         var oDrawingObjectList = new DrawingObjectList(oMap, oListDiv, oCollection);
 
-        _(downloadContainer, [_div([_span([_t(_gtxt('drawingObjects.download'))], [['css', 'fontSize', '12px']]), downloadShp, downloadGeoJSON, downloadGpx, downloadCsv]), downloadNameContainer[0], _div([downloadRaster]), downloadRasterOptions[0]]);
+        _(downloadContainer, [_div$1([_span$1([_t$1(_gtxt('drawingObjects.download'))], [['css', 'fontSize', '12px']]), downloadShp, downloadGeoJSON, downloadGpx, downloadCsv]), downloadNameContainer[0], _div$1([downloadRaster]), downloadRasterOptions[0]]);
 
         _(oDrawingObjectList.GetDivButtons(), [downloadContainer]);
 

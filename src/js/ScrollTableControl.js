@@ -7,7 +7,8 @@ import {
     _option,
     switchSelect,
     _title,
-    _tr,
+	_table, _tbody, _thead, _tr, _th, _td, _t,
+	_div, _span
 } from './utilities.js';
 
 !(function($, _) {

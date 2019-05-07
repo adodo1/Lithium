@@ -1,5 +1,11 @@
 ﻿import nsGmx from './nsGmx.js';
-import { _checkbox, _div, showDialog } from './utilities.js';
+import {
+	_table, _tbody, _tr, _td, _t,
+	_div, _span,
+	_ul, _li,
+	_checkbox, _input, _a, _br,
+	showDialog
+} from './utilities.js';
 
 !(function(_){
 

@@ -2,7 +2,9 @@
 import nsGmx from './nsGmx.js';
 import './LayerTagsControl.js';
 import {
-    makeImageButton,    
+	_table, _tbody, _tr, _td, _t, _input,
+	_div, _span, _img, _title, _option,
+    makeImageButton,
     sendCrossDomainJSONRequest
 } from './utilities.js';
 

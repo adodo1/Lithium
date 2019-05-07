@@ -1991,17 +1991,6 @@ leaflet-control-layers-toggle {
     overflow: auto;
 }
 
-::-webkit-scrollbar {
-    width: 4px;
-    height: 12px;
-}
-
-::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.5);
-}
-::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.1);
-}
 .pluginEditor-pluginList
 {
     height: 190px;
@@ -2143,6 +2132,17 @@ leaflet-control-layers-toggle {
 .pluginEditor-groupTitle {
     font-weight: bold;
     cursor: pointer;
+}
+::-webkit-scrollbar {
+    width: 4px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.5);
+}
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
 }
 
 @media print {
@@ -3208,6 +3208,114 @@ input:checked + .switch-slider:before {
      border-radius: 50%;
 }
 
+﻿/** временный файл для интеграции общих стилей Common Components в ГеоМиксер*/
+
+.table {
+    display: table;
+}
+.table-row {
+    display: table-row;
+}
+.table-cell {
+    display: table-cell;
+}
+
+/* Geo-search */
+.searchBeginOnTD
+{
+	border: none;
+	width: 21px;
+	text-align: right;
+}
+
+.searchBeginOn, .searchBeginOff {
+	height: 24px;
+	width: 24px;
+    border: 1px solid #E2E2E2;
+    margin-right: -1px;
+    display: none;
+}
+
+.searchBeginOn
+{
+	background: transparent url(img/searchBeginOn_2.png) no-repeat scroll 0 0;
+	cursor: pointer;
+}
+.active .searchBeginOn
+{
+	background: transparent url(img/searchBeginOn_2a.png) no-repeat scroll 0 0;
+}
+.searchBeginOff
+{
+	background: transparent url(img/searchBeginOff_2.png) no-repeat scroll 0 0;
+	cursor: pointer;
+}
+.active .searchBeginOff
+{
+	background: transparent url(img/searchBeginOff_2a.png) no-repeat scroll 0 0;
+}
+
+/* Auth widget */
+.authWidget {
+    float: right;
+}
+
+.languageWidget {
+    float: right;
+}
+
+.auth-user-name, .auth-login {
+    font-size: 12px;
+}
+
+.auth-user-menu .dropdown-link{
+    font-size: 12px;
+}
+
+.auth-user-menu {
+    padding-left: 0px;
+}
+
+.dropdown-item {
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.dropdown{
+    border: 1px solid #DDDDDD;
+    border-bottom: none;
+}
+
+/* Header widget */
+#HeaderLinkGeoMixer {
+    color: #2372B9;
+    background-image: url("../common_components/dist/HeaderWidget/build/assets/dot_on.png");
+    cursor: default;
+    font-weight: bold;
+}
+
+.dropdownMenuWidget-item {
+    cursor: auto;
+}
+
+.headerWidget-logoContainer {
+    width: 150px;
+    height: 40px;
+    padding: 0;
+}
+
+.dropdownMenuWidget-item a {
+    /*color: #6F6F6F;*/
+}
+
+.dropdownMenuWidget-item a:hover {
+    color: #2372B9;
+}
+
+/* Base layers widget */
+.baseLayersControl-layer {
+    border-color: #777;
+}
+
 .gmx-sidebar {
     width: 100%;
     height: 100%;
@@ -3368,114 +3476,6 @@ input:checked + .switch-slider:before {
 .leaflet-ext-search, .leaflet-ext-search-list {
     width: 190px;
 }
-}
-
-﻿/** временный файл для интеграции общих стилей Common Components в ГеоМиксер*/
-
-.table {
-    display: table;
-}
-.table-row {
-    display: table-row;
-}
-.table-cell {
-    display: table-cell;
-}
-
-/* Geo-search */
-.searchBeginOnTD
-{
-	border: none;
-	width: 21px;
-	text-align: right;
-}
-
-.searchBeginOn, .searchBeginOff {
-	height: 24px;
-	width: 24px;
-    border: 1px solid #E2E2E2;
-    margin-right: -1px;
-    display: none;
-}
-
-.searchBeginOn
-{
-	background: transparent url(img/searchBeginOn_2.png) no-repeat scroll 0 0;
-	cursor: pointer;
-}
-.active .searchBeginOn
-{
-	background: transparent url(img/searchBeginOn_2a.png) no-repeat scroll 0 0;
-}
-.searchBeginOff
-{
-	background: transparent url(img/searchBeginOff_2.png) no-repeat scroll 0 0;
-	cursor: pointer;
-}
-.active .searchBeginOff
-{
-	background: transparent url(img/searchBeginOff_2a.png) no-repeat scroll 0 0;
-}
-
-/* Auth widget */
-.authWidget {
-    float: right;
-}
-
-.languageWidget {
-    float: right;
-}
-
-.auth-user-name, .auth-login {
-    font-size: 12px;
-}
-
-.auth-user-menu .dropdown-link{
-    font-size: 12px;
-}
-
-.auth-user-menu {
-    padding-left: 0px;
-}
-
-.dropdown-item {
-    border-bottom: 1px solid #DDDDDD;
-}
-
-.dropdown{
-    border: 1px solid #DDDDDD;
-    border-bottom: none;
-}
-
-/* Header widget */
-#HeaderLinkGeoMixer {
-    color: #2372B9;
-    background-image: url("../common_components/dist/HeaderWidget/build/assets/dot_on.png");
-    cursor: default;
-    font-weight: bold;
-}
-
-.dropdownMenuWidget-item {
-    cursor: auto;
-}
-
-.headerWidget-logoContainer {
-    width: 150px;
-    height: 40px;
-    padding: 0;
-}
-
-.dropdownMenuWidget-item a {
-    /*color: #6F6F6F;*/
-}
-
-.dropdownMenuWidget-item a:hover {
-    color: #2372B9;
-}
-
-/* Base layers widget */
-.baseLayersControl-layer {
-    border-color: #777;
 }
 
 /*CommonCalendar*/
@@ -4490,6 +4490,25 @@ input:checked + .switch-slider:before {
     clear: none;
 }
 
+
+.leaflet-control-layers2 {
+    float: left !important;
+}
+
+.leaflet-control-layers {
+    position: fixed;
+}
+
+.leaflet-control-layers-bottom {
+    margin-left: 4px;
+    margin-top: 45px;
+}
+
+.leaflet-control-layers-left {
+    margin-right: 4px;
+    float: right;
+}
+
 .edit-obj-geomtitle {
     font-size: 12px;
 }
@@ -4518,25 +4537,6 @@ input:checked + .switch-slider:before {
 .obj-edit-proptable tr td:first-child {
     width: 100px;
 }
-
-.leaflet-control-layers2 {
-    float: left !important;
-}
-
-.leaflet-control-layers {
-    position: fixed;
-}
-
-.leaflet-control-layers-bottom {
-    margin-left: 4px;
-    margin-top: 45px;
-}
-
-.leaflet-control-layers-left {
-    margin-right: 4px;
-    float: right;
-}
-
 .headerWidget {
   display: table;
   height: 35px;
@@ -5100,6 +5100,37 @@ div.tableBody tr.rowSelected td
     font-size: 12px;
     margin-left: 8px;
 }
+.CalendarWidget-inputCell {
+    padding: 0px 1px;
+    text-align: center;
+}
+
+.CalendarWidget table, .CalendarWidget tr, .CalendarWidget td
+{
+    border: 0px;
+    border-collapse: collapse;
+    padding: 0px;
+}
+
+.CalendarWidget-dateBeginInfo, .CalendarWidget-dateEndInfo {
+    text-align: center;
+}
+
+.CalendarWidget-iconScrollLeft, .CalendarWidget-iconScrollRight, .CalendarWidget-iconMore {
+    color: #404040;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.CalendarWidget-dateBegin, .CalendarWidget-dateEnd {
+    width: 6em;
+    text-align: center;
+}
+
+.CalendarWidget-forecast {
+    margin: 0px 0px 0px 4px;
+}
+
 
 .CalendarWidget-inputCell {
   background-color: #fff;
@@ -5321,37 +5352,6 @@ div.tableBody tr.rowSelected td
   background-color: #cfcfcf;
   pointer-events: none;
   cursor: default;
-}
-
-.CalendarWidget-inputCell {
-    padding: 0px 1px;
-    text-align: center;
-}
-
-.CalendarWidget table, .CalendarWidget tr, .CalendarWidget td
-{
-    border: 0px;
-    border-collapse: collapse;
-    padding: 0px;
-}
-
-.CalendarWidget-dateBeginInfo, .CalendarWidget-dateEndInfo {
-    text-align: center;
-}
-
-.CalendarWidget-iconScrollLeft, .CalendarWidget-iconScrollRight, .CalendarWidget-iconMore {
-    color: #404040;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.CalendarWidget-dateBegin, .CalendarWidget-dateEnd {
-    width: 6em;
-    text-align: center;
-}
-
-.CalendarWidget-forecast {
-    margin: 0px 0px 0px 4px;
 }
 
 .iconSidebarControl-controlCorner_noie { padding: 10px; background-color: hsla(0, 0%, 100%, 0); transition: background-color .5s ease; }

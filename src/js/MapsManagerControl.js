@@ -3,11 +3,12 @@ import './contextMenuController.js';
 import './ScrollTableControl.js';
 import {
     attachEffects,
-    _div,
+	_tr, _td, _t,
+    _div,  _img,
+    _title,
     makeImageButton,
     makeLinkButton,    
     showDialog,
-    _title,
     sendCrossDomainJSONRequest,
 } from './utilities.js';
 

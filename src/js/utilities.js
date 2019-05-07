@@ -1820,7 +1820,9 @@ const {
     _t,
  	_table,
 	_tbody,
+	_thead,
 	_tr,
+	_th,
 	_td,
     _ul
 } = domManipulation;
@@ -1863,7 +1865,9 @@ export {
     _title,
 	_table,
 	_tbody,
+	_thead,
     _tr,
+	_th,
 	_td,
     _ul,
     visible,
