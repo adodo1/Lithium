@@ -3,8 +3,7 @@ import './MapExport.css';
 import '../drawingObjectsCustomControllers.js';
 import {leftMenu, _menuUp} from '../menu.js';
 import { _div } from '../utilities.js';
-
-(function() {
+import './AsyncTaskManager.js';
 
     var MAX_SIZE = 10000;
     var EPS = 1E-9;
@@ -1260,4 +1259,3 @@ import { _div } from '../utilities.js';
     window.gmxCore.addModule('MapExport',
         publicInterface
     );
-})();

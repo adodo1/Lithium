@@ -1,4 +1,10 @@
-!(function () {
+import nsGmx from './nsGmx.js';
+import {
+    insertAtCursor,        
+    stopEvent,
+    _title,
+}
+from "./utilities.js";
 
 nsGmx.SuggestWidget = function(attrNames, textarea, textTemplate, func, valuesArr, addValueFlag, attrType) {
     var _this = this;
@@ -43,12 +49,12 @@ nsGmx.SuggestWidget = function(attrNames, textarea, textTemplate, func, valuesAr
 
         if (typeof name === 'object') {
             name = name.groupTag;
-            var div = nsGmx.Utils._div([nsGmx.Utils._t(String(name))], [['dir', 'className', className], ['dir', 'className', 'suggest-helper-elem-group']]);
+            let div = nsGmx.Utils._div([nsGmx.Utils._t(String(name))], [['dir', 'className', className], ['dir', 'className', 'suggest-helper-elem-group']]);
             $(div).css('margin-top', '3px')
 
             $(canvas).append(div);
         } else {
-            var div = nsGmx.Utils._div([nsGmx.Utils._t(String(name))], [['dir', 'className', className]]);
+            let div = nsGmx.Utils._div([nsGmx.Utils._t(String(name))], [['dir', 'className', className]]);
             var hasCustomTooltip = $(div).hasClass('suggest-helper-elem-custom-tooltip');
 
             if (hasCustomTooltip) {
@@ -57,9 +63,9 @@ nsGmx.SuggestWidget = function(attrNames, textarea, textTemplate, func, valuesAr
                     description = isRus ? titleObj.descRus : titleObj.descEng,
                     title = titleObj.interface + ' - \n' + description;
 
-                window._title(div, title);
+                _title(div, title);
             } else {
-                window._title(div, name);
+                _title(div, name);
             }
 
             div.onmouseover = function() {
@@ -284,5 +290,3 @@ nsGmx.AttrSuggestWidget.prototype.setCallback = function (callback) {
     this.functionsSuggest && this.functionsSuggest.setCallback(callback);
     this.operatorsSuggest && this.operatorsSuggest.setCallback(callback);
 }
-
-})();

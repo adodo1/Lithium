@@ -1,6 +1,7 @@
 import nsGmx from './nsGmx.js';
 import {hidden, getOffsetRect, getWindowWidth, getWindowHeight, visible} from './utilities.js';
 import './ClipboardController.js';
+import './AsyncTaskManager.js';
 
 !(function() {
 //Контроллёр контектных меню и соответствующие пункты всех меню...

@@ -1,7 +1,35 @@
 ﻿import nsGmx from './nsGmx.js';
+import {        
+    _br,        
+    _div,	    
+    _input,
+    _li,
+    makeImageButton,
+    makeLinkButton,    
+    _option,    
+    parseResponse,    
+    sendCrossDomainJSONRequest,    
+    switchSelect,
+    _span,
+	_a,
+    _t,
+    _title,
+    _textarea,
+	_table,
+	_tbody,	
+    _tr,	
+	_td,
+    _ul,    
+    _,
+} from './utilities.js';
+import './ShpEncodingWidget.js';
+import './LayerEditor/TemporalLayerParamsWidget.js';
+import './LayerEditor/LayerQuicklookWidget.js';
+import './AttrSuggestWidget.js';
+import './LayerEditor/ManualAttrModel.js';
+import './LayerEditor/ManualAttrView.js';
 
 //Создание интерфейса редактирования свойств слоя
-!function($, _){
 
 /** Виджет для выбора полей для X и Y координат из списка полей
 * @function
@@ -76,7 +104,7 @@ var SelectLatLngColumnsWidget = function(parent, columns, sourceColumns)
 var getSourceColumns = function(name)
 {
     var deferred = $.Deferred();
-    sendCrossDomainJSONRequest(serverBase + "VectorLayer/GetSourceColumns.ashx?SourceName=" + encodeURIComponent(name), function(response)
+    sendCrossDomainJSONRequest(window.serverBase + "VectorLayer/GetSourceColumns.ashx?SourceName=" + encodeURIComponent(name), function(response)
     {
         if (!parseResponse(response))
         {
@@ -905,7 +933,7 @@ LayerEditor.prototype._createPageRasterSource = function(layerProperties) {
             tilePathInput.value = path;
             layerProperties.set('TilePath', {Path: path});
 
-            sendCrossDomainJSONRequest(serverBase + 'Layer/GetMetadata.ashx?basepath=' + encodeURIComponent(path), function(response)
+            sendCrossDomainJSONRequest(window.serverBase + 'Layer/GetMetadata.ashx?basepath=' + encodeURIComponent(path), function(response)
             {
                 if (!parseResponse(response))
                     return;
@@ -935,7 +963,7 @@ LayerEditor.prototype._createPageRasterSource = function(layerProperties) {
 
             shapeVisible(true);
 
-            sendCrossDomainJSONRequest(serverBase + 'Layer/GetMetadata.ashx?geometryfile=' + encodeURIComponent(path), function(response)
+            sendCrossDomainJSONRequest(window.serverBase + 'Layer/GetMetadata.ashx?geometryfile=' + encodeURIComponent(path), function(response)
             {
                 if (!parseResponse(response))
                     return;
@@ -1149,5 +1177,3 @@ gmxCore.addModule('LayerEditor', {
         require: ['LayerProperties']
     }
 )
-
-}(jQuery, nsGmx.Utils._)

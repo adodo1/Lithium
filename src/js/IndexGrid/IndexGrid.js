@@ -1,6 +1,5 @@
-var nsGmx = window.nsGmx || {};
-
-(function() {
+import nsGmx from './nsGmx.js';
+import './AsyncTaskManager.js';
 
     var MAX_INDEX_COUNT = 10000;
     var KM_PER_DEGREE = 111.31949;
@@ -1114,4 +1113,3 @@ var nsGmx = window.nsGmx || {};
     window.gmxCore.addModule('IndexGrid',
         publicInterface
     );
-})();

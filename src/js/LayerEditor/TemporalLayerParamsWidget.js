@@ -1,3 +1,5 @@
+import nsGmx from '../nsGmx.js';
+
 (function() {
 
 Handlebars.registerPartial('TemporalLayerWidgetOptions',

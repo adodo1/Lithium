@@ -1,3 +1,5 @@
+import nsGmx from './nsGmx.js';
+
 /** Параметры мультивременного слоя, связанные со временем
   @class
   @extends Backbone.Model

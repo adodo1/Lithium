@@ -1,4 +1,4 @@
-﻿(function(){
+﻿import nsGmx from './nsGmx.js';
 
 var tasks = {};
 var tasksByName = {};
@@ -78,11 +78,9 @@ var sendGmxRequest = function(requestType, url, params) {
     }
     
     return def.promise();
-}
+};
 
 nsGmx.asyncTaskManager = {
     sendGmxJSONPRequest: sendGmxRequest.bind(null, 'get'),
     sendGmxPostRequest: sendGmxRequest.bind(null, 'post')
-}
-
-})()
+};

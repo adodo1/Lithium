@@ -1,4 +1,6 @@
-﻿//event: change
+﻿import nsGmx from './nsGmx.js';
+
+//event: change
 nsGmx.ShpEncodingWidget = function()
 {
     var _encodings = {

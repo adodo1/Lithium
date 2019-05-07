@@ -1,4 +1,7 @@
-﻿(function(){
+﻿import nsGmx from './nsGmx.js';
+import {sendCrossDomainJSONRequest} from './utilities.js';
+
+(function(){
 
 //Интерфейс для провайдеров значений параметров
 nsGmx.ILazyAttributeValuesProvider = function() {
@@ -69,7 +72,7 @@ nsGmx.LazyAttributeValuesProviderFromServer = function(attributes, layerName) {
 			//идём на сервер и запрашиваем значения аттрибутов!
 
 			_isProcessing = true;
-			sendCrossDomainJSONRequest(serverBase + "VectorLayer/GetVectorAttrValues.ashx?WrapStyle=func&LayerName=" + layerName, function(response)
+			sendCrossDomainJSONRequest(window.serverBase + "VectorLayer/GetVectorAttrValues.ashx?WrapStyle=func&LayerName=" + layerName, function(response)
 			{
 				_isInited = true;
 				_isProcessing = false;

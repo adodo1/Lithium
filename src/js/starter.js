@@ -72,6 +72,7 @@ import './ProfilePlugin/ProfilePlugin.js';
 import './LayerProperties.js';
 import './LayerEditor.js';
 import nsMapCommon from './mapCommon.js';
+import './AttributeValuesProviders.js';
 
 //Тут кратко описываются разные внешние классы для системы генерации документации
 

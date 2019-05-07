@@ -17,6 +17,7 @@
       "Backbone": true,
       "Handlebars": true,
       "$": true,
+      "_": true,
       "jQuery": true,
       "_gtxt": true,
       "_mapHelper": true,

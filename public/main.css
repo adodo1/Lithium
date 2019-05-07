@@ -1991,6 +1991,17 @@ leaflet-control-layers-toggle {
     overflow: auto;
 }
 
+::-webkit-scrollbar {
+    width: 4px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.5);
+}
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
 .pluginEditor-pluginList
 {
     height: 190px;
@@ -2132,17 +2143,6 @@ leaflet-control-layers-toggle {
 .pluginEditor-groupTitle {
     font-weight: bold;
     cursor: pointer;
-}
-::-webkit-scrollbar {
-    width: 4px;
-    height: 12px;
-}
-
-::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.5);
-}
-::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.1);
 }
 
 @media print {

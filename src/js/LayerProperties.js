@@ -1,6 +1,9 @@
 ﻿import nsGmx from './nsGmx.js';
-
-!function($){
+import './LayerEditor/LayerRasterCatalogWidget.js';
+import './TemporalLayerParams.js';
+import './QuicklookParams.js';
+import {sendCrossDomainJSONRequest} from './utilities.js';
+import './AsyncTaskManager.js';
 
 /** Объект, описывающий один атрибут слоя. Формат для передачи на сервер
  * @typedef {Object} nsGmx.LayerProperties.Column
@@ -136,8 +139,8 @@ var LayerProperties = Backbone.Model.extend(
         var def = $.Deferred(),
             _this = this;
 
-        sendCrossDomainJSONRequest(serverBase + "Layer/GetLayerInfo.ashx?NeedAttrValues=false&LayerName=" + encodeURIComponent(layerName), function(response) {
-            if (!parseResponse(response)) {
+        sendCrossDomainJSONRequest(window.serverBase + "Layer/GetLayerInfo.ashx?NeedAttrValues=false&LayerName=" + encodeURIComponent(layerName), function(response) {
+            if (!window.parseResponse(response)) {
                 def.reject(response);
                 return;
             }
@@ -235,7 +238,7 @@ var LayerProperties = Backbone.Model.extend(
                 reqParams.UserBorder = attrs.UserBorder ? JSON.stringify(attrs.UserBorder) : null;
                 reqParams.geometrytype = attrs.GeometryType;
 
-                def = nsGmx.asyncTaskManager.sendGmxPostRequest(serverBase + "VectorLayer/CreateVectorLayer.ashx", reqParams);
+                def = nsGmx.asyncTaskManager.sendGmxPostRequest(window.serverBase + "VectorLayer/CreateVectorLayer.ashx", reqParams);
             } else if (!name && (params && params.copy)) {
                 var copyParams = {},
                     columnsList = [{Value:"[geomixergeojson]",Alias:"gmx_geometry"}],
@@ -270,7 +273,7 @@ var LayerProperties = Backbone.Model.extend(
                 copyParams.Sql = sqlString;
                 copyParams.srs = nsGmx.leafletMap.options.srs || '';
 
-                 def = nsGmx.asyncTaskManager.sendGmxPostRequest(serverBase + "VectorLayer/Insert.ashx", copyParams);
+                 def = nsGmx.asyncTaskManager.sendGmxPostRequest(window.serverBase + "VectorLayer/Insert.ashx", copyParams);
             } else {
                 //Если нет колонки с геометрией, то нужно передавать выбранные пользователем колонки
                 var parsedColumns = nsGmx.LayerProperties.parseColumns(attrs.Columns);
@@ -284,7 +287,7 @@ var LayerProperties = Backbone.Model.extend(
                     reqParams.GeometryDataSource = stype === 'file' ? attrs.ShapePath.Path : attrs.TableName;
                 }
 
-                def = nsGmx.asyncTaskManager.sendGmxPostRequest(serverBase + "VectorLayer/" + (name ? "Update.ashx" : "Insert.ashx"), reqParams);
+                def = nsGmx.asyncTaskManager.sendGmxPostRequest(window.serverBase + "VectorLayer/" + (name ? "Update.ashx" : "Insert.ashx"), reqParams);
             }
         } else if (attrs.Type === 'Raster') {
             var curBorder = _mapHelper.drawingBorders.get(name);
@@ -309,7 +312,7 @@ var LayerProperties = Backbone.Model.extend(
 
             if (attrs.LayerID) reqParams.RasterLayerID = attrs.LayerID;
 
-            def = nsGmx.asyncTaskManager.sendGmxPostRequest(serverBase + "RasterLayer/" + (name ? "Update.ashx" : "Insert.ashx"), reqParams);
+            def = nsGmx.asyncTaskManager.sendGmxPostRequest(window.serverBase + "RasterLayer/" + (name ? "Update.ashx" : "Insert.ashx"), reqParams);
         } else if (attrs.Type === 'MultiLayer') {
             var multiLayerInfo = {
                 LayersChanged: false, //изменение состава слоёв пока не поддерживается
@@ -332,7 +335,7 @@ var LayerProperties = Backbone.Model.extend(
                 MultiLayerInfo: JSON.stringify(multiLayerInfo)
             }
 
-            def = nsGmx.asyncTaskManager.sendGmxPostRequest(serverBase + "MultiLayer/" + (name ? "Update.ashx" : "Insert.ashx"), multiReqParams);
+            def = nsGmx.asyncTaskManager.sendGmxPostRequest(window.serverBase + "MultiLayer/" + (name ? "Update.ashx" : "Insert.ashx"), multiReqParams);
         } else if (attrs.Type === 'Virtual') {
             if (name) {
                 reqParams.VectorLayerID = name;
@@ -346,7 +349,7 @@ var LayerProperties = Backbone.Model.extend(
 
             reqParams.Legend = attrs.Legend || '';
 
-            def = nsGmx.asyncTaskManager.sendGmxPostRequest(serverBase + "VectorLayer/" + (name ? "Update.ashx" : "Insert.ashx"), reqParams);
+            def = nsGmx.asyncTaskManager.sendGmxPostRequest(window.serverBase + "VectorLayer/" + (name ? "Update.ashx" : "Insert.ashx"), reqParams);
         }
 
         callback && def.done(callback);
@@ -379,9 +382,7 @@ LayerProperties.parseColumns = function(columns) {
 
 nsGmx.LayerProperties = LayerProperties;
 nsGmx.LatLngColumnsModel = LatLngColumnsModel;
-gmxCore.addModule('LayerProperties', {
+window.gmxCore.addModule('LayerProperties', {
     LayerProperties: LayerProperties,
     LatLngColumnsModel: LatLngColumnsModel
 })
-
-}(jQuery);

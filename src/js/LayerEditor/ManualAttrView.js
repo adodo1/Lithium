@@ -1,4 +1,5 @@
-(function() {
+import nsGmx from '../nsGmx.js';
+
 var utils = nsGmx.Utils;
 _translationsHash.addtext('rus', {ManualAttrView: {
     headerName: 'Название',
@@ -183,5 +184,3 @@ nsGmx.ManualAttrView = function()
         redraw();
     };
 };
-
-})();

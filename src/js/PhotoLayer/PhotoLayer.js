@@ -1,8 +1,5 @@
-var nsGmx = window.nsGmx || {},
-    _gtxt = window._gtxt,
-    Handlebars = window.Handlebars;
-
-(function($) {
+import nsGmx from './nsGmx.js'
+import './AsyncTaskManager.js';    
 
     window._translationsHash.addtext('rus', {
         photoLayer: {
@@ -628,5 +625,3 @@ var publicInterface = {
 window.gmxCore.addModule('PhotoLayer',
     publicInterface
 );
-
-})(jQuery);

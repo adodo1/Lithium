@@ -1,4 +1,4 @@
-(function() {
+import nsGmx from '../nsGmx.js';
 	
 function capitaliseFirstLetter(str)
 {
@@ -161,5 +161,3 @@ nsGmx.ManualAttrModel.TYPES = {
     DATETIME: {user: 'DateTime', server: 'datetime'},
     BOOL:     {user: 'Boolean',  server: 'boolean'}
 };
-
-})();
