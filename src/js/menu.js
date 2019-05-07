@@ -1,5 +1,9 @@
 import nsGmx from './nsGmx.js';
-import {attachEffects} from './utilities.js';
+import {    
+    attachEffects,        	     
+    stopEvent,    
+    _span,    
+} from './utilities.js';
 // import './MapExport/MapExport.js';
 
 /**
@@ -33,7 +37,7 @@ var UpMenu = function()
     this.openedMenus = [];
     this.currentTopHash = null;
 
-    var _this = this;
+    
 
     document.addEventListener('click', this.hideOnClick.bind(this));
 

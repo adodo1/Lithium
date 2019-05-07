@@ -1,9 +1,31 @@
 import nsGmx from '../nsGmx';
 import './EditObjectControl.css';
-import {
+import {     
+    _br, 
+    _checkbox,        
+    _div,
+	_img,    
+    _input,    
+    _li,    
+    makeLinkButton,    
+    _option,    
+    parseResponse,    
     removeDialog,
-    showDialog,    
-    showErrorMessage,
+    sendCrossDomainJSONRequest,    
+    showDialog,
+    showErrorMessage,    
+    _span,
+	_a,
+    _t,
+    _title,
+	_table,
+    _tbody,
+    _textarea,
+	_thead,
+    _tr,
+	_th,
+	_td,
+    _ul,    
 } from '../utilities.js';
 
 const _ = nsGmx.Utils._;

@@ -4,45 +4,54 @@
 
 
 E:\projects\Lithium\src\js\starter.js
-   122:49  error  Unnecessary escape character: \/  no-useless-escape
-  1669:37  error  'minZoom' is not defined          no-undef
-  1671:37  error  'minZoom' is not defined          no-undef
-  1676:37  error  'minZoom' is not defined          no-undef
+   122:56  error  Unnecessary escape character: \/              no-useless-escape
+   122:60  error  Unnecessary escape character: \/              no-useless-escape
+   122:64  error  Unnecessary escape character: \/              no-useless-escape
+  1659:33  error  'minZoom' is assigned a value but never used  no-unused-vars
 
 ✖ 4 problems (4 errors, 0 warnings)
 
 
-E:\projects\Lithium\src\js\lang_ru.js
-  208:2  error  Duplicate key 'Создать'  no-dupe-keys
-
-✖ 1 problem (1 error, 0 warnings)
-
-
 E:\projects\Lithium\src\js\menu.js
-   36:9   error  '_this' is assigned a value but never used   no-unused-vars
-  129:28  error  '_span' is not defined                       no-undef
-  241:46  error  'id' is defined but never used               no-unused-vars
-  269:54  error  'className' is defined but never used        no-unused-vars
-  272:26  error  'e' is defined but never used                no-unused-vars
-  295:30  error  'e' is defined but never used                no-unused-vars
-  305:22  error  'i' is already defined                       no-redeclare
-  343:4   error  'target' is assigned a value but never used  no-unused-vars
-  350:2   error  Mixed spaces and tabs                        no-mixed-spaces-and-tabs
-  351:2   error  Mixed spaces and tabs                        no-mixed-spaces-and-tabs
-  352:2   error  Mixed spaces and tabs                        no-mixed-spaces-and-tabs
-  352:9   error  'stopEvent' is not defined                   no-undef
-  354:2   error  Mixed spaces and tabs                        no-mixed-spaces-and-tabs
-  355:2   error  Mixed spaces and tabs                        no-mixed-spaces-and-tabs
-  356:2   error  Mixed spaces and tabs                        no-mixed-spaces-and-tabs
-  357:2   error  Mixed spaces and tabs                        no-mixed-spaces-and-tabs
-  364:2   error  Mixed spaces and tabs                        no-mixed-spaces-and-tabs
-  371:2   error  Mixed spaces and tabs                        no-mixed-spaces-and-tabs
-  380:33  error  Unnecessary semicolon                        no-extra-semi
-  392:49  error  Unnecessary semicolon                        no-extra-semi
-  398:6   error  Expected space(s) after "for"                keyword-spacing
-  400:57  error  Unnecessary semicolon                        no-extra-semi
+    4:5   error  '_br' is defined but never used              no-unused-vars
+    5:5   error  '_checkbox' is defined but never used        no-unused-vars
+    6:5   error  '_div' is defined but never used             no-unused-vars
+    7:2   error  '_img' is defined but never used             no-unused-vars
+    8:5   error  '_input' is defined but never used           no-unused-vars
+    9:5   error  '_li' is defined but never used              no-unused-vars
+   10:5   error  '_option' is defined but never used          no-unused-vars
+   13:2   error  '_a' is defined but never used               no-unused-vars
+   14:5   error  '_t' is defined but never used               no-unused-vars
+   15:5   error  '_title' is defined but never used           no-unused-vars
+   16:2   error  '_table' is defined but never used           no-unused-vars
+   17:5   error  '_tbody' is defined but never used           no-unused-vars
+   18:5   error  '_textarea' is defined but never used        no-unused-vars
+   19:2   error  '_thead' is defined but never used           no-unused-vars
+   20:5   error  '_tr' is defined but never used              no-unused-vars
+   21:2   error  '_th' is defined but never used              no-unused-vars
+   22:2   error  '_td' is defined but never used              no-unused-vars
+   23:5   error  '_ul' is defined but never used              no-unused-vars
+  263:46  error  'id' is defined but never used               no-unused-vars
+  291:54  error  'className' is defined but never used        no-unused-vars
+  294:26  error  'e' is defined but never used                no-unused-vars
+  317:30  error  'e' is defined but never used                no-unused-vars
+  327:22  error  'i' is already defined                       no-redeclare
+  365:4   error  'target' is assigned a value but never used  no-unused-vars
+  372:2   error  Mixed spaces and tabs                        no-mixed-spaces-and-tabs
+  373:2   error  Mixed spaces and tabs                        no-mixed-spaces-and-tabs
+  374:2   error  Mixed spaces and tabs                        no-mixed-spaces-and-tabs
+  376:2   error  Mixed spaces and tabs                        no-mixed-spaces-and-tabs
+  377:2   error  Mixed spaces and tabs                        no-mixed-spaces-and-tabs
+  378:2   error  Mixed spaces and tabs                        no-mixed-spaces-and-tabs
+  379:2   error  Mixed spaces and tabs                        no-mixed-spaces-and-tabs
+  386:2   error  Mixed spaces and tabs                        no-mixed-spaces-and-tabs
+  393:2   error  Mixed spaces and tabs                        no-mixed-spaces-and-tabs
+  402:33  error  Unnecessary semicolon                        no-extra-semi
+  414:49  error  Unnecessary semicolon                        no-extra-semi
+  420:6   error  Expected space(s) after "for"                keyword-spacing
+  422:57  error  Unnecessary semicolon                        no-extra-semi
 
-✖ 22 problems (22 errors, 0 warnings)
+✖ 37 problems (37 errors, 0 warnings)
   4 errors and 0 warnings potentially fixable with the `--fix` option.
 
 
@@ -412,12 +421,6 @@ E:\projects\Lithium\src\js\drawingObjects.js
   3 errors and 0 warnings potentially fixable with the `--fix` option.
 
 
-E:\projects\Lithium\src\js\LayersTree.js
-  146:13  error  'res' is assigned a value but never used  no-unused-vars
-
-✖ 1 problem (1 error, 0 warnings)
-
-
 E:\projects\Lithium\src\js\contextMenuController.js
     6:1   error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
    46:31  error  '_div' is not defined                                                  no-undef
@@ -442,6 +445,12 @@ E:\projects\Lithium\src\js\contextMenuController.js
   1 error and 0 warnings potentially fixable with the `--fix` option.
 
 
+E:\projects\Lithium\src\js\LayersTree.js
+  146:13  error  'res' is assigned a value but never used  no-unused-vars
+
+✖ 1 problem (1 error, 0 warnings)
+
+
 E:\projects\Lithium\src\js\queryLoadShp.js
    36:21  error  '_input' is not defined            no-undef
    44:21  error  '_form' is not defined             no-undef
@@ -460,12 +469,6 @@ E:\projects\Lithium\src\js\queryLoadShp.js
   106:2   error  'show' is not defined              no-undef
 
 ✖ 15 problems (15 errors, 0 warnings)
-
-
-E:\projects\Lithium\src\js\HeaderLinksControl.js
-  27:64  error  'array' is defined but never used  no-unused-vars
-
-✖ 1 problem (1 error, 0 warnings)
 
 
 E:\projects\Lithium\src\js\loadServerData.js
@@ -593,6 +596,12 @@ E:\projects\Lithium\src\js\loadServerData.js
   3 errors and 0 warnings potentially fixable with the `--fix` option.
 
 
+E:\projects\Lithium\src\js\HeaderLinksControl.js
+  27:64  error  'array' is defined but never used  no-unused-vars
+
+✖ 1 problem (1 error, 0 warnings)
+
+
 E:\projects\Lithium\src\js\queryTabs.js
     9:55  error  'defLang' is defined but never used                no-unused-vars
    60:21  error  '_div' is not defined                              no-undef
@@ -619,6 +628,13 @@ E:\projects\Lithium\src\js\queryTabs.js
 ✖ 21 problems (21 errors, 0 warnings)
 
 
+E:\projects\Lithium\src\js\LayerProperties.js
+  179:21  error  'type' is already defined   no-redeclare
+  180:21  error  'value' is already defined  no-redeclare
+
+✖ 2 problems (2 errors, 0 warnings)
+
+
 E:\projects\Lithium\src\js\LayerEditor.js
    344:17  error  Unexpected if as the only statement in an else block       no-lonely-if
    347:25  error  Unexpected if as the only statement in an else block       no-lonely-if
@@ -636,13 +652,6 @@ E:\projects\Lithium\src\js\LayerEditor.js
 
 ✖ 13 problems (13 errors, 0 warnings)
   2 errors and 0 warnings potentially fixable with the `--fix` option.
-
-
-E:\projects\Lithium\src\js\LayerProperties.js
-  179:21  error  'type' is already defined   no-redeclare
-  180:21  error  'value' is already defined  no-redeclare
-
-✖ 2 problems (2 errors, 0 warnings)
 
 
 E:\projects\Lithium\src\js\mapCommon.js
@@ -884,6 +893,22 @@ E:\projects\Lithium\src\js\TransparencySliderWidget\TransparencySliderWidget.js
   1 error and 0 warnings potentially fixable with the `--fix` option.
 
 
+E:\projects\Lithium\src\js\gmxLayers2\gmxLayers2.js
+  152:17  error  'label' is already defined                 no-redeclare
+  153:17  error  'checked' is already defined               no-redeclare
+  154:17  error  'input' is already defined                 no-redeclare
+  189:17  error  'name' is already defined                  no-redeclare
+  200:17  error  'container' is already defined             no-redeclare
+  225:16  error  'len' is defined but never used            no-unused-vars
+  259:34  error  'skipEvent' is defined but never used      no-unused-vars
+  263:17  error  'prev' is assigned a value but never used  no-unused-vars
+  277:2   error  Mixed spaces and tabs                      no-mixed-spaces-and-tabs
+  291:14  error  Unnecessary semicolon                      no-extra-semi
+
+✖ 10 problems (10 errors, 0 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
+
+
 E:\projects\Lithium\src\js\EditObjectControl\EditObjectControl.js
    59:17   error  '_input' is not defined                             no-undef
   199:37   error  '_span' is not defined                              no-undef
@@ -1009,22 +1034,6 @@ E:\projects\Lithium\src\js\ProfilePlugin\ProfilePlugin.js
   3 errors and 0 warnings potentially fixable with the `--fix` option.
 
 
-E:\projects\Lithium\src\js\gmxLayers2\gmxLayers2.js
-  152:17  error  'label' is already defined                 no-redeclare
-  153:17  error  'checked' is already defined               no-redeclare
-  154:17  error  'input' is already defined                 no-redeclare
-  189:17  error  'name' is already defined                  no-redeclare
-  200:17  error  'container' is already defined             no-redeclare
-  225:16  error  'len' is defined but never used            no-unused-vars
-  259:34  error  'skipEvent' is defined but never used      no-unused-vars
-  263:17  error  'prev' is assigned a value but never used  no-unused-vars
-  277:2   error  Mixed spaces and tabs                      no-mixed-spaces-and-tabs
-  291:14  error  Unnecessary semicolon                      no-extra-semi
-
-✖ 10 problems (10 errors, 0 warnings)
-  1 error and 0 warnings potentially fixable with the `--fix` option.
-
-
 E:\projects\Lithium\src\js\GroupEditor.js
    10:1   error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
   132:14  error  '_abstractTree' is not defined                                         no-undef
@@ -1055,20 +1064,6 @@ E:\projects\Lithium\src\js\GroupEditor.js
   845:1   error  'gmxCore' is not defined                                               no-undef
 
 ✖ 27 problems (27 errors, 0 warnings)
-
-
-E:\projects\Lithium\src\js\Controls.js
-   78:4   error  Unexpected if as the only statement in an else block  no-lonely-if
-  127:33  error  'e' is defined but never used                         no-unused-vars
-  233:13  error  '_this' is assigned a value but never used            no-unused-vars
-  246:13  error  'gmxCore' is not defined                              no-undef
-  255:21  error  'list' is assigned a value but never used             no-unused-vars
-  351:13  error  'title' is assigned a value but never used            no-unused-vars
-  352:13  error  'summary' is assigned a value but never used          no-unused-vars
-  428:1   error  'gmxCore' is not defined                              no-undef
-
-✖ 8 problems (8 errors, 0 warnings)
-  1 error and 0 warnings potentially fixable with the `--fix` option.
 
 
 E:\projects\Lithium\src\js\LayerStylesEditor.js
@@ -1357,6 +1352,20 @@ E:\projects\Lithium\src\js\LayerStylesEditor.js
   1 error and 0 warnings potentially fixable with the `--fix` option.
 
 
+E:\projects\Lithium\src\js\Controls.js
+   78:4   error  Unexpected if as the only statement in an else block  no-lonely-if
+  127:33  error  'e' is defined but never used                         no-unused-vars
+  233:13  error  '_this' is assigned a value but never used            no-unused-vars
+  246:13  error  'gmxCore' is not defined                              no-undef
+  255:21  error  'list' is assigned a value but never used             no-unused-vars
+  351:13  error  'title' is assigned a value but never used            no-unused-vars
+  352:13  error  'summary' is assigned a value but never used          no-unused-vars
+  428:1   error  'gmxCore' is not defined                              no-undef
+
+✖ 8 problems (8 errors, 0 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
+
+
 E:\projects\Lithium\src\js\MapsManagerControl.js
    17:1   error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
    31:32  error  'serverBase' is not defined                                            no-undef
@@ -1525,19 +1534,6 @@ E:\projects\Lithium\src\js\Popover\popover.js
   2 errors and 0 warnings potentially fixable with the `--fix` option.
 
 
-E:\projects\Lithium\src\js\CalendarWidget\CalendarWidget.js
-  196:10  error  Unnecessary semicolon  no-extra-semi
-  381:1   error  Unnecessary semicolon  no-extra-semi
-  397:1   error  Unnecessary semicolon  no-extra-semi
-  433:2   error  Unnecessary semicolon  no-extra-semi
-  480:10  error  Unnecessary semicolon  no-extra-semi
-  491:10  error  Unnecessary semicolon  no-extra-semi
-  539:1   error  Unnecessary semicolon  no-extra-semi
-
-✖ 7 problems (7 errors, 0 warnings)
-  7 errors and 0 warnings potentially fixable with the `--fix` option.
-
-
 E:\projects\Lithium\src\js\CalendarWidget-new\CalendarWidget.js
   233:13  error  'endMidnight' is assigned a value but never used           no-unused-vars
   318:13  error  'isBegin' is assigned a value but never used               no-unused-vars
@@ -1559,6 +1555,19 @@ E:\projects\Lithium\src\js\CalendarWidget-new\CalendarWidget.js
 
 ✖ 17 problems (17 errors, 0 warnings)
   4 errors and 0 warnings potentially fixable with the `--fix` option.
+
+
+E:\projects\Lithium\src\js\CalendarWidget\CalendarWidget.js
+  196:10  error  Unnecessary semicolon  no-extra-semi
+  381:1   error  Unnecessary semicolon  no-extra-semi
+  397:1   error  Unnecessary semicolon  no-extra-semi
+  433:2   error  Unnecessary semicolon  no-extra-semi
+  480:10  error  Unnecessary semicolon  no-extra-semi
+  491:10  error  Unnecessary semicolon  no-extra-semi
+  539:1   error  Unnecessary semicolon  no-extra-semi
+
+✖ 7 problems (7 errors, 0 warnings)
+  7 errors and 0 warnings potentially fixable with the `--fix` option.
 
 
 E:\projects\Lithium\src\js\IconSidebarControl\src\IconSidebarWidget.js
