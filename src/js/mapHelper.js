@@ -4,10 +4,13 @@ import './drawingObjectsCustomControllers.js';
 import gmxCore from './gmxcore.js';
 import './GroupEditor.js';
 import {
+	sendCrossDomainJSONRequest,
 	_li,
 	objLength,
 	showDialog,
-	_span,
+	removeDialog,
+	_table, _tbody, _tr, _td, _t, _input,
+	_div, _span, _img, _a, _ul, _option,
 	switchSelect,
 	_title
 } from './utilities.js';

@@ -2,7 +2,7 @@ import nsGmx from './nsGmx.js';
 import gmxCore from './gmxcore.js';
 import './translations.js';
 import {leftMenu} from './menu.js';
-import {makeLinkButton, hide} from './utilities.js';
+import {_title, makeLinkButton, show, hide} from './utilities.js';
 
 /**
 * @namespace DrawingObjects

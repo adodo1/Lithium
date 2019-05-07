@@ -605,6 +605,10 @@
       };
     }
 
+    function show$1(elem) {
+      elem.style.display = '';
+    }
+
     function hide$1(elem) {
       elem.style.display = 'none';
     }
@@ -689,7 +693,7 @@
     }
 
     function makeImageButton$1(url, urlHover) {
-      var btn = _img();
+      var btn = _img$1();
 
       btn.setAttribute('src', url);
       btn.style.cursor = 'pointer';
@@ -1866,12 +1870,17 @@
     window.gmxCore && window.gmxCore.addModule('utilities', nsGmx$1.Utils);
     var _br$1 = domManipulation._br,
         _div$1 = domManipulation._div,
+        _img$1 = domManipulation._img,
         _input$1 = domManipulation._input,
         _li$1 = domManipulation._li,
         _option$1 = domManipulation._option,
         _span$1 = domManipulation._span,
+        _a$1 = domManipulation._a,
         _t$1 = domManipulation._t,
+        _table$1 = domManipulation._table,
+        _tbody$1 = domManipulation._tbody,
         _tr$1 = domManipulation._tr,
+        _td$1 = domManipulation._td,
         _ul$1 = domManipulation._ul;
     window.addParseResponseHook = addParseResponseHook;
     window.parseResponse = parseResponse$1;
@@ -4159,7 +4168,7 @@
           return divSlider;
         },
         createInput: function createInput(value, changeFunc) {
-          var input = _input(null, [['dir', 'className', 'inputStyle'], ['css', 'width', '30px'], ['attr', 'value', value]]);
+          var input = _input$1(null, [['dir', 'className', 'inputStyle'], ['css', 'width', '30px'], ['attr', 'value', value]]);
 
           input.onkeyup = changeFunc;
           return input;
@@ -4202,7 +4211,7 @@
               drawingObjs.push(obj);
             }
           });
-          if (!drawingObjs.length) showErrorMessage(_params.errorMessage, true, _params.errorTitle);else {
+          if (!drawingObjs.length) showErrorMessage$1(_params.errorMessage, true, _params.errorTitle);else {
             gmxCore.loadModule('DrawingObjects').done(function (drawing) {
               var canvas = _div$1();
 
@@ -4218,7 +4227,7 @@
                 showButtons: false,
                 click: function click(drawingObject) {
                   callback && callback(drawingObject);
-                  removeDialog(jDialog);
+                  removeDialog$1(jDialog);
                 }
               });
               var jDialog = nsGmx$1.Utils.showDialog(_params.title, _div$1([canvas], [['attr', 'id', 'drawingBorderDialog' + name], ['dir', 'className', 'drawingObjectsCanvas']]), {
@@ -4286,14 +4295,14 @@
             if (contentText.indexOf("http://") == 0 || contentText.indexOf("https://") == 0 || contentText.indexOf("www.") == 0) contentText = "<a href=\"" + contentText + "\" target=\"_blank\">" + contentText + "</a>";
             content.innerHTML = contentText;
 
-            var typeSpan = _span([_t(key)]);
+            var typeSpan = _span$1([_t$1(key)]);
 
             typeSpans[key] = typeSpan;
-            trs.push(_tr([_td([typeSpan], [['css', 'width', '30%']]), _td([content], [['css', 'width', '70%']])]));
+            trs.push(_tr$1([_td$1([typeSpan], [['css', 'width', '30%']]), _td$1([content], [['css', 'width', '70%']])]));
           }
 
-          var title = _span(null, [['dir', 'className', 'title'], ['css', 'cursor', 'default']]),
-              summary = _span(null, [['dir', 'className', 'summary']]),
+          var title = _span$1(null, [['dir', 'className', 'title'], ['css', 'cursor', 'default']]),
+              summary = _span$1(null, [['dir', 'className', 'summary']]),
               div;
 
           if ($('#layerPropertiesInfo').length) {
@@ -4306,7 +4315,7 @@
 
             $(div).empty();
 
-            _(div, [_table([_tbody(trs)], [['dir', 'className', 'vectorInfoParams']])]);
+            _(div, [_table$1([_tbody$1(trs)], [['dir', 'className', 'vectorInfoParams']])]);
 
             if (layer.properties.Legend) {
               var legend = _div$1();
@@ -4319,12 +4328,12 @@
             var dialogTitle = div.parentNode.parentNode.firstChild.firstChild;
             $(dialogTitle).empty();
 
-            _(dialogTitle, [_t(_gtxt("Слой [value0]", layer.properties.title))]);
+            _(dialogTitle, [_t$1(_gtxt("Слой [value0]", layer.properties.title))]);
 
             $(div.parentNode).dialog('open');
           } else {
             if (!trs.length && !layer.properties.Legend) return;
-            div = _div$1([_table([_tbody(trs)], [['dir', 'className', 'vectorInfoParams']])], [['attr', 'id', 'layerPropertiesInfo']]);
+            div = _div$1([_table$1([_tbody$1(trs)], [['dir', 'className', 'vectorInfoParams']])], [['attr', 'id', 'layerPropertiesInfo']]);
 
             if (layer.properties.Legend) {
               var _legend = _div$1();
@@ -4334,7 +4343,7 @@
               _(div, [_legend]);
             }
 
-            showDialog(_gtxt("Слой [value0]", layer.properties.title), div, 360, 'auto', false, false, null, function () {
+            showDialog$1(_gtxt("Слой [value0]", layer.properties.title), div, 360, 'auto', false, false, null, function () {
               return true;
             });
           } //подстраиваем ширину
@@ -6400,7 +6409,7 @@
                 areaStr = L.gmxUtil.prettifyArea(L.gmxUtil.geoArea(geom, false));
 
             if (span) {
-              _$2(span, [_t(areaStr)]);
+              _$2(span, [_t$1(areaStr)]);
 
               return;
             }
@@ -6408,7 +6417,7 @@
             if (!$('#drawingBorderDescr' + name).length) return;
             $('#drawingBorderDescr' + name).empty();
 
-            _$2($('#drawingBorderDescr' + name)[0], [_t(areaStr)]);
+            _$2($('#drawingBorderDescr' + name)[0], [_t$1(areaStr)]);
           },
           //Удаляет объект из списка контуров слоя
           //?removeDrawring {bool, default: false} - удалять ли сам пользовательский объект
@@ -6745,9 +6754,9 @@
       this.createPermalink(function (id) {
         var url = window.location.protocol + "//" + window.location.host + window.location.pathname + "?permalink=" + id + (window.defaultMapID == globalMapName ? "" : "&" + globalMapName);
 
-        var input = _input(null, [['dir', 'className', 'inputStyle inputFullWidth'], ['attr', 'value', url]]);
+        var input = _input$1(null, [['dir', 'className', 'inputStyle inputFullWidth'], ['attr', 'value', url]]);
 
-        showDialog$1(_gtxt("Ссылка на текущее состояние карты"), _div([input]), 311, 80, false, false);
+        showDialog$1(_gtxt("Ссылка на текущее состояние карты"), _div$1([input]), 311, 80, false, false);
         input.select();
       });
     };
@@ -6786,7 +6795,7 @@
         'click': function click() {
           var imagesDir = nsGmx$1.AuthManager.getUserFolder() + 'images';
           _this = this;
-          sendCrossDomainJSONRequest(serverBase + 'FileBrowser/CreateFolder.ashx?WrapStyle=func&FullName=' + encodeURIComponent(imagesDir), function (response) {
+          sendCrossDomainJSONRequest$1(serverBase + 'FileBrowser/CreateFolder.ashx?WrapStyle=func&FullName=' + encodeURIComponent(imagesDir), function (response) {
             if (!parseResponse(response)) return;
 
             _fileBrowser.createBrowser(_gtxt("Изображение"), ['jpg', 'jpeg', 'png', 'gif', 'swf'], function (path) {
@@ -6811,7 +6820,7 @@
     mapHelper$1.ImageInputControl = function (initURL) {
       var prevValue = initURL || '';
 
-      var inputUrl = _input(null, [['dir', 'className', 'inputStyle'], ['attr', 'value', prevValue], ['css', 'width', '170px']]);
+      var inputUrl = _input$1(null, [['dir', 'className', 'inputStyle'], ['attr', 'value', prevValue], ['css', 'width', '170px']]);
 
       _title$1(inputUrl, _gtxt('URL изображения'));
 
@@ -6855,14 +6864,14 @@
       var icon;
 
       if ($.isArray(parentStyles) && parentStyles.length > 1) {
-        icon = _img(null, [['attr', 'src', 'img/misc.png'], ['css', 'margin', '0px 2px -3px 4px'], ['css', 'cursor', 'pointer'], ['attr', 'styleType', 'multi']]);
+        icon = _img$1(null, [['attr', 'src', 'img/misc.png'], ['css', 'margin', '0px 2px -3px 4px'], ['css', 'cursor', 'pointer'], ['attr', 'styleType', 'multi']]);
       } else {
         var parentStyle = _mapHelper$1.makeStyle(parentStyles[0]);
 
         var iconUrlProp = window.newStyles ? parentStyle.iconUrl : parentStyle.marker && parentStyle.marker.image;
 
         if (iconUrlProp) {
-          icon = _img(null, [['dir', 'className', 'icon'], ['attr', 'styleType', 'icon']]);
+          icon = _img$1(null, [['dir', 'className', 'icon'], ['attr', 'styleType', 'icon']]);
 
           var fixFunc = function fixFunc() {
             var width = this.width,
@@ -6898,7 +6907,7 @@
 
     mapHelper$1.prototype.createLoadingLayerEditorProperties = function (div, parent, layerProperties, params) {
       var elemProperties = div.gmxProperties.content.properties,
-          loading = _div([_img(null, [['attr', 'src', 'img/progress.gif'], ['css', 'marginRight', '10px']]), _t(_gtxt('загрузка...'))], [['css', 'margin', '3px 0px 3px 20px']]),
+          loading = _div$1([_img$1(null, [['attr', 'src', 'img/progress.gif'], ['css', 'marginRight', '10px']]), _t$1(_gtxt('загрузка...'))], [['css', 'margin', '3px 0px 3px 20px']]),
           type = elemProperties.type;
 
       if (type == "Vector") {
@@ -6908,7 +6917,7 @@
         if (elemProperties.name) {
           _$2(parent, [loading]);
 
-          sendCrossDomainJSONRequest(serverBase + "Layer/GetLayerInfo.ashx?WrapStyle=func&LayerName=" + elemProperties.name, function (response) {
+          sendCrossDomainJSONRequest$1(serverBase + "Layer/GetLayerInfo.ashx?WrapStyle=func&LayerName=" + elemProperties.name, function (response) {
             if (!parseResponse(response)) return;
             loading.removeNode(true);
             nsGmx$1.createLayerEditor(div, type, parent, response.Result, params);
@@ -6920,7 +6929,7 @@
     mapHelper$1.prototype.createNewLayer = function (type) {
       if ($('#new' + type + 'Layer').length) return;
 
-      var parent = _div(null, [['attr', 'id', 'new' + type + 'Layer'], ['css', 'height', '100%']]),
+      var parent = _div$1(null, [['attr', 'id', 'new' + type + 'Layer'], ['css', 'height', '100%']]),
           height = type == 'Vector' ? 340 : 360;
 
       if (type !== 'Multi') {
@@ -6938,7 +6947,7 @@
         var dialogDiv = showDialog$1(type != 'Vector' ? _gtxt('Создать растровый слой') : _gtxt('Создать векторный слой'), parent, 340, height, false, false);
         nsGmx$1.createLayerEditor(false, type, parent, properties, {
           doneCallback: function doneCallback() {
-            removeDialog(dialogDiv);
+            removeDialog$1(dialogDiv);
           }
         });
       } else {
@@ -6986,11 +6995,11 @@
           continue;
         }
 
-        if (typeof shownProperties[i].elem !== 'undefined') td = _td([shownProperties[i].elem]);else td = _td([_t(layerProperties[shownProperties[i].field] != null ? layerProperties[shownProperties[i].field] : '')], [['css', 'padding', '0px 3px']]);
+        if (typeof shownProperties[i].elem !== 'undefined') td = _td$1([shownProperties[i].elem]);else td = _td$1([_t$1(layerProperties[shownProperties[i].field] != null ? layerProperties[shownProperties[i].field] : '')], [['css', 'padding', '0px 3px']]);
 
-        var tdTitle = _td([_t(shownProperties[i].name)], [['css', 'width', _styles.leftWidth + 'px']]);
+        var tdTitle = _td$1([_t$1(shownProperties[i].name)], [['css', 'width', _styles.leftWidth + 'px']]);
 
-        var tr = _tr([tdTitle, td]);
+        var tr = _tr$1([tdTitle, td]);
 
         _$2(tdTitle, [], [['dir', 'className', 'propertiesTable-title ' + (_styles.leftcolumnclass || '')]]);
 
@@ -7022,7 +7031,7 @@
         var mapName = elemProperties.mapName,
             createTabs = function createTabs(layerProperties) {
           var id = 'layertabs' + layerName,
-              divProperties = _div(null, [['attr', 'id', 'properties' + id], ['css', 'height', '100%']]),
+              divProperties = _div$1(null, [['attr', 'id', 'properties' + id], ['css', 'height', '100%']]),
               additionalTabs = [];
 
           var pos = nsGmx$1.Utils.getDialogPos(div, true, 390),
@@ -7053,7 +7062,7 @@
         };
 
         if (!this.attrValues[mapName]) this.attrValues[mapName] = {};
-        sendCrossDomainJSONRequest(serverBase + "Layer/GetLayerInfo.ashx?WrapStyle=func&NeedAttrValues=false&LayerName=" + layerName, function (response) {
+        sendCrossDomainJSONRequest$1(serverBase + "Layer/GetLayerInfo.ashx?WrapStyle=func&NeedAttrValues=false&LayerName=" + layerName, function (response) {
           if (!parseResponse(response)) return;
           var columns = response.Result.Columns;
           var attributesHash = {};
@@ -7071,8 +7080,8 @@
           this.layerEditorsHash[layerName] = true;
 
           var id = 'layertabs' + layerName,
-              divProperties = _div(null, [['attr', 'id', 'properties' + id], ['css', 'height', '100%']]),
-              divStyles = _div(null, [['attr', 'id', 'styles' + id], ['css', 'height', '100%'], ['css', 'overflowY', 'auto']]);
+              divProperties = _div$1(null, [['attr', 'id', 'properties' + id], ['css', 'height', '100%']]),
+              divStyles = _div$1(null, [['attr', 'id', 'styles' + id], ['css', 'height', '100%'], ['css', 'overflowY', 'auto']]);
 
           var layer = nsGmx$1.gmxMap.layersByID[layerName],
               parentStyle = elemProperties.styles && elemProperties.styles[0] || elemProperties;
@@ -7083,7 +7092,7 @@
             layer.setZoomBounds(this.getMinZoom(), this.getMaxZoom());
           });
 
-          _$2(divStyles, [_ul([liMinZoom, liMaxZoom])]);
+          _$2(divStyles, [_ul$1([liMinZoom, liMaxZoom])]);
 
           this.createLoadingLayerEditorProperties(div, divProperties, null, {
             doneCallback: function doneCallback() {
@@ -7107,7 +7116,7 @@
 
             _this.drawingBorders.removeRoute(layerName, true);
 
-            if ($('#drawingBorderDialog' + layerName).length) removeDialog($('#drawingBorderDialog' + layerName)[0].parentNode);
+            if ($('#drawingBorderDialog' + layerName).length) removeDialog$1($('#drawingBorderDialog' + layerName)[0].parentNode);
             return false;
           };
 
@@ -7116,7 +7125,7 @@
           nsGmx$1.createMultiLayerEditorServer(elemProperties, div, treeView);
         }
       } else if (elemProperties.type == "Virtual") {
-        var divProperties = _div(null, [['attr', 'id', 'properties' + id], ['css', 'height', '100%']]);
+        var divProperties = _div$1(null, [['attr', 'id', 'properties' + id], ['css', 'height', '100%']]);
 
         this.createLoadingLayerEditorProperties(div, divProperties, null, {
           doneCallback: function doneCallback() {
@@ -7158,8 +7167,8 @@
           $(spanIcon).empty().append(newIcon).attr('styleType', $(newIcon).attr('styleType'));
         });
 
-        var canvasStyles = _div(null, [['css', 'marginTop', '10px']]),
-            canvasCharts = _div(null, [['css', 'marginTop', '10px']]),
+        var canvasStyles = _div$1(null, [['css', 'marginTop', '10px']]),
+            canvasCharts = _div$1(null, [['css', 'marginTop', '10px']]),
             closeFunc = function closeFunc() {
           $(canvasStyles).find(".colorSelector").each(function () {
             $('#' + $(this).data("colorpickerId")).remove();
@@ -7171,9 +7180,9 @@
         };
 
         var id = 'wfstabs' + String(Math.random()).substring(2, 9),
-            tabMenu = _div([_ul([_li$1([_a([_t(_gtxt("Стили"))], [['attr', 'href', '#styles' + id]])]), _li$1([_a([_t(_gtxt("Диаграммы"))], [['attr', 'href', '#graph' + id]])])])]),
-            divStyles = _div(null, [['attr', 'id', 'styles' + id]]),
-            divGraph = _div(null, [['attr', 'id', 'graph' + id]]);
+            tabMenu = _div$1([_ul$1([_li$1([_a$1([_t$1(_gtxt("Стили"))], [['attr', 'href', '#styles' + id]])]), _li$1([_a$1([_t$1(_gtxt("Диаграммы"))], [['attr', 'href', '#graph' + id]])])])]),
+            divStyles = _div$1(null, [['attr', 'id', 'styles' + id]]),
+            divGraph = _div$1(null, [['attr', 'id', 'graph' + id]]);
 
         _$2(tabMenu, [divStyles, divGraph]);
 
@@ -7208,13 +7217,13 @@
     };
 
     mapHelper$1.prototype.createChartsEditor = function (parent, elemCanvas) {
-      var graphTypeSel = nsGmx$1.Utils._select([_option([_t(_gtxt("График по времени"))], [['attr', 'value', 'func']]), _option([_t(_gtxt("Круговая"))], [['attr', 'value', 'pie']])], [['dir', 'className', 'selectStyle'], ['css', 'width', '180px']]),
-          propertiesMask = _input(null, [['dir', 'className', 'inputStyle'], ['css', 'width', '180px']]);
+      var graphTypeSel = nsGmx$1.Utils._select([_option$1([_t$1(_gtxt("График по времени"))], [['attr', 'value', 'func']]), _option$1([_t$1(_gtxt("Круговая"))], [['attr', 'value', 'pie']])], [['dir', 'className', 'selectStyle'], ['css', 'width', '180px']]),
+          propertiesMask = _input$1(null, [['dir', 'className', 'inputStyle'], ['css', 'width', '180px']]);
 
       switchSelect$1(graphTypeSel, elemCanvas.graphDataType);
       propertiesMask.value = elemCanvas.graphDataProperties;
 
-      _$2(parent, [_table([_tbody([_tr([_td([_t(_gtxt("Тип"))], [['css', 'width', '100px']]), _td([graphTypeSel])]), _tr([_td([_t(_gtxt("Маска атрибутов"))]), _td([propertiesMask])])])])]);
+      _$2(parent, [_table$1([_tbody$1([_tr$1([_td$1([_t$1(_gtxt("Тип"))], [['css', 'width', '100px']]), _td$1([graphTypeSel])]), _tr$1([_td$1([_t$1(_gtxt("Маска атрибутов"))]), _td$1([propertiesMask])])])])]);
     };
 
     mapHelper$1.prototype.createMultiStyle = function (elem, treeView, multiStyleParent, treeviewFlag, layerManagerFlag) {
@@ -7227,7 +7236,7 @@
 
       multiStyleParent.style.display = '';
 
-      var ulFilters = _ul();
+      var ulFilters = _ul$1();
 
       for (var i = 0; i < filters.length; i++) {
         var checkbox = $('<input type="checkbox" class="multistlye-visibility-checkbox">'),
@@ -7237,7 +7246,7 @@
         }),
             name = filters[i].Name || filters[i].Filter || 'Без имени ' + (i + 1),
             iconSpan = _span$1([icon]),
-            li = _li$1([_div([$(checkbox)[0], iconSpan, _span$1([_t(name)], [['css', 'marginLeft', '3px']])])]);
+            li = _li$1([_div$1([$(checkbox)[0], iconSpan, _span$1([_t$1(name)], [['css', 'marginLeft', '3px']])])]);
 
         $(iconSpan).attr('styleType', $(icon).attr('styleType'));
         $(checkbox).prop('checked', filters[i].MinZoom !== 25);
@@ -7268,7 +7277,7 @@
       ulFilters.style.display = 'none';
       ulFilters.className = 'hiddenTree';
 
-      _$2(multiStyleParent, [_ul([_li$1([_div([_t(_gtxt("Стили слоя"))]), ulFilters])])]);
+      _$2(multiStyleParent, [_ul$1([_li$1([_div$1([_t$1(_gtxt("Стили слоя"))]), ulFilters])])]);
 
       if (typeof treeviewFlag == 'undefined') $(multiStyleParent.firstChild).treeview();
     };
@@ -7282,7 +7291,7 @@
         fileName += _gtxt("helpPostfix");
 
         _mapHelper$1._loadHelpTextFromFile(fileName, function (text) {
-          var div = _div(null, [['dir', 'className', 'help']]);
+          var div = _div$1(null, [['dir', 'className', 'help']]);
 
           div.innerHTML = text;
 
@@ -7304,7 +7313,7 @@
       if (fileName.indexOf("http://") !== 0 || fileName.indexOf("https://") !== 0) $.ajax({
         url: fileName,
         success: proceess
-      });else sendCrossDomainJSONRequest(serverBase + "ApiSave.ashx?get=" + encodeURIComponent(fileName), function (response) {
+      });else sendCrossDomainJSONRequest$1(serverBase + "ApiSave.ashx?get=" + encodeURIComponent(fileName), function (response) {
         proceess(response.Result);
       });
     };
@@ -7704,7 +7713,7 @@
         fileName += _gtxt("helpPostfix");
 
         _mapHelper$1._loadHelpTextFromFile(fileName, function (text) {
-          var div = _div(null, [['dir', 'className', 'help']]);
+          var div = _div$1(null, [['dir', 'className', 'help']]);
 
           div.innerHTML = text;
 
@@ -16891,7 +16900,7 @@
     var CreateDrawingStylesEditorIcon = function CreateDrawingStylesEditorIcon(style, type) {
       var icon = nsGmx$1.Controls.createGeometryIcon(style, type);
 
-      _title(icon, _gtxt('drawingObjects.editStyleTitle'));
+      _title$1(icon, _gtxt('drawingObjects.editStyleTitle'));
 
       return icon;
     };
@@ -16926,7 +16935,7 @@
         });
         outlineColor.hex = templateStyle.outline.color;
 
-        _title(outlineColor, _gtxt('drawingObjects.edit.color'));
+        _title$1(outlineColor, _gtxt('drawingObjects.edit.color'));
 
         outlineTds.push(_td([outlineColor], [['css', 'width', '40px']]));
         var divSlider = nsGmx$1.Controls.createSlider(templateStyle.outline.opacity, function (event, ui) {
@@ -16934,7 +16943,7 @@
           setDrawingFeatureStyle(parentObject, templateStyle);
         });
 
-        _title(divSlider, _gtxt('drawingObjects.edit.transparency'));
+        _title$1(divSlider, _gtxt('drawingObjects.edit.transparency'));
 
         outlineTds.push(_td([divSlider], [['css', 'width', '100px'], ['css', 'padding', '4px 5px 3px 5px']]));
 
@@ -16952,7 +16961,7 @@
           });
         };
 
-        _title(outlineThick, _gtxt('drawingObjects.edit.lineWidth'));
+        _title$1(outlineThick, _gtxt('drawingObjects.edit.lineWidth'));
 
         outlineTds.push(_td([outlineThick], [['css', 'width', '30px']]));
 
@@ -17300,7 +17309,7 @@
         $(row).bind('onRemove', function () {
           drawingObject.remove();
         });
-        if (_collection.Count() == 1 && _options.showButtons) show(_divButtons);
+        if (_collection.Count() == 1 && _options.showButtons) show$1(_divButtons);
         /** В списке мышь переместилась над объект
         @name DrawingObjects.DrawingObjectList.mouseover
         @event
@@ -17833,7 +17842,7 @@
 
     exports.copy = copy;
     exports.extend = extend;
-    //# sourceMappingURL=scanex-object-extensions.cjs.js.map
+
     });
 
     unwrapExports(scanexObjectExtensions_cjs);
@@ -20654,7 +20663,7 @@
     exports.OsmDataProvider = OsmDataProvider;
     exports.SearchControl = SearchControl;
     exports.SearchWidget = SearchWidget;
-    //# sourceMappingURL=main.js.map
+
     });
 
     unwrapExports(main);
