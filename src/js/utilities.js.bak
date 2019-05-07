@@ -1838,7 +1838,6 @@ export {
     disableSelection,
     _div,
 	_img,
-    createCookie,
     eraseCookie,
     getOffsetRect,
     getWindowHeight,

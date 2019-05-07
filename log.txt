@@ -4,89 +4,77 @@
 
 
 E:\projects\Lithium\src\js\starter.js
-    51:5   error  'DrawingObjectCollection' is defined but never used                    no-unused-vars
-    52:2   error  'DrawingObjectInfoRow' is defined but never used                       no-unused-vars
-    53:2   error  'DrawingObjectList' is defined but never used                          no-unused-vars
-   130:53  error  Unnecessary escape character: \/                                       no-useless-escape
-   133:9   error  '_getFileName' is assigned a value but never used                      no-unused-vars
-   171:21  error  Unexpected if as the only statement in an else block                   no-lonely-if
-   386:76  error  'oDrawingObjectGeomixer' is not defined                                no-undef
-   494:33  error  'map' is defined but never used                                        no-unused-vars
-   531:21  error  'saveMapIcon' is assigned a value but never used                       no-unused-vars
-   568:21  error  'bookmarkIcon' is assigned a value but never used                      no-unused-vars
-   582:17  error  'printIcon' is assigned a value but never used                         no-unused-vars
-   590:17  error  'permalinkIcon' is assigned a value but never used                     no-unused-vars
-   816:40  error  'translationsHash' is not defined                                      no-undef
-   824:58  error  'customErrorDescriptions' is defined but never used                    no-unused-vars
-   845:45  error  Unexpected negating the left operand of 'in' operator                  no-unsafe-negation
-   853:29  error  'canvas' is already defined                                            no-redeclare
-   914:17  error  'createCookie' is not defined                                          no-undef
-   917:30  error  'documentHref' is not defined                                          no-undef
-  1006:17  error  Unexpected if as the only statement in an else block                   no-lonely-if
-  1009:28  error  'layersShown' is not defined                                           no-undef
-  1019:17  error  'layersShown' is not defined                                           no-undef
-  1067:37  error  'context' is defined but never used                                    no-unused-vars
-  1104:17  error  'pluginPath' is assigned a value but never used                        no-unused-vars
-  1142:29  error  'pt' is assigned a value but never used                                no-unused-vars
-  1143:29  error  'layer' is already defined                                             no-redeclare
-  1269:13  error  'layersShown' is not defined                                           no-undef
-  1273:17  error  'translationsHash' is not defined                                      no-undef
-  1276:31  error  'resizeAll' is not defined                                             no-undef
-  1277:13  error  'resizeAll' is not defined                                             no-undef
-  1325:26  error  'globalMapName' is not defined                                         no-undef
-  1350:35  error  'globalMapName' is not defined                                         no-undef
-  1379:35  error  'resizeAll' is not defined                                             no-undef
-  1380:17  error  'resizeAll' is not defined                                             no-undef
-  1382:44  error  'createCookie' is not defined                                          no-undef
-  1419:25  error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
-  1433:26  error  'i' is already defined                                                 no-redeclare
-  1434:25  error  'bl' is already defined                                                no-redeclare
-  1442:37  error  'currentTl' is assigned a value but never used                         no-unused-vars
-  1517:17  error  'rightLinks' is assigned a value but never used                        no-unused-vars
-  1563:18  error  'translationsHash' is not defined                                      no-undef
-  1601:41  error  'e' is defined but never used                                          no-unused-vars
-  1616:22  error  'l' is already defined                                                 no-redeclare
-  1617:21  error  'layer' is already defined                                             no-redeclare
-  1662:37  error  'minZoom' is assigned a value but never used                           no-unused-vars
-  1699:46  error  'ev' is defined but never used                                         no-unused-vars
-  1738:17  error  'gmxAPI' is not defined                                                no-undef
-  1766:29  error  'isVisible' is assigned a value but never used                         no-unused-vars
-  1810:25  error  'calendar' is assigned a value but never used                          no-unused-vars
-  1811:25  error  'synchronyzed' is assigned a value but never used                      no-unused-vars
-  1821:25  error  'calendar' is assigned a value but never used                          no-unused-vars
-  1828:25  error  Unexpected if as the only statement in an else block                   no-lonely-if
-  1830:33  error  'props' is already defined                                             no-redeclare
-  1846:37  error  Unexpected if as the only statement in an else block                   no-lonely-if
-  1850:45  error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
-  1856:49  error  Unexpected if as the only statement in an else block                   no-lonely-if
-  1858:57  error  'targetLayerID' is assigned a value but never used                     no-unused-vars
-  1859:57  error  'dateInterval' is already defined                                      no-redeclare
-  1864:57  error  'targetLayer' is already defined                                       no-redeclare
-  1865:57  error  'targetLayerID' is already defined                                     no-redeclare
-  1866:57  error  'dateInterval' is already defined                                      no-redeclare
-  1968:21  error  '_queryLoadShp' is not defined                                         no-undef
-  1983:33  error  Empty block statement                                                  no-empty
-  2003:21  error  'oDrawingObjectsModule' is assigned a value but never used             no-unused-vars
-  2009:52  error  'o.content.properties.visible' is assigned to itself                   no-self-assign
-  2140:27  error  'handleSidebarResize' is defined but never used                        no-unused-vars
-  2144:25  error  'newBounds' is assigned a value but never used                         no-unused-vars
-  2145:29  error  'c' is assigned a value but never used                                 no-unused-vars
-  2150:25  error  'blll' is assigned a value but never used                              no-unused-vars
-  2192:17  error  'mapLayers' is not defined                                             no-undef
-  2195:21  error  'iconContainer' is assigned a value but never used                     no-unused-vars
-  2206:21  error  'oSearchModule' is assigned a value but never used                     no-unused-vars
-  2249:21  error  'resizeAll' is not defined                                             no-undef
-  2269:18  error  Unnecessary semicolon                                                  no-extra-semi
-  2288:88  error  Unnecessary semicolon                                                  no-extra-semi
-  2289:91  error  Unnecessary semicolon                                                  no-extra-semi
-  2327:33  error  'l' is already defined                                                 no-redeclare
-  2337:30  error  'key' is already defined                                               no-redeclare
-  2338:29  error  'l' is already defined                                                 no-redeclare
-  2360:29  error  'layerProps' is assigned a value but never used                        no-unused-vars
-  2449:21  error  'evt' is assigned a value but never used                               no-unused-vars
+   120:49  error  Unnecessary escape character: \/                                       no-useless-escape
+   123:5   error  '_getFileName' is assigned a value but never used                      no-unused-vars
+   375:72  error  'oDrawingObjectGeomixer' is not defined                                no-undef
+   483:29  error  'map' is defined but never used                                        no-unused-vars
+   520:17  error  'saveMapIcon' is assigned a value but never used                       no-unused-vars
+   557:17  error  'bookmarkIcon' is assigned a value but never used                      no-unused-vars
+   571:13  error  'printIcon' is assigned a value but never used                         no-unused-vars
+   579:13  error  'permalinkIcon' is assigned a value but never used                     no-unused-vars
+   813:54  error  'customErrorDescriptions' is defined but never used                    no-unused-vars
+   995:13  error  Unexpected if as the only statement in an else block                   no-lonely-if
+   998:24  error  'layersShown' is not defined                                           no-undef
+  1008:13  error  'layersShown' is not defined                                           no-undef
+  1056:33  error  'context' is defined but never used                                    no-unused-vars
+  1093:13  error  'pluginPath' is assigned a value but never used                        no-unused-vars
+  1131:25  error  'pt' is assigned a value but never used                                no-unused-vars
+  1132:25  error  'layer' is already defined                                             no-redeclare
+  1258:9   error  'layersShown' is not defined                                           no-undef
+  1265:27  error  'resizeAll' is not defined                                             no-undef
+  1266:9   error  'resizeAll' is not defined                                             no-undef
+  1314:22  error  'globalMapName' is not defined                                         no-undef
+  1339:31  error  'globalMapName' is not defined                                         no-undef
+  1368:31  error  'resizeAll' is not defined                                             no-undef
+  1369:13  error  'resizeAll' is not defined                                             no-undef
+  1408:21  error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
+  1422:22  error  'i' is already defined                                                 no-redeclare
+  1423:21  error  'bl' is already defined                                                no-redeclare
+  1431:33  error  'currentTl' is assigned a value but never used                         no-unused-vars
+  1506:13  error  'rightLinks' is assigned a value but never used                        no-unused-vars
+  1590:37  error  'e' is defined but never used                                          no-unused-vars
+  1605:18  error  'l' is already defined                                                 no-redeclare
+  1606:17  error  'layer' is already defined                                             no-redeclare
+  1651:33  error  'minZoom' is assigned a value but never used                           no-unused-vars
+  1688:42  error  'ev' is defined but never used                                         no-unused-vars
+  1727:13  error  'gmxAPI' is not defined                                                no-undef
+  1755:25  error  'isVisible' is assigned a value but never used                         no-unused-vars
+  1799:21  error  'calendar' is assigned a value but never used                          no-unused-vars
+  1800:21  error  'synchronyzed' is assigned a value but never used                      no-unused-vars
+  1810:21  error  'calendar' is assigned a value but never used                          no-unused-vars
+  1817:21  error  Unexpected if as the only statement in an else block                   no-lonely-if
+  1819:29  error  'props' is already defined                                             no-redeclare
+  1835:33  error  Unexpected if as the only statement in an else block                   no-lonely-if
+  1839:41  error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
+  1845:45  error  Unexpected if as the only statement in an else block                   no-lonely-if
+  1847:53  error  'targetLayerID' is assigned a value but never used                     no-unused-vars
+  1848:53  error  'dateInterval' is already defined                                      no-redeclare
+  1853:53  error  'targetLayer' is already defined                                       no-redeclare
+  1854:53  error  'targetLayerID' is already defined                                     no-redeclare
+  1855:53  error  'dateInterval' is already defined                                      no-redeclare
+  1957:17  error  '_queryLoadShp' is not defined                                         no-undef
+  1972:29  error  Empty block statement                                                  no-empty
+  1992:17  error  'oDrawingObjectsModule' is assigned a value but never used             no-unused-vars
+  1998:48  error  'o.content.properties.visible' is assigned to itself                   no-self-assign
+  2129:26  error  'handleSidebarResize' is defined but never used                        no-unused-vars
+  2133:21  error  'newBounds' is assigned a value but never used                         no-unused-vars
+  2134:25  error  'c' is assigned a value but never used                                 no-unused-vars
+  2139:21  error  'blll' is assigned a value but never used                              no-unused-vars
+  2181:13  error  'mapLayers' is not defined                                             no-undef
+  2184:17  error  'iconContainer' is assigned a value but never used                     no-unused-vars
+  2195:17  error  'oSearchModule' is assigned a value but never used                     no-unused-vars
+  2238:17  error  'resizeAll' is not defined                                             no-undef
+  2258:14  error  Unnecessary semicolon                                                  no-extra-semi
+  2277:84  error  Unnecessary semicolon                                                  no-extra-semi
+  2278:87  error  Unnecessary semicolon                                                  no-extra-semi
+  2316:29  error  'l' is already defined                                                 no-redeclare
+  2326:26  error  'key' is already defined                                               no-redeclare
+  2327:25  error  'l' is already defined                                                 no-redeclare
+  2349:25  error  'layerProps' is assigned a value but never used                        no-unused-vars
+  2438:17  error  'evt' is assigned a value but never used                               no-unused-vars
 
-✖ 80 problems (80 errors, 0 warnings)
-  9 errors and 0 warnings potentially fixable with the `--fix` option.
+✖ 68 problems (68 errors, 0 warnings)
+  7 errors and 0 warnings potentially fixable with the `--fix` option.
 
 
 E:\projects\Lithium\src\js\lang_en.js
@@ -125,6 +113,12 @@ E:\projects\Lithium\src\js\lang_ru.js
 ✖ 16 problems (16 errors, 0 warnings)
 
 
+E:\projects\Lithium\src\js\VirtualLayerManager.js
+  17:5  error  'gmxCore' is not defined  no-undef
+
+✖ 1 problem (1 error, 0 warnings)
+
+
 E:\projects\Lithium\src\js\menu.js
    36:9   error  '_this' is assigned a value but never used   no-unused-vars
   129:28  error  '_span' is not defined                       no-undef
@@ -153,12 +147,6 @@ E:\projects\Lithium\src\js\menu.js
   4 errors and 0 warnings potentially fixable with the `--fix` option.
 
 
-E:\projects\Lithium\src\js\VirtualLayerManager.js
-  17:5  error  'gmxCore' is not defined  no-undef
-
-✖ 1 problem (1 error, 0 warnings)
-
-
 E:\projects\Lithium\src\js\translations.js
     5:1   error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
     6:5   error  'translationsHash' is assigned a value but never used                  no-unused-vars
@@ -180,6 +168,12 @@ E:\projects\Lithium\src\js\translations.js
   1 error and 0 warnings potentially fixable with the `--fix` option.
 
 
+E:\projects\Lithium\src\js\PluginsManager.js
+  217:30  error  '_' is not defined  no-undef
+
+✖ 1 problem (1 error, 0 warnings)
+
+
 E:\projects\Lithium\src\js\gmxcore.js
    73:26   error  Expected space(s) after "if"                      keyword-spacing
    73:41   error  Expected space(s) after "if"                      keyword-spacing
@@ -195,12 +189,6 @@ E:\projects\Lithium\src\js\gmxcore.js
 
 ✖ 11 problems (11 errors, 0 warnings)
   5 errors and 0 warnings potentially fixable with the `--fix` option.
-
-
-E:\projects\Lithium\src\js\PluginsManager.js
-  217:30  error  '_' is not defined  no-undef
-
-✖ 1 problem (1 error, 0 warnings)
 
 
 E:\projects\Lithium\src\js\mapHelper.js
@@ -321,22 +309,6 @@ E:\projects\Lithium\src\js\mapHelper.js
 
 ✖ 114 problems (114 errors, 0 warnings)
   2 errors and 0 warnings potentially fixable with the `--fix` option.
-
-
-E:\projects\Lithium\src\js\AuthManager.js
-  118:29   error  'parseResponse' is not defined               no-undef
-  145:40   error  'serverBase' is not defined                  no-undef
-  148:53   error  'serverBase' is not defined                  no-undef
-  160:13   error  'sendCrossDomainPostRequest' is not defined  no-undef
-  160:40   error  'serverBase' is not defined                  no-undef
-  183:40   error  'serverBase' is not defined                  no-undef
-  185:22   error  'parseResponse' is not defined               no-undef
-  190:98   error  'response' is defined but never used         no-unused-vars
-  207:40   error  'serverBase' is not defined                  no-undef
-  224:40   error  'gmxAuthServer' is not defined               no-undef
-  224:114  error  'response' is defined but never used         no-unused-vars
-
-✖ 11 problems (11 errors, 0 warnings)
 
 
 E:\projects\Lithium\src\js\utilities.js
@@ -463,6 +435,45 @@ E:\projects\Lithium\src\js\utilities.js
   20 errors and 0 warnings potentially fixable with the `--fix` option.
 
 
+E:\projects\Lithium\src\js\AuthManager.js
+  118:29   error  'parseResponse' is not defined               no-undef
+  145:40   error  'serverBase' is not defined                  no-undef
+  148:53   error  'serverBase' is not defined                  no-undef
+  160:13   error  'sendCrossDomainPostRequest' is not defined  no-undef
+  160:40   error  'serverBase' is not defined                  no-undef
+  183:40   error  'serverBase' is not defined                  no-undef
+  185:22   error  'parseResponse' is not defined               no-undef
+  190:98   error  'response' is defined but never used         no-unused-vars
+  207:40   error  'serverBase' is not defined                  no-undef
+  224:40   error  'gmxAuthServer' is not defined               no-undef
+  224:114  error  'response' is defined but never used         no-unused-vars
+
+✖ 11 problems (11 errors, 0 warnings)
+
+
+E:\projects\Lithium\src\js\AuthWidget.js
+   15:5    error  '_' is defined but never used      no-unused-vars
+   30:28   error  'makeButton' is not defined        no-undef
+   31:41   error  '_t' is not defined                no-undef
+   32:40   error  '_t' is not defined                no-undef
+   33:40   error  '_t' is not defined                no-undef
+   42:21   error  'inputError' is not defined        no-undef
+   57:32   error  'showErrorMessage' is not defined  no-undef
+   66:9    error  'showDialog' is not defined        no-undef
+  144:87   error  'defaultMapID' is not defined      no-undef
+  144:103  error  'globalMapName' is not defined     no-undef
+  144:131  error  'globalMapName' is not defined     no-undef
+  151:35   error  '_t' is not defined                no-undef
+  169:28   error  '_table' is not defined            no-undef
+  169:36   error  '_tr' is not defined               no-undef
+  170:17   error  '_td' is not defined               no-undef
+  171:17   error  '_td' is not defined               no-undef
+  229:25   error  'inputError' is not defined        no-undef
+  237:32   error  'showDialog' is not defined        no-undef
+
+✖ 18 problems (18 errors, 0 warnings)
+
+
 E:\projects\Lithium\src\js\mapLayers.js
     21:1   error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
     61:17  error  'hide' is not defined                                                  no-undef
@@ -545,27 +556,28 @@ E:\projects\Lithium\src\js\mapLayers.js
   3 errors and 0 warnings potentially fixable with the `--fix` option.
 
 
-E:\projects\Lithium\src\js\AuthWidget.js
-   15:5    error  '_' is defined but never used      no-unused-vars
-   30:28   error  'makeButton' is not defined        no-undef
-   31:41   error  '_t' is not defined                no-undef
-   32:40   error  '_t' is not defined                no-undef
-   33:40   error  '_t' is not defined                no-undef
-   42:21   error  'inputError' is not defined        no-undef
-   57:32   error  'showErrorMessage' is not defined  no-undef
-   66:9    error  'showDialog' is not defined        no-undef
-  144:87   error  'defaultMapID' is not defined      no-undef
-  144:103  error  'globalMapName' is not defined     no-undef
-  144:131  error  'globalMapName' is not defined     no-undef
-  151:35   error  '_t' is not defined                no-undef
-  169:28   error  '_table' is not defined            no-undef
-  169:36   error  '_tr' is not defined               no-undef
-  170:17   error  '_td' is not defined               no-undef
-  171:17   error  '_td' is not defined               no-undef
-  229:25   error  'inputError' is not defined        no-undef
-  237:32   error  'showDialog' is not defined        no-undef
+E:\projects\Lithium\src\js\contextMenuController.js
+    5:1   error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
+   45:31  error  '_div' is not defined                                                  no-undef
+  296:17  error  'securityDialog' is already defined                                    no-redeclare
+  337:7   error  'treeElem' is assigned a value but never used                          no-unused-vars
+  345:3   error  '_abstractTree' is not defined                                         no-undef
+  398:30  error  'context' is defined but never used                                    no-unused-vars
+  404:3   error  'sendCrossDomainJSONRequest' is not defined                            no-undef
+  405:9   error  'parseResponse' is not defined                                         no-undef
+  435:30  error  'res' is defined but never used                                        no-unused-vars
+  453:30  error  'context' is defined but never used                                    no-unused-vars
+  471:21  error  'taskInfo' is defined but never used                                   no-unused-vars
+  472:4   error  'showErrorMessage' is not defined                                      no-undef
+  473:26  error  'taskInfo' is defined but never used                                   no-unused-vars
+  474:4   error  'showErrorMessage' is not defined                                      no-undef
+  476:30  error  'taskInfo' is defined but never used                                   no-unused-vars
+  525:18  error  Unnecessary semicolon                                                  no-extra-semi
+  610:22  error  'context' is defined but never used                                    no-unused-vars
+  638:26  error  'context' is defined but never used                                    no-unused-vars
 
 ✖ 18 problems (18 errors, 0 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
 
 
 E:\projects\Lithium\src\js\drawingObjects.js
@@ -653,51 +665,6 @@ E:\projects\Lithium\src\js\drawingObjects.js
 
 ✖ 81 problems (81 errors, 0 warnings)
   3 errors and 0 warnings potentially fixable with the `--fix` option.
-
-
-E:\projects\Lithium\src\js\contextMenuController.js
-    5:1   error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
-   45:31  error  '_div' is not defined                                                  no-undef
-  296:17  error  'securityDialog' is already defined                                    no-redeclare
-  337:7   error  'treeElem' is assigned a value but never used                          no-unused-vars
-  345:3   error  '_abstractTree' is not defined                                         no-undef
-  398:30  error  'context' is defined but never used                                    no-unused-vars
-  404:3   error  'sendCrossDomainJSONRequest' is not defined                            no-undef
-  405:9   error  'parseResponse' is not defined                                         no-undef
-  435:30  error  'res' is defined but never used                                        no-unused-vars
-  453:30  error  'context' is defined but never used                                    no-unused-vars
-  471:21  error  'taskInfo' is defined but never used                                   no-unused-vars
-  472:4   error  'showErrorMessage' is not defined                                      no-undef
-  473:26  error  'taskInfo' is defined but never used                                   no-unused-vars
-  474:4   error  'showErrorMessage' is not defined                                      no-undef
-  476:30  error  'taskInfo' is defined but never used                                   no-unused-vars
-  525:18  error  Unnecessary semicolon                                                  no-extra-semi
-  610:22  error  'context' is defined but never used                                    no-unused-vars
-  638:26  error  'context' is defined but never used                                    no-unused-vars
-
-✖ 18 problems (18 errors, 0 warnings)
-  1 error and 0 warnings potentially fixable with the `--fix` option.
-
-
-E:\projects\Lithium\src\js\queryLoadShp.js
-   36:21  error  '_input' is not defined            no-undef
-   44:21  error  '_form' is not defined             no-undef
-   46:21  error  '_img' is not defined              no-undef
-   48:25  error  '_div' is not defined              no-undef
-   48:31  error  '_span' is not defined             no-undef
-   48:38  error  '_t' is not defined                no-undef
-   50:33  error  '_div' is not defined              no-undef
-   65:9   error  'showErrorMessage' is not defined  no-undef
-   68:16  error  'nsGmx' is not defined             no-undef
-   85:5   error  'nsGmx' is not defined             no-undef
-   88:16  error  'nsGmx' is not defined             no-undef
-   92:32  error  '_' is not defined                 no-undef
-   93:9   error  'nsGmx' is not defined             no-undef
-   95:9   error  'nsGmx' is not defined             no-undef
-  105:2   error  'hide' is not defined              no-undef
-  106:2   error  'show' is not defined              no-undef
-
-✖ 16 problems (16 errors, 0 warnings)
 
 
 E:\projects\Lithium\src\js\LayersTree.js
@@ -831,10 +798,50 @@ E:\projects\Lithium\src\js\loadServerData.js
   3 errors and 0 warnings potentially fixable with the `--fix` option.
 
 
+E:\projects\Lithium\src\js\queryLoadShp.js
+   36:21  error  '_input' is not defined            no-undef
+   44:21  error  '_form' is not defined             no-undef
+   46:21  error  '_img' is not defined              no-undef
+   48:25  error  '_div' is not defined              no-undef
+   48:31  error  '_span' is not defined             no-undef
+   48:38  error  '_t' is not defined                no-undef
+   50:33  error  '_div' is not defined              no-undef
+   65:9   error  'showErrorMessage' is not defined  no-undef
+   68:16  error  'nsGmx' is not defined             no-undef
+   85:5   error  'nsGmx' is not defined             no-undef
+   88:16  error  'nsGmx' is not defined             no-undef
+   92:32  error  '_' is not defined                 no-undef
+   93:9   error  'nsGmx' is not defined             no-undef
+   95:9   error  'nsGmx' is not defined             no-undef
+  105:2   error  'hide' is not defined              no-undef
+  106:2   error  'show' is not defined              no-undef
+
+✖ 16 problems (16 errors, 0 warnings)
+
+
 E:\projects\Lithium\src\js\HeaderLinksControl.js
   27:64  error  'array' is defined but never used  no-unused-vars
 
 ✖ 1 problem (1 error, 0 warnings)
+
+
+E:\projects\Lithium\src\js\LayerProperties.js
+    3:1   error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
+   58:27  error  '_' is not defined                                                     no-undef
+  139:9   error  'sendCrossDomainJSONRequest' is not defined                            no-undef
+  139:36  error  'serverBase' is not defined                                            no-undef
+  140:18  error  'parseResponse' is not defined                                         no-undef
+  176:21  error  'type' is already defined                                              no-redeclare
+  177:21  error  'value' is already defined                                             no-redeclare
+  238:65  error  'serverBase' is not defined                                            no-undef
+  273:66  error  'serverBase' is not defined                                            no-undef
+  287:65  error  'serverBase' is not defined                                            no-undef
+  312:61  error  'serverBase' is not defined                                            no-undef
+  335:61  error  'serverBase' is not defined                                            no-undef
+  349:61  error  'serverBase' is not defined                                            no-undef
+  382:1   error  'gmxCore' is not defined                                               no-undef
+
+✖ 14 problems (14 errors, 0 warnings)
 
 
 E:\projects\Lithium\src\js\queryTabs.js
@@ -861,25 +868,6 @@ E:\projects\Lithium\src\js\queryTabs.js
   312:9   error  'mapHelp' is not defined                           no-undef
 
 ✖ 21 problems (21 errors, 0 warnings)
-
-
-E:\projects\Lithium\src\js\LayerProperties.js
-    3:1   error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
-   58:27  error  '_' is not defined                                                     no-undef
-  139:9   error  'sendCrossDomainJSONRequest' is not defined                            no-undef
-  139:36  error  'serverBase' is not defined                                            no-undef
-  140:18  error  'parseResponse' is not defined                                         no-undef
-  176:21  error  'type' is already defined                                              no-redeclare
-  177:21  error  'value' is already defined                                             no-redeclare
-  238:65  error  'serverBase' is not defined                                            no-undef
-  273:66  error  'serverBase' is not defined                                            no-undef
-  287:65  error  'serverBase' is not defined                                            no-undef
-  312:61  error  'serverBase' is not defined                                            no-undef
-  335:61  error  'serverBase' is not defined                                            no-undef
-  349:61  error  'serverBase' is not defined                                            no-undef
-  382:1   error  'gmxCore' is not defined                                               no-undef
-
-✖ 14 problems (14 errors, 0 warnings)
 
 
 E:\projects\Lithium\src\js\LayerEditor.js
@@ -1392,36 +1380,6 @@ E:\projects\Lithium\src\js\ProfilePlugin\ProfilePlugin.js
   3 errors and 0 warnings potentially fixable with the `--fix` option.
 
 
-E:\projects\Lithium\src\js\Controls.js
-   78:4   error  Unexpected if as the only statement in an else block  no-lonely-if
-  127:33  error  'e' is defined but never used                         no-unused-vars
-  196:15  error  '_input' is not defined                               no-undef
-  233:13  error  '_this' is assigned a value but never used            no-unused-vars
-  243:13  error  'showErrorMessage' is not defined                     no-undef
-  246:13  error  'gmxCore' is not defined                              no-undef
-  255:21  error  'list' is assigned a value but never used             no-unused-vars
-  261:25  error  'removeDialog' is not defined                         no-undef
-  344:28  error  '_span' is not defined                                no-undef
-  344:35  error  '_t' is not defined                                   no-undef
-  348:22  error  '_tr' is not defined                                  no-undef
-  348:27  error  '_td' is not defined                                  no-undef
-  348:69  error  '_td' is not defined                                  no-undef
-  351:13  error  'title' is assigned a value but never used            no-unused-vars
-  351:21  error  '_span' is not defined                                no-undef
-  352:13  error  'summary' is assigned a value but never used          no-unused-vars
-  352:23  error  '_span' is not defined                                no-undef
-  368:21  error  '_table' is not defined                               no-undef
-  368:29  error  '_tbody' is not defined                               no-undef
-  383:29  error  '_t' is not defined                                   no-undef
-  392:25  error  '_table' is not defined                               no-undef
-  392:33  error  '_tbody' is not defined                               no-undef
-  403:13  error  'showDialog' is not defined                           no-undef
-  428:1   error  'gmxCore' is not defined                              no-undef
-
-✖ 24 problems (24 errors, 0 warnings)
-  1 error and 0 warnings potentially fixable with the `--fix` option.
-
-
 E:\projects\Lithium\src\js\GroupEditor.js
     4:1    error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
   126:14   error  '_abstractTree' is not defined                                         no-undef
@@ -1562,6 +1520,36 @@ E:\projects\Lithium\src\js\GroupEditor.js
   839:1    error  'gmxCore' is not defined                                               no-undef
 
 ✖ 137 problems (137 errors, 0 warnings)
+
+
+E:\projects\Lithium\src\js\Controls.js
+   78:4   error  Unexpected if as the only statement in an else block  no-lonely-if
+  127:33  error  'e' is defined but never used                         no-unused-vars
+  196:15  error  '_input' is not defined                               no-undef
+  233:13  error  '_this' is assigned a value but never used            no-unused-vars
+  243:13  error  'showErrorMessage' is not defined                     no-undef
+  246:13  error  'gmxCore' is not defined                              no-undef
+  255:21  error  'list' is assigned a value but never used             no-unused-vars
+  261:25  error  'removeDialog' is not defined                         no-undef
+  344:28  error  '_span' is not defined                                no-undef
+  344:35  error  '_t' is not defined                                   no-undef
+  348:22  error  '_tr' is not defined                                  no-undef
+  348:27  error  '_td' is not defined                                  no-undef
+  348:69  error  '_td' is not defined                                  no-undef
+  351:13  error  'title' is assigned a value but never used            no-unused-vars
+  351:21  error  '_span' is not defined                                no-undef
+  352:13  error  'summary' is assigned a value but never used          no-unused-vars
+  352:23  error  '_span' is not defined                                no-undef
+  368:21  error  '_table' is not defined                               no-undef
+  368:29  error  '_tbody' is not defined                               no-undef
+  383:29  error  '_t' is not defined                                   no-undef
+  392:25  error  '_table' is not defined                               no-undef
+  392:33  error  '_tbody' is not defined                               no-undef
+  403:13  error  'showDialog' is not defined                           no-undef
+  428:1   error  'gmxCore' is not defined                              no-undef
+
+✖ 24 problems (24 errors, 0 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
 
 
 E:\projects\Lithium\src\js\LayerStylesEditor.js

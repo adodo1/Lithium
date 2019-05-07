@@ -268,3 +268,7 @@ gmxCore && gmxCore.addModule('translations',
 })
 
 }();
+
+const translationsHash = window.translationsHash;
+
+export { translationsHash };
