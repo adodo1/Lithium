@@ -5,7 +5,11 @@
  @name AuthManager
 */
 import nsGmx from './nsGmx.js';
-import {sendCrossDomainJSONRequest} from './utilities.js';
+import {
+    sendCrossDomainJSONRequest,
+    sendCrossDomainPostRequest,
+    parseResponse,
+} from './utilities.js';
 
 (function($)
 {
@@ -133,7 +137,7 @@ import {sendCrossDomainJSONRequest} from './utilities.js';
             }
 
 
-            for (var iProvider = 0; iProvider < checkProviders.length; iProvider++)
+            for (let iProvider = 0; iProvider < checkProviders.length; iProvider++)
             {
                 if (checkProviders[iProvider].canAuth())
                 {
@@ -142,10 +146,10 @@ import {sendCrossDomainJSONRequest} from './utilities.js';
                 }
             }
 
-            sendCrossDomainJSONRequest(serverBase + 'User/GetUserInfo.ashx?WrapStyle=func', function(response) {
+            sendCrossDomainJSONRequest(window.serverBase + 'User/GetUserInfo.ashx?WrapStyle=func', function(response) {
                 if (response.Status === 'ok' && !response.Result && window.mapsSite && window.gmxAuthServer) {
-                    var callbackPath = location.href.match(/(.*)\//)[0] + 'oAuthCallback.html';
-                    nsGmx.Utils.login(callbackPath, serverBase + 'oAuth/', function(userInfo) {
+                    let callbackPath = location.href.match(/(.*)\//)[0] + 'oAuthCallback.html';
+                    nsGmx.Utils.login(callbackPath, window.serverBase + 'oAuth/', function(userInfo) {
                         _processResponse({Status: 'ok', Result: userInfo || null});
                     }, null, true);
                 } else {
@@ -157,7 +161,7 @@ import {sendCrossDomainJSONRequest} from './utilities.js';
 
         this.login = function(login, password, callback, errorCallback)
         {
-            sendCrossDomainPostRequest(serverBase + "Login.ashx", {WrapStyle: 'message', login: login, pass: password}, function(response)
+            sendCrossDomainPostRequest(window.serverBase + "Login.ashx", {WrapStyle: 'message', login: login, pass: password}, function(response)
             {
                 if (response.Status == 'ok' && response.Result)
                 {
@@ -180,7 +184,7 @@ import {sendCrossDomainJSONRequest} from './utilities.js';
 
         this.logout = function(callback)
         {
-            sendCrossDomainJSONRequest(serverBase + "Logout.ashx?WrapStyle=func&WithoutRedirection=1", function(response)
+            sendCrossDomainJSONRequest(window.serverBase + "Logout.ashx?WrapStyle=func&WithoutRedirection=1", function(response)
             {
                 if (!parseResponse(response))
                     return;
@@ -204,7 +208,7 @@ import {sendCrossDomainJSONRequest} from './utilities.js';
 
         this.changePassword = function(oldPass, newPass, callback, errorCallback)
         {
-            sendCrossDomainJSONRequest(serverBase + "ChangePassword.ashx?WrapStyle=func&old=" + encodeURIComponent(oldPass) + "&new=" + encodeURIComponent(newPass), function(response)
+            sendCrossDomainJSONRequest(window.serverBase + "ChangePassword.ashx?WrapStyle=func&old=" + encodeURIComponent(oldPass) + "&new=" + encodeURIComponent(newPass), function(response)
             {
                 if (response.Status == 'ok' && response.Result)
                     callback && callback();
@@ -221,7 +225,7 @@ import {sendCrossDomainJSONRequest} from './utilities.js';
 
     var doAuthServerLogin = function(token) {
         if (token && window.mapsSite && window.gmxAuthServer) {
-            sendCrossDomainJSONRequest(gmxAuthServer + 'Handler/Me?token=' + encodeURIComponent(token), function(response) {
+            sendCrossDomainJSONRequest(window.gmxAuthServer + 'Handler/Me?token=' + encodeURIComponent(token), function() {
                 //console.log(response);
             }, 'callback');
         }

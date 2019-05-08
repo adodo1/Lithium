@@ -1,4 +1,4 @@
- var gmxVersion = {
+ window.gmxVersion = {
 		 "jsPath": {
 			"//www.kosmosnimki.ru/lib/geomixer_1.3/geomixer-src.js": 1508146119421
 		 },
@@ -9,7 +9,7 @@
 // var defaultMapID = 'DefaultMap';
 // var mapHostName = false;
 // var apiKey = '33959EF7AFB4FB92EEC2E7B73AE8458B';
-var serverBase = 'https://maps.kosmosnimki.ru/'; // Адрес для выполнения серверных запросов
+window.serverBase = 'https://maps.kosmosnimki.ru/'; // Адрес для выполнения серверных запросов
 // var copyright = false;
 // var pagetitle = false;
 // var usecatalog = true;
@@ -18,7 +18,7 @@ var serverBase = 'https://maps.kosmosnimki.ru/'; // Адрес для выпол
 //var mapsSite = true;
 //var apikeySendHosts = false;
 //var apikeyRequestHost = false;
-var useInternalSearch = true;   // использовать поиск только по внутренним слоям
+window.useInternalSearch = true;   // использовать поиск только по внутренним слоям
 
 /**
  * baseMap - объект для задания базовых подложек вручную

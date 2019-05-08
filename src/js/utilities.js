@@ -1,4 +1,6 @@
 import nsGmx from './nsGmx.js';
+import './apif';
+
 nsGmx.Utils = nsGmx.Utils || {};
 var domManipulation = {
     // _el(nodeName, [childs], [attrs])
@@ -37,8 +39,7 @@ var domManipulation = {
             var atr = attrs[i],
                 type = atr[0];
 
-            switch(type)
-            {
+            switch (type) {
                 case 'css':
                     (el.style[atr[1]] = atr[2]);
                     break;
@@ -191,14 +192,14 @@ function valueInArray(arr, value)
 function getOffsetRect(elem)
 {
     var box = elem.getBoundingClientRect(),
-    	body = document.body,
-    	docElem = document.documentElement,
-    	scrollTop = window.pageYOffset || docElem.scrollTop || body.scrollTop,
-    	scrollLeft = window.pageXOffset || docElem.scrollLeft || body.scrollLeft,
-    	clientTop = docElem.clientTop || body.clientTop || 0,
-    	clientLeft = docElem.clientLeft || body.clientLeft || 0,
-    	top  = box.top +  scrollTop - clientTop,
-    	left = box.left + scrollLeft - clientLeft;
+        body = document.body,
+        docElem = document.documentElement,
+        scrollTop = window.pageYOffset || docElem.scrollTop || body.scrollTop,
+        scrollLeft = window.pageXOffset || docElem.scrollLeft || body.scrollLeft,
+        clientTop = docElem.clientTop || body.clientTop || 0,
+        clientLeft = docElem.clientLeft || body.clientLeft || 0,
+        top  = box.top +  scrollTop - clientTop,
+        left = box.left + scrollLeft - clientLeft;
 
     return { top: Math.round(top), left: Math.round(left) }
 }
@@ -211,7 +212,7 @@ function attachEffects(elem, className)
 	elem.onmouseout = function(e)
 	{
 		var evt = e || window.event,
-			target = evt.srcElement || evt.target,
+			// target = evt.srcElement || evt.target,
 			relTarget = evt.relatedTarget || evt.toElement;
 
 		try
@@ -271,7 +272,7 @@ function makeLinkButton(text)
 	return span;
 }
 function makeHelpButton(helpText){
-	var btn = makeImageButton(getAPIHostRoot() + 'api/img/help.gif');
+	var btn = makeImageButton(window.gmxAPI.getAPIHostRoot() + 'api/img/help.gif');
 	btn.setAttribute('title', helpText)
 	btn.onclick = function(){
 		showDialog('', _t(helpText), 300, 150);
@@ -287,7 +288,7 @@ function getOwnChildNumber(elem)
 }
 function stopEvent(e)
 {
-	if(!e) var e = window.event;
+	if (!e) e = window.event;
 
 	//e.cancelBubble is supported by IE - this will kill the bubbling process.
 	e.cancelBubble = true;
@@ -351,14 +352,14 @@ function showDialog(title, content, width, height, posX, posY, resizeFunc, close
         {
             params.resizeFunc && params.resizeFunc(ui.size);
         },
-        close: function(ev, ui)
+        close: function()
         {
             if (params.closeFunc && params.closeFunc())
                 return;
 
             removeDialog(canvas);
         },
-        open: function (ev, ui) {
+        open: function () {
         },
         closeText: null
     };
@@ -388,7 +389,7 @@ function showDialog(title, content, width, height, posX, posY, resizeFunc, close
     $(dialog).focusin(function() {
         var uis = $('.ui-dialog-content');
 
-        $(uis).each(function(index) {
+        $(uis).each(function() {
             var st = $(this).context.st;
             $(this).scrollTop(st);
         });
@@ -457,7 +458,7 @@ function insertAtCursor(myField, myValue, sel)
 		else
 		{
 			myField.focus();
-			var sel = document.selection.createRange();
+			sel = document.selection.createRange();
 			sel.text = myValue;
 		}
 	}
@@ -480,7 +481,7 @@ function sendRequest(url, callback, body)
 		xmlhttp = new XMLHttpRequest();
 	else
 		try { xmlhttp = new ActiveXObject("Msxml2.XMLHTTP"); }
-		catch (e) { try {xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); } catch (E) {}}
+		catch { try {xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); } catch (e) { console.log(e); }}
 
 	xmlhttp.open(body ? "POST" : "GET", url, true);
 	if (body)
@@ -1841,7 +1842,9 @@ export {
 	_img,
     createCookie,
     eraseCookie,
+    getkey,
     getOffsetRect,
+    getOwnChildNumber,
     getWindowHeight,
     getWindowWidth,    
 	show,
@@ -1850,7 +1853,8 @@ export {
     _input,
     insertAtCursor,
     _li,
-    makeImageButton,
+    makeHelpButton,
+    makeImageButton,    
     makeLinkButton,
     objLength,
     _option,    
@@ -1875,6 +1879,7 @@ export {
 	_th,
 	_td,
     _ul,
+    valueInArray,
     visible,
     _,
 };

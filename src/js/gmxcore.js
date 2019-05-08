@@ -1,4 +1,6 @@
-﻿/** Загрузчик модулей ГеоМиксера
+﻿import nsGmx from './nsGmx.js';
+
+/** Загрузчик модулей ГеоМиксера
 Позволяет загружать модули из разных файлов.
 Модуль - единица кода, имеющая уникальное имя и зависящая от других модулей и скриптов.
 @namespace
@@ -189,7 +191,7 @@ var gmxCore = function()
                 if ( typeof _modulePathes[moduleName] === 'undefined' )
                     _modulePathes[moduleName] = pathRegexp.test(path) ? path.match(pathRegexp)[1] + "/" : "";
 
-                var pathPostfix = "";
+                // var pathPostfix = "";
 
                 newScript.onerror = function() {
                     def.reject();
@@ -305,8 +307,7 @@ var gmxCore = function()
             var localFilesInfo = filesInfo.slice(0);
             var def = $.Deferred();
 
-            var doLoad = function(info)
-            {
+            var doLoad = function() {
                 if (localFilesInfo.length > 0)
                 {
                     var curInfo = localFilesInfo.shift();

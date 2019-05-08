@@ -1,4 +1,5 @@
 ﻿import nsGmx from './nsGmx.js';
+import gmxCore from './gmxcore.js';
 
 nsGmx.VirtualLayerManager = function() {
     this._classes = window.gmxVirtualClasses || {};

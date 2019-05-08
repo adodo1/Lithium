@@ -5,10 +5,13 @@ import gmxCore from './gmxcore.js';
 import './GroupEditor.js';
 import {
 	sendCrossDomainJSONRequest,
+	sendCrossDomainPostRequest,
 	_li,
 	objLength,
+	createCookie,
 	showDialog,
 	removeDialog,
+	parseResponse,
 	_table, _tbody, _tr, _td, _t, _input,
 	_div, _span, _img, _a, _ul, _option,
 	switchSelect,
@@ -17,6 +20,7 @@ import {
 import './Controls.js';
 import './LayerStylesEditor.js';
 import _queryTabs from './queryTabs.js';
+import './apif.js';
 
 const _ = nsGmx.Utils._;
 
@@ -255,12 +259,12 @@ mapHelper.prototype.makeStyle = function(style)
 		}
 		if (style.BorderColor || style.BorderWidth)
 			givenStyle.outline = {
-				color: parseColor(style.BorderColor),
+				color: window.gmxAPI.parseColor(style.BorderColor),
 				thickness: parseInt(style.BorderWidth || "1")
 			};
 		if (style.FillColor)
 			givenStyle.fill = {
-				color: parseColor(style.FillColor),
+				color: window.gmxAPI.parseColor(style.FillColor),
 				opacity: 100 - parseInt(style.Transparency || "0")
 			};
 
@@ -268,7 +272,7 @@ mapHelper.prototype.makeStyle = function(style)
 		if (label)
 			givenStyle.label = {
 				field: label.FieldName,
-				color: parseColor(label.FontColor),
+				color: window.gmxAPI.parseColor(label.FontColor),
 				size: parseInt(label.FontSize || "12")
 			};
 	}
@@ -297,7 +301,7 @@ mapHelper.prototype.reloadMap = function()
     _mapHelper.getMapStateAsPermalink(function(permalinkID)
     {
         createCookie("TempPermalink", permalinkID);
-        window.location.replace(window.location.href.split("?")[0] + "?permalink=" + permalinkID + (window.defaultMapID == globalMapName ? "" : ("&" + globalMapName)));
+        window.location.replace(window.location.href.split("?")[0] + "?permalink=" + permalinkID + (window.defaultMapID == window.globalMapName ? "" : ("&" + window.globalMapName)));
     })
 }
 
@@ -308,7 +312,7 @@ mapHelper.prototype.updateUnloadEvent = function(flag)
 
 	if (this.unsavedChanges)
 	{
-		window.onbeforeunload = function(e)
+		window.onbeforeunload = function()
 		{
 			return _gtxt("В дереве слоев остались несохраненные изменения!");
 		}
@@ -410,15 +414,15 @@ mapHelper.prototype.getMapState = function() {
             return;
         }
 
-        var geoJSON = feature.toGeoJSON();
+        let geoJSON = feature.toGeoJSON();
 
-        var elem = {
+        let elem = {
             properties: geoJSON.properties,
             geometry: L.gmxUtil.geoJSONtoGeometry(geoJSON, true)
         };
 
         if (elem.geometry.type !== "POINT") {
-            var style = feature.getOptions().lineStyle;
+            let style = feature.getOptions().lineStyle;
 
             if (style) {
                 elem.thickness = style.weight || 2;
@@ -434,11 +438,11 @@ mapHelper.prototype.getMapState = function() {
         drawnObjects.push(elem);
     });
 
-    for (var l in nsGmx.gmxMap.layersByID) {
-        var layer = nsGmx.gmxMap.layersByID[l];
+    for (let l in nsGmx.gmxMap.layersByID) {
+        let layer = nsGmx.gmxMap.layersByID[l];
 
         if (layer.getPopups) {
-            var popups = layer.getPopups();
+            let popups = layer.getPopups();
             if (popups.length) {
                 openPopups[l] = popups;
             }
@@ -446,25 +450,25 @@ mapHelper.prototype.getMapState = function() {
     }
 
     this.findTreeElems(_layersTree.treeModel.getRawTree(), function(elem) {
-        var props = elem.content.properties;
+        let props = elem.content.properties;
         if (elem.type == 'group') {
-            var groupId = props.GroupID;
+            let groupId = props.GroupID;
 
-            if (!$("div[GroupID='" + groupId + "']").length && !props.changedByViewer)
-                return;
+            if (!$("div[GroupID='" + groupId + "']").length && !props.changedByViewer) {
+				return;
+			}                
 
             condition.visible[groupId] = props.visible;
             condition.expanded[groupId] = props.expanded;
-        } else {
-            if (props.changedByViewer) {
-                condition.visible[props.name] = props.visible;
-            }
-        }
+		}
+		else if (props.changedByViewer) {
+			condition.visible[props.name] = props.visible;
+		}        
     });
 
 	// layers tree permalink params (without server)
 	this.findTreeElems(_layersTree.treeModel.getRawTree(), function(elem) {
-		var props = elem.content.properties,
+		let props = elem.content.properties,
 			id = elem.type == 'group' ? props.GroupID : props.LayerID;
 
 		if (props.permalinkParams) {
@@ -472,10 +476,10 @@ mapHelper.prototype.getMapState = function() {
 		}
 	});
 
-	var dateIntervals = {};
+	let dateIntervals = {};
 
-	for (var l in nsGmx.gmxMap.layersByID) {
-		var layer = nsGmx.gmxMap.layersByID[l],
+	for (let l in nsGmx.gmxMap.layersByID) {
+		let layer = nsGmx.gmxMap.layersByID[l],
 			props = layer.getGmxProperties(),
 			isTemporalLayer = (layer instanceof L.gmx.VectorLayer && props.Temporal) || (props.type === 'Virtual' && layer.setDateInterval);
 
@@ -486,7 +490,7 @@ mapHelper.prototype.getMapState = function() {
 
     return {
         mode: lmap.gmxBaseLayersManager.getCurrentID(),
-        mapName: globalMapName,
+        mapName: window.globalMapName,
         position: {
             x: mercCenter.x,
             y: mercCenter.y,
@@ -507,7 +511,7 @@ mapHelper.prototype.getMapState = function() {
 
 mapHelper.prototype.getMapStyles = function()
 {
-	var styles = {};
+	let styles = {};
 
 	this.findChilds(_layersTree.treeModel.getRawTree(), function(child)
 	{
@@ -521,7 +525,7 @@ mapHelper.prototype.getMapStyles = function()
 mapHelper.prototype.showPermalink = function()
 {
 	this.createPermalink(function(id){
-        var url = window.location.protocol + "//" + window.location.host + window.location.pathname + "?permalink=" + id + (window.defaultMapID == globalMapName ? "" : ("&" + globalMapName));
+        var url = window.location.protocol + "//" + window.location.host + window.location.pathname + "?permalink=" + id + (window.defaultMapID == window.globalMapName ? "" : ("&" + window.globalMapName));
         var input = _input(null, [['dir','className','inputStyle inputFullWidth'],['attr','value', url]]);
 
         showDialog(_gtxt("Ссылка на текущее состояние карты"), _div([input]), 311, 80, false, false);
@@ -564,19 +568,19 @@ mapHelper.ImageSelectionWidget = Backbone.View.extend({
     className: 'gmx-icon-choose',
     events: {
         'click': function() {
-            var imagesDir = nsGmx.AuthManager.getUserFolder() + 'images'
+            var imagesDir = nsGmx.AuthManager.getUserFolder() + 'images',
                 _this = this;
-            sendCrossDomainJSONRequest(serverBase + 'FileBrowser/CreateFolder.ashx?WrapStyle=func&FullName=' + encodeURIComponent(imagesDir), function(response) {
+            sendCrossDomainJSONRequest(window.serverBase + 'FileBrowser/CreateFolder.ashx?WrapStyle=func&FullName=' + encodeURIComponent(imagesDir), function(response) {
                 if (!parseResponse(response))
                     return;
 
-                _fileBrowser.createBrowser(_gtxt("Изображение"), ['jpg', 'jpeg', 'png', 'gif', 'swf'], function(path) {
+                window._fileBrowser.createBrowser(_gtxt("Изображение"), ['jpg', 'jpeg', 'png', 'gif', 'swf'], function(path) {
                     var relativePath = path.substring(imagesDir.length);
                     if (relativePath[0] == '\\') {
                         relativePath = relativePath.substring(1);
                     }
 
-                    var url = serverBase + "GetImage.ashx?usr=" + encodeURIComponent(nsGmx.AuthManager.getLogin()) + "&img=" + encodeURIComponent(relativePath);
+                    var url = window.serverBase + "GetImage.ashx?usr=" + encodeURIComponent(nsGmx.AuthManager.getLogin()) + "&img=" + encodeURIComponent(relativePath);
 
                     _this.trigger('selected', url);
                 }, {startDir: imagesDir, restrictDir: imagesDir});
@@ -675,8 +679,8 @@ mapHelper.prototype.createStylesEditorIcon = function(parentStyles, type, params
 mapHelper.prototype.createLoadingLayerEditorProperties = function(div, parent, layerProperties, params) {
 	var elemProperties = div.gmxProperties.content.properties,
 		loading = _div([_img(null, [['attr','src','img/progress.gif'],['css','marginRight','10px']]), _t(_gtxt('загрузка...'))], [['css','margin','3px 0px 3px 20px']]),
-        type = elemProperties.type,
-		_this = this;
+        type = elemProperties.type;
+		// _this = this;
 
     if (type == "Vector")
     {
@@ -684,23 +688,19 @@ mapHelper.prototype.createLoadingLayerEditorProperties = function(div, parent, l
 
         return;
     }
-    else
-    {
-        if (elemProperties.name)
-        {
-            _(parent, [loading]);
+    else if (elemProperties.name) {
+		_(parent, [loading]);
 
-            sendCrossDomainJSONRequest(serverBase + "Layer/GetLayerInfo.ashx?WrapStyle=func&LayerName=" + elemProperties.name, function(response)
-            {
-                if (!parseResponse(response))
-                    return;
+		sendCrossDomainJSONRequest(window.serverBase + "Layer/GetLayerInfo.ashx?WrapStyle=func&LayerName=" + elemProperties.name, function(response)
+		{
+			if (!parseResponse(response))
+				return;
 
-                loading.removeNode(true);
+			loading.removeNode(true);
 
-                nsGmx.createLayerEditor(div, type, parent, response.Result, params)
-            })
-        }
-    }
+			nsGmx.createLayerEditor(div, type, parent, response.Result, params)
+		})
+	}    
 }
 
 mapHelper.prototype.createNewLayer = function(type)
@@ -726,7 +726,7 @@ mapHelper.prototype.createNewLayer = function(type)
     }
     else
     { //мультислой
-        var _this = this;
+        // var _this = this;
         nsGmx.createMultiLayerEditorNew( _layersTree );
     }
 }
@@ -796,7 +796,7 @@ mapHelper.prototype.createPropertiesTable = function(shownProperties, layerPrope
 	return trs;
 }
 
-mapHelper.prototype.createLayerEditor = function(div, treeView, selected, openedStyleIndex)
+mapHelper.prototype.createLayerEditor = function(div, treeView, selected)
 {
 	var elemProperties = div.gmxProperties.content.properties,
         layerName = elemProperties.name,
@@ -818,12 +818,12 @@ mapHelper.prototype.createLayerEditor = function(div, treeView, selected, opened
 		var mapName = elemProperties.mapName,
 			createTabs = function(layerProperties)
 			{
-				var id = 'layertabs' + layerName,
+				let id = 'layertabs' + layerName,
 					divProperties = _div(null,[['attr','id','properties' + id], ['css', 'height', '100%']]),
-					tabMenu,
+					// tabMenu,
                     additionalTabs = [];
 
-				var pos = nsGmx.Utils.getDialogPos(div, true, 390),
+				let pos = nsGmx.Utils.getDialogPos(div, true, 390),
                     updateFunc = function()
                     {
                     },
@@ -847,7 +847,7 @@ mapHelper.prototype.createLayerEditor = function(div, treeView, selected, opened
                     }
                 });
 
-				var divDialog = showDialog(_gtxt('Слой [value0]', elemProperties.title), divProperties, 350, 470, pos.left, pos.top, null, function()
+				let divDialog = showDialog(_gtxt('Слой [value0]', elemProperties.title), divProperties, 350, 470, pos.left, pos.top, null, function()
                 {
                     closeFunc();
                     delete _this.layerEditorsHash[layerName];
@@ -861,7 +861,7 @@ mapHelper.prototype.createLayerEditor = function(div, treeView, selected, opened
 		if (!this.attrValues[mapName])
 			this.attrValues[mapName] = {};
 
-		sendCrossDomainJSONRequest(serverBase + "Layer/GetLayerInfo.ashx?WrapStyle=func&NeedAttrValues=false&LayerName=" + layerName, function(response)
+		sendCrossDomainJSONRequest(window.serverBase + "Layer/GetLayerInfo.ashx?WrapStyle=func&NeedAttrValues=false&LayerName=" + layerName, function(response)
 		{
 			if (!parseResponse(response))
 				return;
@@ -887,14 +887,14 @@ mapHelper.prototype.createLayerEditor = function(div, treeView, selected, opened
 
 			this.layerEditorsHash[layerName] = true;
 
-			var id = 'layertabs' + layerName,
+			let id = 'layertabs' + layerName,
 				divProperties = _div(null,[['attr','id','properties' + id], ['css', 'height', '100%']]),
 				divStyles = _div(null,[['attr','id','styles' + id], ['css', 'height', '100%'], ['css', 'overflowY', 'auto']]);
 
-			var layer = nsGmx.gmxMap.layersByID[layerName],
+			let layer = nsGmx.gmxMap.layersByID[layerName],
 				parentStyle = elemProperties.styles && elemProperties.styles[0] || elemProperties;
 
-            var zoomPropertiesControl = new nsGmx.ZoomPropertiesControl(parentStyle.MinZoom, parentStyle.MaxZoom),
+            let zoomPropertiesControl = new nsGmx.ZoomPropertiesControl(parentStyle.MinZoom, parentStyle.MaxZoom),
                 liMinZoom = zoomPropertiesControl.getMinLi(),
                 liMaxZoom = zoomPropertiesControl.getMaxLi();
 
@@ -914,7 +914,7 @@ mapHelper.prototype.createLayerEditor = function(div, treeView, selected, opened
 
             });
 
-			var pos = nsGmx.Utils.getDialogPos(div, true, 330),
+			let pos = nsGmx.Utils.getDialogPos(div, true, 330),
 				closeFunc = function()
 				{
                     elemProperties.styles = elemProperties.styles || [];
@@ -935,14 +935,14 @@ mapHelper.prototype.createLayerEditor = function(div, treeView, selected, opened
 					return false;
 				};
 
-			var divDialog = showDialog(_gtxt('Слой [value0]', elemProperties.title), divProperties, 330, 410, pos.left, pos.top, null, closeFunc);
+			let divDialog = showDialog(_gtxt('Слой [value0]', elemProperties.title), divProperties, 330, 410, pos.left, pos.top, null, closeFunc);
 		}
 		else
 		{
             nsGmx.createMultiLayerEditorServer(elemProperties, div, treeView);
         }
 	} else if (elemProperties.type == "Virtual"){
-        var divProperties = _div(null,[['attr','id','properties' + id], ['css', 'height', '100%']]);
+        let divProperties = _div(null,[['attr','id','properties' + id], ['css', 'height', '100%']]);
 
         this.createLoadingLayerEditorProperties(div, divProperties, null, {
             doneCallback: function() {
@@ -950,13 +950,13 @@ mapHelper.prototype.createLayerEditor = function(div, treeView, selected, opened
             }
         });
 
-        var closeFunc = function() {
-            delete _this.layerEditorsHash[layerName];
-        };
+        // var closeFunc = function() {
+        //     delete _this.layerEditorsHash[layerName];
+        // };
 
-        var pos = nsGmx.Utils.getDialogPos(div, true, 330);
+        let pos = nsGmx.Utils.getDialogPos(div, true, 330);
 
-        var divDialog = showDialog(_gtxt('Слой [value0]', elemProperties.title), divProperties, 330, 410, pos.left, pos.top, null);
+        let divDialog = showDialog(_gtxt('Слой [value0]', elemProperties.title), divProperties, 330, 410, pos.left, pos.top, null);
     }
 }
 
@@ -1141,7 +1141,7 @@ mapHelper.prototype._loadHelpTextFromFile = function( fileName, callback, num, d
 	if (fileName.indexOf("http://") !== 0 || fileName.indexOf("https://") !== 0)
 		$.ajax({url: fileName, success: proceess});
 	else
-		sendCrossDomainJSONRequest(serverBase + "ApiSave.ashx?get=" + encodeURIComponent(fileName), function(response)
+		sendCrossDomainJSONRequest(window.serverBase + "ApiSave.ashx?get=" + encodeURIComponent(fileName), function(response)
 		{
 			proceess(response.Result);
 		});
@@ -1168,17 +1168,17 @@ mapHelper.prototype.version = function()
 }
 
 mapHelper.prototype.print = function() {
-	var centerControl = nsGmx.leafletMap.gmxControlsManager.get('center'),
+	let centerControl = nsGmx.leafletMap.gmxControlsManager.get('center'),
 		map = nsGmx.leafletMap,
-    	toggleMode = function(isPreviewMode) {
-        	map.gmxControlsManager.get('hide').setActive(!isPreviewMode);
-        	window.printMode = isPreviewMode;
-        	$('#header, #leftMenu, #leftCollapser, #bottomContent, #tooltip, .ui-datepicker-div').toggleClass('print-preview-hide', isPreviewMode);
-        	$('#all').toggleClass('print-preview-all', isPreviewMode);
+		toggleMode = function(isPreviewMode) {
+			map.gmxControlsManager.get('hide').setActive(!isPreviewMode);
+			window.printMode = isPreviewMode;
+			$('#header, #leftMenu, #leftCollapser, #bottomContent, #tooltip, .ui-datepicker-div').toggleClass('print-preview-hide', isPreviewMode);
+			$('#all').toggleClass('print-preview-all', isPreviewMode);
 			$('.ui-dialog').toggle();
 			$('.leaflet-gmx-iconSvg-hide').toggle();
 			$('.leaflet-control-container').toggle();
-    	};
+		};
 
     toggleMode(true);
 	centerControl.removeFrom ? centerControl.removeFrom(map) : centerControl.remove();
@@ -1326,7 +1326,7 @@ mapHelper.prototype.findChilds = function(treeElem, callback, flag)
 	}
 }
 
-mapHelper.prototype.findTreeElems = function(treeElem, callback, flag, list)
+mapHelper.prototype.findTreeElems = function(treeElem, callback, flag)
 {
 	var childsArr = treeElem.content ? treeElem.content.children : treeElem.children;
 
@@ -1381,7 +1381,7 @@ mapHelper.prototype.modifyObjectLayer = function(layerName, objs, crs)
     if (crs) {
         params.geometry_cs = crs;
     }
-    sendCrossDomainPostRequest(serverBase + "VectorLayer/ModifyVectorObjects.ashx",
+    sendCrossDomainPostRequest(window.serverBase + "VectorLayer/ModifyVectorObjects.ashx",
         params
         ,
         function(addResponse)
@@ -1441,7 +1441,7 @@ mapHelper.prototype.searchObjectLayer = function(layerName, options) {
     requestParams.page = options.page || 0;
     requestParams.pagesize = options.pagesize || 100000;
 
-    sendCrossDomainPostRequest(serverBase + "VectorLayer/Search.ashx", requestParams, function(response) {
+    sendCrossDomainPostRequest(window.serverBase + "VectorLayer/Search.ashx", requestParams, function(response) {
         if (!parseResponse(response)) {
             def.reject(response);
             return;
@@ -1633,10 +1633,10 @@ mapHelp.tabs.unload = function()
 
 mapHelp.externalMaps.load = function()
 {
-	var alreadyLoaded = _queryExternalMaps.createWorkCanvas(arguments[0]);
+	var alreadyLoaded = window._queryExternalMaps.createWorkCanvas(arguments[0]);
 
 	if (!alreadyLoaded)
-		_queryExternalMaps.load()
+		window._queryExternalMaps.load();
 }
 mapHelp.externalMaps.unload = function()
 {

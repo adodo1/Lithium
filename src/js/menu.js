@@ -242,7 +242,7 @@ UpMenu.prototype.checkItem = function(id, isChecked) {
     }
 }
 
-UpMenu.prototype.removeSelections = function(id)
+UpMenu.prototype.removeSelections = function()
 {
 	$('li.menu3Active').removeClass('menu3Active');
 	$('li.menu2Active').removeClass('menu2Active');
@@ -270,10 +270,10 @@ UpMenu.prototype.openRef = function(hash)
 	_menuUp.openTab(hash);
 }
 
-UpMenu.prototype.attachEventOnClick = function(elem, className)
+UpMenu.prototype.attachEventOnClick = function(elem)
 {
 	var _this = this;
-	elem.onclick = function(e) {
+	elem.onclick = function() {
         if (!_this.clicked) {
             var isTopLevel = $(elem).hasClass('header1'),
                 hash = this.getAttribute('hash');
@@ -295,19 +295,19 @@ UpMenu.prototype.attachEventOnClick = function(elem, className)
 
 UpMenu.prototype.attachEventOnMouseover = function(elem, className)
 {
-	var _this = this;
-	elem.onmouseover = function(e) {
+	let _this = this;
+	elem.onmouseover = function() {
         $(this).addClass(className);
         if (_this.clicked) {
-            var itemsToClose = [];
-            for (var i = 0; i < _this.openedMenus.length; i++) {
+            let itemsToClose = [];
+            for (let i = 0; i < _this.openedMenus.length; i++) {
                 if (!_this.checkInsideElem(elem, _this.openedMenus[i])) {
                     itemsToClose.push(_this.openedMenus[i]);
                 }
             }
 
-            for (var i = 0; i < itemsToClose.length; i++) {
-                var ee = itemsToClose[i];
+            for (let i = 0; i < itemsToClose.length; i++) {
+                let ee = itemsToClose[i];
                 _this.hidemenu(ee);
             }
 
@@ -316,7 +316,7 @@ UpMenu.prototype.attachEventOnMouseover = function(elem, className)
             }
 
             //add top-level hash
-            var isTopLevel = $(elem).hasClass('header1'),
+            let isTopLevel = $(elem).hasClass('header1'),
                 hash = this.getAttribute('hash');
             if (isTopLevel) {
                 _this.currentTopHash = hash;
@@ -344,33 +344,33 @@ UpMenu.prototype.attachEventOnMouseout = function(elem, className)
 	var _this = this;
 	elem.onmouseout = function(e) {
 		var evt = e || window.event,
-			target = evt.srcElement || evt.target,
+			// target = evt.srcElement || evt.target,
 			relTarget = evt.relatedTarget || evt.toElement,
 			elem = this,
             isTopLevel = $(elem).hasClass('header1'),
             hash = this.getAttribute('hash');
 
         try {
-    		while (relTarget) {
-    			if (relTarget == elem) {
-    				stopEvent(e);
+            while (relTarget) {
+                if (relTarget == elem) {
+                    stopEvent(e);
 
-    				return false;
-    			}
-    			relTarget = relTarget.parentNode;
-    		}
+                    return false;
+                }
+                relTarget = relTarget.parentNode;
+            }
             if (isTopLevel && hash === _this.currentTopHash) {
                 return false;
             } else {
                 // _this.currentTopHash = null;
-                $(elem).removeClass(className)
+                $(elem).removeClass(className);
             }
     	} catch (e) {
             if (isTopLevel && hash === _this.currentTopHash) {
                 return false;
             } else {
                 // _this.currentTopHash = null;
-                $(elem).removeClass(className)
+                $(elem).removeClass(className);
             }
     	}
 	}
@@ -381,7 +381,7 @@ UpMenu.prototype.getNavigatePath = function(path) {
 	{
         var submenu = this.submenus[menuIdx];
 
-        if (!submenu) {continue};
+        if (!submenu) {continue;}
 
 		if (path == submenu.id)
 		{
@@ -393,15 +393,15 @@ UpMenu.prototype.getNavigatePath = function(path) {
 			var childsLevel2 = submenu.childs;
 			for (var i = 0; i < childsLevel2.length; i++)
 			{
-                if (!childsLevel2[i]) {continue};
+                if (!childsLevel2[i]) {continue;}
 
 				if (childsLevel2[i].childs)
 				{
 					var childsLevel3 = childsLevel2[i].childs;
 					// есть подменю, смотрим там
-					for(var j = 0; j < childsLevel3.length; j++)
+					for (var j = 0; j < childsLevel3.length; j++)
 					{
-                        if (!childsLevel3[j]) {continue};
+                        if (!childsLevel3[j]) {continue;}
 
 						if (path == childsLevel3[j].id)
 						{

@@ -1,18 +1,26 @@
 import nsGmx from './nsGmx.js';
 import gmxCore from './gmxcore.js';
-import {readCookie} from './utilities.js';
+import {
+    _div,
+    createCookie,
+    eraseCookie,
+    readCookie,
+    makeLinkButton,
+    _span,
+    _t,
+    _title,
+} from './utilities.js';
 
-!function(){
-var translationsHash = function()
-{
-	this.hash = {};
+// var translationsHash = function()
+// {
+// 	this.hash = {};
 	
-	this.flags = {};
+// 	this.flags = {};
 	
-	this.titles = {};
+// 	this.titles = {};
     
-    this._errorHandlers = [];
-}
+//     this._errorHandlers = [];
+// }
 
 var DEFAULT_LANGUAGE = 'rus';
 
@@ -75,13 +83,13 @@ TranslationsManager.prototype._addTextWithPrefix = function(prefix, lang, newHas
         var fullKey = prefix + k;
         if (fullKey in hash[lang]) {
             res = false;
-        } else {
-            if (typeof newHash[k] === 'string') {
-                hash[lang][fullKey] = newHash[k];
-            } else {
-                this._addTextWithPrefix(fullKey + '.', lang, newHash[k]);
-            }
         }
+        else if (typeof newHash[k] === 'string') {
+            hash[lang][fullKey] = newHash[k];
+        }
+        else {
+            this._addTextWithPrefix(fullKey + '.', lang, newHash[k]);
+        }        
     }
 
     return res;
@@ -267,7 +275,6 @@ gmxCore && gmxCore.addModule('translations',
     _translationsHash: window._translationsHash
 })
 
-}();
 
 const translationsHash = window.translationsHash;
 
