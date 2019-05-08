@@ -497,7 +497,7 @@ function sendRequest(url, callback, body)
 		xmlhttp = new XMLHttpRequest();
 	else
 		try { xmlhttp = new ActiveXObject("Msxml2.XMLHTTP"); }
-		catch { try {xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); } catch (e) { console.log(e); }}
+		catch (E) { try {xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); } catch (e) { console.log(e); }}
 
 	xmlhttp.open(body ? "POST" : "GET", url, true);
 	if (body)
