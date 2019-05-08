@@ -193,15 +193,19 @@ var LayerEditor = function(div, type, parent, properties, params) {
             ], [['dir', 'className', 'layer-container-outer']]
         );
     }
-
-    var isReadonly = div && _queryMapLayers.layerRights(div.gmxProperties.content.properties.name) !== 'edit' && div.gmxProperties.content.properties.Access !== 'edit';
+    
+    var props = typeof(div) === 'string' ? properties : div.gmxProperties.content.properties;
+    var isReadonly = div && _queryMapLayers.layerRights(props.name || props.Name) !== 'edit' && props.Access !== 'edit';
+    // var isReadonly = div && _queryMapLayers.layerRights(div.gmxProperties.content.properties.name) !== 'edit' && div.gmxProperties.content.properties.Access !== 'edit';
 
     var createUI = function() {
-        var divProperties = div ? div.gmxProperties.content.properties : !_params.copy ? {} : false,
+
+        // var divProperties = div ? div.gmxProperties.content.properties : !_params.copy ? {} : false,
+        var divProperties = props ? props : !_params.copy ? {} : false,
             layerProperties = new nsGmx.LayerProperties();
             // tabs = [];
 
-        layerProperties.initFromViewer(type, divProperties, properties);
+        layerProperties.initFromViewer(type, divProperties,  properties || divProperties);
 
         _params = LayerEditor.applyInitHooks(_this, layerProperties, _params);
 
@@ -356,7 +360,8 @@ var LayerEditor = function(div, type, parent, properties, params) {
 
     createUI();
 
-    var id = 'layertabs' + (div ? div.gmxProperties.content.properties.name : '');
+    // var id = 'layertabs' + (div ? div.gmxProperties.content.properties.name : '');
+    var id = 'layertabs' + (props ? props.name : '');
 
     var tabs = this._originalTabs;
 

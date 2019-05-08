@@ -1,5 +1,4 @@
 import nsGmx from './nsGmx.js';
-import './apif';
 
 nsGmx.Utils = nsGmx.Utils || {};
 var domManipulation = {
@@ -174,6 +173,22 @@ function switchSelect(sel, value)
 
 	return sel;
 }
+function parseColor(str) {
+    var res = 0xffffff;
+    if (!str)
+        return res;
+    else
+    {
+        var components = str.split(" ");
+        if (components.length == 1)
+            return parseInt("0x" + str);
+        else if (components.length == 3)
+            return parseInt(components[0])*0x10000 + parseInt(components[1])*0x100 + parseInt(components[2]);
+        else
+            return res;
+    }
+}
+
 function objLength(obj)
 {
 	var cnt = 0;
@@ -271,14 +286,15 @@ function makeLinkButton(text)
 
 	return span;
 }
-function makeHelpButton(helpText){
-	var btn = makeImageButton(window.gmxAPI.getAPIHostRoot() + 'api/img/help.gif');
-	btn.setAttribute('title', helpText)
-	btn.onclick = function(){
-		showDialog('', _t(helpText), 300, 150);
-	}
-	return btn;
-}
+
+// function makeHelpButton(helpText){
+// 	var btn = makeImageButton(window.gmxAPI.getAPIHostRoot() + 'api/img/help.gif');
+// 	btn.setAttribute('title', helpText)
+// 	btn.onclick = function(){
+// 		showDialog('', _t(helpText), 300, 150);
+// 	}
+// 	return btn;
+// }
 
 function getOwnChildNumber(elem)
 {
@@ -1852,12 +1868,12 @@ export {
     hidden,
     _input,
     insertAtCursor,
-    _li,
-    makeHelpButton,
+    _li,    
     makeImageButton,    
     makeLinkButton,
     objLength,
     _option,    
+    parseColor,
     parseResponse,
     readCookie,    
     removeDialog,

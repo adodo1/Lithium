@@ -16,6 +16,7 @@
       "L": true,
       "Backbone": true,
       "Handlebars": true,
+      "Promise": true,
       "$": true,
       "_": true,
       "jQuery": true,

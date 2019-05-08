@@ -11,6 +11,7 @@ import {
 	createCookie,
 	showDialog,
 	removeDialog,
+	parseColor,
 	parseResponse,
 	_table, _tbody, _tr, _td, _t, _input,
 	_div, _span, _img, _a, _ul, _option,
@@ -20,7 +21,6 @@ import {
 import './Controls.js';
 import './LayerStylesEditor.js';
 import _queryTabs from './queryTabs.js';
-import './apif.js';
 
 const _ = nsGmx.Utils._;
 
@@ -259,12 +259,12 @@ mapHelper.prototype.makeStyle = function(style)
 		}
 		if (style.BorderColor || style.BorderWidth)
 			givenStyle.outline = {
-				color: window.gmxAPI.parseColor(style.BorderColor),
+				color: parseColor(style.BorderColor),
 				thickness: parseInt(style.BorderWidth || "1")
 			};
 		if (style.FillColor)
 			givenStyle.fill = {
-				color: window.gmxAPI.parseColor(style.FillColor),
+				color: parseColor(style.FillColor),
 				opacity: 100 - parseInt(style.Transparency || "0")
 			};
 
@@ -272,7 +272,7 @@ mapHelper.prototype.makeStyle = function(style)
 		if (label)
 			givenStyle.label = {
 				field: label.FieldName,
-				color: window.gmxAPI.parseColor(label.FontColor),
+				color: parseColor(label.FontColor),
 				size: parseInt(label.FontSize || "12")
 			};
 	}
@@ -677,7 +677,8 @@ mapHelper.prototype.createStylesEditorIcon = function(parentStyles, type, params
 }
 
 mapHelper.prototype.createLoadingLayerEditorProperties = function(div, parent, layerProperties, params) {
-	var elemProperties = div.gmxProperties.content.properties,
+	// var elemProperties = div.gmxProperties.content.properties,
+	var elemProperties = typeof div === 'string' ? layerProperties : div.gmxProperties.content.properties,
 		loading = _div([_img(null, [['attr','src','img/progress.gif'],['css','marginRight','10px']]), _t(_gtxt('загрузка...'))], [['css','margin','3px 0px 3px 20px']]),
         type = elemProperties.type;
 		// _this = this;
@@ -798,7 +799,8 @@ mapHelper.prototype.createPropertiesTable = function(shownProperties, layerPrope
 
 mapHelper.prototype.createLayerEditor = function(div, treeView, selected)
 {
-	var elemProperties = div.gmxProperties.content.properties,
+	var elemProperties = typeof div === 'string' ? nsGmx.gmxMap.layersByID[div].getGmxProperties() : div.gmxProperties.content.properties,
+	// var elemProperties = div.gmxProperties.content.properties,
         layerName = elemProperties.name,
 		_this = this;
 
@@ -823,7 +825,8 @@ mapHelper.prototype.createLayerEditor = function(div, treeView, selected)
 					// tabMenu,
                     additionalTabs = [];
 
-				let pos = nsGmx.Utils.getDialogPos(div, true, 390),
+				// let pos = nsGmx.Utils.getDialogPos(div, true, 390),
+				let pos = typeof(div) === 'string' ? {left: 410, top: 230} : nsGmx.Utils.getDialogPos(div, true, 390),
                     updateFunc = function()
                     {
                     },
