@@ -17,6 +17,7 @@
       "Backbone": true,
       "Handlebars": true,
       "Promise": true,
+      "ActiveXObject": true,
       "$": true,
       "_": true,
       "jQuery": true,

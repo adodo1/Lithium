@@ -56,9 +56,101 @@ E:\projects\Lithium\src\js\AuthManager.js
 
 
 E:\projects\Lithium\src\js\utilities.js
-  500:9  error  Parsing error: Unexpected token {
+   195:11   error  'field' is assigned a value but never used                             no-unused-vars
+   499:23   error  'ActiveXObject' is not defined                                         no-undef
+   500:34   error  'ActiveXObject' is not defined                                         no-undef
+   512:10   error  'sendJSONRequest' is defined but never used                            no-unused-vars
+   573:7    error  'expires' is already defined                                           no-redeclare
+   581:2    error  Expected space(s) after "for"                                          keyword-spacing
+   627:10   error  'strip' is defined but never used                                      no-unused-vars
+   690:3    error  Expected space(s) after "catch"                                        keyword-spacing
+   705:10   error  'createPostIframe' is defined but never used                           no-unused-vars
+   707:6    error  'userAgent' is assigned a value but never used                         no-unused-vars
+   717:2    error  Expected space(s) after "catch"                                        keyword-spacing
+   730:1    error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
+   749:9    error  Expected space(s) after "if"                                           keyword-spacing
+   795:30   error  Unnecessary escape character: \/                                       no-useless-escape
+   795:79   error  Unnecessary escape character: \/                                       no-useless-escape
+   795:110  error  Unnecessary escape character: \/                                       no-useless-escape
+   796:40   error  Unnecessary escape character: \/                                       no-useless-escape
+   796:50   error  Unnecessary escape character: \/                                       no-useless-escape
+   796:102  error  Unnecessary escape character: \/                                       no-useless-escape
+   796:141  error  Unnecessary escape character: \/                                       no-useless-escape
+   796:151  error  Unnecessary escape character: \/                                       no-useless-escape
+   796:179  error  Unnecessary escape character: \/                                       no-useless-escape
+   840:15   error  'createPostIframe2' is not defined                                     no-undef
+   948:10   error  'parseXML' is defined but never used                                   no-unused-vars
+   955:4    error  'parser' is not defined                                                no-undef
+   956:13   error  'parser' is not defined                                                no-undef
+   960:17   error  'ActiveXObject' is not defined                                         no-undef
+   966:2    error  Expected space(s) after "catch"                                        keyword-spacing
+   984:10   error  'parsePropertiesDate' is defined but never used                        no-unused-vars
+  1027:10   error  'inputError' is defined but never used                                 no-unused-vars
+  1044:10   error  'equals' is defined but never used                                     no-unused-vars
+  1046:2    error  Expected space(s) after "for"                                          keyword-spacing
+  1046:6    error  'p' is not defined                                                     no-undef
+  1048:6    error  Expected space(s) after "if"                                           keyword-spacing
+  1048:18   error  'p' is not defined                                                     no-undef
+  1051:2    error  Expected space(s) after "for"                                          keyword-spacing
+  1051:6    error  'p' is not defined                                                     no-undef
+  1053:12   error  'p' is not defined                                                     no-undef
+  1055:10   error  Expected space(s) after "switch"                                       keyword-spacing
+  1055:26   error  'p' is not defined                                                     no-undef
+  1058:40   error  'p' is not defined                                                     no-undef
+  1058:46   error  'p' is not defined                                                     no-undef
+  1058:67   error  Unnecessary semicolon                                                  no-extra-semi
+  1060:39   error  'p' is not defined                                                     no-undef
+  1060:60   error  'p' is not defined                                                     no-undef
+  1060:79   error  'p' is not defined                                                     no-undef
+  1060:98   error  'p' is not defined                                                     no-undef
+  1060:131  error  Unnecessary semicolon                                                  no-extra-semi
+  1062:32   error  'p' is not defined                                                     no-undef
+  1062:40   error  'p' is not defined                                                     no-undef
+  1067:10   error  Unexpected if as the only statement in an else block                   no-lonely-if
+  1067:16   error  'p' is not defined                                                     no-undef
+  1074:2    error  Expected space(s) after "for"                                          keyword-spacing
+  1074:6    error  'p' is not defined                                                     no-undef
+  1076:6    error  Expected space(s) after "if"                                           keyword-spacing
+  1076:18   error  'p' is not defined                                                     no-undef
+  1161:84   error  Invalid typeof comparison value                                        valid-typeof
+  1345:17   error  'localDateValue' is already defined                                    no-redeclare
+  1348:17   error  'localValue' is already defined                                        no-redeclare
+  1349:17   error  'timeOffset' is already defined                                        no-redeclare
+  1357:18   error  Identifier 'redirect_uri' is not in camel case                         camelcase
+  1362:21   error  Identifier 'redirect_uri' is not in camel case                         camelcase
+  1362:37   error  Identifier 'redirect_uri' is not in camel case                         camelcase
+  1366:35   error  'l' is defined but never used                                          no-unused-vars
+  1366:38   error  't' is defined but never used                                          no-unused-vars
+  1379:4    error  Expected space(s) after "else"                                         keyword-spacing
+  1379:4    error  Expected space(s) before "else"                                        keyword-spacing
+  1382:6    error  ',' should be placed last                                              comma-style
+  1439:34   error  'serverBase' is not defined                                            no-undef
+  1442:25   error  'response' is not defined                                              no-undef
+  1444:43   error  'response' is not defined                                              no-undef
+  1445:41   error  'response' is not defined                                              no-undef
+  1447:40   error  'response' is not defined                                              no-undef
+  1454:44   error  'serverBase' is not defined                                            no-undef
+  1506:36   error  'serverBase' is not defined                                            no-undef
+  1567:17   error  'segments' is assigned a value but never used                          no-unused-vars
+  1597:17   error  'startI' is not defined                                                no-undef
+  1598:43   error  'startI' is not defined                                                no-undef
+  1600:45   error  'startI' is not defined                                                no-undef
+  1632:14   error  Unnecessary semicolon                                                  no-extra-semi
+  1634:13   error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
+  1678:44   error  'i' is defined but never used                                          no-unused-vars
+  1693:18   error  'c' is already defined                                                 no-redeclare
+  1697:26   error  'r' is already defined                                                 no-redeclare
+  1703:22   error  'r' is already defined                                                 no-redeclare
+  1707:29   error  'joinedSeg' is already defined                                         no-redeclare
+  1737:40   error  'serverBase' is not defined                                            no-undef
+  1759:40   error  'serverBase' is not defined                                            no-undef
+  1777:40   error  'serverBase' is not defined                                            no-undef
+  1796:13   error  'projection' is assigned a value but never used                        no-unused-vars
+  1796:25   error  'bounds' is defined but never used                                     no-unused-vars
+  1838:2    error  Mixed spaces and tabs                                                  no-mixed-spaces-and-tabs
 
-✖ 1 problem (1 error, 0 warnings)
+✖ 92 problems (92 errors, 0 warnings)
+  18 errors and 0 warnings potentially fixable with the `--fix` option.
 
 
 E:\projects\Lithium\src\js\mapLayers.js
@@ -166,6 +258,33 @@ E:\projects\Lithium\src\js\AuthWidget.js
 ✖ 18 problems (18 errors, 0 warnings)
 
 
+E:\projects\Lithium\src\js\drawingObjects.js
+  131:24   error  'rgb' is defined but never used                  no-unused-vars
+  187:14   error  '_input' is not defined                          no-undef
+  203:133  error  '_br' is not defined                             no-undef
+  206:18   error  'showDialog' is not defined                      no-undef
+  225:9    error  '_map' is assigned a value but never used        no-unused-vars
+  278:7    error  'obj' is assigned a value but never used         no-unused-vars
+  362:20   error  '_img' is not defined                            no-undef
+  491:6    error  '_container' is assigned a value but never used  no-unused-vars
+  619:4    error  Expected space(s) after "if"                     keyword-spacing
+  628:17   error  'tt' is assigned a value but never used          no-unused-vars
+  749:13   error  Expected space(s) after "if"                     keyword-spacing
+  797:4    error  '_this' is assigned a value but never used       no-unused-vars
+  809:4    error  'showErrorMessage' is not defined                no-undef
+  868:10   error  Unnecessary semicolon                            no-extra-semi
+  871:13   error  'showErrorMessage' is not defined                no-undef
+
+✖ 15 problems (15 errors, 0 warnings)
+  3 errors and 0 warnings potentially fixable with the `--fix` option.
+
+
+E:\projects\Lithium\src\js\LayersTree.js
+  146:13  error  'res' is assigned a value but never used  no-unused-vars
+
+✖ 1 problem (1 error, 0 warnings)
+
+
 E:\projects\Lithium\src\js\contextMenuController.js
     6:1   error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
    46:31  error  '_div' is not defined                                                  no-undef
@@ -190,29 +309,28 @@ E:\projects\Lithium\src\js\contextMenuController.js
   1 error and 0 warnings potentially fixable with the `--fix` option.
 
 
-E:\projects\Lithium\src\js\drawingObjects.js
-  131:24   error  'rgb' is defined but never used                  no-unused-vars
-  187:14   error  '_input' is not defined                          no-undef
-  203:133  error  '_br' is not defined                             no-undef
-  206:18   error  'showDialog' is not defined                      no-undef
-  225:9    error  '_map' is assigned a value but never used        no-unused-vars
-  278:7    error  'obj' is assigned a value but never used         no-unused-vars
-  362:20   error  '_img' is not defined                            no-undef
-  491:6    error  '_container' is assigned a value but never used  no-unused-vars
-  619:4    error  Expected space(s) after "if"                     keyword-spacing
-  628:17   error  'tt' is assigned a value but never used          no-unused-vars
-  749:13   error  Expected space(s) after "if"                     keyword-spacing
-  797:4    error  '_this' is assigned a value but never used       no-unused-vars
-  809:4    error  'showErrorMessage' is not defined                no-undef
-  868:10   error  Unnecessary semicolon                            no-extra-semi
-  871:13   error  'showErrorMessage' is not defined                no-undef
+E:\projects\Lithium\src\js\queryLoadShp.js
+   36:21  error  '_input' is not defined            no-undef
+   44:21  error  '_form' is not defined             no-undef
+   46:21  error  '_img' is not defined              no-undef
+   48:25  error  '_div' is not defined              no-undef
+   48:31  error  '_span' is not defined             no-undef
+   48:38  error  '_t' is not defined                no-undef
+   50:33  error  '_div' is not defined              no-undef
+   65:9   error  'showErrorMessage' is not defined  no-undef
+   68:16  error  'nsGmx' is not defined             no-undef
+   85:5   error  'nsGmx' is not defined             no-undef
+   88:16  error  'nsGmx' is not defined             no-undef
+   93:9   error  'nsGmx' is not defined             no-undef
+   95:9   error  'nsGmx' is not defined             no-undef
+  105:2   error  'hide' is not defined              no-undef
+  106:2   error  'show' is not defined              no-undef
 
 ✖ 15 problems (15 errors, 0 warnings)
-  3 errors and 0 warnings potentially fixable with the `--fix` option.
 
 
-E:\projects\Lithium\src\js\LayersTree.js
-  146:13  error  'res' is assigned a value but never used  no-unused-vars
+E:\projects\Lithium\src\js\HeaderLinksControl.js
+  27:64  error  'array' is defined but never used  no-unused-vars
 
 ✖ 1 problem (1 error, 0 warnings)
 
@@ -342,39 +460,6 @@ E:\projects\Lithium\src\js\loadServerData.js
   3 errors and 0 warnings potentially fixable with the `--fix` option.
 
 
-E:\projects\Lithium\src\js\queryLoadShp.js
-   36:21  error  '_input' is not defined            no-undef
-   44:21  error  '_form' is not defined             no-undef
-   46:21  error  '_img' is not defined              no-undef
-   48:25  error  '_div' is not defined              no-undef
-   48:31  error  '_span' is not defined             no-undef
-   48:38  error  '_t' is not defined                no-undef
-   50:33  error  '_div' is not defined              no-undef
-   65:9   error  'showErrorMessage' is not defined  no-undef
-   68:16  error  'nsGmx' is not defined             no-undef
-   85:5   error  'nsGmx' is not defined             no-undef
-   88:16  error  'nsGmx' is not defined             no-undef
-   93:9   error  'nsGmx' is not defined             no-undef
-   95:9   error  'nsGmx' is not defined             no-undef
-  105:2   error  'hide' is not defined              no-undef
-  106:2   error  'show' is not defined              no-undef
-
-✖ 15 problems (15 errors, 0 warnings)
-
-
-E:\projects\Lithium\src\js\HeaderLinksControl.js
-  27:64  error  'array' is defined but never used  no-unused-vars
-
-✖ 1 problem (1 error, 0 warnings)
-
-
-E:\projects\Lithium\src\js\LayerProperties.js
-  179:21  error  'type' is already defined   no-redeclare
-  180:21  error  'value' is already defined  no-redeclare
-
-✖ 2 problems (2 errors, 0 warnings)
-
-
 E:\projects\Lithium\src\js\queryTabs.js
     9:55  error  'defLang' is defined but never used                no-unused-vars
    60:21  error  '_div' is not defined                              no-undef
@@ -401,6 +486,25 @@ E:\projects\Lithium\src\js\queryTabs.js
 ✖ 21 problems (21 errors, 0 warnings)
 
 
+E:\projects\Lithium\src\js\LayerProperties.js
+  179:21  error  'type' is already defined   no-redeclare
+  180:21  error  'value' is already defined  no-redeclare
+
+✖ 2 problems (2 errors, 0 warnings)
+
+
+E:\projects\Lithium\src\js\mapCommon.js
+    4:28  error  'nsGmx' is not defined                                no-undef
+    5:24  error  'nsGmx' is not defined                                no-undef
+   18:21  error  Unexpected if as the only statement in an else block  no-lonely-if
+   39:31  error  'nsGmx' is not defined                                no-undef
+   45:20  error  'nsGmx' is not defined                                no-undef
+  114:9   error  'gmxCore' is not defined                              no-undef
+
+✖ 6 problems (6 errors, 0 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
+
+
 E:\projects\Lithium\src\js\LayerEditor.js
    350:17  error  Unexpected if as the only statement in an else block       no-lonely-if
    353:25  error  Unexpected if as the only statement in an else block       no-lonely-if
@@ -418,18 +522,6 @@ E:\projects\Lithium\src\js\LayerEditor.js
 
 ✖ 13 problems (13 errors, 0 warnings)
   2 errors and 0 warnings potentially fixable with the `--fix` option.
-
-
-E:\projects\Lithium\src\js\mapCommon.js
-    4:28  error  'nsGmx' is not defined                                no-undef
-    5:24  error  'nsGmx' is not defined                                no-undef
-   18:21  error  Unexpected if as the only statement in an else block  no-lonely-if
-   39:31  error  'nsGmx' is not defined                                no-undef
-   45:20  error  'nsGmx' is not defined                                no-undef
-  114:9   error  'gmxCore' is not defined                              no-undef
-
-✖ 6 problems (6 errors, 0 warnings)
-  1 error and 0 warnings potentially fixable with the `--fix` option.
 
 
 E:\projects\Lithium\src\js\AttributeValuesProviders.js
@@ -1124,12 +1216,6 @@ E:\projects\Lithium\src\js\MapsManagerControl.js
 ✖ 12 problems (12 errors, 0 warnings)
 
 
-E:\projects\Lithium\src\js\NotificationWidget.js
-  4:5  error  'nsGmx' is not defined  no-undef
-
-✖ 1 problem (1 error, 0 warnings)
-
-
 E:\projects\Lithium\src\js\PluginsEditor.js
    87:18  error  'p' is already defined                                 no-redeclare
   194:10  error  Unnecessary semicolon                                  no-extra-semi
@@ -1165,6 +1251,12 @@ E:\projects\Lithium\src\js\LayersManagerControl.js
   422:1   error  'gmxCore' is not defined                    no-undef
 
 ✖ 13 problems (13 errors, 0 warnings)
+
+
+E:\projects\Lithium\src\js\NotificationWidget.js
+  4:5  error  'nsGmx' is not defined  no-undef
+
+✖ 1 problem (1 error, 0 warnings)
 
 
 E:\projects\Lithium\src\js\AttrSuggestWidget.js
