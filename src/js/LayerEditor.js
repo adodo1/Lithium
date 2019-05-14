@@ -30,6 +30,9 @@ import './LayerEditor/ManualAttrView.js';
 import {mapHelper} from './mapHelper.js';
 import gmxCore from './gmxcore.js';
 import './fileBrowser.js';
+import _tableBrowser from './tableBrowser.js';
+import _fileBrowser from './fileBrowser.js';
+import './LayerProperties.js';
 
 const _ = nsGmx.Utils._;
 
@@ -194,7 +197,7 @@ var LayerEditor = function(div, type, parent, properties, params) {
         );
     }
     
-    var props = typeof(div) === 'string' ? properties : div.gmxProperties.content.properties;
+    var props = div && (typeof(div) === 'string' ? properties : div.gmxProperties.content.properties) || {};
     var isReadonly = div && _queryMapLayers.layerRights(props.name || props.Name) !== 'edit' && props.Access !== 'edit';
     // var isReadonly = div && _queryMapLayers.layerRights(div.gmxProperties.content.properties.name) !== 'edit' && div.gmxProperties.content.properties.Access !== 'edit';
 
@@ -346,15 +349,11 @@ var LayerEditor = function(div, type, parent, properties, params) {
                         _layersTree.copyHandler(gmxProperties, targetDiv, false, true);
                     })
                 }
-            } else {
-                if (name) {
-                    _queryMapLayers.asyncUpdateLayer(def, properties, true);
-                } else {
-                        if (_params.addToMap) {
-                            _queryMapLayers.asyncCreateLayer(def, layerTitle);
-                        }
-                }
-            }
+            } else if (name) {
+                _queryMapLayers.asyncUpdateLayer(def, properties, true);
+            } else if (_params.addToMap) {
+                _queryMapLayers.asyncCreateLayer(def, layerTitle);
+            }            
         }
     }
 
@@ -401,7 +400,7 @@ var LayerEditor = function(div, type, parent, properties, params) {
     var selectIndex = getTabIndex(params.selected);
     $(tabMenu).tabs({
         active: selectIndex > -1 ? selectIndex : 0,
-        activate: function(event, ui) {
+        activate: function() {
             var activeIndex = $(tabMenu).tabs('option', 'active');
             $(saveMenuCanvas).toggle(activeIndex < _this._originalTabs.length);
         }
@@ -521,7 +520,7 @@ LayerEditor.prototype._createPageMain = function(parent, layerProperties, isRead
 
 LayerEditor.prototype._createPageVectorSource = function(layerProperties, params) {
     var _this = this;
-    var LatLngColumnsModel = new gmxCore.getModule('LayerProperties').LatLngColumnsModel;
+    var LatLngColumnsModel = nsGmx.LatLngColumnsModel;
     var shownProperties = [];
     var layerName = layerProperties.get('Name');
     var sourceType = layerProperties.get('SourceType');
@@ -758,7 +757,7 @@ LayerEditor.prototype._createPageVectorSource = function(layerProperties, params
 
     $(sourceTab).tabs({
         active: selectedSource,
-        activate: function(event, ui)
+        activate: function()
         {
             var selectedSource = $(sourceTab).tabs('option', 'active');
 
@@ -1028,8 +1027,7 @@ LayerEditor.prototype._createPageAttributes = function(parent, props, isReadonly
     var allowEdit = !isReadonly && (type === 'manual' || (!isNewLayer && type === 'file') || params.copy);
     fileAttrView.setActive(allowEdit);
 
-    $(fileAttrModel).change(function() {
-        var isManual = props.get('SourceType') === 'manual';
+    $(fileAttrModel).change(function() {        
         props.set('Columns', fileAttrModel.toServerFormat());
     });
 
@@ -1118,18 +1116,18 @@ LayerEditor.prototype._createPageAdvanced = function(parent, layerProperties) {
             isRC: layerProperties.get('RC').get('IsRasterCatalog')
         })).appendTo(parent);
 
-    var rasterCatalogControl = new nsGmx.LayerRasterCatalogWidget($('#rc-params-div', rcFieldset), layerProperties.get('RC'));
+    // var rasterCatalogControl = new nsGmx.LayerRasterCatalogWidget($('#rc-params-div', rcFieldset), layerProperties.get('RC'));
 
-    var quicklookTemplate = Handlebars.compile(
-        '<fieldset class="layer-fieldset">' +
-            '<legend>{{i "Накладываемое изображение"}}</legend>' +
-            '<div class="layer-editor-quicklooks"></div>' +
-        '</fieldset>'
-    );
+    // var quicklookTemplate = Handlebars.compile(
+    //     '<fieldset class="layer-fieldset">' +
+    //         '<legend>{{i "Накладываемое изображение"}}</legend>' +
+    //         '<div class="layer-editor-quicklooks"></div>' +
+    //     '</fieldset>'
+    // );
 
-    var quicklookFieldset = $(quicklookTemplate()).appendTo(parent);
+    // var quicklookFieldset = $(quicklookTemplate()).appendTo(parent);
 
-    var quicklookWidget = new nsGmx.LayerQuicklookWidget($('.layer-editor-quicklooks', quicklookFieldset), layerProperties);
+    // var quicklookWidget = new nsGmx.LayerQuicklookWidget($('.layer-editor-quicklooks', quicklookFieldset), layerProperties);
 
     $('#rc-params-isRC', rcFieldset).change(function() {
         layerProperties.get('RC').set('IsRasterCatalog', this.checked);
@@ -1183,6 +1181,6 @@ gmxCore.addModule('LayerEditor', {
         createLayerEditor: createLayerEditor,
         LayerEditor: LayerEditor
     }, {
-        require: ['LayerProperties']
+        // require: ['LayerProperties']
     }
 )

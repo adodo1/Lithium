@@ -3,7 +3,7 @@ import './assets/styles.css';
 
 nsGmx.LanguageWidget = (function() {
     
-    var LanguageWidget = function(options) {
+    var LanguageWidget = function() {
         this._view = $(Handlebars.compile(nsGmx.Templates.LanguageWidget.layout)({
             eng: nsGmx.Translations.getLanguage() === 'eng',
             rus: nsGmx.Translations.getLanguage() === 'rus'
@@ -31,10 +31,9 @@ nsGmx.LanguageWidget = (function() {
 
     return LanguageWidget;
 })();
-;
 
 nsGmx.Templates = nsGmx.Templates || {};nsGmx.Templates.LanguageWidget = {};
 nsGmx.Templates.LanguageWidget["layout"] = "<div class=\"languageWidget ui-widget\">\n" +
     "    <div class=\"languageWidget-item languageWidget-item_rus\"><span class=\"{{^rus}}link languageWidget-link{{/rus}}{{#rus}}languageWidget-disabled{{/rus}}\">Ru</span></div>\n" +
     "    <div class=\"languageWidget-item languageWidget-item_eng\"><span class=\"{{^eng}}link languageWidget-link{{/eng}}{{#eng}}languageWidget-disabled{{/eng}}\">En</span></div>\n" +
-    "</div>";;
+    "</div>";

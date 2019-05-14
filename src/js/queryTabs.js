@@ -1,12 +1,17 @@
 //Отображение закладок карты в левой панели
 import nsGmx from './nsGmx.js';
 import { leftMenu } from './menu.js';
-import { showDialog } from './utilities.js';
+import {
+    _div,    
+    getOwnChildNumber,
+    removeDialog,
+    showDialog,
+} from './utilities.js';
 import './userObjects.js';
 
 //TODO: сделать глобально доступным
 nsGmx.Controls = nsGmx.Controls || {};
-nsGmx.Controls.LanguageSelector = function(container, defLang) {
+nsGmx.Controls.LanguageSelector = function(container) {
 
     var LANGUAGES = [
             {lang: 'rus', title: 'rus'},
@@ -71,7 +76,7 @@ queryTabs.prototype.load = function()
 			tolerance: 'pointer',
 			containment: 'parent'
 		});
-		$(this.tabsCanvas).bind('sortupdate', function(event, ui)
+		$(this.tabsCanvas).bind('sortupdate', function()
 		{
 			var orderedTabs = [];
 			$(_this.tabsCanvas).children().each(function()
@@ -152,7 +157,7 @@ queryTabs.prototype.add = function(tabInfo, tabIndex)
 
 	var createTab = function() {
             updateDataLoc(langControl.getLang());
-            var mapState = _mapHelper.getMapState(),
+            var mapState = window._mapHelper.getMapState(),
                 tab = {
                     name: titleLoc.rus || titleLoc.eng,
                     description: descrLoc.rus || descrLoc.eng,
@@ -236,7 +241,7 @@ queryTabs.prototype.show = function(state)
 
     lmap.setView(L.Projection.Mercator.unproject(L.point(pos.x, pos.y)), 17 - pos.z);
 
-    for (var i = 0; i < state.drawnObjects.length; i++)
+    for (let i = 0; i < state.drawnObjects.length; i++)
     {
         parsedState.drawnObjects[i].geometry = L.gmxUtil.geometryToGeoJSON(state.drawnObjects[i].geometry, true);
     }
@@ -246,7 +251,7 @@ queryTabs.prototype.show = function(state)
     //удаляем все фичи
     gmxDrawing.getFeatures().slice(0).forEach(gmxDrawing.remove.bind(gmxDrawing));
 
-	for (var i = 0; i < parsedState.drawnObjects.length; i++)
+	for (let i = 0; i < parsedState.drawnObjects.length; i++)
 	{
         //старый формат - число, новый - строка
 		var rawColor = parsedState.drawnObjects[i].color,
@@ -266,7 +271,7 @@ queryTabs.prototype.show = function(state)
 	_queryMapLayers.applyState(parsedState.condition, parsedState.mapStyles);
 
     if (typeof parsedState.customParamsCollection !== 'undefined')
-        _mapHelper.customParamsManager.loadParams(parsedState.customParamsCollection);
+        window._mapHelper.customParamsManager.loadParams(parsedState.customParamsCollection);
 
     if (parsedState.openPopups) {
         for (var l in parsedState.openPopups) {
@@ -309,7 +314,7 @@ nsGmx.userObjectsManager.addDataCollector('tabs', {
         _queryTabs.builded = false;
         _queryTabs.tabs = data;
 
-        mapHelp.tabs.load('mapTabs');
+        window.mapHelp.tabs.load('mapTabs');
     }
 })
 

@@ -1,5 +1,12 @@
-﻿//Создание интерфейса редактирования стилей слоя
-!(function(_) {
+﻿import nsGmx from './nsGmx.js';
+import './ZoomPropertiesControl.js';
+import {
+	makeLinkButton,
+	_title,
+} from './utilities.js';
+
+//Создание интерфейса редактирования стилей слоя
+(function(_) {
 
 //явно прописывает все свойства балунов в стиле.
 var applyBalloonDefaultStyle = function(style)

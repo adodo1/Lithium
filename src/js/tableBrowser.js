@@ -1,13 +1,13 @@
 ﻿
-_translationsHash.addtext("rus", {
-                            "tableBrowser.title" : "Список таблиц",
-                            "tableBrowser.filterText" : "Фильтр по названию"
-                         });
+window._translationsHash.addtext("rus", {
+    "tableBrowser.title" : "Список таблиц",
+    "tableBrowser.filterText" : "Фильтр по названию"
+});
                          
-_translationsHash.addtext("eng", {
-                            "tableBrowser.title" : "Tables list",
-                            "tableBrowser.filterText" : "Filter by name"
-                         });                         
+window._translationsHash.addtext("eng", {
+    "tableBrowser.title" : "Tables list",
+    "tableBrowser.filterText" : "Filter by name"
+});
 
 var tableBrowser = function()
 {
@@ -127,3 +127,5 @@ tableBrowser.prototype.loadInfoHandler = function(tables)
 }
 
 var _tableBrowser = new tableBrowser();
+
+export default _tableBrowser;

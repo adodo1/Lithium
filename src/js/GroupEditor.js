@@ -1,13 +1,15 @@
 ﻿import nsGmx from './nsGmx.js';
+import gmxCore from './gmxcore.js';
 import {
 	_table, _tbody, _tr, _td, _t,
-	_div, _span,
+	_textarea,
+	_div, _span, makeButton,
 	_ul, _li,
 	_checkbox, _input, _a, _br,
 	showDialog
 } from './utilities.js';
 
-!(function(_){
+(function(_){
 
 var BaseLayersControl = function(container, blm) {
     var lang = _translationsHash.getLanguage();
@@ -129,7 +131,7 @@ var GroupVisibilityPropertiesView = function( model, showVisibilityCheckbox, sho
 */
 var addSubGroup = function(div, layersTree)
 {
-    var ul = _abstractTree.getChildsUl(div.parentNode),
+    var ul = window._abstractTree.getChildsUl(div.parentNode),
         newIndex;
 
     if (!ul)
@@ -165,7 +167,7 @@ var addSubGroup = function(div, layersTree)
                         }, children:[]
                     }
                 },
-				li = _layersTree.getChildsList(newGroupProperties, parentProperties, false, div.getAttribute('MapID') ? true : _layersTree.getLayerVisibility($(div).find('input[type="checkbox"]')[0]));
+				li = window._layersTree.getChildsList(newGroupProperties, parentProperties, false, div.getAttribute('MapID') ? true : window._layersTree.getLayerVisibility($(div).find('input[type="checkbox"]')[0]));
 
 			_queryMapLayers.addDraggable(li)
 
@@ -175,22 +177,22 @@ var addSubGroup = function(div, layersTree)
 
 			layersTree.addTreeElem(div, 0, newGroupProperties);
 
-			var childsUl = _abstractTree.getChildsUl(div.parentNode);
+			var childsUl = window._abstractTree.getChildsUl(div.parentNode);
 
 			if (childsUl)
 			{
-				_abstractTree.addNode(div.parentNode, li);
+				window._abstractTree.addNode(div.parentNode, li);
 
-				_layersTree.updateListType(li, true);
+				window._layersTree.updateListType(li, true);
 
 				if (!childsUl.loaded)
 					li.removeNode(true)
 			}
 			else
 			{
-				_abstractTree.addNode(div.parentNode, li);
+				window._abstractTree.addNode(div.parentNode, li);
 
-				_layersTree.updateListType(li, true);
+				window._layersTree.updateListType(li, true);
 			}
 
 			$(dialogDiv).dialog('destroy');
@@ -232,9 +234,7 @@ var addSubGroup = function(div, layersTree)
 
 var createGroupEditorProperties = function(div, isMap, mainLayersTree)
 {
-	var elemProperties = (isMap) ? div.gmxProperties.properties : div.gmxProperties.content.properties,
-		trs = [],
-		_this = this;
+	var elemProperties = (isMap) ? div.gmxProperties.properties : div.gmxProperties.content.properties;
 
     var rawTree = mainLayersTree.treeModel.getRawTree();
 
@@ -252,7 +252,7 @@ var createGroupEditorProperties = function(div, isMap, mainLayersTree)
 		elemProperties.ShowCheckbox = visibilityProperties.get('isVisibilityControl');
 		elemProperties.expanded = elemProperties.initExpand = visibilityProperties.get('isExpanded');
 
-        _layersTree.treeModel.updateNodeVisibility(mainLayersTree.findTreeElem(div).elem, null);
+        window._layersTree.treeModel.updateNodeVisibility(mainLayersTree.findTreeElem(div).elem, null);
 
 		var curBox = div.firstChild;
 		if (!elemProperties.ShowCheckbox)
@@ -273,12 +273,11 @@ var createGroupEditorProperties = function(div, isMap, mainLayersTree)
 			mainLayersTree.findTreeElem(div).elem.content.properties = div.gmxProperties.content.properties;
 		}
 
-		var ul = _abstractTree.getChildsUl(div.parentNode),
-			checkbox = false;
+		var ul = window._abstractTree.getChildsUl(div.parentNode);
 
 		$(ul).children('li').each(function()
 		{
-			var box = _layersTree.updateListType(this, true);
+			window._layersTree.updateListType(this, true);
 		})
 	});
 
@@ -356,7 +355,7 @@ var createGroupEditorProperties = function(div, isMap, mainLayersTree)
                            '</select>')[0],
 			downloadVectors = _checkbox(elemProperties.CanDownloadVectors, 'checkbox'),
 			downloadRasters = _checkbox(elemProperties.CanDownloadRasters, 'checkbox'),
-            WMSLink = _a([_t(_gtxt('ссылка'))], [['attr', 'href', serverBase + 'TileService.ashx?map=' + elemProperties.name]]),
+            // WMSLink = _a([_t(_gtxt('ссылка'))], [['attr', 'href', window.serverBase + 'TileService.ashx?map=' + elemProperties.name]]),
             WMSLinks = $(Handlebars.compile(
                 '<div>' +
                     '<ul>' +
@@ -680,7 +679,7 @@ var createGroupEditorProperties = function(div, isMap, mainLayersTree)
 
 		_(tabMenu, [divCommon, divBaseLayers, divPolicy, divSearch, divView, divOnload, divPlugins]);
 
-        var baseLayersControl = new BaseLayersControl(divBaseLayers, nsGmx.leafletMap.gmxBaseLayersManager);
+        new BaseLayersControl(divBaseLayers, nsGmx.leafletMap.gmxBaseLayersManager);
 
 		_(divCommon, [_table([_tbody(addProperties(shownCommonProperties))],[['css','width','100%'], ['dir','className','propertiesTable']])]);
 		_(divPolicy, [_table([_tbody(addProperties(shownPolicyProperties))],[['css','width','100%'], ['dir','className','propertiesTable']]), WMSLinks]);
@@ -801,7 +800,7 @@ var createGroupEditor = function(div)
 			return false;
 		};
 
-	var canvas = createGroupEditorProperties(div, false, _layersTree);
+	var canvas = createGroupEditorProperties(div, false, window._layersTree);
 	showDialog(_gtxt('Группа [value0]', elemProperties.title), canvas, 340, 230, pos.left, pos.top, null, closeFunc);
 	_groupEditorsHash[elemProperties.GroupID] = true;
 
@@ -816,24 +815,23 @@ window._mapEditorsHash = {};
 */
 var createMapEditor = function(div, activePage)
 {
-	var elemProperties = div.gmxProperties.properties,
-		_this = this;
+	var elemProperties = div.gmxProperties.properties;
 
-	if (_mapEditorsHash[elemProperties.MapID])
+	if (window._mapEditorsHash[elemProperties.MapID])
 		return;
 
 	var pos = nsGmx.Utils.getDialogPos(div, true, 530),
 		closeFunc = function()
 		{
-			delete _mapEditorsHash[elemProperties.MapID];
+			delete window._mapEditorsHash[elemProperties.MapID];
 			canvas.updateFunc();
             canvas.closeFunc();
 			return false;
 		};
 
-	var canvas = createGroupEditorProperties(div, true, _layersTree);
+	var canvas = createGroupEditorProperties(div, true, window._layersTree);
 	showDialog(_gtxt('Карта [value0]', elemProperties.title), canvas, 450, 410, pos.left, pos.top, null, closeFunc);
-	_mapEditorsHash[elemProperties.MapID] = {
+	window._mapEditorsHash[elemProperties.MapID] = {
         update: canvas.updateFunc
     };
 

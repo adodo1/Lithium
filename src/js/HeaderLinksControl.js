@@ -24,7 +24,7 @@ nsGmx.addHeaderLinks = function()
             {title: _gtxt("Платформа Геомиксер"), newWindow: true, id: 'HeaderLinkGeoMixer'}
         ];
 
-    return $.extend(true, [], items).map(function(item, index, array) {
+    return $.extend(true, [], items).map(function(item, index) {
         item.link = item.href;
         return {
             id: 'headerLinksItem' + index,

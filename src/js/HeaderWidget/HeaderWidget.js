@@ -64,12 +64,12 @@ nsGmx.HeaderWidget = (function() {
         return this._view.find(".headerWidget-languageContainer").show();
     };
 
-    HeaderWidget.prototype.getSocialsPlaceholder = function(first_argument) {
+    HeaderWidget.prototype.getSocialsPlaceholder = function() {
         return this._view.find(".headerWidget-socialsContainer");
     };
 
     return HeaderWidget;
-})();;
+})();
 nsGmx.Translations.addText('rus', {
     header: {
         'langRu': 'Ru',
@@ -82,7 +82,7 @@ nsGmx.Translations.addText('eng', {
         'langRu': 'Ru',
         'langEn': 'En'
     }
-});;
+});
 nsGmx.Templates = nsGmx.Templates || {};
 nsGmx.Templates.HeaderWidget = {};
 nsGmx.Templates.HeaderWidget["layout"] = "<div class=\"headerWidget\">\n" +
@@ -112,4 +112,4 @@ nsGmx.Templates.HeaderWidget["socials"] = "<div class=\"headerWidget-socialIcons
     "    {{#if twitter}}\n" +
     "        <div class=\"headerWidget-socialIconCell\"><a href=\"{{twitter}}\" target=\"_blank\"><i class=\"icon-twitter\"></i></a></div>\n" +
     "    {{/if}}\n" +
-    "</div>";;
+    "</div>";

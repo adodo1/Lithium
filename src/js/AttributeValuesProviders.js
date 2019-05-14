@@ -1,12 +1,15 @@
 ﻿import nsGmx from './nsGmx.js';
-import {sendCrossDomainJSONRequest} from './utilities.js';
+import {
+	parseResponse,
+	sendCrossDomainJSONRequest,
+} from './utilities.js';
 
 (function(){
 
 //Интерфейс для провайдеров значений параметров
 nsGmx.ILazyAttributeValuesProvider = function() {
-	this.isAttributeExists = function( attrName ){};
-	this.getValuesForAttribute = function( attrName, callback ){};
+	this.isAttributeExists = function(){};
+	this.getValuesForAttribute = function(){};
 };
 
 //Простая обёртка над массивами для обратной совместимости
@@ -18,8 +21,8 @@ nsGmx.LazyAttributeValuesProviderFromArray = function( attributes ) {
 		return attrName in _attrs;
 	};
 
-	this.getValuesForAttribute = function( attrName, callback )	{
-		if ( attrName in _attrs )
+	this.getValuesForAttribute = function(attrName, callback )	{
+		if (attrName in _attrs )
 			callback(_attrs[attrName]);
 		else
 			callback();
@@ -78,15 +81,15 @@ nsGmx.LazyAttributeValuesProviderFromServer = function(attributes, layerName) {
 				_isProcessing = false;
 				if (!parseResponse(response))
 				{
-					for (var n in _callbacks)
-						for (var k = 0; k < _callbacks[n].length; k++)
+					for (let n in _callbacks)
+						for (let k = 0; k < _callbacks[n].length; k++)
 							_callbacks[n][k]();
 					return;
 				}
 
 				_attrs = response.Result;
-				for (var n in _callbacks)
-					for (var k = 0; k < _callbacks[n].length; k++)
+				for (let n in _callbacks)
+					for (let k = 0; k < _callbacks[n].length; k++)
 						_callbacks[n][k](_attrs[n]);
 			});
 		}

@@ -1,16 +1,28 @@
-﻿import {leftMenu} from './menu.js';
+﻿import nsGmx from './nsGmx.js';
+import {leftMenu} from './menu.js';
+import {
+    _div,
+    _form,
+    hide,
+    _img,
+    _input,
+    show,
+    showErrorMessage,
+    _span,    
+    _t,    
+} from './utilities.js';
 
-_translationsHash.addtext("rus", {
-							"loadShape.inputTitle": "Добавить shp-файл (в zip)",
-                            "loadShape.loadDone": "Геометрия успешно загружена",
-                            "loadShape.loadFail": "Ошибка загрузки геометрии"
-						 });
+window._translationsHash.addtext("rus", {
+    "loadShape.inputTitle": "Добавить shp-файл (в zip)",
+    "loadShape.loadDone": "Геометрия успешно загружена",
+    "loadShape.loadFail": "Ошибка загрузки геометрии"
+});
 						 
-_translationsHash.addtext("eng", {
-							"loadShape.inputTitle": "Add shp-file (zipped)",
-                            "loadShape.loadDone": "Successfully loaded",
-                            "loadShape.loadFail": "Error loading file"
-						 });
+window._translationsHash.addtext("eng", {
+    "loadShape.inputTitle": "Add shp-file (zipped)",
+    "loadShape.loadDone": "Successfully loaded",
+    "loadShape.loadFail": "Error loading file"
+});
 
 var drawingObjects = 
 {

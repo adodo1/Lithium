@@ -12,13 +12,6 @@ E:\projects\Lithium\src\js\starter.js
 ✖ 4 problems (4 errors, 0 warnings)
 
 
-E:\projects\Lithium\src\js\menu.js
-  368:2  error  Mixed spaces and tabs  no-mixed-spaces-and-tabs
-  375:2  error  Mixed spaces and tabs  no-mixed-spaces-and-tabs
-
-✖ 2 problems (2 errors, 0 warnings)
-
-
 E:\projects\Lithium\src\js\translations.js
   207:5   error  Identifier 'prev_gtxt' is not in camel case                            camelcase
   208:5   error  Identifier 'prev_translationsHash' is not in camel case                camelcase
@@ -42,863 +35,130 @@ E:\projects\Lithium\src\js\gmxcore.js
 
 
 E:\projects\Lithium\src\js\mapHelper.js
-   257:6   error  'baseAddress' is not defined                   no-undef
-   948:68  error  'id' is not defined                            no-undef
-  1385:16  error  Identifier 'geometry_cs' is not in camel case  camelcase
-
-✖ 3 problems (3 errors, 0 warnings)
-
-
-E:\projects\Lithium\src\js\AuthManager.js
-  194:98  error  'response' is defined but never used  no-unused-vars
+  1386:16  error  Identifier 'geometry_cs' is not in camel case  camelcase
 
 ✖ 1 problem (1 error, 0 warnings)
 
 
 E:\projects\Lithium\src\js\utilities.js
-   195:11   error  'field' is assigned a value but never used                             no-unused-vars
-   499:23   error  'ActiveXObject' is not defined                                         no-undef
-   500:34   error  'ActiveXObject' is not defined                                         no-undef
-   512:10   error  'sendJSONRequest' is defined but never used                            no-unused-vars
-   573:7    error  'expires' is already defined                                           no-redeclare
-   581:2    error  Expected space(s) after "for"                                          keyword-spacing
-   627:10   error  'strip' is defined but never used                                      no-unused-vars
-   690:3    error  Expected space(s) after "catch"                                        keyword-spacing
-   705:10   error  'createPostIframe' is defined but never used                           no-unused-vars
-   707:6    error  'userAgent' is assigned a value but never used                         no-unused-vars
-   717:2    error  Expected space(s) after "catch"                                        keyword-spacing
-   730:1    error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
-   749:9    error  Expected space(s) after "if"                                           keyword-spacing
-   795:30   error  Unnecessary escape character: \/                                       no-useless-escape
-   795:79   error  Unnecessary escape character: \/                                       no-useless-escape
-   795:110  error  Unnecessary escape character: \/                                       no-useless-escape
-   796:40   error  Unnecessary escape character: \/                                       no-useless-escape
-   796:50   error  Unnecessary escape character: \/                                       no-useless-escape
-   796:102  error  Unnecessary escape character: \/                                       no-useless-escape
-   796:141  error  Unnecessary escape character: \/                                       no-useless-escape
-   796:151  error  Unnecessary escape character: \/                                       no-useless-escape
-   796:179  error  Unnecessary escape character: \/                                       no-useless-escape
-   840:15   error  'createPostIframe2' is not defined                                     no-undef
-   948:10   error  'parseXML' is defined but never used                                   no-unused-vars
-   955:4    error  'parser' is not defined                                                no-undef
-   956:13   error  'parser' is not defined                                                no-undef
-   960:17   error  'ActiveXObject' is not defined                                         no-undef
-   966:2    error  Expected space(s) after "catch"                                        keyword-spacing
-   984:10   error  'parsePropertiesDate' is defined but never used                        no-unused-vars
-  1027:10   error  'inputError' is defined but never used                                 no-unused-vars
-  1044:10   error  'equals' is defined but never used                                     no-unused-vars
-  1046:2    error  Expected space(s) after "for"                                          keyword-spacing
-  1046:6    error  'p' is not defined                                                     no-undef
-  1048:6    error  Expected space(s) after "if"                                           keyword-spacing
-  1048:18   error  'p' is not defined                                                     no-undef
-  1051:2    error  Expected space(s) after "for"                                          keyword-spacing
-  1051:6    error  'p' is not defined                                                     no-undef
-  1053:12   error  'p' is not defined                                                     no-undef
-  1055:10   error  Expected space(s) after "switch"                                       keyword-spacing
-  1055:26   error  'p' is not defined                                                     no-undef
-  1058:40   error  'p' is not defined                                                     no-undef
-  1058:46   error  'p' is not defined                                                     no-undef
-  1058:67   error  Unnecessary semicolon                                                  no-extra-semi
-  1060:39   error  'p' is not defined                                                     no-undef
-  1060:60   error  'p' is not defined                                                     no-undef
-  1060:79   error  'p' is not defined                                                     no-undef
-  1060:98   error  'p' is not defined                                                     no-undef
-  1060:131  error  Unnecessary semicolon                                                  no-extra-semi
-  1062:32   error  'p' is not defined                                                     no-undef
-  1062:40   error  'p' is not defined                                                     no-undef
-  1067:10   error  Unexpected if as the only statement in an else block                   no-lonely-if
-  1067:16   error  'p' is not defined                                                     no-undef
-  1074:2    error  Expected space(s) after "for"                                          keyword-spacing
-  1074:6    error  'p' is not defined                                                     no-undef
-  1076:6    error  Expected space(s) after "if"                                           keyword-spacing
-  1076:18   error  'p' is not defined                                                     no-undef
-  1161:84   error  Invalid typeof comparison value                                        valid-typeof
-  1345:17   error  'localDateValue' is already defined                                    no-redeclare
-  1348:17   error  'localValue' is already defined                                        no-redeclare
-  1349:17   error  'timeOffset' is already defined                                        no-redeclare
-  1357:18   error  Identifier 'redirect_uri' is not in camel case                         camelcase
-  1362:21   error  Identifier 'redirect_uri' is not in camel case                         camelcase
-  1362:37   error  Identifier 'redirect_uri' is not in camel case                         camelcase
-  1366:35   error  'l' is defined but never used                                          no-unused-vars
-  1366:38   error  't' is defined but never used                                          no-unused-vars
-  1379:4    error  Expected space(s) after "else"                                         keyword-spacing
-  1379:4    error  Expected space(s) before "else"                                        keyword-spacing
-  1382:6    error  ',' should be placed last                                              comma-style
-  1439:34   error  'serverBase' is not defined                                            no-undef
-  1442:25   error  'response' is not defined                                              no-undef
-  1444:43   error  'response' is not defined                                              no-undef
-  1445:41   error  'response' is not defined                                              no-undef
-  1447:40   error  'response' is not defined                                              no-undef
-  1454:44   error  'serverBase' is not defined                                            no-undef
-  1506:36   error  'serverBase' is not defined                                            no-undef
-  1567:17   error  'segments' is assigned a value but never used                          no-unused-vars
-  1597:17   error  'startI' is not defined                                                no-undef
-  1598:43   error  'startI' is not defined                                                no-undef
-  1600:45   error  'startI' is not defined                                                no-undef
-  1632:14   error  Unnecessary semicolon                                                  no-extra-semi
-  1634:13   error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
-  1678:44   error  'i' is defined but never used                                          no-unused-vars
-  1693:18   error  'c' is already defined                                                 no-redeclare
-  1697:26   error  'r' is already defined                                                 no-redeclare
-  1703:22   error  'r' is already defined                                                 no-redeclare
-  1707:29   error  'joinedSeg' is already defined                                         no-redeclare
-  1737:40   error  'serverBase' is not defined                                            no-undef
-  1759:40   error  'serverBase' is not defined                                            no-undef
-  1777:40   error  'serverBase' is not defined                                            no-undef
-  1796:13   error  'projection' is assigned a value but never used                        no-unused-vars
-  1796:25   error  'bounds' is defined but never used                                     no-unused-vars
-  1838:2    error  Mixed spaces and tabs                                                  no-mixed-spaces-and-tabs
-
-✖ 92 problems (92 errors, 0 warnings)
-  18 errors and 0 warnings potentially fixable with the `--fix` option.
-
-
-E:\projects\Lithium\src\js\mapLayers.js
-    21:1   error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
-    61:17  error  'hide' is not defined                                                  no-undef
-    63:17  error  'show' is not defined                                                  no-undef
-   126:13  error  Unexpected if as the only statement in an else block                   no-lonely-if
-   247:60  error  'isVisible' is defined but never used                                  no-unused-vars
-   284:13  error  '_this' is assigned a value but never used                             no-unused-vars
-   317:21  error  'childs' is already defined                                            no-redeclare
-   319:26  error  'i' is already defined                                                 no-redeclare
-   328:21  error  'childs' is already defined                                            no-redeclare
-   330:26  error  'i' is already defined                                                 no-redeclare
-   333:21  error  'childsUl' is already defined                                          no-redeclare
-   349:54  error  'invisibleLayers' is not defined                                       no-undef
-   429:13  error  '_this' is assigned a value but never used                             no-unused-vars
-   473:38  error  'e' is defined but never used                                          no-unused-vars
-   511:63  error  'minZoom' is defined but never used                                    no-unused-vars
-   553:27  error  '_t' is not defined                                                    no-undef
-   617:21  error  '_img' is not defined                                                  no-undef
-   646:29  error  '_t' is not defined                                                    no-undef
-   702:25  error  'layer' is already defined                                             no-redeclare
-   706:29  error  'layerName' is assigned a value but never used                         no-unused-vars
-   728:13  error  Unexpected if as the only statement in an else block                   no-lonely-if
-   809:27  error  '_t' is not defined                                                    no-undef
-   903:27  error  '_t' is not defined                                                    no-undef
-  1047:16  error  'div' is not defined                                                   no-undef
-  1047:28  error  '_t' is not defined                                                    no-undef
-  1056:60  error  'isVisible' is defined but never used                                  no-unused-vars
-  1056:71  error  'nodeDepth' is defined but never used                                  no-unused-vars
-  1139:21  error  Unexpected if as the only statement in an else block                   no-lonely-if
-  1141:29  error  'showErrorMessage' is not defined                                      no-undef
-  1143:29  error  'showErrorMessage' is not defined                                      no-undef
-  1225:13  error  '_this' is already defined                                             no-redeclare
-  1229:44  error  'serverBase' is not defined                                            no-undef
-  1230:26  error  'parseResponse' is not defined                                         no-undef
-  1247:44  error  'serverBase' is not defined                                            no-undef
-  1248:26  error  'parseResponse' is not defined                                         no-undef
-  1308:5   error  'showErrorMessage' is not defined                                      no-undef
-  1314:2   error  Mixed spaces and tabs                                                  no-mixed-spaces-and-tabs
-  1315:2   error  Mixed spaces and tabs                                                  no-mixed-spaces-and-tabs
-  1316:2   error  Mixed spaces and tabs                                                  no-mixed-spaces-and-tabs
-  1317:2   error  Mixed spaces and tabs                                                  no-mixed-spaces-and-tabs
-  1330:21  error  'rcMinZoom' is assigned a value but never used                         no-unused-vars
-  1347:57  error  'e' is defined but never used                                          no-unused-vars
-  1357:17  error  'showErrorMessage' is not defined                                      no-undef
-  1508:61  error  'visibleFlag' is defined but never used                                no-unused-vars
-  1527:25  error  'group' is already defined                                             no-redeclare
-  1566:18  error  'equals' is not defined                                                no-undef
-  1584:46  error  'data' is defined but never used                                       no-unused-vars
-  1594:33  error  '_table' is not defined                                                no-undef
-  1694:9   error  '_title' is not defined                                                no-undef
-  1794:28  error  'ev' is defined but never used                                         no-unused-vars
-  1794:32  error  'ui' is defined but never used                                         no-unused-vars
-  1797:27  error  'ev' is defined but never used                                         no-unused-vars
-  1797:31  error  'ui' is defined but never used                                         no-unused-vars
-  1866:31  error  'taskInfo' is defined but never used                                   no-unused-vars
-  1913:21  error  'divElem' is assigned a value but never used                           no-unused-vars
-  1929:32  error  '_t' is not defined                                                    no-undef
-  1932:17  error  '_t' is not defined                                                    no-undef
-  1979:22  error  Unnecessary semicolon                                                  no-extra-semi
-  2005:36  error  '_t' is not defined                                                    no-undef
-  2008:21  error  '_t' is not defined                                                    no-undef
-  2031:31  error  'taskInfo' is defined but never used                                   no-unused-vars
-  2080:21  error  'divElem' is assigned a value but never used                           no-unused-vars
-  2097:32  error  '_t' is not defined                                                    no-undef
-  2100:17  error  '_t' is not defined                                                    no-undef
-  2128:13  error  'dialogDiv' is assigned a value but never used                         no-unused-vars
-  2154:17  error  'inputError' is not defined                                            no-undef
-  2173:36  error  'serverBase' is not defined                                            no-undef
-  2174:18  error  'parseResponse' is not defined                                         no-undef
-  2187:39  error  '_mapEditorsHash' is not defined                                       no-undef
-  2187:65  error  '_mapEditorsHash' is not defined                                       no-undef
-  2190:32  error  'gmxCore' is not defined                                               no-undef
-  2203:64  error  'flag' is defined but never used                                       no-unused-vars
-  2228:34  error  'i' is already defined                                                 no-redeclare
-  2233:34  error  's' is already defined                                                 no-redeclare
-  2259:40  error  'serverBase' is not defined                                            no-undef
-  2261:26  error  'parseResponse' is not defined                                         no-undef
-
-✖ 76 problems (76 errors, 0 warnings)
-  3 errors and 0 warnings potentially fixable with the `--fix` option.
-
-
-E:\projects\Lithium\src\js\AuthWidget.js
-   15:5    error  '_' is defined but never used      no-unused-vars
-   30:28   error  'makeButton' is not defined        no-undef
-   31:41   error  '_t' is not defined                no-undef
-   32:40   error  '_t' is not defined                no-undef
-   33:40   error  '_t' is not defined                no-undef
-   42:21   error  'inputError' is not defined        no-undef
-   57:32   error  'showErrorMessage' is not defined  no-undef
-   66:9    error  'showDialog' is not defined        no-undef
-  144:87   error  'defaultMapID' is not defined      no-undef
-  144:103  error  'globalMapName' is not defined     no-undef
-  144:131  error  'globalMapName' is not defined     no-undef
-  151:35   error  '_t' is not defined                no-undef
-  169:28   error  '_table' is not defined            no-undef
-  169:36   error  '_tr' is not defined               no-undef
-  170:17   error  '_td' is not defined               no-undef
-  171:17   error  '_td' is not defined               no-undef
-  229:25   error  'inputError' is not defined        no-undef
-  237:32   error  'showDialog' is not defined        no-undef
-
-✖ 18 problems (18 errors, 0 warnings)
-
-
-E:\projects\Lithium\src\js\drawingObjects.js
-  131:24   error  'rgb' is defined but never used                  no-unused-vars
-  187:14   error  '_input' is not defined                          no-undef
-  203:133  error  '_br' is not defined                             no-undef
-  206:18   error  'showDialog' is not defined                      no-undef
-  225:9    error  '_map' is assigned a value but never used        no-unused-vars
-  278:7    error  'obj' is assigned a value but never used         no-unused-vars
-  362:20   error  '_img' is not defined                            no-undef
-  491:6    error  '_container' is assigned a value but never used  no-unused-vars
-  619:4    error  Expected space(s) after "if"                     keyword-spacing
-  628:17   error  'tt' is assigned a value but never used          no-unused-vars
-  749:13   error  Expected space(s) after "if"                     keyword-spacing
-  797:4    error  '_this' is assigned a value but never used       no-unused-vars
-  809:4    error  'showErrorMessage' is not defined                no-undef
-  868:10   error  Unnecessary semicolon                            no-extra-semi
-  871:13   error  'showErrorMessage' is not defined                no-undef
+   195:11   error  'field' is assigned a value but never used            no-unused-vars
+   794:30   error  Unnecessary escape character: \/                      no-useless-escape
+   794:79   error  Unnecessary escape character: \/                      no-useless-escape
+   794:110  error  Unnecessary escape character: \/                      no-useless-escape
+   795:40   error  Unnecessary escape character: \/                      no-useless-escape
+   795:50   error  Unnecessary escape character: \/                      no-useless-escape
+   795:102  error  Unnecessary escape character: \/                      no-useless-escape
+   795:141  error  Unnecessary escape character: \/                      no-useless-escape
+   795:151  error  Unnecessary escape character: \/                      no-useless-escape
+   795:179  error  Unnecessary escape character: \/                      no-useless-escape
+  1066:10   error  Unexpected if as the only statement in an else block  no-lonely-if
+  1356:18   error  Identifier 'redirect_uri' is not in camel case        camelcase
+  1361:21   error  Identifier 'redirect_uri' is not in camel case        camelcase
+  1361:37   error  Identifier 'redirect_uri' is not in camel case        camelcase
+  1836:2    error  Mixed spaces and tabs                                 no-mixed-spaces-and-tabs
 
 ✖ 15 problems (15 errors, 0 warnings)
-  3 errors and 0 warnings potentially fixable with the `--fix` option.
-
-
-E:\projects\Lithium\src\js\LayersTree.js
-  146:13  error  'res' is assigned a value but never used  no-unused-vars
-
-✖ 1 problem (1 error, 0 warnings)
-
-
-E:\projects\Lithium\src\js\contextMenuController.js
-    6:1   error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
-   46:31  error  '_div' is not defined                                                  no-undef
-  297:17  error  'securityDialog' is already defined                                    no-redeclare
-  338:7   error  'treeElem' is assigned a value but never used                          no-unused-vars
-  346:3   error  '_abstractTree' is not defined                                         no-undef
-  399:30  error  'context' is defined but never used                                    no-unused-vars
-  405:3   error  'sendCrossDomainJSONRequest' is not defined                            no-undef
-  406:9   error  'parseResponse' is not defined                                         no-undef
-  436:30  error  'res' is defined but never used                                        no-unused-vars
-  454:30  error  'context' is defined but never used                                    no-unused-vars
-  472:21  error  'taskInfo' is defined but never used                                   no-unused-vars
-  473:4   error  'showErrorMessage' is not defined                                      no-undef
-  474:26  error  'taskInfo' is defined but never used                                   no-unused-vars
-  475:4   error  'showErrorMessage' is not defined                                      no-undef
-  477:30  error  'taskInfo' is defined but never used                                   no-unused-vars
-  526:18  error  Unnecessary semicolon                                                  no-extra-semi
-  611:22  error  'context' is defined but never used                                    no-unused-vars
-  639:26  error  'context' is defined but never used                                    no-unused-vars
-
-✖ 18 problems (18 errors, 0 warnings)
   1 error and 0 warnings potentially fixable with the `--fix` option.
-
-
-E:\projects\Lithium\src\js\queryLoadShp.js
-   36:21  error  '_input' is not defined            no-undef
-   44:21  error  '_form' is not defined             no-undef
-   46:21  error  '_img' is not defined              no-undef
-   48:25  error  '_div' is not defined              no-undef
-   48:31  error  '_span' is not defined             no-undef
-   48:38  error  '_t' is not defined                no-undef
-   50:33  error  '_div' is not defined              no-undef
-   65:9   error  'showErrorMessage' is not defined  no-undef
-   68:16  error  'nsGmx' is not defined             no-undef
-   85:5   error  'nsGmx' is not defined             no-undef
-   88:16  error  'nsGmx' is not defined             no-undef
-   93:9   error  'nsGmx' is not defined             no-undef
-   95:9   error  'nsGmx' is not defined             no-undef
-  105:2   error  'hide' is not defined              no-undef
-  106:2   error  'show' is not defined              no-undef
-
-✖ 15 problems (15 errors, 0 warnings)
-
-
-E:\projects\Lithium\src\js\HeaderLinksControl.js
-  27:64  error  'array' is defined but never used  no-unused-vars
-
-✖ 1 problem (1 error, 0 warnings)
 
 
 E:\projects\Lithium\src\js\loadServerData.js
-   108:9    error  'strResp' is already defined                          no-redeclare
-   109:15   error  'parseXML' is not defined                             no-undef
-   132:31   error  'strip' is not defined                                no-undef
-   221:5    error  Expected space(s) after "if"                          keyword-spacing
-   235:3    error  Expected space(s) after "for"                         keyword-spacing
-   252:3    error  'strResp' is already defined                          no-redeclare
-   253:9    error  'parseXML' is not defined                             no-undef
-   267:4    error  'geometry' is not defined                             no-undef
-   269:8    error  'geometry' is not defined                             no-undef
-   270:21   error  'geometry' is not defined                             no-undef
-   285:17   error  'strip' is not defined                                no-undef
-   294:18   error  'strip' is not defined                                no-undef
-   321:3    error  'nodeList' is already defined                         no-redeclare
-   325:17   error  'strip' is not defined                                no-undef
-   330:4    error  'j' is not defined                                    no-undef
-   331:4    error  'x' is not defined                                    no-undef
-   331:15   error  'j' is not defined                                    no-undef
-   332:4    error  'y' is not defined                                    no-undef
-   332:15   error  'j' is not defined                                    no-undef
-   334:52   error  'j' is not defined                                    no-undef
-   334:71   error  'j' is not defined                                    no-undef
-   343:18   error  'strip' is not defined                                no-undef
-   348:13   error  'i' is already defined                                no-redeclare
-   447:8    error  'newCoords' is already defined                        no-redeclare
-   449:13   error  'j' is already defined                                no-redeclare
-   478:8    error  'newCoords' is already defined                        no-redeclare
-   480:13   error  'k' is already defined                                no-redeclare
-   482:9    error  'newCoords2' is already defined                       no-redeclare
-   484:14   error  'j' is already defined                                no-redeclare
-   531:95   error  'version' is defined but never used                   no-unused-vars
-   536:18   error  'strip' is not defined                                no-undef
-   545:13   error  'j' is already defined                                no-redeclare
-   566:19   error  '_input' is not defined                               no-undef
-   568:22   error  '_div' is not defined                                 no-undef
-   570:17   error  'makeButton' is not defined                           no-undef
-   580:36   error  'strip' is not defined                                no-undef
-   585:4    error  'inputError' is not defined                           no-undef
-   593:2    error  Mixed spaces and tabs                                 no-mixed-spaces-and-tabs
-   595:2    error  Mixed spaces and tabs                                 no-mixed-spaces-and-tabs
-   596:2    error  Mixed spaces and tabs                                 no-mixed-spaces-and-tabs
-   599:15   error  '_div' is not defined                                 no-undef
-   599:21   error  '_div' is not defined                                 no-undef
-   599:27   error  '_span' is not defined                                no-undef
-   599:34   error  '_t' is not defined                                   no-undef
-   599:95   error  '_table' is not defined                               no-undef
-   599:103  error  '_tbody' is not defined                               no-undef
-   599:111  error  '_tr' is not defined                                  no-undef
-   599:116  error  '_td' is not defined                                  no-undef
-   599:134  error  '_td' is not defined                                  no-undef
-   603:25   error  '_div' is not defined                                 no-undef
-   613:16   error  '_div' is not defined                                 no-undef
-   613:22   error  '_img' is not defined                                 no-undef
-   613:100  error  '_t' is not defined                                   no-undef
-   622:50   error  Unnecessary escape character: \&                      no-useless-escape
-   623:62   error  Unnecessary escape character: \&                      no-useless-escape
-   624:26   error  Unnecessary escape character: \&                      no-useless-escape
-   633:2    error  'sendCrossDomainJSONRequest' is not defined           no-undef
-   633:29   error  'serverBase' is not defined                           no-undef
-   634:8    error  'parseResponse' is not defined                        no-undef
-   646:3    error  'strResp' is already defined                          no-redeclare
-   647:17   error  'parseXML' is not defined                             no-undef
-   676:2    error  'sendCrossDomainJSONRequest' is not defined           no-undef
-   676:29   error  'serverBase' is not defined                           no-undef
-   678:8    error  'parseResponse' is not defined                        no-undef
-   679:20   error  'parseGML' is not defined                             no-undef
-   690:3    error  'globalFlashMap' is not defined                       no-undef
-   698:3    error  'globalFlashMap' is not defined                       no-undef
-   711:3    error  'styles' is assigned a value but never used           no-unused-vars
-   762:18   error  '_div' is not defined                                 no-undef
-   763:15   error  '_div' is not defined                                 no-undef
-   764:3    error  'spanHeader' is assigned a value but never used       no-unused-vars
-   764:16   error  '_span' is not defined                                no-undef
-   764:23   error  '_t' is not defined                                   no-undef
-   776:4    error  'show' is not defined                                 no-undef
-   778:4    error  'hide' is not defined                                 no-undef
-   864:17   error  '_ul' is not defined                                  no-undef
-   865:14   error  '_ul' is not defined                                  no-undef
-   866:12   error  'makeImageButton' is not defined                      no-undef
-   867:3    error  '_this' is assigned a value but never used            no-unused-vars
-   888:15   error  '_li' is not defined                                  no-undef
-   888:20   error  '_div' is not defined                                 no-undef
-   888:26   error  '_span' is not defined                                no-undef
-   888:33   error  '_t' is not defined                                   no-undef
-   915:44   error  'serverBase' is not defined                           no-undef
-   921:20   error  '_div' is not defined                                 no-undef
-   922:10   error  '_checkbox' is not defined                            no-undef
-   923:15   error  '_span' is not defined                                no-undef
-   923:22   error  '_t' is not defined                                   no-undef
-   949:16   error  '_li' is not defined                                  no-undef
-   976:38   error  '_option' is not defined                              no-undef
-   976:47   error  '_t' is not defined                                   no-undef
-   976:60   error  '_option' is not defined                              no-undef
-   976:69   error  '_t' is not defined                                   no-undef
-   978:19   error  '_t' is not defined                                   no-undef
-   989:17   error  '_ul' is not defined                                  no-undef
-   990:14   error  '_ul' is not defined                                  no-undef
-   991:15   error  '_div' is not defined                                 no-undef
-   992:12   error  'makeImageButton' is not defined                      no-undef
-  1008:15   error  '_li' is not defined                                  no-undef
-  1008:20   error  '_div' is not defined                                 no-undef
-  1008:26   error  '_span' is not defined                                no-undef
-  1008:33   error  '_t' is not defined                                   no-undef
-  1010:42   error  '_option' is not defined                              no-undef
-  1010:51   error  '_t' is not defined                                   no-undef
-  1011:9    error  '_option' is not defined                              no-undef
-  1011:18   error  '_t' is not defined                                   no-undef
-  1037:19   error  '_div' is not defined                                 no-undef
-  1037:25   error  '_img' is not defined                                 no-undef
-  1037:103  error  '_t' is not defined                                   no-undef
-  1043:5    error  Unexpected if as the only statement in an else block  no-lonely-if
-  1051:20   error  '_div' is not defined                                 no-undef
-  1052:10   error  '_checkbox' is not defined                            no-undef
-  1053:15   error  '_span' is not defined                                no-undef
-  1053:22   error  '_t' is not defined                                   no-undef
-  1054:17   error  '_div' is not defined                                 no-undef
-  1074:23   error  '_div' is not defined                                 no-undef
-  1075:16   error  '_li' is not defined                                  no-undef
-  1142:14   error  'objLength' is not defined                            no-undef
-  1208:14   error  'objLength' is not defined                            no-undef
+  619:2   error  Mixed spaces and tabs             no-mixed-spaces-and-tabs
+  621:2   error  Mixed spaces and tabs             no-mixed-spaces-and-tabs
+  622:2   error  Mixed spaces and tabs             no-mixed-spaces-and-tabs
+  648:50  error  Unnecessary escape character: \&  no-useless-escape
+  649:62  error  Unnecessary escape character: \&  no-useless-escape
+  650:26  error  Unnecessary escape character: \&  no-useless-escape
 
-✖ 119 problems (119 errors, 0 warnings)
-  3 errors and 0 warnings potentially fixable with the `--fix` option.
+✖ 6 problems (6 errors, 0 warnings)
 
 
 E:\projects\Lithium\src\js\queryTabs.js
-    9:55  error  'defLang' is defined but never used                no-unused-vars
-   60:21  error  '_div' is not defined                              no-undef
-   74:50  error  'event' is defined but never used                  no-unused-vars
-   74:57  error  'ui' is defined but never used                     no-unused-vars
-   93:9   error  Identifier 'name_rus' is not in camel case         camelcase
-   94:9   error  Identifier 'description_rus' is not in camel case  camelcase
-   95:9   error  Identifier 'name_eng' is not in camel case         camelcase
-   96:9   error  Identifier 'description_eng' is not in camel case  camelcase
-  100:17  error  Identifier 'name_rus' is not in camel case         camelcase
-  104:17  error  Identifier 'description_rus' is not in camel case  camelcase
-  145:2   error  Mixed spaces and tabs                              no-mixed-spaces-and-tabs
-  146:2   error  Mixed spaces and tabs                              no-mixed-spaces-and-tabs
-  160:21  error  Identifier 'name_rus' is not in camel case         camelcase
-  161:21  error  Identifier 'description_rus' is not in camel case  camelcase
-  162:21  error  Identifier 'name_eng' is not in camel case         camelcase
-  163:21  error  Identifier 'description_eng' is not in camel case  camelcase
-  175:13  error  'removeDialog' is not defined                      no-undef
-  209:15  error  'getOwnChildNumber' is not defined                 no-undef
-  217:21  error  'getOwnChildNumber' is not defined                 no-undef
-  249:11  error  'i' is already defined                             no-redeclare
-  312:9   error  'mapHelp' is not defined                           no-undef
+   98:9   error  Identifier 'name_rus' is not in camel case         camelcase
+   99:9   error  Identifier 'description_rus' is not in camel case  camelcase
+  100:9   error  Identifier 'name_eng' is not in camel case         camelcase
+  101:9   error  Identifier 'description_eng' is not in camel case  camelcase
+  105:17  error  Identifier 'name_rus' is not in camel case         camelcase
+  109:17  error  Identifier 'description_rus' is not in camel case  camelcase
+  150:2   error  Mixed spaces and tabs                              no-mixed-spaces-and-tabs
+  151:2   error  Mixed spaces and tabs                              no-mixed-spaces-and-tabs
+  165:21  error  Identifier 'name_rus' is not in camel case         camelcase
+  166:21  error  Identifier 'description_rus' is not in camel case  camelcase
+  167:21  error  Identifier 'name_eng' is not in camel case         camelcase
+  168:21  error  Identifier 'description_eng' is not in camel case  camelcase
 
-✖ 21 problems (21 errors, 0 warnings)
+✖ 12 problems (12 errors, 0 warnings)
 
 
-E:\projects\Lithium\src\js\LayerProperties.js
-  179:21  error  'type' is already defined   no-redeclare
-  180:21  error  'value' is already defined  no-redeclare
-
-✖ 2 problems (2 errors, 0 warnings)
-
-
-E:\projects\Lithium\src\js\mapCommon.js
-    4:28  error  'nsGmx' is not defined                                no-undef
-    5:24  error  'nsGmx' is not defined                                no-undef
-   18:21  error  Unexpected if as the only statement in an else block  no-lonely-if
-   39:31  error  'nsGmx' is not defined                                no-undef
-   45:20  error  'nsGmx' is not defined                                no-undef
-  114:9   error  'gmxCore' is not defined                              no-undef
-
-✖ 6 problems (6 errors, 0 warnings)
-  1 error and 0 warnings potentially fixable with the `--fix` option.
-
-
-E:\projects\Lithium\src\js\LayerEditor.js
-   350:17  error  Unexpected if as the only statement in an else block       no-lonely-if
-   353:25  error  Unexpected if as the only statement in an else block       no-lonely-if
-   404:28  error  'event' is defined but never used                          no-unused-vars
-   404:35  error  'ui' is defined but never used                             no-unused-vars
-   619:9   error  '_tableBrowser' is not defined                             no-undef
-   761:28  error  'event' is defined but never used                          no-unused-vars
-   761:35  error  'ui' is defined but never used                             no-unused-vars
-   887:9   error  '_fileBrowser' is not defined                              no-undef
-   940:9   error  '_fileBrowser' is not defined                              no-undef
-   966:9   error  '_fileBrowser' is not defined                              no-undef
-  1032:13  error  'isManual' is assigned a value but never used              no-unused-vars
-  1121:9   error  'rasterCatalogControl' is assigned a value but never used  no-unused-vars
-  1132:9   error  'quicklookWidget' is assigned a value but never used       no-unused-vars
-
-✖ 13 problems (13 errors, 0 warnings)
-  2 errors and 0 warnings potentially fixable with the `--fix` option.
-
-
-E:\projects\Lithium\src\js\AttributeValuesProviders.js
-   8:37  error  'attrName' is defined but never used  no-unused-vars
-   9:41  error  'attrName' is defined but never used  no-unused-vars
-   9:51  error  'callback' is defined but never used  no-unused-vars
-  79:10  error  'parseResponse' is not defined        no-undef
-  88:14  error  'n' is already defined                no-redeclare
-  89:15  error  'k' is already defined                no-redeclare
-
-✖ 6 problems (6 errors, 0 warnings)
-
-
-E:\projects\Lithium\src\js\HeaderWidget\HeaderWidget.js
-   67:61  error  Identifier 'first_argument' is not in camel case  camelcase
-   67:61  error  'first_argument' is defined but never used        no-unused-vars
-   72:6   error  Unnecessary semicolon                             no-extra-semi
-   85:4   error  Unnecessary semicolon                             no-extra-semi
-  115:14  error  Unnecessary semicolon                             no-extra-semi
-
-✖ 5 problems (5 errors, 0 warnings)
-  3 errors and 0 warnings potentially fixable with the `--fix` option.
-
-
-E:\projects\Lithium\src\js\LanguageWidget\languageWidget.js
-   6:35  error  'options' is defined but never used  no-unused-vars
-  34:1   error  Unnecessary semicolon                no-extra-semi
-  40:14  error  Unnecessary semicolon                no-extra-semi
-
-✖ 3 problems (3 errors, 0 warnings)
-  2 errors and 0 warnings potentially fixable with the `--fix` option.
-
-
-E:\projects\Lithium\src\js\GmxIconLayers\gmxIconLayers.js
-  116:13  error  'layer' is assigned a value but never used  no-unused-vars
+E:\projects\Lithium\src\js\CommonCalendarWidget\CommonCalendarWidget.js
+  736:37  error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
 
 ✖ 1 problem (1 error, 0 warnings)
 
 
-E:\projects\Lithium\src\js\CommonCalendarWidget\CommonCalendarWidget.js
-   67:5   error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
-   69:9   error  '_gtxt' is assigned a value but never used                             no-unused-vars
-   94:31  error  'options' is defined but never used                                    no-unused-vars
-  211:25  error  'int' is not defined                                                   no-undef
-  213:44  error  'int' is not defined                                                   no-undef
-  214:33  error  'int' is not defined                                                   no-undef
-  215:33  error  'int' is not defined                                                   no-undef
-  265:25  error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
-  265:81  error  'container' is not defined                                             no-undef
-  327:14  error  Unnecessary semicolon                                                  no-extra-semi
-  341:17  error  'props' is assigned a value but never used                             no-unused-vars
-  351:14  error  Unnecessary semicolon                                                  no-extra-semi
-  404:17  error  Unexpected if as the only statement in an else block                   no-lonely-if
-  432:17  error  'layerName' is defined but never used                                  no-unused-vars
-  439:13  error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
-  440:13  error  'layerID' is not defined                                               no-undef
-  442:17  error  'layerID' is not defined                                               no-undef
-  446:17  error  'layerID' is not defined                                               no-undef
-  448:17  error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
-  462:17  error  'layersArr' is assigned a value but never used                         no-unused-vars
-  534:22  error  'i' is already defined                                                 no-redeclare
-  535:21  error  'layer' is already defined                                             no-redeclare
-  536:21  error  'props' is already defined                                             no-redeclare
-  540:14  error  Unnecessary semicolon                                                  no-extra-semi
-  545:21  error  'l' is assigned a value but never used                                 no-unused-vars
-  555:21  error  'props' is already defined                                             no-redeclare
-  556:21  error  'layerID' is already defined                                           no-redeclare
-  569:21  error  'dateInterval' is not defined                                          no-undef
-  571:25  error  'dateInterval' is not defined                                          no-undef
-  571:51  error  'dateInterval' is not defined                                          no-undef
-  572:37  error  'dateInterval' is not defined                                          no-undef
-  573:35  error  'dateInterval' is not defined                                          no-undef
-  575:25  error  'dateInterval' is not defined                                          no-undef
-  576:37  error  'dateInterval' is not defined                                          no-undef
-  577:35  error  'dateInterval' is not defined                                          no-undef
-  610:17  error  'layersList' is assigned a value but never used                        no-unused-vars
-  614:17  error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
-  622:17  error  Unexpected if as the only statement in an else block                   no-lonely-if
-  646:29  error  'props' is already defined                                             no-redeclare
-  672:17  error  'synchronyzed' is assigned a value but never used                      no-unused-vars
-  674:17  error  'dateInterval' is assigned a value but never used                      no-unused-vars
-  675:17  error  'calendar' is assigned a value but never used                          no-unused-vars
-  686:17  error  Unexpected if as the only statement in an else block                   no-lonely-if
-  703:17  error  'calendar' is assigned a value but never used                          no-unused-vars
-  708:17  error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
-  751:37  error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
-
-✖ 46 problems (46 errors, 0 warnings)
-  6 errors and 0 warnings potentially fixable with the `--fix` option.
-
-
-E:\projects\Lithium\src\js\AuthWidget\AuthWidget.js
-   60:13  error  'self' is assigned a value but never used  no-unused-vars
-  123:73  error  'e' is defined but never used              no-unused-vars
-  131:76  error  'e' is defined but never used              no-unused-vars
-  136:67  error  'e' is defined but never used              no-unused-vars
-  144:37  error  'je' is defined but never used             no-unused-vars
-  144:41  error  'ui' is defined but never used             no-unused-vars
-  157:68  error  'e' is defined but never used              no-unused-vars
-  183:1   error  Unnecessary semicolon                      no-extra-semi
-
-✖ 8 problems (8 errors, 0 warnings)
-  1 error and 0 warnings potentially fixable with the `--fix` option.
-
-
-E:\projects\Lithium\src\js\SearchLogic\SearchLogic.js
-    85:4    error  Expected space(s) after "else"                              keyword-spacing
-    89:3    error  Expected space(s) after "else"                              keyword-spacing
-    98:93   error  'arrDisplayFields' is defined but never used                no-unused-vars
-   158:7    error  'fnBaloon' is assigned a value but never used               no-unused-vars
-   184:33   error  'feature' is defined but never used                         no-unused-vars
-   218:12   error  Unexpected if as the only statement in an else block        no-lonely-if
-   260:3    error  'iCount' is not defined                                     no-undef
-   283:5    error  'LocationTitleRenderer' is assigned a value but never used  no-unused-vars
-   294:26   error  '_span' is not defined                                      no-undef
-   294:33   error  '_t' is not defined                                         no-undef
-   302:48   error  '_t' is not defined                                         no-undef
-   314:4    error  Expected space(s) after "if"                                keyword-spacing
-   317:4    error  Expected space(s) after "else"                              keyword-spacing
-   318:26   error  '_t' is not defined                                         no-undef
-   342:2    error  Expected space(s) after "if"                                keyword-spacing
-   347:35   error  '_img' is not defined                                       no-undef
-   347:149  error  '_t' is not defined                                         no-undef
-   348:78   error  '_t' is not defined                                         no-undef
-   352:3    error  Expected space(s) after "for"                               keyword-spacing
-   352:7    error  'i' is not defined                                          no-undef
-   352:12   error  'i' is not defined                                          no-undef
-   352:42   error  'i' is not defined                                          no-undef
-   353:24   error  'i' is not defined                                          no-undef
-   358:9    error  'next' is assigned a value but never used                   no-unused-vars
-   359:22   error  'makeImageButton' is not defined                            no-undef
-   371:9    error  '_title' is not defined                                     no-undef
-   378:22   error  'makeImageButton' is not defined                            no-undef
-   390:9    error  '_title' is not defined                                     no-undef
-   397:13   error  '_this' is assigned a value but never used                  no-unused-vars
-   398:13   error  'makeImageButton' is not defined                            no-undef
-   410:9    error  '_title' is not defined                                     no-undef
-   416:9    error  'last' is assigned a value but never used                   no-unused-vars
-   417:13   error  '_this' is assigned a value but never used                  no-unused-vars
-   418:13   error  'makeImageButton' is not defined                            no-undef
-   430:9    error  '_title' is not defined                                     no-undef
-   441:26   error  '_span' is not defined                                      no-undef
-   441:33   error  '_t' is not defined                                         no-undef
-   458:15   error  '_tbody' is not defined                                     no-undef
-   460:17   error  '_tr' is not defined                                        no-undef
-   461:17   error  '_td' is not defined                                        no-undef
-   462:27   error  '_td' is not defined                                        no-undef
-   462:32   error  '_t' is not defined                                         no-undef
-   467:26   error  '_span' is not defined                                      no-undef
-   467:33   error  '_t' is not defined                                         no-undef
-   474:30   error  '_t' is not defined                                         no-undef
-   489:29   error  '_table' is not defined                                     no-undef
-   498:6    error  'drawPages' is assigned a value but never used              no-unused-vars
-   503:14   error  '_span' is not defined                                      no-undef
-   503:21   error  '_t' is not defined                                         no-undef
-   508:16   error  'makeLinkButton' is not defined                             no-undef
-   535:7    error  'end' is assigned a value but never used                    no-unused-vars
-   574:15   error  '_input' is not defined                                     no-undef
-   576:24   error  'makeButton' is not defined                                 no-undef
-   579:5    error  'inputError' is not defined                                 no-undef
-   594:44   error  '_t' is not defined                                         no-undef
-   596:14   error  'getOffsetRect' is not defined                              no-undef
-   597:3    error  'showDialog' is not defined                                 no-undef
-   610:14   error  '_li' is not defined                                        no-undef
-   615:3    error  Expected space(s) after "else"                              keyword-spacing
-   616:9    error  '_li' is not defined                                        no-undef
-   616:32   error  '_t' is not defined                                         no-undef
-   616:44   error  '_span' is not defined                                      no-undef
-   616:51   error  '_t' is not defined                                         no-undef
-   626:25   error  'makeLinkButton' is not defined                             no-undef
-   658:34   error  'event' is defined but never used                           no-unused-vars
-   658:41   error  'filename' is defined but never used                        no-unused-vars
-   658:51   error  'arrObjectsToDownload' is defined but never used            no-unused-vars
-   681:8    error  'objLength' is not defined                                  no-undef
-   708:3    error  Expected space(s) after "else"                              keyword-spacing
-   709:34   error  '_li' is not defined                                        no-undef
-   709:57   error  '_t' is not defined                                         no-undef
-   730:21   error  'makeImageButton' is not defined                            no-undef
-   738:9    error  'containerList' is not defined                              no-undef
-   741:39   error  '_t' is not defined                                         no-undef
-   742:23   error  'containerList' is not defined                              no-undef
-   758:32   error  'makeLinkButton' is not defined                             no-undef
-   762:21   error  'attachEffects' is not defined                              no-undef
-   765:49   error  '_t' is not defined                                         no-undef
-   860:33   error  '_t' is not defined                                         no-undef
-   874:42   error  'leftMenu' is not defined                                   no-undef
-   878:13   error  'workCanvas' is defined but never used                      no-unused-vars
-   882:39   error  'event' is defined but never used                           no-unused-vars
-   887:13   error  'fnLoad' is not defined                                     no-undef
-   889:38   error  'event' is defined but never used                           no-unused-vars
-   941:13   error  Expected space(s) after "if"                                keyword-spacing
-   974:71   error  'attachEffects' is not defined                              no-undef
-   976:13   error  'attachEffects' is not defined                              no-undef
-  1005:13   error  'globalRes' is assigned a value but never used              no-unused-vars
-  1007:13   error  'reject' is not defined                                     no-undef
-  1063:50   error  'reject' is defined but never used                          no-unused-vars
-  1077:83   error  'LayerSearchLimit' is not defined                           no-undef
-  1088:33   error  Expected space(s) after "if"                                keyword-spacing
-  1106:17   error  Expected space(s) after "if"                                keyword-spacing
-
-✖ 93 problems (93 errors, 0 warnings)
-  12 errors and 0 warnings potentially fixable with the `--fix` option.
-
-
-E:\projects\Lithium\src\js\SearchLogic\SearchProviders.js
-  55:19  error  Redundant Boolean call  no-extra-boolean-cast
-  56:28  error  Redundant Boolean call  no-extra-boolean-cast
-  98:22  error  'i' is already defined  no-redeclare
-
-✖ 3 problems (3 errors, 0 warnings)
-  2 errors and 0 warnings potentially fixable with the `--fix` option.
-
-
-E:\projects\Lithium\src\js\TransparencySliderWidget\TransparencySliderWidget.js
-   6:9  error  'ui' is assigned a value but never used  no-unused-vars
-  85:5  error  Unnecessary semicolon                    no-extra-semi
-
-✖ 2 problems (2 errors, 0 warnings)
-  1 error and 0 warnings potentially fixable with the `--fix` option.
-
-
 E:\projects\Lithium\src\js\gmxLayers2\gmxLayers2.js
-  152:17  error  'label' is already defined                 no-redeclare
-  153:17  error  'checked' is already defined               no-redeclare
-  154:17  error  'input' is already defined                 no-redeclare
-  189:17  error  'name' is already defined                  no-redeclare
-  200:17  error  'container' is already defined             no-redeclare
-  225:16  error  'len' is defined but never used            no-unused-vars
-  259:34  error  'skipEvent' is defined but never used      no-unused-vars
-  263:17  error  'prev' is assigned a value but never used  no-unused-vars
-  277:2   error  Mixed spaces and tabs                      no-mixed-spaces-and-tabs
-  291:14  error  Unnecessary semicolon                      no-extra-semi
+  276:2  error  Mixed spaces and tabs  no-mixed-spaces-and-tabs
 
-✖ 10 problems (10 errors, 0 warnings)
-  1 error and 0 warnings potentially fixable with the `--fix` option.
-
-
-E:\projects\Lithium\src\js\EditObjectControl\EditObjectControl.js
-    4:5   error  '_br' is defined but never used                     no-unused-vars
-    5:5   error  '_checkbox' is defined but never used               no-unused-vars
-    9:5   error  '_li' is defined but never used                     no-unused-vars
-   11:5   error  '_option' is defined but never used                 no-unused-vars
-   18:2   error  '_a' is defined but never used                      no-unused-vars
-   20:5   error  '_title' is defined but never used                  no-unused-vars
-   23:5   error  '_textarea' is defined but never used               no-unused-vars
-   24:2   error  '_thead' is defined but never used                  no-unused-vars
-   26:2   error  '_th' is defined but never used                     no-unused-vars
-   28:5   error  '_ul' is defined but never used                     no-unused-vars
-  250:23  error  'gmxCore' is not defined                            no-undef
-  279:9   error  'canvas' is assigned a value but never used         no-unused-vars
-  286:13  error  'trs' is assigned a value but never used            no-unused-vars
-  378:35  error  'event' is defined but never used                   no-unused-vars
-  378:42  error  'ui' is defined but never used                      no-unused-vars
-  483:33  error  'inputError' is not defined                         no-undef
-  525:40  error  'serverBase' is not defined                         no-undef
-  533:21  error  'drawingObject' is assigned a value but never used  no-unused-vars
-
-✖ 18 problems (18 errors, 0 warnings)
+✖ 1 problem (1 error, 0 warnings)
 
 
 E:\projects\Lithium\src\js\ProfilePlugin\ProfilePlugin.js
-    92:13   error  Identifier 'ErrorNOT_AUTHORIZED' is not in camel case  camelcase
-   205:13   error  Identifier 'ErrorNOT_AUTHORIZED' is not in camel case  camelcase
-   302:19   error  Identifier 'text_input' is not in camel case           camelcase
-   303:19   error  Identifier 'text_input' is not in camel case           camelcase
-   304:19   error  Identifier 'text_input' is not in camel case           camelcase
-   305:19   error  Identifier 'text_input' is not in camel case           camelcase
-   306:19   error  Identifier 'text_input' is not in camel case           camelcase
-   307:19   error  Identifier 'text_input' is not in camel case           camelcase
-   308:19   error  Identifier 'checkbox_group' is not in camel case       camelcase
-   314:19   error  Identifier 'button_input' is not in camel case         camelcase
-   345:19   error  Identifier 'form_caption' is not in camel case         camelcase
-   346:44   error  Identifier 'link_button' is not in camel case          camelcase
-   349:24   error  Identifier 'link_button' is not in camel case          camelcase
-   350:24   error  Identifier 'link_button' is not in camel case          camelcase
-   353:19   error  Identifier 'form_caption' is not in camel case         camelcase
-   354:19   error  Identifier 'text_input' is not in camel case           camelcase
-   356:19   error  Identifier 'span_nl' is not in camel case              camelcase
-   357:19   error  Identifier 'text_input' is not in camel case           camelcase
-   359:19   error  Identifier 'button_input' is not in camel case         camelcase
-   364:17   error  Identifier 'successmess_timeout' is not in camel case  camelcase
-   372:17   error  'sendCrossDomainPostRequest' is not defined            no-undef
-   388:31   error  Identifier 'successmess_timeout' is not in camel case  camelcase
-   391:31   error  Unexpected if as the only statement in an else block   no-lonely-if
-   400:17   error  Identifier 'newsecret_timeout' is not in camel case    camelcase
-   405:21   error  Identifier 'client_secret' is not in camel case        camelcase
-   408:17   error  'sendCrossDomainPostRequest' is not defined            no-undef
-   414:31   error  Identifier 'client_secret' is not in camel case        camelcase
-   415:31   error  Identifier 'newsecret_timeout' is not in camel case    camelcase
-   415:76   error  Identifier 'client_secret' is not in camel case        camelcase
-   442:13   error  Identifier 'changePass_timeout' is not in camel case   camelcase
-   449:17   error  'sendCrossDomainPostRequest' is not defined            no-undef
-   460:25   error  Identifier 'changePass_timeout' is not in camel case   camelcase
-   471:56   error  'e' is defined but never used                          no-unused-vars
-   488:21   error  'removeDialog' is not defined                          no-undef
-   505:49   error  Unnecessary semicolon                                  no-extra-semi
-   507:73   error  'event' is defined but never used                      no-unused-vars
-   507:80   error  'ui' is defined but never used                         no-unused-vars
-   517:21   error  'sendCrossDomainJSONRequest' is not defined            no-undef
-   519:30   error  'parseResponse' is not defined                         no-undef
-   530:11   error  'sendCrossDomainPostRequest' is not defined            no-undef
-   544:12   error  Expected space(s) after "else"                         keyword-spacing
-   564:84   error  'e' is defined but never used                          no-unused-vars
-   595:30   error  'removeDialog' is not defined                          no-undef
-   623:21   error  'startH' is already defined                            no-redeclare
-   629:21   error  'wait' is already defined                              no-redeclare
-   647:29   error  'sendCrossDomainPostRequest' is not defined            no-undef
-   651:29   error  'sendCrossDomainPostRequest' is not defined            no-undef
-   670:42   error  'gmxCore' is not defined                               no-undef
-   723:32   error  'e' is defined but never used                          no-unused-vars
-   820:26   error  'nsGmx' is not defined                                 no-undef
-   821:25   error  'nsGmx' is not defined                                 no-undef
-   830:24   error  'nsGmx' is not defined                                 no-undef
-   837:9    error  'sendCrossDomainJSONRequest' is not defined            no-undef
-   838:17   error  'parseResponse' is not defined                         no-undef
-   886:42   error  'afterRegistration' is defined but never used          no-unused-vars
-   939:17   error  'sendCrossDomainPostRequest' is not defined            no-undef
-   947:116  error  'defaultMapID' is not defined                          no-undef
-   947:132  error  'globalMapName' is not defined                         no-undef
-   947:160  error  'globalMapName' is not defined                         no-undef
-   957:54   error  'errorSummaryHeight' is not defined                    no-undef
-   962:73   error  'removeDialog' is not defined                          no-undef
-   969:29   error  'errorSummaryHeight' is not defined                    no-undef
-   974:29   error  'errorSummaryHeight' is not defined                    no-undef
-   989:9    error  'dialogFrame' is assigned a value but never used       no-unused-vars
-   991:9    error  'errorSummaryHeight' is not defined                    no-undef
-  1009:9    error  'SubmitBlock' is assigned a value but never used       no-unused-vars
-  1009:33   error  'form' is defined but never used                       no-unused-vars
-  1009:39   error  'onsuccess' is defined but never used                  no-unused-vars
-  1009:50   error  'onerror' is defined but never used                    no-unused-vars
-  1013:5    error  'gmxCore' is not defined                               no-undef
-  1018:13   error  'checkExist' is not defined                            no-undef
-  1019:21   error  'nsGmx' is not defined                                 no-undef
-  1019:49   error  'nsGmx' is not defined                                 no-undef
-  1020:25   error  'nsGmx' is not defined                                 no-undef
-  1021:52   error  'nsGmx' is not defined                                 no-undef
-  1032:47   error  'nsGmx' is not defined                                 no-undef
-  1034:25   error  'nsGmx' is not defined                                 no-undef
-  1036:33   error  'removeDialog' is not defined                          no-undef
-  1049:35   error  'checkExist' is not defined                            no-undef
-  1056:25   error  'module' is defined but never used                     no-unused-vars
-  1056:33   error  'path' is defined but never used                       no-unused-vars
+  100:13  error  Identifier 'ErrorNOT_AUTHORIZED' is not in camel case  camelcase
+  213:13  error  Identifier 'ErrorNOT_AUTHORIZED' is not in camel case  camelcase
+  310:19  error  Identifier 'text_input' is not in camel case           camelcase
+  311:19  error  Identifier 'text_input' is not in camel case           camelcase
+  312:19  error  Identifier 'text_input' is not in camel case           camelcase
+  313:19  error  Identifier 'text_input' is not in camel case           camelcase
+  314:19  error  Identifier 'text_input' is not in camel case           camelcase
+  315:19  error  Identifier 'text_input' is not in camel case           camelcase
+  316:19  error  Identifier 'checkbox_group' is not in camel case       camelcase
+  322:19  error  Identifier 'button_input' is not in camel case         camelcase
+  353:19  error  Identifier 'form_caption' is not in camel case         camelcase
+  354:44  error  Identifier 'link_button' is not in camel case          camelcase
+  357:24  error  Identifier 'link_button' is not in camel case          camelcase
+  358:24  error  Identifier 'link_button' is not in camel case          camelcase
+  361:19  error  Identifier 'form_caption' is not in camel case         camelcase
+  362:19  error  Identifier 'text_input' is not in camel case           camelcase
+  364:19  error  Identifier 'span_nl' is not in camel case              camelcase
+  365:19  error  Identifier 'text_input' is not in camel case           camelcase
+  367:19  error  Identifier 'button_input' is not in camel case         camelcase
+  372:17  error  Identifier 'successmess_timeout' is not in camel case  camelcase
+  396:29  error  Identifier 'successmess_timeout' is not in camel case  camelcase
+  406:17  error  Identifier 'newsecret_timeout' is not in camel case    camelcase
+  411:21  error  Identifier 'client_secret' is not in camel case        camelcase
+  420:31  error  Identifier 'client_secret' is not in camel case        camelcase
+  421:31  error  Identifier 'newsecret_timeout' is not in camel case    camelcase
+  421:76  error  Identifier 'client_secret' is not in camel case        camelcase
+  448:13  error  Identifier 'changePass_timeout' is not in camel case   camelcase
+  466:25  error  Identifier 'changePass_timeout' is not in camel case   camelcase
 
-✖ 81 problems (81 errors, 0 warnings)
-  3 errors and 0 warnings potentially fixable with the `--fix` option.
+✖ 28 problems (28 errors, 0 warnings)
 
 
 E:\projects\Lithium\src\js\GroupEditor.js
-   10:1   error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
-  132:14  error  '_abstractTree' is not defined                                         no-undef
-  146:18  error  'makeButton' is not defined                                            no-undef
-  178:19  error  '_abstractTree' is not defined                                         no-undef
-  182:5   error  '_abstractTree' is not defined                                         no-undef
-  191:5   error  '_abstractTree' is not defined                                         no-undef
-  212:2   error  Mixed spaces and tabs                                                  no-mixed-spaces-and-tabs
-  215:2   error  Mixed spaces and tabs                                                  no-mixed-spaces-and-tabs
-  216:2   error  Mixed spaces and tabs                                                  no-mixed-spaces-and-tabs
-  236:3   error  'trs' is assigned a value but never used                               no-unused-vars
-  237:3   error  '_this' is assigned a value but never used                             no-unused-vars
-  276:12  error  '_abstractTree' is not defined                                         no-undef
-  277:4   error  'checkbox' is assigned a value but never used                          no-unused-vars
-  281:8   error  'box' is assigned a value but never used                               no-unused-vars
-  348:2   error  Mixed spaces and tabs                                                  no-mixed-spaces-and-tabs
-  359:13  error  'WMSLink' is assigned a value but never used                           no-unused-vars
-  359:67  error  'serverBase' is not defined                                            no-undef
-  391:13  error  '_textarea' is not defined                                             no-undef
-  414:2   error  Mixed spaces and tabs                                                  no-mixed-spaces-and-tabs
-  630:2   error  Mixed spaces and tabs                                                  no-mixed-spaces-and-tabs
-  683:13  error  'baseLayersControl' is assigned a value but never used                 no-unused-vars
-  692:33  error  'layersTree' is not defined                                            no-undef
-  820:3   error  '_this' is assigned a value but never used                             no-unused-vars
-  822:6   error  '_mapEditorsHash' is not defined                                       no-undef
-  828:11  error  '_mapEditorsHash' is not defined                                       no-undef
-  836:2   error  '_mapEditorsHash' is not defined                                       no-undef
-  845:1   error  'gmxCore' is not defined                                               no-undef
+  148:18  error  'makeButton' is not defined  no-undef
+  214:2   error  Mixed spaces and tabs        no-mixed-spaces-and-tabs
+  217:2   error  Mixed spaces and tabs        no-mixed-spaces-and-tabs
+  218:2   error  Mixed spaces and tabs        no-mixed-spaces-and-tabs
+  347:2   error  Mixed spaces and tabs        no-mixed-spaces-and-tabs
+  413:2   error  Mixed spaces and tabs        no-mixed-spaces-and-tabs
+  629:2   error  Mixed spaces and tabs        no-mixed-spaces-and-tabs
+  691:33  error  'layersTree' is not defined  no-undef
 
-✖ 27 problems (27 errors, 0 warnings)
+✖ 8 problems (8 errors, 0 warnings)
+
+
+E:\projects\Lithium\src\js\Controls.js
+   78:4   error  Unexpected if as the only statement in an else block  no-lonely-if
+  127:33  error  'e' is defined but never used                         no-unused-vars
+  233:13  error  '_this' is assigned a value but never used            no-unused-vars
+  246:13  error  'gmxCore' is not defined                              no-undef
+  255:21  error  'list' is assigned a value but never used             no-unused-vars
+  351:13  error  'title' is assigned a value but never used            no-unused-vars
+  352:13  error  'summary' is assigned a value but never used          no-unused-vars
+  428:1   error  'gmxCore' is not defined                              no-undef
+
+✖ 8 problems (8 errors, 0 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
 
 
 E:\projects\Lithium\src\js\LayerStylesEditor.js
@@ -1185,20 +445,6 @@ E:\projects\Lithium\src\js\LayerStylesEditor.js
   1 error and 0 warnings potentially fixable with the `--fix` option.
 
 
-E:\projects\Lithium\src\js\Controls.js
-   78:4   error  Unexpected if as the only statement in an else block  no-lonely-if
-  127:33  error  'e' is defined but never used                         no-unused-vars
-  233:13  error  '_this' is assigned a value but never used            no-unused-vars
-  246:13  error  'gmxCore' is not defined                              no-undef
-  255:21  error  'list' is assigned a value but never used             no-unused-vars
-  351:13  error  'title' is assigned a value but never used            no-unused-vars
-  352:13  error  'summary' is assigned a value but never used          no-unused-vars
-  428:1   error  'gmxCore' is not defined                              no-undef
-
-✖ 8 problems (8 errors, 0 warnings)
-  1 error and 0 warnings potentially fixable with the `--fix` option.
-
-
 E:\projects\Lithium\src\js\MapsManagerControl.js
    17:1   error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
    31:32  error  'serverBase' is not defined                                            no-undef
@@ -1216,22 +462,27 @@ E:\projects\Lithium\src\js\MapsManagerControl.js
 ✖ 12 problems (12 errors, 0 warnings)
 
 
-E:\projects\Lithium\src\js\PluginsEditor.js
-   87:18  error  'p' is already defined                                 no-redeclare
-  194:10  error  Unnecessary semicolon                                  no-extra-semi
-  214:17  error  'pluginName' is assigned a value but never used        no-unused-vars
-  248:21  error  'inputError' is not defined                            no-undef
-  271:6   error  Unnecessary semicolon                                  no-extra-semi
-  275:31  error  'tag' is defined but never used                        no-unused-vars
-  276:36  error  'tag' is defined but never used                        no-unused-vars
-  277:43  error  'tag' is defined but never used                        no-unused-vars
-  294:9   error  'pluginValues' is assigned a value but never used      no-unused-vars
-  306:21  error  'showDialog' is not defined                            no-undef
-  394:9   error  'mapPluginsWidget' is assigned a value but never used  no-unused-vars
-  398:9   error  'allPluginsWidget' is assigned a value but never used  no-unused-vars
-  420:1   error  'gmxCore' is not defined                               no-undef
+E:\projects\Lithium\src\js\NotificationWidget.js
+  4:5  error  'nsGmx' is not defined  no-undef
 
-✖ 13 problems (13 errors, 0 warnings)
+✖ 1 problem (1 error, 0 warnings)
+
+
+E:\projects\Lithium\src\js\PluginsEditor.js
+   90:18  error  'p' is already defined                                 no-redeclare
+  197:10  error  Unnecessary semicolon                                  no-extra-semi
+  217:17  error  'pluginName' is assigned a value but never used        no-unused-vars
+  274:6   error  Unnecessary semicolon                                  no-extra-semi
+  278:31  error  'tag' is defined but never used                        no-unused-vars
+  279:36  error  'tag' is defined but never used                        no-unused-vars
+  280:43  error  'tag' is defined but never used                        no-unused-vars
+  297:9   error  'pluginValues' is assigned a value but never used      no-unused-vars
+  309:21  error  'showDialog' is not defined                            no-undef
+  397:9   error  'mapPluginsWidget' is assigned a value but never used  no-unused-vars
+  401:9   error  'allPluginsWidget' is assigned a value but never used  no-unused-vars
+  423:1   error  'gmxCore' is not defined                               no-undef
+
+✖ 12 problems (12 errors, 0 warnings)
   2 errors and 0 warnings potentially fixable with the `--fix` option.
 
 
@@ -1253,12 +504,6 @@ E:\projects\Lithium\src\js\LayersManagerControl.js
 ✖ 13 problems (13 errors, 0 warnings)
 
 
-E:\projects\Lithium\src\js\NotificationWidget.js
-  4:5  error  'nsGmx' is not defined  no-undef
-
-✖ 1 problem (1 error, 0 warnings)
-
-
 E:\projects\Lithium\src\js\AttrSuggestWidget.js
     9:7   error  '_' is assigned a value but never used          no-unused-vars
   246:13  error  'relTarget' is assigned a value but never used  no-unused-vars
@@ -1269,46 +514,76 @@ E:\projects\Lithium\src\js\AttrSuggestWidget.js
 E:\projects\Lithium\src\js\fileBrowser.js
      5:5    error  '_checkbox' is defined but never used                                  no-unused-vars
      7:2    error  '_img' is defined but never used                                       no-unused-vars
-     9:5    error  '_li' is defined but never used                                        no-unused-vars
-    12:5    error  '_option' is defined but never used                                    no-unused-vars
-    18:2    error  '_a' is defined but never used                                         no-unused-vars
-    23:5    error  '_textarea' is defined but never used                                  no-unused-vars
-    26:2    error  '_th' is defined but never used                                        no-unused-vars
-    28:5    error  '_ul' is defined but never used                                        no-unused-vars
-    98:24   error  'newPath' is not defined                                               no-undef
-   277:13   error  'response' is not defined                                              no-undef
-   279:32   error  'response' is not defined                                              no-undef
-   282:24   error  'response' is not defined                                              no-undef
-   283:41   error  'response' is not defined                                              no-undef
-   284:39   error  'response' is not defined                                              no-undef
-   284:82   error  'response' is not defined                                              no-undef
-   337:18   error  'f' is already defined                                                 no-redeclare
-   396:22   error  'makeButton' is not defined                                            no-undef
-   415:21   error  'makeButton' is not defined                                            no-undef
-   454:2    error  Mixed spaces and tabs                                                  no-mixed-spaces-and-tabs
+    10:5    error  '_li' is defined but never used                                        no-unused-vars
+    13:5    error  '_option' is defined but never used                                    no-unused-vars
+    19:2    error  '_a' is defined but never used                                         no-unused-vars
+    24:5    error  '_textarea' is defined but never used                                  no-unused-vars
+    27:2    error  '_th' is defined but never used                                        no-unused-vars
+    29:5    error  '_ul' is defined but never used                                        no-unused-vars
+    99:24   error  'newPath' is not defined                                               no-undef
+   278:13   error  'response' is not defined                                              no-undef
+   280:32   error  'response' is not defined                                              no-undef
+   283:24   error  'response' is not defined                                              no-undef
+   284:41   error  'response' is not defined                                              no-undef
+   285:39   error  'response' is not defined                                              no-undef
+   285:82   error  'response' is not defined                                              no-undef
+   338:18   error  'f' is already defined                                                 no-redeclare
+   397:22   error  'makeButton' is not defined                                            no-undef
+   416:21   error  'makeButton' is not defined                                            no-undef
    455:2    error  Mixed spaces and tabs                                                  no-mixed-spaces-and-tabs
-   458:5    error  'inputError' is not defined                                            no-undef
-   459:2    error  Mixed spaces and tabs                                                  no-mixed-spaces-and-tabs
+   456:2    error  Mixed spaces and tabs                                                  no-mixed-spaces-and-tabs
    460:2    error  Mixed spaces and tabs                                                  no-mixed-spaces-and-tabs
    461:2    error  Mixed spaces and tabs                                                  no-mixed-spaces-and-tabs
-   469:4    error  'inputError' is not defined                                            no-undef
-   488:17   error  '_form' is not defined                                                 no-undef
-   544:6    error  'path' is already defined                                              no-redeclare
-   729:20   error  'makeButton' is not defined                                            no-undef
-   772:2    error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
-   790:16   error  Unnecessary semicolon                                                  no-extra-semi
-   799:11   error  'i' is already defined                                                 no-redeclare
-   812:37   error  'e' is defined but never used                                          no-unused-vars
-   865:11   error  'i' is already defined                                                 no-redeclare
-   871:4    error  'tdSize' is not defined                                                no-undef
-   873:33   error  'valueInArray' is not defined                                          no-undef
-   882:37   error  'e' is defined but never used                                          no-unused-vars
-   891:141  error  'tdSize' is not defined                                                no-undef
-   945:17   error  'valueInArray' is not defined                                          no-undef
-  1006:14   error  '_form' is not defined                                                 no-undef
+   462:2    error  Mixed spaces and tabs                                                  no-mixed-spaces-and-tabs
+   489:17   error  '_form' is not defined                                                 no-undef
+   545:6    error  'path' is already defined                                              no-redeclare
+   730:20   error  'makeButton' is not defined                                            no-undef
+   773:2    error  Expected an assignment or function call and instead saw an expression  no-unused-expressions
+   791:16   error  Unnecessary semicolon                                                  no-extra-semi
+   800:11   error  'i' is already defined                                                 no-redeclare
+   813:37   error  'e' is defined but never used                                          no-unused-vars
+   866:11   error  'i' is already defined                                                 no-redeclare
+   872:4    error  'tdSize' is not defined                                                no-undef
+   874:33   error  'valueInArray' is not defined                                          no-undef
+   883:37   error  'e' is defined but never used                                          no-unused-vars
+   892:141  error  'tdSize' is not defined                                                no-undef
+   946:17   error  'valueInArray' is not defined                                          no-undef
+  1007:14   error  '_form' is not defined                                                 no-undef
 
-✖ 39 problems (39 errors, 0 warnings)
+✖ 37 problems (37 errors, 0 warnings)
   1 error and 0 warnings potentially fixable with the `--fix` option.
+
+
+E:\projects\Lithium\src\js\tableBrowser.js
+   57:2   error  'sendCrossDomainJSONRequest' is not defined  no-undef
+   57:29  error  'serverBase' is not defined                  no-undef
+   59:8   error  'parseResponse' is not defined               no-undef
+   73:22  error  '_td' is not defined                         no-undef
+   73:27  error  '_t' is not defined                          no-undef
+   74:19  error  'makeImageButton' is not defined             no-undef
+   75:9   error  '_tr' is not defined                         no-undef
+   75:14  error  '_td' is not defined                         no-undef
+   80:3   error  '_title' is not defined                      no-undef
+   87:3   error  'attachEffects' is not defined               no-undef
+   98:29  error  'nsGmx' is not defined                       no-undef
+  102:26  error  'nsGmx' is not defined                       no-undef
+  105:23  error  '_div' is not defined                        no-undef
+  117:23  error  '_input' is not defined                      no-undef
+  126:5   error  'showDialog' is not defined                  no-undef
+
+✖ 15 problems (15 errors, 0 warnings)
+
+
+E:\projects\Lithium\src\js\gmxCore.js
+   75:26   error  Expected space(s) after "if"      keyword-spacing
+   75:41   error  Expected space(s) after "if"      keyword-spacing
+   75:88   error  Expected space(s) before "var"    keyword-spacing
+   75:153  error  Expected space(s) after "if"      keyword-spacing
+   79:48   error  Expected space(s) after "if"      keyword-spacing
+  190:43   error  Unnecessary escape character: \/  no-useless-escape
+
+✖ 6 problems (6 errors, 0 warnings)
+  5 errors and 0 warnings potentially fixable with the `--fix` option.
 
 
 E:\projects\Lithium\src\js\ScrollTableControl.js

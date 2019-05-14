@@ -1,4 +1,12 @@
-﻿
+﻿import nsGmx from '../nsGmx.js';
+import gmxCore from '../gmxcore.js';
+import {
+    parseResponse,
+    removeDialog,
+    sendCrossDomainJSONRequest,
+    sendCrossDomainPostRequest,    
+} from '../utilities.js';
+
 (function ($) {
     var mykosmosnimki = location.protocol + "//my.kosmosnimki.ru"; //"http://localhost:56319"; //
 
@@ -378,22 +386,20 @@
                     Position: page1.find('.CompanyPosition').val().trim(),
                     IsCompany: page1.find('.IsCompany').is(":checked"),
                     Subscribe: page1.find('.Subscribe').is(":checked")
-                },
-                      function (response) {
-                          wait.css('visibility', 'hidden');
-                          if (response.Status.toLowerCase() == 'ok' && response.Result) {
-                              //page1.children('.ErrorSummary').text('error').css('visibility', 'hidden');
-                              page1.children('.ErrorSummary').hide();
-                              success.show();
-                              successmess_timeout = setTimeout(function () { success.hide(); }, 2000);
-                          }
-                          else {
-                              if (response.Result.length > 0 && response.Result[0].Key)
-                                  page1.trigger('onerror', [response.Result[0].Key, response.Result[0].Value.Errors[0].ErrorMessage]);
-                              else
-                                  page1.trigger('onerror', response.Result.Message);
-                          }
-                      });
+                    },
+                    function (response) {
+                        wait.css('visibility', 'hidden');
+                        if (response.Status.toLowerCase() == 'ok' && response.Result) {
+                            //page1.children('.ErrorSummary').text('error').css('visibility', 'hidden');
+                            page1.children('.ErrorSummary').hide();
+                            success.show();
+                            successmess_timeout = setTimeout(function () { success.hide(); }, 2000);
+                        }
+                        else if (response.Result.length > 0 && response.Result[0].Key)
+                            page1.trigger('onerror', [response.Result[0].Key, response.Result[0].Value.Errors[0].ErrorMessage]);
+                        else
+                            page1.trigger('onerror', response.Result.Message);                          
+                    });
             });
 
             // Register client submit
@@ -468,7 +474,7 @@
                 });
             });
 
-            changePassControls.first().click(function (e) {
+            changePassControls.first().click(function () {
                 if (changePassForm.is(':visible')) {
                     changePassForm.slideUp("fast");
                     $(this).val(_gtxt('ProfilePlugin.getNew'));
@@ -497,14 +503,14 @@
                 clearPageErrors($('.page:visible'));
 
                 if (dtype == 'List') {
-                    var startW = 556, startH = 340,
-                    akDialog = $('<div class="apiKeyDialog"></div>'),
-                    wait = $('<div style="position:absolute; top:120px; left:270px"><img src="img/progress.gif"></div>');
+                    let startW = 556, startH = 340,
+                        akDialog = $('<div class="apiKeyDialog"></div>'),
+                        wait = $('<div style="position:absolute; top:120px; left:270px"><img src="img/progress.gif"></div>');
                     akDialog.append(wait);
                     window.showDialog(_gtxt('ProfilePlugin.apiKey' + dtype + 'Cap'), akDialog[0], startW, startH)
-                    .style.overflow = 'hidden'; ;
+                    .style.overflow = 'hidden';
 
-                    akDialog.parent().on("dialogresizestart", function (event, ui) {
+                    akDialog.parent().on("dialogresizestart", function () {
                         //startW = ui.size.width;
                         //startH = ui.size.height;
                     })
@@ -514,8 +520,7 @@
                         //startW = ui.size.width;
                         startH = ui.size.height;
                     });
-                    sendCrossDomainJSONRequest(mykosmosnimki
-                     + "/handler/apikeys?wrapstyle=func", function (response) {
+                    sendCrossDomainJSONRequest(mykosmosnimki + "/handler/apikeys?wrapstyle=func", function (response) {
                          if (parseResponse(response) || response.Status == 'OK') {
                              wait.remove();
                              if (response.Result && response.Result.length > 0) {
@@ -541,7 +546,7 @@
 														break;
 													}
 											}
-											else{
+											else {
 												console.log(response);												
 											}
 												
@@ -561,7 +566,7 @@
                                     return tbl;
                                 };
                                  var filter = $('<div style="padding-left:6px">' + _gtxt('ProfilePlugin.apiKeyFilterApply') + ': <input type="text" placeholder="' + _gtxt('ProfilePlugin.apiKeyFilter') + '"></div>').appendTo(akDialog);
-                                 filter.find('input[type="text"]').keyup(function (e) {
+                                 filter.find('input[type="text"]').keyup(function () {
                                      list.find('table').parent().remove();
                                      list.mCustomScrollbar('destroy')
                                      .append(createTbl($(this).val())).mCustomScrollbar();
@@ -574,7 +579,7 @@
                                 .mCustomScrollbar();
 								apiKeyActivation();
 								
-                                 var header = list.before($(Handlebars.compile('<table border=0><tr><th>ключ</th><th>тип/сайт</th><th>активен</th><th>{{i "ProfilePlugin.apiKeyCreated"}}</th></tr></table>')())).prev(),
+                                var header = list.before($(Handlebars.compile('<table border=0><tr><th>ключ</th><th>тип/сайт</th><th>активен</th><th>{{i "ProfilePlugin.apiKeyCreated"}}</th></tr></table>')())).prev(),
                                 keys = list.find('table'),
                                 resize = function (dif) {
                                     var th = header.find('tr th')
@@ -618,40 +623,40 @@
                     '<div class="submit"><input tabindex="1" type="button" class="accept" value="{{i "ProfilePlugin.apiKeyAccept"}}"/><input tabindex="2" type="button" class="cancel" value="{{i "ProfilePlugin.apiKeyCancel"}}"/></div>' +
                     '</div>')());
 
-                    var licence = akForm.find('.licence'),
-                    spacer = akForm.find('.spacer'),
-                    startH;
+                    let licence = akForm.find('.licence'),
+                        spacer = akForm.find('.spacer'),
+                        startH;
                     licence.hide().next().hide();
                     if (dtype == 'Domain')
                         spacer.height('20px');
 
-                    var summary = akForm.find('.ErrorSummary'),
-                    wait = summary.children('.wait'),
-                    site = akForm.find('.ApiKeySite'),
-                    agree = akForm.find('.agree'),
-                    getKey = akForm.find('.get').css('opacity', 0.5)
-                    .click(function () {
-                        var respHandler = function (response) {
-                            wait.css('visibility', 'hidden');
-                            if (response.Status.toLowerCase() == 'ok' && response.Result) {
-                                summary.children('span.success').text(_gtxt('ProfilePlugin.apiKeyReceive') + ' ' + response.Result.Key);
-                            }
-                            else {
-                                summary.children('span.fail').text(_gtxt('ProfilePlugin.Error' + response.Result.Message));
-                                akForm.find('.' + response.Result.Message).addClass('error')
-                            }
-                        };
-                        clearError();
-                        wait.css('visibility', 'visible');
-                        if (site.length)
-                            sendCrossDomainPostRequest(mykosmosnimki
-                        + "/Handler/CreateKey", { WrapStyle: 'message', domain: site.val(), agree: agree.is(':checked') }
-                        , respHandler);
-                        else
-                            sendCrossDomainPostRequest(mykosmosnimki
-                        + "/Handler/CreateDirect", { WrapStyle: 'message', agree: agree.is(':checked') }
-                        , respHandler);
-                    });
+                    let summary = akForm.find('.ErrorSummary'),
+                        wait = summary.children('.wait'),
+                        site = akForm.find('.ApiKeySite'),
+                        agree = akForm.find('.agree'),
+                        getKey = akForm.find('.get').css('opacity', 0.5)
+                        .click(function () {
+                            var respHandler = function (response) {
+                                wait.css('visibility', 'hidden');
+                                if (response.Status.toLowerCase() == 'ok' && response.Result) {
+                                    summary.children('span.success').text(_gtxt('ProfilePlugin.apiKeyReceive') + ' ' + response.Result.Key);
+                                }
+                                else {
+                                    summary.children('span.fail').text(_gtxt('ProfilePlugin.Error' + response.Result.Message));
+                                    akForm.find('.' + response.Result.Message).addClass('error')
+                                }
+                            };
+                            clearError();
+                            wait.css('visibility', 'visible');
+                            if (site.length)
+                                sendCrossDomainPostRequest(mykosmosnimki
+                            + "/Handler/CreateKey", { WrapStyle: 'message', domain: site.val(), agree: agree.is(':checked') }
+                            , respHandler);
+                            else
+                                sendCrossDomainPostRequest(mykosmosnimki
+                            + "/Handler/CreateDirect", { WrapStyle: 'message', agree: agree.is(':checked') }
+                            , respHandler);
+                        });
                     getKey.prop('disabled', true);
                     site.prop('disabled', true).keydown(function (e) {
                         if ($(this).is('.error')) clearError();
@@ -720,7 +725,7 @@
                 else
                     clearInputErrors($(this));
             })
-            .focusin(function (e) {
+            .focusin(function () {
                 closeApiKeyDialog();
                 clearInputErrors($(this));
             });
@@ -883,7 +888,7 @@
     }
 
     // RegistrationForm
-    var showRegistrationForm = function (afterRegistration) {
+    var showRegistrationForm = function () {
         var registrationForm = $(Handlebars.compile(
         '<table style="width:100%;height:100%;" border="0"><tr><td>\
         <form>\
@@ -928,8 +933,8 @@
         </form>\
         </td></tr></table>'
         )()),
-        confirmScreen = $(Handlebars.compile('<div class="registrationConfirm"><div></div><div><input type="button" value="{{i "ProfilePlugin.close"}}"/></div></div>')()),
-        //errorSummaryHeight = 0,
+            confirmScreen = $(Handlebars.compile('<div class="registrationConfirm"><div></div><div><input type="button" value="{{i "ProfilePlugin.close"}}"/></div></div>')()),
+            errorSummaryHeight,
         submit = registrationForm.find('input[type="button"]').click(function () {
             var errorSummary = registrationForm.find('.ErrorSummary'),
             wait = submit.next('img').css('visibility', 'visible');
@@ -944,7 +949,7 @@
                     password: registrationForm.find('.Password').val(),
                     repeat: registrationForm.find('.Repeat').val(),
                     captcha: registrationForm.find('.Capcha').val(),
-                    permalink: "http://" + window.location.host + window.location.pathname + "?permalink=" + id + (defaultMapID == globalMapName ? "" : ("&" + globalMapName))
+                    permalink: "http://" + window.location.host + window.location.pathname + "?permalink=" + id + (window.defaultMapID == window.globalMapName ? "" : ("&" + window.globalMapName))
                 },
                 function (response) {
 
@@ -985,8 +990,8 @@
             e.preventDefault();
         });
 
-        var regFormDialog = window.showDialog(_gtxt('ProfilePlugin.registration'), registrationForm[0], 560, 272),
-        dialogFrame = $(regFormDialog).dialog('option', 'resizable', false);
+        var regFormDialog = window.showDialog(_gtxt('ProfilePlugin.registration'), registrationForm[0], 560, 272);
+        $(regFormDialog).dialog('option', 'resizable', false);
         regFormDialog.style.overflow = 'hidden';
         errorSummaryHeight = regFormDialog.style.height;
         regFormDialog.style.height = '';
@@ -1006,9 +1011,11 @@
         return regFormDialog;
     };
 
-    var SubmitBlock = function (form, onsuccess, onerror) {
-        this.submit = function () { }
-    };
+    // var SubmitBlock = function (form, onsuccess, onerror) {
+    //     this.submit = function () { }
+    // };
+
+    var checkExist;
 
     gmxCore.addModule('ProfilePlugin', {
         pluginName: 'ProfilePlugin',
@@ -1053,7 +1060,7 @@
     },
     {
         // css: 'ProfilePlugin.css',
-        init: function (module, path) {
+        init: function () {
             initTranslations();
         }
     });

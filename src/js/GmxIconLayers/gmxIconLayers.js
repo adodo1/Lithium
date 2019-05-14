@@ -112,8 +112,7 @@ window.L.Control.GmxIconLayers = window.L.Control.IconLayers.extend({
             }
         }.bind(this));
     },
-    _createLayerElement: function(layerObj) {
-        var layer = layerObj.layer;
+    _createLayerElement: function(layerObj) {        
         var el = L.Control.IconLayers.prototype._createLayerElement.call(this, layerObj);
         var shutterEl = L.DomUtil.create('div', 'leaflet-iconLayers-layerShutter');
         $(el).prepend(shutterEl);

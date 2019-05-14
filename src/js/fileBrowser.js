@@ -5,7 +5,8 @@ import {
     _checkbox,    
     _div,
 	_img,    
-    _input,    
+	_input,    
+	inputError,
     _li,
     makeImageButton,
     makeLinkButton,    
@@ -1050,3 +1051,5 @@ nsGmx.ContextMenuController.addContextMenuElem(zipUnzipActionFactory(true), ['Fi
 
 //распаковываем только файлы
 nsGmx.ContextMenuController.addContextMenuElem(zipUnzipActionFactory(false), 'FileBrowserFile');
+
+export default window._fileBrowser;

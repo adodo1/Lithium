@@ -1,4 +1,7 @@
 import nsGmx from './nsGmx.js';
+import {
+    inputError,
+} from './utilities.js';
 
 //Загрузка и отображение дополнительных карт в левой панели
 !(function(_) {

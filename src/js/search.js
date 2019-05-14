@@ -3,6 +3,9 @@
 
 import nsGmx from './nsGmx.js';
 import gmxCore from './gmxcore.js';
+import {
+	inputError,
+} from './utilities.js';
 
 // ищем только по базе ОСМ
 // глобальный конфиг не учитываем,
@@ -1333,7 +1336,7 @@ var SearchDataProvider = function(sInitServerBase, gmxMap, arrDisplayFields){
                         {
                             for (var iServer = 0; iServer < searchReq.Result.length; iServer++)
                             {
-                                var limitSearchResults = typeof(LayerSearchLimit)=="number" ? LayerSearchLimit : 100;
+                                var limitSearchResults = typeof(window.LayerSearchLimit)=="number" ? window.LayerSearchLimit : 100;
                                 var req = searchReq.Result[iServer];
                                 for (var j = 0; j<limitSearchResults && j < req.SearchResult.length; j++)
                                 {

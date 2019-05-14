@@ -1,24 +1,35 @@
 import nsGmx from './nsGmx.js';
+import gmxCore from './gmxcore.js';
 import {leftMenu} from './menu.js';
-import {    
+import {
     _checkbox,
     disableSelection,
     _div,
+    equals,
+    hide,
+    _img,
+    inputError,
     _li,
     objLength,
+    parseResponse,
     removeDialog,
     sendCrossDomainJSONRequest,
     sendCrossDomainPostRequest,
+    show,
     showDialog,
+    showErrorMessage,
     _span,
-    _ul,    
+    _t,
+    _table,
+    _title,
+    _ul,
 } from './utilities.js';
 import './MapsManagerControl.js';
 import './PluginsEditor.js';
 import './NotificationWidget.js';
 import './LayersManagerControl.js';
 
-!(function(_) {
+(function(_) {
 
     var mapLayers = {
         mapLayers: {}
@@ -121,17 +132,19 @@ import './LayersManagerControl.js';
             // изменим дерево родителя
             $(parent).removeClass("collapsable")
             $(parent).replaceClass("lastCollapsable", "last")
-        } else {
-            // изменим дерево родителя
-            if ($(parentTree).children("li:last").hasClass("collapsable")) {
-                $(parentTree).children("li:last").addClass("lastCollapsable");
-
-                $(parentTree).children("li:last").each(function() {
-                    $(this.firstChild).addClass("lastCollapsable-hitarea");
-                })
-            } else
-                $(parentTree).children("li:last").addClass("last")
         }
+        // изменим дерево родителя
+        else if ($(parentTree).children("li:last").hasClass("collapsable")) {
+            $(parentTree).children("li:last").addClass("lastCollapsable");
+
+            $(parentTree).children("li:last").each(function() {
+                $(this.firstChild).addClass("lastCollapsable-hitarea");
+            })
+        }
+        else {
+            $(parentTree).children("li:last").addClass("last");
+        }
+
     }
 
     AbstractTree.prototype.swapNode = function(node, newNodeCanvas) {
@@ -244,7 +257,7 @@ import './LayersManagerControl.js';
         this.treeModel = new nsGmx.LayersTree(tree);
         this._mapTree = tree; //Устарело: используйте this.treeModel для доступа к исходному дереву
 
-        this.treeModel.forEachLayer(function(layerContent, isVisible) {
+        this.treeModel.forEachLayer(function(layerContent) {
             layerContent.properties.initVisible = layerContent.properties.visible;
         });
 
@@ -280,13 +293,13 @@ import './LayersManagerControl.js';
 
     layersTree.prototype.getChildsList = function(elem, parentParams, layerManagerFlag, parentVisibility) {
         // добавляем новый узел
-        var li = _li(),
-            _this = this;
+        let li = _li();
+
 
         _(li, [this.drawNode(elem, parentParams, layerManagerFlag, parentVisibility)]);
 
         if (elem.content && elem.content.children && elem.content.children.length > 0) {
-            var childsUl = _ul();
+            let childsUl = _ul();
 
             // initExpand - временное свойство, сохраняющее начальное состояние развёрнутости группы.
             // В expanded будет храниться только текущее состояние (не сохраняется)
@@ -304,9 +317,9 @@ import './LayersManagerControl.js';
                 } else {
                     childsUl.loaded = true;
 
-                    var childs = [];
+                    let childs = [];
 
-                    for (var i = 0; i < elem.content.children.length; i++)
+                    for (let i = 0; i < elem.content.children.length; i++)
                         childs.push(this.getChildsList(elem.content.children[i], elem.content.properties, layerManagerFlag, true));
 
                     _(childsUl, childs)
@@ -314,9 +327,9 @@ import './LayersManagerControl.js';
             } else {
                 childsUl.loaded = true;
 
-                var childs = [];
+                let childs = [];
 
-                for (var i = 0; i < elem.content.children.length; i++)
+                for (let i = 0; i < elem.content.children.length; i++)
                     childs.push(this.getChildsList(elem.content.children[i], elem.content.properties, layerManagerFlag, parentVisibility && elem.content.properties.visible));
 
                 _(childsUl, childs)
@@ -325,12 +338,12 @@ import './LayersManagerControl.js';
             _(li, [childsUl, _abstractTree.makeSwapChild()])
         } else if (elem.children) {
             if (elem.children.length > 0) {
-                var childs = [];
+                let childs = [];
 
-                for (var i = 0; i < elem.children.length; i++)
+                for (let i = 0; i < elem.children.length; i++)
                     childs.push(this.getChildsList(elem.children[i], elem.properties, layerManagerFlag, true));
 
-                var childsUl = _ul(childs);
+                let childsUl = _ul(childs);
 
                 childsUl.loaded = true;
 
@@ -345,8 +358,9 @@ import './LayersManagerControl.js';
 
         // видимость слоя в дереве
         if (!nsGmx.AuthManager.isRole(nsGmx.ROLE_ADMIN) &&
-            elem.type && elem.type == 'layer' &&
-            typeof invisibleLayers != 'undefined' && invisibleLayers[elem.content.properties.name])
+            elem.type && elem.type == 'layer'
+            // && typeof invisibleLayers != 'undefined' && invisibleLayers[elem.content.properties.name]
+            )
             li.style.display = 'none';
 
         return li;
@@ -426,7 +440,7 @@ import './LayersManagerControl.js';
 
     layersTree.prototype.drawNode = function(elem, parentParams, layerManagerFlag, parentVisibility) {
         var div;
-        var _this = this;
+
 
         if (elem.type == "layer") {
             // var elemProperties = !layerManagerFlag ? nsGmx.gmxMap.layersByID[elem.content.properties.name].getGmxProperties(): elem.content.properties;
@@ -470,7 +484,7 @@ import './LayersManagerControl.js';
             div.gmxProperties = elem;
         }
 
-        div.oncontextmenu = function(e) {
+        div.oncontextmenu = function() {
             return false;
         }
 
@@ -508,20 +522,20 @@ import './LayersManagerControl.js';
         return minLayerZoom;
     }
 
-    layersTree.prototype.layerZoomToExtent = function(bounds, minZoom) {
+    layersTree.prototype.layerZoomToExtent = function(bounds) {
         if (!bounds) return;
 
         var lmap = nsGmx.leafletMap;
-		// var z = lmap.getBoundsZoom(bounds);
+        // var z = lmap.getBoundsZoom(bounds);
 
         // if (minZoom !== 20) {
             // z = Math.max(z, minZoom);
         // }
 
         // z = Math.min(lmap.getMaxZoom(), Math.max(lmap.getMinZoom(), z));
-		var currentZoom = lmap.getZoom();
-		var doubleClickZoom = lmap.getBoundsZoom(bounds);
-		var z = Math.min(Math.max(15, currentZoom), doubleClickZoom);
+        var currentZoom = lmap.getZoom();
+        var doubleClickZoom = lmap.getBoundsZoom(bounds);
+        var z = Math.min(Math.max(15, currentZoom), doubleClickZoom);
 
         //анимация приводит к проблемам из-за бага https://github.com/Leaflet/Leaflet/issues/3249
         //а указать явно zoom в fitBounds нельзя
@@ -612,8 +626,8 @@ import './LayersManagerControl.js';
         spanDescr.innerHTML = elem.description ? elem.description : '';
 
         if (layerManagerFlag == 1) {
-	    var imgIconSrc = (elem.type == "Vector") ? 'img/vector.png' : (typeof elem.MultiLayerID != 'undefined' ? 'img/multi.png' : 'img/rastr.png');
-	    if (elem.type == "Alias") imgIconSrc = 'img/shortcut.png';
+        var imgIconSrc = (elem.type == "Vector") ? 'img/vector.png' : (typeof elem.MultiLayerID != 'undefined' ? 'img/multi.png' : 'img/rastr.png');
+        if (elem.type == "Alias") imgIconSrc = 'img/shortcut.png';
             return [_img(null, [
                 ['attr', 'src', imgIconSrc],
                 ['css', 'marginLeft', '3px']
@@ -652,7 +666,7 @@ import './LayersManagerControl.js';
         }
 
         if (elem.type == "Vector") {
-            var styles;
+            let styles;
 
             if (window.newStyles) {
                 if (elem.styles && !elem.gmxStyles) {
@@ -663,7 +677,7 @@ import './LayersManagerControl.js';
                 styles = elem.styles;
             }
 
-            var icon = _mapHelper.createStylesEditorIcon(styles, elem.GeometryType ? elem.GeometryType.toLowerCase() : 'polygon', { addTitle: !layerManagerFlag }),
+            let icon = _mapHelper.createStylesEditorIcon(styles, elem.GeometryType ? elem.GeometryType.toLowerCase() : 'polygon', { addTitle: !layerManagerFlag }),
                 multiStyleParent = _div(null, [
                     ['attr', 'multiStyle', true]
                 ]),
@@ -671,11 +685,11 @@ import './LayersManagerControl.js';
                 iconSpan = _span([icon]);
 
             if (styles.length === 1 && elem.name in nsGmx.gmxMap.layersByID) {
-                var layer = nsGmx.gmxMap.layersByID[elem.name];
+                let layer = nsGmx.gmxMap.layersByID[elem.name];
                 layer.on('stylechange', function() {
                     if (layer.getStyles().length === 1) {
-                        var style = L.gmxUtil.toServerStyle(layer.getStyles()[0].RenderStyle);
-                        var newIcon = _mapHelper.createStylesEditorIcon(
+                        let style = L.gmxUtil.toServerStyle(layer.getStyles()[0].RenderStyle);
+                        let newIcon = _mapHelper.createStylesEditorIcon(
                             [{ MinZoom: 1, MaxZoom: 21, RenderStyle: style }],
                             elem.GeometryType ? elem.GeometryType.toLowerCase() : 'polygon', { addTitle: !layerManagerFlag }
                         );
@@ -699,20 +713,19 @@ import './LayersManagerControl.js';
                 }
 
                 if (elem.name in nsGmx.gmxMap.layersByID) {
-                    var layer = nsGmx.gmxMap.layersByID[elem.name];
+                    let layer = nsGmx.gmxMap.layersByID[elem.name];
 
                     if (layer.getGmxProperties) {
-                        var props = layer.getGmxProperties(),
-                            layerName = props.name;
+                        let props = layer.getGmxProperties();
 
                         if (props.Temporal && (props.IsRasterCatalog || (props.Quicklook && props.Quicklook !== 'null'))) {
                             timelineIcon = this.CreateTimelineIcon(elem);
-						}
+                        }
                     }
                 }
             }
 
-            var resElems = [spanParent, spanDescr, borderDescr];
+            let resElems = [spanParent, spanDescr, borderDescr];
 
             if (this._renderParams.showStyle) {
                 resElems.push(multiStyleParent);
@@ -724,66 +737,67 @@ import './LayersManagerControl.js';
                 resElems.unshift(timelineIcon);
             }
             return resElems;
-        } else {
-            if (this._renderParams.showVisibilityCheckbox)
-                return [box, spanParent, spanDescr, borderDescr];
-            else
-                return [spanParent, spanDescr, borderDescr];
+        }
+        else if (this._renderParams.showVisibilityCheckbox) {
+            return [box, spanParent, spanDescr, borderDescr];
+        }
+        else {
+            return [spanParent, spanDescr, borderDescr];
         }
     }
 
     layersTree.prototype.CreateTimelineIcon = function(elem) {
-		var conf = {
-			disabledSrc: 'img/timeline-icon-disabled.svg',
-			enabledSrc: 'img/timeline-icon-enabled.svg',
-			addTitle: window._gtxt('Добавить в таймлайн'),
-			removeTitle: window._gtxt('Удалить из таймлайна')
-		},
-		layerID = elem.name,
-		icon = nsGmx.Utils._img(null, [
-			['attr', 'src', conf.disabledSrc],
-			['dir','className', 'gmx-timeline-icon disabled'],
-			['dir','title', conf.addTitle]
-		]),
-		toggleIcon = function(flag) {
-			if (flag) {
-				icon.src = conf.enabledSrc;
-				icon.title = conf.addTitle;
-				icon.classList.remove('disabled');
-			} else {
-				icon.src = conf.disabledSrc;
-				icon.title = conf.removeTitle;
-				icon.classList.add('disabled');
-			}
-		};
+        var conf = {
+            disabledSrc: 'img/timeline-icon-disabled.svg',
+            enabledSrc: 'img/timeline-icon-enabled.svg',
+            addTitle: window._gtxt('Добавить в таймлайн'),
+            removeTitle: window._gtxt('Удалить из таймлайна')
+        },
+        layerID = elem.name,
+        icon = nsGmx.Utils._img(null, [
+            ['attr', 'src', conf.disabledSrc],
+            ['dir','className', 'gmx-timeline-icon disabled'],
+            ['dir','title', conf.addTitle]
+        ]),
+        toggleIcon = function(flag) {
+            if (flag) {
+                icon.src = conf.enabledSrc;
+                icon.title = conf.addTitle;
+                icon.classList.remove('disabled');
+            } else {
+                icon.src = conf.disabledSrc;
+                icon.title = conf.removeTitle;
+                icon.classList.add('disabled');
+            }
+        };
 
-		// TODO: требуется замена jQuery	+ не эффективно устанавливается множество хэндлеров
-		$(this).on('layerTimelineRemove', function(e, data) {
-			if (data.layerID === layerID) {
-				toggleIcon(false);
-			}
-		});
+        // TODO: требуется замена jQuery    + не эффективно устанавливается множество хэндлеров
+        $(this).on('layerTimelineRemove', function(e, data) {
+            if (data.layerID === layerID) {
+                toggleIcon(false);
+            }
+        });
 
-		$(this).on('layerTimelineAdd', function(e, data) {
-			if (data.layerID === layerID) {
-				toggleIcon(true);
-			}
-		});
+        $(this).on('layerTimelineAdd', function(e, data) {
+            if (data.layerID === layerID) {
+                toggleIcon(true);
+            }
+        });
 
         L.DomEvent
             .on(icon, 'click', function() {
-				var disabled = icon.classList.contains('disabled'),
-					tlc = nsGmx.timeLineControl,
-					layer = nsGmx.gmxMap.layersByID[layerID];
-				if (disabled) {
-					if (!tlc._map) { nsGmx.leafletMap.addControl(tlc); }
-					tlc.addLayer(layer);
-				} else {
-					tlc.removeLayer(layer);
-				}
-			}, this)
-		return icon;
-	}
+                var disabled = icon.classList.contains('disabled'),
+                    tlc = nsGmx.timeLineControl,
+                    layer = nsGmx.gmxMap.layersByID[layerID];
+                if (disabled) {
+                    if (!tlc._map) { nsGmx.leafletMap.addControl(tlc); }
+                    tlc.addLayer(layer);
+                } else {
+                    tlc.removeLayer(layer);
+                }
+            }, this)
+        return icon;
+    }
 
     layersTree.prototype.drawGroupLayer = function(elem, parentParams, layerManagerFlag, parentVisibility) {
         var box,
@@ -1011,7 +1025,7 @@ import './LayersManagerControl.js';
 
         while (!el.root) {
             var group = $(el).children("[GroupID]"),
-				chB = $(group).find('input[type="checkbox"]')[0] || $(group).find('input[type="radio"]')[0];
+                chB = $(group).find('input[type="checkbox"]')[0] || $(group).find('input[type="radio"]')[0];
 
             if (group.length > 0) {
                 if (!chB.checked)
@@ -1044,7 +1058,7 @@ import './LayersManagerControl.js';
             text = text.substring(0, 37) + '...';
         }
 
-        return div = _div([_t(text)], [
+        return _div([_t(text)], [
             ['dir', 'className', 'dragableDummy']
         ]);
     }
@@ -1053,7 +1067,7 @@ import './LayersManagerControl.js';
     layersTree.prototype.updateZIndexes = function() {
         var curZIndex = 0;
 
-        this.treeModel.forEachLayer(function(layerContent, isVisible, nodeDepth) {
+        this.treeModel.forEachLayer(function(layerContent) {
             var layer = nsGmx.gmxMap.layersByID[layerContent.properties.name];
 
             var zIndex = curZIndex++;
@@ -1133,18 +1147,20 @@ import './LayersManagerControl.js';
         var layerProperties = (gmxProperties.type !== 'layer' || !isFromList) ? gmxProperties : false,
             copyFunc = function() {
                 if (addToMap) {
-                    if (!_this.addLayersToMap(layerProperties))
-                        return;
-                } else {
-                    if (_this.treeModel.findElemByGmxProperties(gmxProperties)) {
-                        if (layerProperties.type === 'layer')
-                            showErrorMessage(_gtxt("Слой '[value0]' уже есть в карте", layerProperties.content.properties.title), true)
-                        else
-                            showErrorMessage(_gtxt("Группа '[value0]' уже есть в карте", layerProperties.content.properties.title), true)
-
+                    if (!_this.addLayersToMap(layerProperties)) {
                         return;
                     }
                 }
+                else if (_this.treeModel.findElemByGmxProperties(gmxProperties)) {
+                    if (layerProperties.type === 'layer') {
+                        showErrorMessage(_gtxt("Слой '[value0]' уже есть в карте", layerProperties.content.properties.title), true);
+                    }
+                    else {
+                        showErrorMessage(_gtxt("Группа '[value0]' уже есть в карте", layerProperties.content.properties.title), true);
+                    }
+                    return;
+                }
+
 
                 var node = divDestination.parentNode,
                     parentProperties = swapFlag ? $(divDestination.parentNode.parentNode.parentNode).children("div[GroupID],div[MapID]")[0].gmxProperties : divDestination.gmxProperties,
@@ -1221,12 +1237,11 @@ import './LayersManagerControl.js';
                 _mapHelper.updateUnloadEvent(true);
 
                 _this.updateZIndexes();
-            },
-            _this = this;
+            };
 
         if (!layerProperties) {
             if (gmxProperties.content.properties.LayerID) {
-                sendCrossDomainJSONRequest(serverBase + "Layer/GetLayerJson.ashx?WrapStyle=func&LayerName=" + gmxProperties.content.properties.name + "&srs=" + (nsGmx.leafletMap.options.srs || "3395"), function(response) {
+                sendCrossDomainJSONRequest(window.serverBase + "Layer/GetLayerJson.ashx?WrapStyle=func&LayerName=" + gmxProperties.content.properties.name + "&srs=" + (nsGmx.leafletMap.options.srs || "3395"), function(response) {
                     if (!parseResponse(response))
                         return;
 
@@ -1244,7 +1259,7 @@ import './LayersManagerControl.js';
                     copyFunc();
                 })
             } else {
-                sendCrossDomainJSONRequest(serverBase + "MultiLayer/GetMultiLayerJson.ashx?WrapStyle=func&MultiLayerID=" + gmxProperties.content.properties.MultiLayerID, function(response) {
+                sendCrossDomainJSONRequest(window.serverBase + "MultiLayer/GetMultiLayerJson.ashx?WrapStyle=func&MultiLayerID=" + gmxProperties.content.properties.MultiLayerID, function(response) {
                     if (!parseResponse(response))
                         return;
 
@@ -1303,18 +1318,18 @@ import './LayersManagerControl.js';
             currentZoom = nsGmx.leafletMap.getZoom();
 
         if (typeof elem.content.properties.GroupID != 'undefined') {
-			var alreadyOnMap = this.checkGroupForDuplicates(elem.content.children);
-			if (alreadyOnMap) {
-				showErrorMessage(_gtxt("Слой '[value0]' уже есть в карте", alreadyOnMap), true);
+            var alreadyOnMap = this.checkGroupForDuplicates(elem.content.children);
+            if (alreadyOnMap) {
+                showErrorMessage(_gtxt("Слой '[value0]' уже есть в карте", alreadyOnMap), true);
                 return false;
-			} else {
-				for (var i = 0; i < elem.content.children.length; i++) {
-				var res = this.addLayersToMap(elem.content.children[i]);
+            } else {
+                for (var i = 0; i < elem.content.children.length; i++) {
+                var res = this.addLayersToMap(elem.content.children[i]);
 
-    				if (!res)
-    					return false;
-    			}
-    		}
+                    if (!res)
+                        return false;
+                }
+            }
         } else {
             var layer = elem.content,
                 name = layer.properties.name;
@@ -1327,7 +1342,6 @@ import './LayersManagerControl.js';
 
             if (!nsGmx.gmxMap.layersByID[name]) {
                 var visibility = typeof layer.properties.visible != 'undefined' ? layer.properties.visible : false,
-                    rcMinZoom = layer.properties.RCMinZoomForRasters,
                     layerOnMap = L.gmx.createLayer(layer, {
                         layerID: name,
                         hostName: propsHostName,
@@ -1344,7 +1358,7 @@ import './LayersManagerControl.js';
 
                 layerOnMap.getGmxProperties().changedByViewer = true;
 
-                nsGmx.leafletMap.on('zoomend', function(e) {
+                nsGmx.leafletMap.on('zoomend', function() {
                     currentZoom = nsGmx.leafletMap.getZoom();
 
                     for (var l = 0; l < nsGmx.gmxMap.layers.length; l++) {
@@ -1505,36 +1519,36 @@ import './LayersManagerControl.js';
             visFlag = typeof div == 'undefined' ? true : _layersTree.getLayerVisibility($(div).find('input[type="checkbox"]')[0] || $(div).find('input[type="radio"]')[0]),
             _this = this;
 
-        _mapHelper.findTreeElems(parentElem, function(elem, visibleFlag) {
-            var props = elem.content.properties;
+        _mapHelper.findTreeElems(parentElem, function(elem) {
+            let props = elem.content.properties;
             if (elem.type == 'group') {
-                var groupId = props.GroupID;
+                let groupId = props.GroupID;
 
                 if (typeof condition.visible[groupId] != 'undefined' && props.visible != condition.visible[groupId]) {
                     props.visible = condition.visible[groupId];
 
-                    var group = $(_this.buildedTree).find("div[GroupID='" + groupId + "']");
+                    let group = $(_this.buildedTree).find("div[GroupID='" + groupId + "']");
 
                     if (group.length) {
-                        var it = $(group).find('input[type="checkbox"]')[0] || $(group).find('input[type="radio"]')[0];
+                        let it = $(group).find('input[type="checkbox"]')[0] || $(group).find('input[type="radio"]')[0];
                         if (it) it.checked = condition.visible[groupId];
-					}
+                    }
                 }
 
                 if (typeof condition.expanded[groupId] != 'undefined' && props.expanded != condition.expanded[groupId]) {
                     props.expanded = condition.expanded[groupId];
 
-                    var group = $(_this.buildedTree).find("div[GroupID='" + groupId + "']");
+                    let group = $(_this.buildedTree).find("div[GroupID='" + groupId + "']");
 
                     if (group.length) {
-                        var clickDiv = $(group[0].parentNode).children("div.hitarea");
+                        let clickDiv = $(group[0].parentNode).children("div.hitarea");
 
                         if (clickDiv.length)
                             $(clickDiv[0]).trigger("click");
                     }
                 }
             } else {
-                var name = props.name;
+                let name = props.name;
                 if (typeof condition.visible[name] != 'undefined') {
                     _layersTree.treeModel.setNodeVisibility(elem, condition.visible[name]);
                 } else {
@@ -1544,7 +1558,7 @@ import './LayersManagerControl.js';
                 if (props.type == "Vector" && typeof mapLayersParam != 'undefined' && typeof mapLayersParam[name] != 'undefined' &&
                     !_this.equalStyles(props.styles, mapLayersParam[name])) {
                     // что-то менялось в стилях
-                    var newStyles = mapLayersParam[name],
+                    let newStyles = mapLayersParam[name],
                         div = $(_this.buildedTree).find("div[LayerID='" + props.LayerID + "']")[0];
 
                     props.styles = newStyles;
@@ -1562,7 +1576,7 @@ import './LayersManagerControl.js';
         if (style1.length != style2.length)
             return false;
 
-        for (var i = 0; i < style1.length; i++)
+        for (let i = 0; i < style1.length; i++)
             if (!equals(style1[i], style2[i]))
                 return false;
 
@@ -1581,7 +1595,7 @@ import './LayersManagerControl.js';
         return $('.layers-after', this.workCanvas).show();
     }
 
-    queryMapLayers.prototype.load = function(data) {
+    queryMapLayers.prototype.load = function() {
         if (this.buildedTree && !this.builded) {
             var _this = this;
 
@@ -1719,7 +1733,7 @@ import './LayersManagerControl.js';
     }
 
     queryMapLayers.prototype.removeUserActions = function() {
-        //	removeChilds(this.buttonsCanvas);
+        //  removeChilds(this.buttonsCanvas);
 
         this.removeDraggable(this.treeCanvas);
 
@@ -1791,10 +1805,10 @@ import './LayersManagerControl.js';
                 swapElem.removeClass('swap-droppableHover');
                 queryMapLayers._swapHandler.call(swapElem[0], ev, ui);
             },
-            over: function(ev, ui) {
+            over: function() {
                 $(this).next().addClass('swap-droppableHover');
             },
-            out: function(ev, ui) {
+            out: function() {
                 $(this).next().removeClass('swap-droppableHover');
             }
         })
@@ -1863,11 +1877,13 @@ import './LayersManagerControl.js';
             ['css', 'fontSize', '0px']
         ])]));
 
-        promise.fail(function(taskInfo) {
+        promise
+        .fail(function() {
             var parentTree = taskDiv.parentNode.parentNode;
             taskDiv.parentNode.removeNode(true);
             _abstractTree.delNode(null, parentTree, parentTree.parentNode);
-        }).done(function(taskInfo) {
+        })
+        .done(function(taskInfo) {
             if (!$.isArray(taskInfo.Result)) {
                 taskInfo.Result = [taskInfo.Result];
             }
@@ -1910,8 +1926,8 @@ import './LayersManagerControl.js';
 
                 _abstractTree.addNode(parentDiv.parentNode, li);
 
-                var divElem = $(li).children("div[LayerID]")[0],
-                    divParent = $(li.parentNode.parentNode).children("div[MapID],div[GroupID]")[0];
+
+                let divParent = $(li.parentNode.parentNode).children("div[MapID],div[GroupID]")[0];
 
                 _layersTree.addTreeElem(divParent, 0, { type: 'layer', content: { properties: newProps, geometry: convertedCoords } });
 
@@ -1976,7 +1992,7 @@ import './LayersManagerControl.js';
                     var checkedLayer = nsGmx.gmxMap.layersByID[newLayerProperties.name];
                     if (checkedLayer) {
                         L.gmx.layersVersion.chkVersion(checkedLayer);
-                    };
+                    }
                 } else {
                     $('#' + taskInfo.TaskID).remove();
 
@@ -2028,7 +2044,7 @@ import './LayersManagerControl.js';
             ['css', 'fontSize', '0px']
         ])]));
 
-        promise.fail(function(taskInfo) {
+        promise.fail(function() {
             console.log('failed');
             var parentTree = taskDiv.parentNode.parentNode;
             taskDiv.parentNode.removeNode(true);
@@ -2077,8 +2093,7 @@ import './LayersManagerControl.js';
 
                 _abstractTree.addNode(parentDiv.parentNode, li);
 
-                var divElem = $(li).children("div[LayerID]")[0],
-                    divParent = $(li.parentNode.parentNode).children("div[MapID],div[GroupID]")[0];
+                let divParent = $(li.parentNode.parentNode).children("div[MapID],div[GroupID]")[0];
 
                 _layersTree.addTreeElem(divParent, 0, { type: 'layer', content: { properties: newProps, geometry: convertedCoords } });
 
@@ -2125,7 +2140,7 @@ import './LayersManagerControl.js';
 
         layerManagerControl.disableLayers(existLayers);
 
-        var dialogDiv = showDialog(_gtxt("Список слоев"), canvas, 571, 485, 535, 130, function(size) {
+        showDialog(_gtxt("Список слоев"), canvas, 571, 485, 535, 130, function(size) {
             layerManagerControl.resize(size.height - 55);
         });
     }
@@ -2170,7 +2185,7 @@ import './LayersManagerControl.js';
     }
 
     queryMapLayers.prototype.createMap = function(name) {
-        sendCrossDomainJSONRequest(serverBase + 'Map/Insert.ashx?WrapStyle=func&Title=' + encodeURIComponent(name), function(response) {
+        sendCrossDomainJSONRequest(window.serverBase + 'Map/Insert.ashx?WrapStyle=func&Title=' + encodeURIComponent(name), function(response) {
             if (!parseResponse(response))
                 return;
 
@@ -2184,7 +2199,7 @@ import './LayersManagerControl.js';
             var mapID = String($(_queryMapLayers.buildedTree).find("[MapID]")[0].gmxProperties.properties.MapID),
                 saveTree = {};
 
-            window._mapEditorsHash && _mapEditorsHash[mapID] && _mapEditorsHash[mapID].update();
+            window._mapEditorsHash && window._mapEditorsHash[mapID] && window._mapEditorsHash[mapID].update();
 
             //обновим стили слоёв из всех незакрытых диалогов редактирования стилей
             var mStyleEditor = gmxCore.getModule('LayerStylesEditor');
@@ -2200,40 +2215,40 @@ import './LayersManagerControl.js';
             saveTree.properties.BaseLayers = JSON.stringify(nsGmx.leafletMap.gmxBaseLayersManager.getActiveIDs());
 
             //раскрываем все группы так, как записано в свойствах групп
-            _mapHelper.findTreeElems(saveTree, function(child, flag) {
-                var props = child.content.properties;
+            _mapHelper.findTreeElems(saveTree, function(child) {
+                let props = child.content.properties;
                 if (child.type === "group") {
                     props.expanded = typeof props.initExpand !== 'undefined' ? props.initExpand : false;
                     delete props.initVisible;
                     delete props.initExpand;
                 } else {
-                    var propsToSave = {};
-                    for (var i = 0; i < attributesToSave.length; i++) {
-                        var attrName = attributesToSave[i];
+                    let propsToSave = {};
+                    for (let i = 0; i < attributesToSave.length; i++) {
+                        let attrName = attributesToSave[i];
                         if (attrName in props) {
                             propsToSave[attrName] = props[attrName];
                         }
                     }
 
-                    var styles = props.styles || [];
+                    let styles = props.styles || [];
 
-                    for (var s = 0; s < styles.length; s++) {
+                    for (let s = 0; s < styles.length; s++) {
                         delete styles[s].HoverStyle;
                     }
 
                     if (window.newStyles) {
-                        var keys = L.gmx.StyleManager.DEFAULT_STYLE_KEYS,
+                        let keys = L.gmx.StyleManager.DEFAULT_STYLE_KEYS,
                             stylesHash = {};
 
-                        for (var i = 0; i < keys.length; i++) {
+                        for (let i = 0; i < keys.length; i++) {
                             stylesHash[keys[i]] = true;
                         }
                         propsToSave.gmxStyles = props.gmxStyles;
 
-                        for (var s = 0; s < propsToSave.gmxStyles.styles.length; s++) {
-                            var st = propsToSave.gmxStyles.styles[s];
+                        for (let s = 0; s < propsToSave.gmxStyles.styles.length; s++) {
+                            let st = propsToSave.gmxStyles.styles[s];
                             delete st.HoverStyle;
-                            for (var key in st.RenderStyle) {
+                            for (let key in st.RenderStyle) {
                                 if (!(key in stylesHash)) {
                                     delete st.RenderStyle[key];
                                 }
@@ -2246,7 +2261,7 @@ import './LayersManagerControl.js';
                 }
             }, true);
 
-            var params = {
+            let params = {
                 WrapStyle: 'window',
                 MapID: mapID,
 
@@ -2256,7 +2271,7 @@ import './LayersManagerControl.js';
             if (mapTitle)
                 params.Title = mapTitle;
 
-            sendCrossDomainPostRequest(serverBase + scriptName, params,
+            sendCrossDomainPostRequest(window.serverBase + scriptName, params,
                 function(response) {
                     if (!parseResponse(response))
                         return;
@@ -2282,11 +2297,11 @@ import './LayersManagerControl.js';
 
     })();
 
-    var _queryMapLayers = new queryMapLayers();
+    let _queryMapLayers = new queryMapLayers();
     window._queryMapLayers = _queryMapLayers;
 
     mapLayers.mapLayers.load = function() {
-        var alreadyLoaded = _queryMapLayers.createWorkCanvas('layers', {
+        let alreadyLoaded = _queryMapLayers.createWorkCanvas('layers', {
             path: null,
             showCloseButton: false,
             showMinimizeButton: false

@@ -64,9 +64,6 @@ import '../CalendarWidget-new/CalendarWidget.js';
                 '</select>' +
             '</div>' +
         '</div>' ;
-    'use strict';
-
-    var _gtxt = nsGmx.Translations.getText.bind(nsGmx.Translations);
 
     var CommonCalendarModel = Backbone.Model.extend({
         defaults: {
@@ -91,7 +88,7 @@ import '../CalendarWidget-new/CalendarWidget.js';
             'change .daily-switch': 'toggleDailyFilter',
             'change .layersList': 'changeCurrentLayer'
         },
-        initialize: function (options) {
+        initialize: function () {
             var _this = this;
 
             this.$el.html(this.template({
@@ -207,7 +204,7 @@ import '../CalendarWidget-new/CalendarWidget.js';
 	               var layer = layers[i],
                         props = layer.getGmxProperties(),
                         t = props.title,
-                        isTemporalLayer = (layer instanceof L.gmx.VectorLayer && props.Temporal) || (props.type === 'Virtual' && layer.getDateInterval);
+                        isTemporalLayer = (layer instanceof L.gmx.VectorLayer && props.Temporal) || (props.type === 'Virtual' && layer.getDateInterval),
                         int = layer.getDateInterval();
 
                     if (isTemporalLayer && int) {
@@ -262,7 +259,7 @@ import '../CalendarWidget-new/CalendarWidget.js';
                     if (nsGmx.gmxMap.properties.MapID === '0786A7383DF74C3484C55AFC3580412D') {
                         _queryMapLayers.getContainerAfter().find('.commoncalendar-container').replaceWith(calendarDiv);
                     } else {
-                        _queryMapLayers.getContainerBefore().findcommoncalendar-container('.commoncalendar-container').replaceWith(calendarDiv);
+                        _queryMapLayers.getContainerBefore().find('.commoncalendar-container').replaceWith(calendarDiv);
                     }
                 }
                 //явная проверка, так как хочется быть максимально синхронными в этом методе
@@ -324,7 +321,7 @@ import '../CalendarWidget-new/CalendarWidget.js';
                 if (unbindedTemporalLayers.hasOwnProperty(variable)) {
                     clone[variable] = unbindedTemporalLayers[variable];
                 }
-            };
+            }
 
             delete clone[layerName];
 
@@ -338,8 +335,8 @@ import '../CalendarWidget-new/CalendarWidget.js';
             if (!layer) {
                 return;
             }
-            var props = layer.getGmxProperties(),
-                unbindedTemporalLayers = attrs.unbindedTemporalLayers,
+            
+            var unbindedTemporalLayers = attrs.unbindedTemporalLayers,
                 clone = {};
 
             layer.removeLayerFilter({ id: 'dailyFilter' });
@@ -348,7 +345,7 @@ import '../CalendarWidget-new/CalendarWidget.js';
                 if (unbindedTemporalLayers.hasOwnProperty(variable)) {
                     clone[variable] = unbindedTemporalLayers[variable];
                 }
-            };
+            }
 
             clone[layerName] = true;
             this.model.set('unbindedTemporalLayers', clone);
@@ -400,14 +397,12 @@ import '../CalendarWidget-new/CalendarWidget.js';
                         this._updateOneLayer(layer, dateBegin, dateEnd);
                     }
                 }
+            } else if (currentLayer && !(currentLayer in attrs.unbindedTemporalLayers)) {
+                currentLayer = nsGmx.gmxMap.layersByID[currentLayer];
+                this._updateOneLayer(currentLayer, dateBegin, dateEnd);
             } else {
-                if (currentLayer && !(currentLayer in attrs.unbindedTemporalLayers)) {
-                    currentLayer = nsGmx.gmxMap.layersByID[currentLayer];
-                    this._updateOneLayer(currentLayer, dateBegin, dateEnd);
-                } else {
-                    return;
-                }
-            }
+                return;
+            }            
 
             if (layersMaxDates.length > 0) {
                 layersMaxDates.sort(function(a, b) {
@@ -428,16 +423,15 @@ import '../CalendarWidget-new/CalendarWidget.js';
             var attrs = this.model.toJSON(),
                 currentLayer = attrs.currentLayer,
                 layer = e.target,
-                props,
-                layerName,
+                props,                
                 dateInterval, dateBegin, dateEnd;
 
             if (!currentLayer) {
                 return;
             }
 
-            props = layer.getGmxProperties(),
-            layerID = props.LayerID;
+            props = layer.getGmxProperties();
+            var layerID = props.LayerID;
 
             if (layerID in attrs.unbindedTemporalLayers) {
                 return;
@@ -445,8 +439,8 @@ import '../CalendarWidget-new/CalendarWidget.js';
 
             if (layerID === currentLayer) {
                 if (props.maxShownPeriod) { return; }
-                dateInterval = layer.getDateInterval(),
-                dateBegin = dateInterval.beginDate,
+                dateInterval = layer.getDateInterval();
+                dateBegin = dateInterval.beginDate;
                 dateEnd = dateInterval.endDate;
 
                 this.setDateInterval(dateBegin, dateEnd, layer);
@@ -458,8 +452,7 @@ import '../CalendarWidget-new/CalendarWidget.js';
                 attrs = this.model.toJSON(),
                 currentLayer = attrs.currentLayer,
                 layersList = this.$('.layersList'),
-                temporalLayers = [],
-                layersArr = [],
+                temporalLayers = [],                
                 str = '';
 
             $.widget( "ui.temporallayersmenu", $.ui.selectmenu, {
@@ -518,31 +511,30 @@ import '../CalendarWidget-new/CalendarWidget.js';
                 $(layersList).temporallayersmenu("destroy");
             }
 
-            for (var i = 0; i < layers.length; i++) {
-                var layer = layers[i];
-                    if (layer.getGmxProperties) {
-                        var props = layer.getGmxProperties(),
-                            isVisible = props.visible,
-                            isTemporalLayer = (layer instanceof L.gmx.VectorLayer && props.Temporal) || (props.type === 'Virtual' && layer.getDateInterval);
+            for (let i = 0; i < layers.length; i++) {
+                let layer = layers[i];
+                if (layer.getGmxProperties) {
+                    let props = layer.getGmxProperties(),
+                        isVisible = props.visible,
+                        isTemporalLayer = (layer instanceof L.gmx.VectorLayer && props.Temporal) || (props.type === 'Virtual' && layer.getDateInterval);
 
-                        if (isTemporalLayer && isVisible) {
-                            temporalLayers.push(layer);
-                        }
+                    if (isTemporalLayer && isVisible) {
+                        temporalLayers.push(layer);
                     }
                 }
+            }
 
-            for (var i = 0; i < temporalLayers.length; i++) {
-                var layer = temporalLayers[i],
+            for (let i = 0; i < temporalLayers.length; i++) {
+                let layer = temporalLayers[i],
                     props = layer.getGmxProperties(),
                     layerID = props.LayerID;
 
                 str += '<option value=' + layerID + '>' + props.title + '</option>';
-            };
+            }
 
             $(layersList).html(str);
 
-            if (currentLayer) {
-                var l = nsGmx.gmxMap.layersByID[currentLayer];
+            if (currentLayer) {                
 
                 this.$('.layersList option').each(function () {
                     if ($(this).val() === currentLayer) {
@@ -552,7 +544,7 @@ import '../CalendarWidget-new/CalendarWidget.js';
 
             // установим текщим первый слой из списка
             } else if (!currentLayer && temporalLayers.length) {
-                var props = temporalLayers[0].getGmxProperties(),
+                let props = temporalLayers[0].getGmxProperties(),
                     layerID = props.LayerID;
 
                 this.$('.layersList option[value="' + layerID + '"]').prop("selected", true);
@@ -560,13 +552,13 @@ import '../CalendarWidget-new/CalendarWidget.js';
 
             $(layersList).temporallayersmenu({
                 change: function (e) {
-                    var layerID = $(e.currentTarget).prop('layerID'),
+                    let layerID = $(e.currentTarget).prop('layerID'),
                         layer = nsGmx.gmxMap.layersByID[layerID],
                         filters = layer._gmx.dataManager._filtersView,
                         layerFilters = filters[layerID],
                         dateBegin, dateEnd;
 
-                    dateInterval = layer.getDateInterval();
+                    var dateInterval = layer.getDateInterval();
 
                     if (dateInterval.beginDate && dateInterval.endDate) {
                         dateBegin = dateInterval.beginDate;
@@ -606,49 +598,49 @@ import '../CalendarWidget-new/CalendarWidget.js';
                 attrs = this.model.toJSON(),
                 synchronyzed = attrs.synchronyzed,
                 currentLayer = attrs.currentLayer,
-                listContainer = this.$('.unsync-layers-container'),
-                layersList = this.$('.layersList'),
+                listContainer = this.$('.unsync-layers-container'),                
                 dateBegin, dateEnd;
 
             if (synchronyzed) {
-                dateBegin = _this.dateInterval.get('dateBegin'),
-                dateEnd = _this.dateInterval.get('dateEnd'),
+                dateBegin = _this.dateInterval.get('dateBegin');
+                dateEnd = _this.dateInterval.get('dateEnd');
                 _this.setDateInterval(dateBegin, dateEnd);
                 this.model.set('currentLayer', null);
                 this.model.set('currentLayer', null);
                 this.$('.sync-switch input').prop("checked", true);
                 $(listContainer).hide();
-            } else {
-                if (currentLayer) {
-                    return;
-                } else {
-                    var temporalLayers = [];
+            }
+            else if (currentLayer) {
+                return;
+            } 
+            else {
+                var temporalLayers = [];
 
-                    this.$('.sync-switch input').prop("checked", false);
-                    $(listContainer).show();
-                    this.updateVisibleTemporalLayers(layers);
+                this.$('.sync-switch input').prop("checked", false);
+                $(listContainer).show();
+                this.updateVisibleTemporalLayers(layers);
 
-                    for (var i = 0; i < layers.length; i++) {
-                        var layer = layers[i];
-                        if (layer.getGmxProperties) {
-                            var props = layer.getGmxProperties(),
-                            isVisible = props.visible,
-                            isTemporalLayer = (layer instanceof L.gmx.VectorLayer && props.Temporal) || (props.type === 'Virtual' && layer.getDateInterval);
+                for (let i = 0; i < layers.length; i++) {
+                    let layer = layers[i];
+                    if (layer.getGmxProperties) {
+                        let props = layer.getGmxProperties(),
+                        isVisible = props.visible,
+                        isTemporalLayer = (layer instanceof L.gmx.VectorLayer && props.Temporal) || (props.type === 'Virtual' && layer.getDateInterval);
 
-                            if (isTemporalLayer && isVisible) {
-                                temporalLayers.push(layer);
-                            }
+                        if (isTemporalLayer && isVisible) {
+                            temporalLayers.push(layer);
                         }
                     }
-                    if (!temporalLayers.length) {
-                        this.model.set('currentLayer', null);
-                    } else {
-                        var props = temporalLayers[0].getGmxProperties(),
-                        layerID = props.LayerID;
-                        this.model.set('currentLayer', layerID);
-                    }
+                }
+                if (!temporalLayers.length) {
+                    this.model.set('currentLayer', null);
+                } else {
+                    let props = temporalLayers[0].getGmxProperties(),
+                    layerID = props.LayerID;
+                    this.model.set('currentLayer', layerID);
                 }
             }
+            
         },
 
         toggleDailyFilter: function () {
@@ -668,11 +660,8 @@ import '../CalendarWidget-new/CalendarWidget.js';
         },
 
         handleFiltersHash: function () {
-            var attrs = this.model.toJSON(),
-                synchronyzed = attrs.synchronyzed,
-                currentLayer = attrs.currentLayer,
-                dateInterval = this.dateInterval,
-                calendar = attrs.calendar,
+            var attrs = this.model.toJSON(),                
+                currentLayer = attrs.currentLayer,                
                 dailyFilter = attrs.dailyFilter,
                 dailyFiltersHash = attrs.dailyFiltersHash;
 
@@ -682,13 +671,11 @@ import '../CalendarWidget-new/CalendarWidget.js';
                 } else {
                     this._fillFiltersHash();
                 }
+            } else if (currentLayer) {
+                dailyFiltersHash[currentLayer] = false;
             } else {
-                if (currentLayer) {
-                    dailyFiltersHash[currentLayer] = false;
-                } else {
-                    this._clearFiltersHash();
-                }
-            }
+                this._clearFiltersHash();
+            }            
         },
 
         applyDailyFilter: function (layers) {
@@ -699,13 +686,11 @@ import '../CalendarWidget-new/CalendarWidget.js';
                 dailyFiltersHash = attrs.dailyFiltersHash,
                 synchronyzed = attrs.synchronyzed,
                 currentLayer = attrs.currentLayer,
-                dateInterval = this.dateInterval,
-                calendar = attrs.calendar,
+                dateInterval = this.dateInterval,                
                 dateBegin = this.dateInterval.get('dateBegin'),
                 dateEnd = this.dateInterval.get('dateEnd'),
                 hourBegin = Number(nsGmx.CalendarWidget1.getTime(dateBegin, 'begin')) * 1000 * 3600,
                 hourEnd = Number(nsGmx.CalendarWidget1.getTime(dateEnd, 'end')) * 1000 * 3600;
-                temporalLayers;
 
             if (synchronyzed) {
                 temporalLayers = nsGmx.gmxMap.layers;
@@ -715,8 +700,8 @@ import '../CalendarWidget-new/CalendarWidget.js';
                 return;
             }
 
-            for (var i = 0; i < temporalLayers.length; i++) {
-                var l = temporalLayers[i],
+            for (let i = 0; i < temporalLayers.length; i++) {
+                let l = temporalLayers[i],
                     p = l.getGmxProperties && l.getGmxProperties(),
                     layerName;
 
@@ -734,7 +719,7 @@ import '../CalendarWidget-new/CalendarWidget.js';
                 var layer = temporalLayers[x];
 
                 if (layer.getGmxProperties) {
-                        var props = layer.getGmxProperties(),
+                        let props = layer.getGmxProperties(),
                             isTemporalLayer = (layer instanceof L.gmx.VectorLayer && props.Temporal) || (props.type === 'Virtual' && layer.getDateInterval);
 
                         if (isTemporalLayer && layer.getDataManager) {
@@ -756,10 +741,11 @@ import '../CalendarWidget-new/CalendarWidget.js';
                             var dm = layer.getDataManager(),
                                 dmOpt = dm.options,
                                 fullDays,
-                                intervals = [];
+                                intervals = [],
+                                tmpKeyNum;
 
                             if (dmOpt.Temporal) {
-                                var tmpKeyNum = dm.tileAttributeIndexes[dmOpt.TemporalColumnName];
+                                tmpKeyNum = dm.tileAttributeIndexes[dmOpt.TemporalColumnName];
                             }
 
                             if (hourEnd < dayms) {
@@ -768,7 +754,7 @@ import '../CalendarWidget-new/CalendarWidget.js';
                                 fullDays = toMidnight(dateEnd).valueOf() - toMidnight(dateBegin).valueOf();
                             }
 
-                            for (var i = 0; i < fullDays; i+= dayms) {
+                            for (let i = 0; i < fullDays; i+= dayms) {
                                 intervals.push({
                                     begin: toMidnight(dateBegin).valueOf() + hourBegin + i,
                                     end: toMidnight(dateBegin).valueOf() + hourEnd + i
@@ -779,7 +765,7 @@ import '../CalendarWidget-new/CalendarWidget.js';
                                 layer.addLayerFilter(function (item) {
                                     var itemDate = item.properties[tmpKeyNum] * 1000,
                                         inside = false;
-                                    for (var j = 0; j < intervals.length; j++) {
+                                    for (let j = 0; j < intervals.length; j++) {
                                         if (intervals[j].begin <= itemDate && itemDate <= intervals[j].end) {
                                             inside = true;
                                             break;

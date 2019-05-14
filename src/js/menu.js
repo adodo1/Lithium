@@ -1,6 +1,6 @@
 import nsGmx from './nsGmx.js';
 import {    
-    attachEffects,        	     
+    attachEffects,               
     stopEvent,    
     _span,    
 } from './utilities.js';
@@ -25,11 +25,11 @@ var UpMenu = function()
 {
 
     this.submenus = [];
-	this.currSel = null;
-	this.currUnSel = null;
-	this.refs = {};
+    this.currSel = null;
+    this.currUnSel = null;
+    this.refs = {};
 
-	this.parent = null;
+    this.parent = null;
     this.loginContainer = null;
     this._isCreated = false;
     this.defaultHash = 'layers';
@@ -125,21 +125,21 @@ UpMenu.prototype.addChildItem = function(newElem, parentID, insertBeforeID)
 */
 UpMenu.prototype.setParent = function(parent)
 {
-	this.parent = parent;
+    this.parent = parent;
 
-	if (parent)
+    if (parent)
     {
-		$(parent).empty();
+        $(parent).empty();
         parent.appendChild(_span());
     }
 
-	this.disabledTabs = {};
+    this.disabledTabs = {};
 }
 
 // Показывает элемент меню
 UpMenu.prototype.showmenu = function(elem)
 {
-	elem.style.visibility = 'visible';
+    elem.style.visibility = 'visible';
     if (this.openedMenus.indexOf(elem) === -1) {
         this.openedMenus.push(elem);
     }
@@ -147,7 +147,7 @@ UpMenu.prototype.showmenu = function(elem)
 // Скрывает элемент меню
 UpMenu.prototype.hidemenu = function(elem)
 {
-	elem.style.visibility = 'hidden';
+    elem.style.visibility = 'hidden';
     if (this.openedMenus.indexOf(elem) !== -1) {
         this.openedMenus.splice(this.openedMenus.indexOf(elem), 1);
     }
@@ -244,36 +244,36 @@ UpMenu.prototype.checkItem = function(id, isChecked) {
 
 UpMenu.prototype.removeSelections = function()
 {
-	$('li.menu3Active').removeClass('menu3Active');
-	$('li.menu2Active').removeClass('menu2Active');
-	$('li.menuActive').removeClass('menuActive');
+    $('li.menu3Active').removeClass('menu3Active');
+    $('li.menu2Active').removeClass('menu2Active');
+    $('li.menuActive').removeClass('menuActive');
 }
 // Закрывает открытые меню
 UpMenu.prototype.hideMenus = function()
 {
-	var _this = this;
+    var _this = this;
 
-	$('ul.header2').each(function()
-	{
-		_this.hidemenu(this);
-	})
-	$('ul.header3').each(function()
-	{
-		_this.hidemenu(this);
-	})
+    $('ul.header2').each(function()
+    {
+        _this.hidemenu(this);
+    })
+    $('ul.header3').each(function()
+    {
+        _this.hidemenu(this);
+    })
 }
 // Открывает закладку
 UpMenu.prototype.openRef = function(hash)
 {
-	_menuUp.removeSelections();
-	_menuUp.hideMenus();
-	_menuUp.openTab(hash);
+    _menuUp.removeSelections();
+    _menuUp.hideMenus();
+    _menuUp.openTab(hash);
 }
 
 UpMenu.prototype.attachEventOnClick = function(elem)
 {
-	var _this = this;
-	elem.onclick = function() {
+    var _this = this;
+    elem.onclick = function() {
         if (!_this.clicked) {
             var isTopLevel = $(elem).hasClass('header1'),
                 hash = this.getAttribute('hash');
@@ -290,13 +290,13 @@ UpMenu.prototype.attachEventOnClick = function(elem)
         } else {
             return;
         }
-	}
+    }
 }
 
 UpMenu.prototype.attachEventOnMouseover = function(elem, className)
 {
-	let _this = this;
-	elem.onmouseover = function() {
+    let _this = this;
+    elem.onmouseover = function() {
         $(this).addClass(className);
         if (_this.clicked) {
             let itemsToClose = [];
@@ -326,7 +326,7 @@ UpMenu.prototype.attachEventOnMouseover = function(elem, className)
                 $(this).addClass(className);
             }
         }
-	}
+    }
 }
 
 UpMenu.prototype.checkInsideElem = function(elem, descendant)
@@ -341,12 +341,12 @@ UpMenu.prototype.checkInsideElem = function(elem, descendant)
 }
 UpMenu.prototype.attachEventOnMouseout = function(elem, className)
 {
-	var _this = this;
-	elem.onmouseout = function(e) {
-		var evt = e || window.event,
-			// target = evt.srcElement || evt.target,
-			relTarget = evt.relatedTarget || evt.toElement,
-			elem = this,
+    var _this = this;
+    elem.onmouseout = function(e) {
+        var evt = e || window.event,
+            // target = evt.srcElement || evt.target,
+            relTarget = evt.relatedTarget || evt.toElement,
+            elem = this,
             isTopLevel = $(elem).hasClass('header1'),
             hash = this.getAttribute('hash');
 
@@ -365,100 +365,100 @@ UpMenu.prototype.attachEventOnMouseout = function(elem, className)
                 // _this.currentTopHash = null;
                 $(elem).removeClass(className);
             }
-    	} catch (e) {
+        } catch (e) {
             if (isTopLevel && hash === _this.currentTopHash) {
                 return false;
             } else {
                 // _this.currentTopHash = null;
                 $(elem).removeClass(className);
             }
-    	}
-	}
+        }
+    }
 }
 
 UpMenu.prototype.getNavigatePath = function(path) {
-	for (var menuIdx = 0; menuIdx < this.submenus.length; menuIdx++)
-	{
+    for (var menuIdx = 0; menuIdx < this.submenus.length; menuIdx++)
+    {
         var submenu = this.submenus[menuIdx];
 
         if (!submenu) {continue;}
 
-		if (path == submenu.id)
-		{
+        if (path == submenu.id)
+        {
             return [submenu.title];
-		}
+        }
 
-		if (submenu.childs)
-		{
-			var childsLevel2 = submenu.childs;
-			for (var i = 0; i < childsLevel2.length; i++)
-			{
+        if (submenu.childs)
+        {
+            var childsLevel2 = submenu.childs;
+            for (var i = 0; i < childsLevel2.length; i++)
+            {
                 if (!childsLevel2[i]) {continue;}
 
-				if (childsLevel2[i].childs)
-				{
-					var childsLevel3 = childsLevel2[i].childs;
-					// есть подменю, смотрим там
-					for (var j = 0; j < childsLevel3.length; j++)
-					{
+                if (childsLevel2[i].childs)
+                {
+                    var childsLevel3 = childsLevel2[i].childs;
+                    // есть подменю, смотрим там
+                    for (var j = 0; j < childsLevel3.length; j++)
+                    {
                         if (!childsLevel3[j]) {continue;}
 
-						if (path == childsLevel3[j].id)
-						{
+                        if (path == childsLevel3[j].id)
+                        {
                             return [submenu.title, childsLevel2[i].title, childsLevel3[j].title];
-						}
-					}
-				}
-				if (path == childsLevel2[i].id)
-				{
-					// совпадение в меню 2го уровня
+                        }
+                    }
+                }
+                if (path == childsLevel2[i].id)
+                {
+                    // совпадение в меню 2го уровня
                     return [submenu.title, childsLevel2[i].title];
-				}
-			}
-		}
-	}
+                }
+            }
+        }
+    }
 
-	return [];
+    return [];
 }
 
 /** Показывает все ранее скрытые элементы меню
 */
 UpMenu.prototype.enableMenus = function()
 {
-	for (var name in this.disabledTabs)
-	{
-		$(this.parent).find("li[hash='" + name + "']").children('div').css('display','');
+    for (var name in this.disabledTabs)
+    {
+        $(this.parent).find("li[hash='" + name + "']").children('div').css('display','');
 
-		delete this.disabledTabs[name];
-	}
+        delete this.disabledTabs[name];
+    }
 }
 /** Скрывает заданные элементы меню
 * @param {String[]} arr Массив ID элементов меню, которые нужно скрыть
 */
 UpMenu.prototype.disableMenus = function(arr)
 {
-	for (var i = 0; i < arr.length; i++)
-	{
-		$(this.parent).find("li[hash='" + arr[i] + "']").children('div').css('display','none');
+    for (var i = 0; i < arr.length; i++)
+    {
+        $(this.parent).find("li[hash='" + arr[i] + "']").children('div').css('display','none');
 
-		this.disabledTabs[arr[i]] = true;
-	}
+        this.disabledTabs[arr[i]] = true;
+    }
 }
 
 UpMenu.prototype.checkView = function()
 {
-	if (!nsGmx.AuthManager.isLogin())
-	{
-		this.enableMenus();
+    if (!nsGmx.AuthManager.isLogin())
+    {
+        this.enableMenus();
 
-		this.disableMenus(['mapCreate', 'mapSave', 'mapSaveAs', 'layersMenu', 'pictureBinding']);
-	}
-	else if (_queryMapLayers.currentMapRights() != "edit")
-	{
-		this.enableMenus();
+        this.disableMenus(['mapCreate', 'mapSave', 'mapSaveAs', 'layersMenu', 'pictureBinding']);
+    }
+    else if (_queryMapLayers.currentMapRights() != "edit")
+    {
+        this.enableMenus();
 
-		this.disableMenus(['mapSave', 'mapSaveAs', 'layersVector', 'layersRaster', 'layersMultiRaster']);
-	}
+        this.disableMenus(['mapSave', 'mapSaveAs', 'layersVector', 'layersRaster', 'layersMultiRaster']);
+    }
 
     if (!nsGmx.AuthManager.isRole(nsGmx.ROLE_ADMIN)) {
         this.disableMenus(['stileLibrary']);
@@ -468,33 +468,33 @@ UpMenu.prototype.checkView = function()
         this.disableMenus(['mapTabsNew']);
     }
 
-	if (!nsGmx.AuthManager.canDoAction(nsGmx.ACTION_CREATE_LAYERS))
-	{
+    if (!nsGmx.AuthManager.canDoAction(nsGmx.ACTION_CREATE_LAYERS))
+    {
             this.disableMenus(['layersVector', 'layersRaster', 'layersMultiRaster']);
-	}
+    }
 
     if (!nsGmx.AuthManager.canDoAction(nsGmx.ACTION_CREATE_MAP))
-	{
+    {
             this.disableMenus(['mapCreate']);
-	}
+    }
 }
 
 UpMenu.prototype.go = function(container)
 {
-	this.setParent(container);
+    this.setParent(container);
 
-	this.createMenu();
+    this.createMenu();
 
-	this.draw();
+    this.draw();
 
-	this.checkView();
+    this.checkView();
 
-	if (window.location.hash)
-	{
-		this.currUnsel = function(){};
-	}
+    if (window.location.hash)
+    {
+        this.currUnsel = function(){};
+    }
 
-	this.openTab(this.defaultHash);
+    this.openTab(this.defaultHash);
 }
 
 UpMenu.prototype.openTab = function(id, event)
@@ -506,7 +506,7 @@ UpMenu.prototype.openTab = function(id, event)
     var item = this.refs[id];
 
     this.removeSelections();
-	this.hideMenus();
+    this.hideMenus();
 
     if (item.func) {
         this.clicked = false;
@@ -645,8 +645,8 @@ var _menuUp = new UpMenu();
 // содержит ссылку на рабочую область для текущей вкладки
 var leftMenu = function()
 {
-	this.workCanvas = null;
-	this.parentWorkCanvas = null;
+    this.workCanvas = null;
+    this.parentWorkCanvas = null;
 }
 
 //варианты вызова:
@@ -668,8 +668,8 @@ leftMenu.prototype.createWorkCanvas = function(canvasID, closeFunc, options)
     }
 
     var _this = this;
-	if (!$('#left_' + canvasID).length)
-	{
+    if (!$('#left_' + canvasID).length)
+    {
         var leftPanelItem = new nsGmx.LeftPanelItem(canvasID, options);
         this.parentWorkCanvas = leftPanelItem.panelCanvas;
         this.workCanvas = leftPanelItem.workCanvas;
@@ -681,21 +681,21 @@ leftMenu.prototype.createWorkCanvas = function(canvasID, closeFunc, options)
 
         $('#leftContentInner').prepend(this.parentWorkCanvas);
 
-		return false;
-	}
-	else
-	{
-		this.parentWorkCanvas = $('#left_' + canvasID)[0];
-		this.workCanvas = this.parentWorkCanvas.lastChild;
+        return false;
+    }
+    else
+    {
+        this.parentWorkCanvas = $('#left_' + canvasID)[0];
+        this.workCanvas = this.parentWorkCanvas.lastChild;
         this.leftPanelItem = this.parentWorkCanvas.leftPanelItem;
         this.leftPanelItem.close = options.closeFunc;
 
-		$(this.parentWorkCanvas).show();
+        $(this.parentWorkCanvas).show();
 
         $('#leftContentInner').prepend(this.parentWorkCanvas);
 
-		return true;
-	}
+        return true;
+    }
 }
 
 export { leftMenu, _menuUp };

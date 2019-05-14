@@ -1,5 +1,26 @@
 import nsGmx from '../nsGmx.js';
 import '../translations.js';
+import {leftMenu} from '../menu.js';
+import {
+    attachEffects,    
+    getOffsetRect,
+    _img,
+    _input,
+    inputError,
+    _li,
+    makeButton,
+    makeLinkButton,
+    makeImageButton,
+    objLength,
+    showDialog,
+    _span,
+    _t,
+    _table,
+    _tbody,
+    _td,
+    _tr,
+    _title,
+} from '../utilities.js';
 
 $('#flash').droppable({
     drop: function(event, ui) {
@@ -82,11 +103,11 @@ var Functions = {
 			if (bParentAfter){
 				return sObjectName + sObjectsSeparator + this.GetPath(oParentObj, sObjectsSeparator,  bParentAfter, sObjNameField);
 			}
-			else{
+			else {
 				return this.GetPath(oParentObj, sObjectsSeparator,  bParentAfter, sObjNameField) + sObjectsSeparator + sObjectName;
 			}
 		}
-		else{
+		else {
 			return sObjectName;
 		}
 	},
@@ -95,7 +116,7 @@ var Functions = {
 	 @static
 	 @param oProps - Свойства
 	 @param sObjectsSeparator Разделитель 2х свойств в строке*/
-	GetPropertiesString: function(/**object[]*/oProps,/**string*/ sPropSeparator, /**object[]*/arrDisplayFields){
+	GetPropertiesString: function(/**object[]*/oProps,/**string*/ sPropSeparator){
 		var sResultString = "";
 		if (oProps != null){
 			for (var sPropName in oProps){
@@ -155,9 +176,9 @@ var ResultRenderer = function(map, sInitImagesHost, bInitAutoCenter){
 
         sDescr = sDescr.replace(/;/g, "<br/>");
 
-		var fnBaloon = function(o) {
-			return o.properties.Descr.replace(/;/g, "<br/>");
-		};
+		// var fnBaloon = function(o) {
+		// 	return o.properties.Descr.replace(/;/g, "<br/>");
+		// };
 		var centerMapElem,
             boundaryMapElem;
 		//Рисуем центр объекта
@@ -181,7 +202,7 @@ var ResultRenderer = function(map, sInitImagesHost, bInitAutoCenter){
 		//Рисуем контур объекта
 		if (oFoundObject.Geometry != null && (oFoundObject.Geometry.type).toUpperCase() != 'POINT') {
             boundaryMapElem = L.geoJson(L.gmxUtil.geometryToGeoJSON(oFoundObject.Geometry), {
-                style: function(feature) {
+                style: function() {
                     return
                 },
                 onEachFeature: function(feature, layer) {
@@ -213,22 +234,19 @@ var ResultRenderer = function(map, sInitImagesHost, bInitAutoCenter){
 		    else
 			    map.fitBounds([[oFoundObject.MinLat, oFoundObject.MinLon], [oFoundObject.MaxLat, oFoundObject.MaxLon]]);
         }
-		else
-		{
-           if ((oFoundObject.Geometry.type).toUpperCase() == 'POINT') {
-		        if (oFoundObject.MinLon != oFoundObject.MaxLon && oFoundObject.MinLat != oFoundObject.MaxLat) {
-			        map.fitBounds([[oFoundObject.MinLat, oFoundObject.MinLon], [oFoundObject.MaxLat, oFoundObject.MaxLon]]);
-                } else {
-                    var c = oFoundObject.Geometry.coordinates;
-			        map.setView([c[1], c[0]], iZoom);
-                }
-		    }
-		    else {
-                var bounds = L.gmxUtil.getGeometryBounds(oFoundObject.Geometry);
-			    //var oExtent = getBounds(oFoundObject.Geometry.coordinates);
-			    map.fitBounds([[bounds.min.y, bounds.min.x], [bounds.max.y, bounds.max.x]]);
+		else if ((oFoundObject.Geometry.type).toUpperCase() == 'POINT') {
+            if (oFoundObject.MinLon != oFoundObject.MaxLon && oFoundObject.MinLat != oFoundObject.MaxLat) {
+                map.fitBounds([[oFoundObject.MinLat, oFoundObject.MinLon], [oFoundObject.MaxLat, oFoundObject.MaxLon]]);
+            } else {
+                var c = oFoundObject.Geometry.coordinates;
+                map.setView([c[1], c[0]], iZoom);
             }
-		}
+        }
+        else {
+            var bounds = L.gmxUtil.getGeometryBounds(oFoundObject.Geometry);
+            //var oExtent = getBounds(oFoundObject.Geometry.coordinates);
+            map.fitBounds([[bounds.min.y, bounds.min.x], [bounds.max.y, bounds.max.x]]);
+        }		
 	};
 
 	/**Центрует карту по переданному объекту
@@ -257,7 +275,7 @@ var ResultRenderer = function(map, sInitImagesHost, bInitAutoCenter){
             counts[iDataSourceN] = 0;
         }
 
-		iCount = arrFoundObjects.length;
+		// iCount = arrFoundObjects.length;
 
         var mapObjects = [];
 
@@ -275,53 +293,53 @@ var ResultRenderer = function(map, sInitImagesHost, bInitAutoCenter){
 	}
 };
 
-/** Конструктор
- @class Предоставляет функции, отображающие найденные объекты на карте
- @memberof Search
- @param {object} oInitMap карта, на которой будут рисоваться объекты
- @param {function} fnSearchLocation = function({Geometry, callback})- функция поиска объектов по переданной геометрии*/
-var LocationTitleRenderer = function(oInitMap, fnSearchLocation){
-	var _this = this;
-	var oMap = oInitMap;
-	var dtLastSearch;
+// /** Конструктор
+//  @class Предоставляет функции, отображающие найденные объекты на карте
+//  @memberof Search
+//  @param {object} oInitMap карта, на которой будут рисоваться объекты
+//  @param {function} fnSearchLocation = function({Geometry, callback})- функция поиска объектов по переданной геометрии*/
+// var LocationTitleRenderer = function(oInitMap, fnSearchLocation){
+// 	var _this = this;
+// 	var oMap = oInitMap;
+// 	var dtLastSearch;
 
-	/**Добавляет объект в список найденных результатов*/
-	var drawObject = function(oFoundObject, elemDiv)
-	{
-		if (oFoundObject.Parent != null) drawObject(oFoundObject.Parent, elemDiv, true);
-		var	realPath = oFoundObject.IsForeign ? oFoundObject.ObjName : Functions.GetFullName(oFoundObject.TypeName, oFoundObject.ObjName);
+// 	/**Добавляет объект в список найденных результатов*/
+// 	var drawObject = function(oFoundObject, elemDiv)
+// 	{
+// 		if (oFoundObject.Parent != null) drawObject(oFoundObject.Parent, elemDiv, true);
+// 		var	realPath = oFoundObject.IsForeign ? oFoundObject.ObjName : Functions.GetFullName(oFoundObject.TypeName, oFoundObject.ObjName);
 
-		var searchElemHeader = _span([_t(realPath)], [['dir', 'className', 'searchLocationPath']]);
+// 		var searchElemHeader = _span([_t(realPath)], [['dir', 'className', 'searchLocationPath']]);
 
-		/** Вызывается при клике на найденный объект в списке результатов поиска
-		@name Search.ResultList.onObjectClick
-		@event
-		@param {object} oFoundObject Найденный объект*/
-		searchElemHeader.onclick = function(){$(_this).triggerHandler('onObjectClick', [oFoundObject]);};
+// 		/** Вызывается при клике на найденный объект в списке результатов поиска
+// 		@name Search.ResultList.onObjectClick
+// 		@event
+// 		@param {object} oFoundObject Найденный объект*/
+// 		searchElemHeader.onclick = function(){$(_this).triggerHandler('onObjectClick', [oFoundObject]);};
 
-		if (oFoundObject.Parent != null) _(elemDiv, [_t("->")]);
-		_(elemDiv, [searchElemHeader]);
-	}
+// 		if (oFoundObject.Parent != null) _(elemDiv, [_t("->")]);
+// 		_(elemDiv, [searchElemHeader]);
+// 	}
 
-	var setLocationTitleDiv = function(div, attr) {
-		if (dtLastSearch && Number(new Date()) - dtLastSearch < 300) return;
-		dtLastSearch = new Date();
+// 	var setLocationTitleDiv = function(div, attr) {
+// 		if (dtLastSearch && Number(new Date()) - dtLastSearch < 300) return;
+// 		dtLastSearch = new Date();
 
-		var locationTitleDiv = div;
+// 		var locationTitleDiv = div;
 
-		fnSearchLocation({Geometry: attr['screenGeometry'], callback: function(arrResultDataSources){
-			$(locationTitleDiv).empty();
-			if(arrResultDataSources.length>0 && arrResultDataSources[0].SearchResult.length>0){
-				drawObject(arrResultDataSources[0].SearchResult[0], locationTitleDiv);
-			}
-			else{
-				_(locationTitleDiv, [_t(_gtxt("Текущее местоположение отображается только для России и Украины"))]);
-			}
-		}});
-	};
+// 		fnSearchLocation({Geometry: attr['screenGeometry'], callback: function(arrResultDataSources){
+// 			$(locationTitleDiv).empty();
+// 			if (arrResultDataSources.length>0 && arrResultDataSources[0].SearchResult.length>0){
+// 				drawObject(arrResultDataSources[0].SearchResult[0], locationTitleDiv);
+// 			}
+// 			else {
+// 				_(locationTitleDiv, [_t(_gtxt("Текущее местоположение отображается только для России и Украины"))]);
+// 			}
+// 		}});
+// 	};
 
-	if (oMap.coordinates) oMap.coordinates.addCoordinatesFormat(setLocationTitleDiv);
-}
+// 	if (oMap.coordinates) oMap.coordinates.addCoordinatesFormat(setLocationTitleDiv);
+// }
 
 var ResultList = function(oInitContainer, oRenderer, ImagesHost){
 	/**Объект, в котором находится контрол (div)*/
@@ -339,7 +357,7 @@ var ResultList = function(oInitContainer, oRenderer, ImagesHost){
 	var oResultCanvas;
 	var arrTotalResultSet = [];
 
-	if(oResultCanvas == null)
+	if (oResultCanvas == null)
 	{
 		oResultCanvas = nsGmx.Utils._div(null, [['dir', 'className', 'searchResultCanvas']]);
         Container.appendChild(oResultCanvas);
@@ -349,29 +367,29 @@ var ResultList = function(oInitContainer, oRenderer, ImagesHost){
 
 	/**Удаляет все найденные объекты из результатов поиска*/
 	var unload = function(){
-		for(i=0; i<arrDisplayedObjects.length; i++){
+		for (let i = 0; i < arrDisplayedObjects.length; i++){
 			SetDisplayedObjects(i, []);
 		}
 		$(oResultCanvas).empty();
 	}
-    /** Переход на следующие страницы*/
-    var next = function(iDataSourceN, divChilds, divPages) {
-        var button = makeImageButton(sImagesHost + '/next.png', sImagesHost + '/next_a.png');
+    // /** Переход на следующие страницы*/
+    // var next = function(iDataSourceN, divChilds, divPages) {
+    //     var button = makeImageButton(sImagesHost + '/next.png', sImagesHost + '/next_a.png');
 
-        button.style.marginBottom = '-7px';
+    //     button.style.marginBottom = '-7px';
 
-        button.onclick = function() {
-			var oDataSource = arrTotalResultSet[iDataSourceN];
-            oDataSource.start += iPagesCount;
-            oDataSource.reportStart = oDataSource.start * iLimit;
+    //     button.onclick = function() {
+	// 		var oDataSource = arrTotalResultSet[iDataSourceN];
+    //         oDataSource.start += iPagesCount;
+    //         oDataSource.reportStart = oDataSource.start * iLimit;
 
-            drawPagesRow(iDataSourceN, divChilds, divPages);
-        }
+    //         drawPagesRow(iDataSourceN, divChilds, divPages);
+    //     }
 
-        _title(button, _gtxt('Следующие [value0] страниц', iPagesCount));
+    //     _title(button, _gtxt('Следующие [value0] страниц', iPagesCount));
 
-        return button;
-    }
+    //     return button;
+    // }
 
     /** Переход на предыдущие страницы*/
     var previous = function(iDataSourceN, divChilds, divPages) {
@@ -393,9 +411,8 @@ var ResultList = function(oInitContainer, oRenderer, ImagesHost){
     }
 
     /** Переход на первую страницу*/
-    var first = function(iDataSourceN, divChilds, divPages) {
-        var _this = this,
-			button = makeImageButton(sImagesHost + '/first.png', sImagesHost + '/first_a.png');
+    var first = function(iDataSourceN, divChilds, divPages) {        
+		var	button = makeImageButton(sImagesHost + '/first.png', sImagesHost + '/first_a.png');
 
         button.style.marginBottom = '-7px';
 
@@ -412,25 +429,25 @@ var ResultList = function(oInitContainer, oRenderer, ImagesHost){
         return button;
     }
 
-    /** Переход на последнюю страницу*/
-    var last = function(iDataSourceN, divChilds, divPages) {
-        var _this = this,
-			button = makeImageButton(sImagesHost + '/last.png', sImagesHost + '/last_a.png');
+    // /** Переход на последнюю страницу*/
+    // var last = function(iDataSourceN, divChilds, divPages) {
+    //     var _this = this,
+	// 		button = makeImageButton(sImagesHost + '/last.png', sImagesHost + '/last_a.png');
 
-        button.style.marginBottom = '-7px';
+    //     button.style.marginBottom = '-7px';
 
-        button.onclick = function() {
-			var oDataSource = arrTotalResultSet[iDataSourceN];
-            oDataSource.start = Math.floor((oDataSource.SearchResult.length - 1)/ (iPagesCount * iLimit)) * iPagesCount;
-            oDataSource.reportStart = Math.floor((oDataSource.SearchResult.length - 1)/ (iLimit)) * iLimit;
+    //     button.onclick = function() {
+	// 		var oDataSource = arrTotalResultSet[iDataSourceN];
+    //         oDataSource.start = Math.floor((oDataSource.SearchResult.length - 1)/ (iPagesCount * iLimit)) * iPagesCount;
+    //         oDataSource.reportStart = Math.floor((oDataSource.SearchResult.length - 1)/ (iLimit)) * iLimit;
 
-            drawPagesRow(iDataSourceN, divChilds, divPages);
-        }
+    //         drawPagesRow(iDataSourceN, divChilds, divPages);
+    //     }
 
-        _title(button, _gtxt('Последняя страница'));
+    //     _title(button, _gtxt('Последняя страница'));
 
-        return button;
-    }
+    //     return button;
+    // }
 
 	/**Добавляет объект в список найденных результатов*/
 	var drawObject = function(oFoundObject, elemDiv, bIsParent)
@@ -490,37 +507,37 @@ var ResultList = function(oInitContainer, oRenderer, ImagesHost){
 
 	}
 
-	/**рисует номера страниц списка
-	@param end - последний номер
-	@param iDataSourceN - номер источника данных
-	@param divChilds - раздел для элементов списка
-	@param divPages - раздел для номеров страниц списка*/
-	var drawPages = function(end, iDataSourceN, divChilds, divPages) {
-		var oDataSource = arrTotalResultSet[iDataSourceN];
-		for (var i = oDataSource.start + 1; i <= end; i++) {
-			// текущий элемент
-			if (i - 1 == oDataSource.reportStart / iLimit) {
-				var el = _span([_t(i.toString())]);
-				nsGmx.Utils._(divPages, [el]);
-				$(el).addClass('page');
-			}
-			else {
-				var link = makeLinkButton(i.toString());
+	// /**рисует номера страниц списка
+	// @param end - последний номер
+	// @param iDataSourceN - номер источника данных
+	// @param divChilds - раздел для элементов списка
+	// @param divPages - раздел для номеров страниц списка*/
+	// var drawPages = function(end, iDataSourceN, divChilds, divPages) {
+	// 	var oDataSource = arrTotalResultSet[iDataSourceN];
+	// 	for (var i = oDataSource.start + 1; i <= end; i++) {
+	// 		// текущий элемент
+	// 		if (i - 1 == oDataSource.reportStart / iLimit) {
+	// 			var el = _span([_t(i.toString())]);
+	// 			nsGmx.Utils._(divPages, [el]);
+	// 			$(el).addClass('page');
+	// 		}
+	// 		else {
+	// 			var link = makeLinkButton(i.toString());
 
-				link.setAttribute('page', i - 1);
-				link.style.margin = '0px 2px';
+	// 			link.setAttribute('page', i - 1);
+	// 			link.style.margin = '0px 2px';
 
-				nsGmx.Utils._(divPages, [link]);
+	// 			nsGmx.Utils._(divPages, [link]);
 
-				link.onclick = function() {
-					arrTotalResultSet[iDataSourceN].reportStart = this.getAttribute('page') * iLimit;
+	// 			link.onclick = function() {
+	// 				arrTotalResultSet[iDataSourceN].reportStart = this.getAttribute('page') * iLimit;
 
-					drawPagesRow(iDataSourceN, divChilds, divPages);
-				};
-			}
+	// 				drawPagesRow(iDataSourceN, divChilds, divPages);
+	// 			};
+	// 		}
 
-		}
-	}
+	// 	}
+	// }
 
 	/**Рисует одну из страниц списка
 	@param iDataSourceN - номер источника данных
@@ -532,7 +549,7 @@ var ResultList = function(oInitContainer, oRenderer, ImagesHost){
 		// перерисовывем номера страниц
 		$(divPages).empty();
 
-		var end = (oDataSource.start + iPagesCount <= oDataSource.allPages) ? oDataSource.start + iPagesCount : oDataSource.allPages;
+		// var end = (oDataSource.start + iPagesCount <= oDataSource.allPages) ? oDataSource.start + iPagesCount : oDataSource.allPages;
 
 		if (oDataSource.start - iPagesCount >= 0)
 			nsGmx.Utils._(divPages, [first(iDataSourceN, divChilds, divPages), previous(iDataSourceN, divChilds, divPages)]);
@@ -612,7 +629,7 @@ var ResultList = function(oInitContainer, oRenderer, ImagesHost){
 		if (arrTotalResultSet.length == 1){
 			li = nsGmx.Utils._ul([liInner]);
 		}
-		else{
+		else {
 			li = _li([nsGmx.Utils._div([_t(header), _span([_t("(" + arrDataSourceList.length + ")")])], [['dir', 'className', 'searchLayerHeader']]), nsGmx.Utils._ul([liInner])]);
 		}
 
@@ -655,7 +672,7 @@ var ResultList = function(oInitContainer, oRenderer, ImagesHost){
         // $(oSearchResultDiv).triggerHandler('onObjectClick', [oFoundObject]);
     }
 
-    var fnDownloadSHP = function(event, filename, arrObjectsToDownload){
+    var fnDownloadSHP = function(){
         /** Вызывается при необходимости осуществить загрузку SHP-файла с результатами поиска
         @name Search.ResultListMap.onDownloadSHP
         @event
@@ -705,7 +722,7 @@ var ResultList = function(oInitContainer, oRenderer, ImagesHost){
 		if (arrTotalResultSet.length == 1){
 			nsGmx.Utils._(oResultCanvas, [ulSearch]);
 		}
-		else{
+		else {
 			nsGmx.Utils._(oResultCanvas, [_li([nsGmx.Utils._div([_t(sTotalListName)], [['dir', 'className', 'SearchTotalHeader']]), ulSearch])]);
 		}
 
@@ -735,7 +752,7 @@ var ResultList = function(oInitContainer, oRenderer, ImagesHost){
             return b;
         }
 
-        containerList = Container;
+        var containerList = Container;
         $('#respager').remove();
         //var pager = nsGmx.Utils._div([_t('всего: ' + results[0].ResultsCount)], [["attr", "id", "respager"]]);
         var pager = nsGmx.Utils._div([_t('')], [["attr", "id", "respager"]]);
@@ -875,18 +892,18 @@ nsGmx.SearchLogic.prototype = {
         this.oRenderer = new ResultRenderer(nsGmx.leafletMap, imagesHost, true);
         this.oSearchResultDiv = document.createElement('div');
         this.searchByStringHooks = [];
-        var workCanvas;
+        
         this.oSearchResultDiv.className = 'ddfdfdf';
         this.oSearchResultDiv.title = window._gtxt('Изменить параметры поиска');
 
-        var fnBeforeSearch = function(event){
+        var fnBeforeSearch = function(){
             /** Вызывается перед началом поиска
             @name Search.SearchGeomixer.onBeforeSearch
             @event */
             $(this.oSearchResultDiv).triggerHandler('onBeforeSearch');
-            fnLoad();
+            this.fnLoad();
         }
-        var fnAfterSearch = function(event){
+        var fnAfterSearch = function(){
             /** Вызывается после окончания поиска
             @name Search.SearchGeomixer.onAfterSearch
             @event */
@@ -938,7 +955,7 @@ nsGmx.SearchLogic.prototype = {
     fnLoad: function(){
         if (this.oMenu != null){
             var alreadyLoaded = this.oMenu.createWorkCanvas("search", this.fnUnload.bind(this));
-            if(!alreadyLoaded) {
+            if (!alreadyLoaded) {
                 this.oMenu.workCanvas.appendChild(this.oSearchResultDiv);
             }
             $(this.oSearchResultDiv).empty();
@@ -971,7 +988,7 @@ nsGmx.SearchLogic.prototype = {
                 activePage = parseInt($(this).text()) - 1;
 
             $('#prevpages~span:visible').attr('class', 'buttonLink');
-            for (var i=0; i<$('#prevpages~span:visible').length; ++i) attachEffects($('#prevpages~span:visible')[i], 'buttonLinkHover');
+            for (var i = 0; i < $('#prevpages~span:visible').length; ++i) attachEffects($('#prevpages~span:visible')[i], 'buttonLinkHover');
             $(active).attr('class', 'page');
             attachEffects(active, '');
 
@@ -1001,10 +1018,11 @@ nsGmx.SearchLogic.prototype = {
         }
     },
 
-    layersSearch: function (res) {
-        var globalRes = res;
+    layersSearch: function (res) {        
         if (!nsGmx.gmxMap){
-            reject(res);
+            return new Promise (function (resolve, reject) {
+                reject(res);
+            });            
         }
 
         var promisesArr = [];
@@ -1060,8 +1078,8 @@ nsGmx.SearchLogic.prototype = {
 
             return Promise.all(promisesArr);
         } else {
-            return new Promise(function(resolve, reject) {
-                    resolve(res);
+            return new Promise(function(resolve) {
+                resolve(res);
             })
         }
 
@@ -1074,7 +1092,7 @@ nsGmx.SearchLogic.prototype = {
             if (searchReq.Status == 'ok') {
                 for (var iServer = 0; iServer < searchReq.Result.length; iServer++)
                 {
-                    var limitSearchResults = typeof(LayerSearchLimit)=="number" ? LayerSearchLimit : 100;
+                    var limitSearchResults = typeof(window.LayerSearchLimit)=="number" ? window.LayerSearchLimit : 100;
                     var req = searchReq.Result[iServer];
                     for (var j = 0; j<limitSearchResults && j < req.SearchResult.length; j++)
                     {
@@ -1085,7 +1103,7 @@ nsGmx.SearchLogic.prototype = {
                         else {
                             for (var iProperty=0; iProperty<arrDisplayFields.length; iProperty++){
                                 var sPropName = arrDisplayFields[iProperty];
-                                if(sPropName in req.SearchResult[j].properties) {
+                                if (sPropName in req.SearchResult[j].properties) {
                                     arrDisplayProperties[sPropName] = req.SearchResult[j].properties[sPropName];
                                 }
                             }
@@ -1103,7 +1121,7 @@ nsGmx.SearchLogic.prototype = {
                         });
                     }
                 }
-                if(arrLayerResult.length > 0) arrResult.push({name: layerProps.title, SearchResult: arrLayerResult, CanDownloadVectors: true});
+                if (arrLayerResult.length > 0) arrResult.push({name: layerProps.title, SearchResult: arrLayerResult, CanDownloadVectors: true});
 
                 if (iRespCount == layersToSearch.length){
                     // return arrResult;

@@ -1,4 +1,8 @@
 import nsGmx from './nsGmx.js';
+import {
+    inputError,
+    strip,
+} from './utilities.js';
 
 !(function(_) {
 var KML = {

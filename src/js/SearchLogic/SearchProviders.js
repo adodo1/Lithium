@@ -52,8 +52,8 @@ nsGmx.searchProviders.Osm2DataProvider.prototype.find = function (value, limit, 
     var result;
     var _this2 = this;
     _this2.searchString = value;
-    var _strong = Boolean(strong) ? 1 : 0;
-    var _withoutGeometry = Boolean(retrieveGeometry) ? 0 : 1;
+    var _strong = strong ? 1 : 0;
+    var _withoutGeometry = retrieveGeometry ? 0 : 1;
     var query = 'WrapStyle=None&RequestType=SearchObject&IsStrongSearch=' + _strong + '&WithoutGeometry=' + _withoutGeometry + '&UseOSM=1&Limit=' + limit + '&SearchString=' + encodeURIComponent(value);
     var req = new Request(this._serverBase + '/SearchObject/SearchAddress.ashx?' + query + this._key);
     var headers = new Headers();
@@ -91,11 +91,11 @@ nsGmx.searchProviders.Osm2DataProvider.prototype.find = function (value, limit, 
         }).then(function (json2) {
             var arr = [];
 
-            for (var i = 0; i < result.Result.length; i++) {
+            for (let i = 0; i < result.Result.length; i++) {
                 arr.push(result.Result[i]);
             }
 
-            for (var i = 0; i < json2.length; i++) {
+            for (let i = 0; i < json2.length; i++) {
                 if (json2[i] && json2[i].length) {
                     for (var j = 0; j < json2[i].length; j++) {
                         arr.push(json2[i][j]);

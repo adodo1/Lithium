@@ -9,10 +9,17 @@ import {
     _br,
     _div,
     _input,
+    inputError,
+    makeButton,
     makeLinkButton,
+    showDialog,
+    showErrorMessage,
     _span,
-    _title,
-    _,
+    _t,
+    _table,
+    _td,
+    _tr,
+    _title,    
 } from './utilities.js';
 
 (function($, _)
@@ -141,7 +148,7 @@ import {
                     if (nsGmx.GeomixerFramework)
                         _mapHelper.reloadMap();
                     else
-                        window.location.replace(window.location.href.split("?")[0] + (defaultMapID == globalMapName ? "" : ("&" + globalMapName)));
+                        window.location.replace(window.location.href.split("?")[0] + (window.defaultMapID == window.globalMapName ? "" : ("&" + window.globalMapName)));
                 });
             }
 

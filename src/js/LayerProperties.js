@@ -176,8 +176,8 @@ var LayerProperties = Backbone.Model.extend(
             attrs.MetaProperties.eachValid(function(id, tag, value, type)
             {
                 //для неизвестных тегов присваиваем тип String
-                var type = type || 'String';
-                var value = nsGmx.Utils.convertToServer(type, value);
+                type = type || 'String';
+                value = nsGmx.Utils.convertToServer(type, value);
                 if (value !== null) {
                     metaProperties[tag] = {Value: value, Type: type};
                 }
@@ -382,7 +382,8 @@ LayerProperties.parseColumns = function(columns) {
 
 nsGmx.LayerProperties = LayerProperties;
 nsGmx.LatLngColumnsModel = LatLngColumnsModel;
-window.gmxCore.addModule('LayerProperties', {
-    LayerProperties: LayerProperties,
-    LatLngColumnsModel: LatLngColumnsModel
-})
+
+// window.gmxCore.addModule('LayerProperties', {
+//     LayerProperties: LayerProperties,
+//     LatLngColumnsModel: LatLngColumnsModel
+// })

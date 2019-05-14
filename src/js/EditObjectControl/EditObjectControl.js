@@ -1,32 +1,24 @@
 import nsGmx from '../nsGmx';
 import './EditObjectControl.css';
-import {     
-    _br, 
-    _checkbox,        
+import {           
     _div,
-	_img,    
-    _input,    
-    _li,    
+	_img,
+    _input,
+    inputError,
     makeLinkButton,    
-    _option,    
     parseResponse,    
     removeDialog,
     sendCrossDomainJSONRequest,    
     showDialog,
     showErrorMessage,    
-    _span,
-	_a,
-    _t,
-    _title,
+    _span,	
+    _t,    
 	_table,
-    _tbody,
-    _textarea,
-	_thead,
-    _tr,
-	_th,
-	_td,
-    _ul,    
+    _tbody,    
+    _tr,	
+	_td,        
 } from '../utilities.js';
+import gmxCore from '../gmxCore.js';
 
 const _ = nsGmx.Utils._;
 
@@ -275,15 +267,13 @@ var EditObjectControl = function(layerName, objectId, params)
             }
         }
     };
-
-    var canvas = null;
+    
     var fieldsCollection = new FieldsCollection();
 
     var createDialog = function()
     {
         var createButton = makeLinkButton(isNew ? _gtxt("Создать") : _gtxt("Изменить")),
-            removeButton = makeLinkButton(_gtxt("Удалить")),
-            trs = [],
+            removeButton = makeLinkButton(_gtxt("Удалить")),            
             isSaving = false;
 
         var canvas = _div(null, [['dir', 'className', 'edit-obj']]);
@@ -375,7 +365,7 @@ var EditObjectControl = function(layerName, objectId, params)
             })
         }
 
-        var resizeFunc = function(event, ui)
+        var resizeFunc = function()
         {
             if (!isNew && $(canvas).children("[loading]").length)
                 return;
@@ -522,15 +512,14 @@ var prop = layer._gmx.properties;
             _(canvas, [loading])
 
             //получаем геометрию объекта
-            sendCrossDomainJSONRequest(serverBase + "VectorLayer/Search.ashx?WrapStyle=func&layer=" + layerName + "&page=0&pagesize=1&orderby=" + identityField + "&geometry=true&query=[" + identityField + "]=" + objectId, function(response)
+            sendCrossDomainJSONRequest(window.serverBase + "VectorLayer/Search.ashx?WrapStyle=func&layer=" + layerName + "&page=0&pagesize=1&orderby=" + identityField + "&geometry=true&query=[" + identityField + "]=" + objectId, function(response)
             {
                 if (!parseResponse(response))
                     return;
 
                 $(canvas).children("[loading]").remove();
 
-                var columnNames = response.Result.fields;
-                var drawingObject = null;
+                var columnNames = response.Result.fields;                
                 var geometryRow = response.Result.values.length > 0 ? response.Result.values[0] : [];
 				
 				if (geometryRow.length > 0) {

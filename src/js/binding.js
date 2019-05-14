@@ -1,3 +1,5 @@
+import {createPostIframe} from './utilities.js';
+
 var pointsBinding = 
 {
 	pointsBinding: {}

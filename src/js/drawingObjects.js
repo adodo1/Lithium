@@ -2,11 +2,23 @@ import nsGmx from './nsGmx.js';
 import gmxCore from './gmxcore.js';
 import './translations.js';
 import {leftMenu} from './menu.js';
-import {
-	_table, _tbody, _tr, _td, _t,
-	_div, _span,
-	_title,
-	makeLinkButton, show, hide
+import {  
+    _br,  
+    _div,
+    hide,
+    _img,
+    _input,
+    makeLinkButton,
+    show,    
+    showDialog,
+    showErrorMessage,
+    _span,
+    _t,
+    _table,
+    _tbody,    
+    _td,
+    _tr,
+	_title,	
 } from './utilities.js';
 
 const _ = nsGmx.Utils._;
@@ -128,7 +140,7 @@ var CreateDrawingStylesEditor = function(parentObject, style, elemCanvas)
 				$(colpkr).fadeOut(500);
 				return false;
 			},
-			function (hsb, hex, rgb) {
+			function (hsb, hex) {
 				outlineColor.style.backgroundColor = '#' + hex;
 
 				templateStyle.outline.color = outlineColor.hex = parseInt('0x' + hex);
@@ -219,10 +231,9 @@ var CreateDrawingStylesEditor = function(parentObject, style, elemCanvas)
  @memberOf DrawingObjects
  @param oInitMap Карта, из которой будут добавляться объекты в коллекцию
 */
-var DrawingObjectCollection = function(oInitMap) {
+var DrawingObjectCollection = function() {
 	var _objects = []; //{item:, editID: , removeID: }
-	var _this = this;
-    var _map = oInitMap;
+	var _this = this;    
 
 	var onEdit = function(drawingObject) {
 		/** Вызывается при изменении объекта в коллекции
@@ -274,9 +285,7 @@ var DrawingObjectCollection = function(oInitMap) {
 
 	/** Удаляет объект из коллекции
 	@param {int} index индекс удаляемого объекта*/
-	this.RemoveAt = function(index){
-		var obj = _objects.splice(index, 1)[0];
-
+	this.RemoveAt = function(index){		
 		/** Вызывается при удалении объекта из коллекции
 		@name DrawingObjects.DrawingObjectCollection.onRemove
 		@event
@@ -487,8 +496,7 @@ var DrawingObjectList = function(oInitMap, oInitContainer, oInitDrawingObjectCol
 	var _rows = [];
 	var _containers = [];
 	var _map = oInitMap;
-	var _collection = oInitDrawingObjectCollection;
-	var _container = oInitContainer;
+	var _collection = oInitDrawingObjectCollection;	
 	var _divList = _div(null, [['dir', 'className', 'DrawingObjectList']]);
 	var _divButtons = _div();
 
@@ -616,7 +624,7 @@ var DrawingObjectGeomixer = function() {
 	this.Load = function(){
 		if (oMenu != null){
 			var alreadyLoaded = oMenu.createWorkCanvas("DrawingObjects", this.Unload);
-			if(!alreadyLoaded) _(oMenu.workCanvas, [oListDiv]);
+			if (!alreadyLoaded) _(oMenu.workCanvas, [oListDiv]);
 		}
 		bVisible = true;
 	}
@@ -625,7 +633,7 @@ var DrawingObjectGeomixer = function() {
         var feature = ev.object;
 		if (!nsGmx.DrawingObjectCustomControllers || !nsGmx.DrawingObjectCustomControllers.isHidden(feature)) {
             oCollection.Add(feature);
-            var tt = 1;
+
         }
 	}
 
@@ -746,7 +754,7 @@ var DrawingObjectGeomixer = function() {
         gmxMap = initGmxMap;
 		oCollection = new DrawingObjectCollection(leafletMap);
         $(oCollection).bind('onAdd', function (){
-            if(!bVisible) _this.Load();
+            if (!bVisible) _this.Load();
         });
 
         $(oCollection).bind('onRemove', function (){
@@ -793,8 +801,8 @@ var DrawingObjectGeomixer = function() {
 
 	/** Скачивает растровые слои*/
 	var checkRasterLayer = function(){
-		var obj = false,
-			_this = this;
+		var obj = false;
+
 
 		for (var i = 0; i < oCollection.Count(); i++){
 			var elem = oCollection.Item(i);
@@ -865,7 +873,7 @@ var DrawingObjectGeomixer = function() {
                     layer = l;
                 }
             }
-        };
+        }
 
         if (!layer) {
             showErrorMessage(_gtxt('drawingObjects.noRasterError'), true);

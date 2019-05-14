@@ -1,9 +1,9 @@
 import nsGmx from './nsGmx.js';
-import {hidden, getOffsetRect, getWindowWidth, getWindowHeight, visible} from './utilities.js';
+import {_div, hidden, getOffsetRect, showErrorMessage, getWindowWidth, getWindowHeight, sendCrossDomainJSONRequest, parseResponse, visible} from './utilities.js';
 import './ClipboardController.js';
 import './AsyncTaskManager.js';
 
-!(function() {
+(function() {
 //Контроллёр контектных меню и соответствующие пункты всех меню...
 /**
 * Контроллёр контекстных меню.
@@ -291,10 +291,10 @@ nsGmx.ContextMenuController.addContextMenuElem({
 	},
 	clickCallback: function(context) {
 		if (context.elem.MultiLayerID) {
-            var securityDialog = new nsGmx.multiLayerSecurity();
+            let securityDialog = new nsGmx.multiLayerSecurity();
 			securityDialog.getRights(context.elem.MultiLayerID, context.elem.title);
         } else {
-            var securityDialog = new nsGmx.layerSecurity(context.elem.name);
+            let securityDialog = new nsGmx.layerSecurity(context.elem.name);
 			securityDialog.getRights(context.elem.name, context.elem.title);
         }
 	}
@@ -335,15 +335,15 @@ nsGmx.ContextMenuController.addContextMenuElem({
 		else
 			div = $(_queryMapLayers.buildedTree).find("div[LayerID='" + context.elem.name + "']")[0];
 
-		var treeElem = _layersTree.findTreeElem(div).elem,
-			node = div.parentNode,
+			
+		var	node = div.parentNode,
 			parentTree = node.parentNode;
 
 		_layersTree.removeTreeElem(div);
 
 		node.removeNode(true);
 
-		_abstractTree.delNode(null, parentTree, parentTree.parentNode);
+		window._abstractTree.delNode(null, parentTree, parentTree.parentNode);
 
 		_mapHelper.updateUnloadEvent(true);
 	}
@@ -396,7 +396,7 @@ nsGmx.ContextMenuController.addContextMenuElem({
 		return context.elem.type == "Vector" &&
 		       (context.layerManagerFlag || _queryMapLayers.currentMapRights() === "edit");
 	},
-	isSeparatorBefore: function(context)
+	isSeparatorBefore: function()
 	{
 		return false;
 	},
@@ -433,7 +433,7 @@ nsGmx.ContextMenuController.addContextMenuElem({
 						copy: true,
 						sourceLayerName: context.elem.name,
 						query: query,
-						doneCallback: function(res) {
+						doneCallback: function() {
 							nsGmx.Utils.removeDialog(dialogDiv);
 						}
 					};
@@ -451,7 +451,7 @@ nsGmx.ContextMenuController.addContextMenuElem({
 		return context.elem.type == "Vector" &&
 		       (context.layerManagerFlag || _queryMapLayers.currentMapRights() === "edit");
 	},
-	isSeparatorBefore: function(context)
+	isSeparatorBefore: function()
 	{
 		return false;
 	},
@@ -469,12 +469,12 @@ nsGmx.ContextMenuController.addContextMenuElem({
 
 		var  def = nsGmx.asyncTaskManager.sendGmxPostRequest(url);
 
-		def.done(function(taskInfo){
+		def.done(function(){
 			showErrorMessage(list, true, window._gtxt('Объекты добавлены'));
-        }).fail(function(taskInfo){
+        }).fail(function(){
 			showErrorMessage(window._gtxt('Вставить объекты не удалось'), true);
 			// console.log(taskInfo);
-        }).progress(function(taskInfo){
+        }).progress(function(){
 			// console.log(taskInfo);
         });
 	}
@@ -523,7 +523,7 @@ var applyStyleContentMenuItem = {
             tree.forEachLayer(function(layerContent) {
                 if (layerContent.properties.type !== "Vector" || layerContent.properties.GeometryType !== stylesType){
                     return;
-                };
+                }
 
                 layerContent.properties.styles = newStyles;
                 _mapHelper.updateMapStyles(newStyles, layerContent.properties.name);
@@ -608,7 +608,7 @@ nsGmx.ContextMenuController.addContextMenuElem({
         var securityDialog = new nsGmx.mapSecurity();
 		securityDialog.getRights(context.tree.treeModel.getMapProperties().MapID, context.tree.treeModel.getMapProperties().title);
 	},
-	isVisible: function(context)
+	isVisible: function()
 	{
 		return nsGmx.AuthManager.canDoAction(nsGmx.ACTION_SEE_MAP_RIGHTS) &&
             (_queryMapLayers.currentMapRights() === "edit" || nsGmx.AuthManager.isRole(nsGmx.ROLE_ADMIN));
@@ -636,7 +636,7 @@ nsGmx.ContextMenuController.addContextMenuElem({
 			layersFlag &&
 			layersRights;
 	},
-	clickCallback: function(context) {
+	clickCallback: function() {
         var securityDialog = new nsGmx.layersGroupSecurity(),
 			props = _layersTree.treeModel.getMapProperties();
 		securityDialog.getRights(props.MapID, props.title);

@@ -223,16 +223,16 @@ var DumpClass = function(){};
 DumpClass.prototype = commonTranslationsManager;
 
 window._translationsHash = new DumpClass();
-_translationsHash.gettext = commonTranslationsManager.getText.bind(commonTranslationsManager),
-_translationsHash.addtext = commonTranslationsManager.addText.bind(commonTranslationsManager),
-_translationsHash.showLanguages = function() {
+window._translationsHash.gettext = commonTranslationsManager.getText.bind(commonTranslationsManager),
+window._translationsHash.addtext = commonTranslationsManager.addText.bind(commonTranslationsManager),
+window._translationsHash.showLanguages = function() {
     var langCanvas = _div(null, [['dir','className','floatRight'],['css','margin',' 7px 10px 0px 0px']]);
     
     for (var lang in this.hash)
     {
         if (lang != window.language)
         {
-            var button = makeLinkButton(_translationsHash.titles[lang]);
+            var button = makeLinkButton(window._translationsHash.titles[lang]);
             
             button.style.marginLeft = '5px';
             button.style.fontSize = '11px';
@@ -254,7 +254,7 @@ _translationsHash.showLanguages = function() {
         }
         else 
         {
-            langCanvas.appendChild(_span([_t(_translationsHash.titles[lang])], [['css','marginLeft','5px'], ['css','color','#fc830b']]));
+            langCanvas.appendChild(_span([_t(window._translationsHash.titles[lang])], [['css','marginLeft','5px'], ['css','color','#fc830b']]));
         }
     }
 

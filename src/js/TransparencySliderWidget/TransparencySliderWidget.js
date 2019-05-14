@@ -7,7 +7,8 @@ nsGmx.TransparencySliderWidget = function(container) {
 		'<div class="leaflet-gmx-iconSvg leaflet-gmx-iconSvg-transparency svgIcon leaflet-control gmx-transslider-toggle-icon" title="{{i "TransparencySliderWidget.title"}}"><svg role="img" class="svgIcon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#transparency"></use></svg></div>' +
         '<div class = "gmx-transslider-container"></div>' +
         '<div class = "leaflet-gmx-iconSvg leaflet-gmx-iconSvg-transparency-eye svgIcon leaflet-gmx-iconSvg-active leaflet-control gmx-transslider-onoff" title="{{i "TransparencySliderWidget.onOffTitle"}}"><svg role="img" class="svgIcon gmx-transslider-hide"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#transparency-eye"></use></svg><svg role="img" class="svgIcon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#transparency-eye-off"></use></svg></div>'
-    )()).appendTo(container);
+    )());
+    ui.appendTo(container);
 
     var sliderContainer = container.find('.gmx-transslider-container');
 
@@ -72,8 +73,8 @@ nsGmx.TransparencySliderWidget = function(container) {
 
 nsGmx.TransparencySliderWidget.prototype.isCollapsed = function() {
     return this._isCollapsed;
-}
-;
+};
+
 nsGmx.Translations.addText('rus', { TransparencySliderWidget: {
     title: 'Прозрачность растровых слоёв',
     onOffTitle: 'Показать/скрыть растры'
@@ -82,4 +83,4 @@ nsGmx.Translations.addText('rus', { TransparencySliderWidget: {
 nsGmx.Translations.addText("eng", { TransparencySliderWidget: {
     title: 'Raster layers transparency',
     onOffTitle: 'Show/hide rasters'
-}});;
+}});

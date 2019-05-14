@@ -490,33 +490,33 @@ function insertAtCursor(myField, myValue, sel)
 }
 
 /* ----------------------------- */
-function sendRequest(url, callback, body)
-{
-	var xmlhttp;
-	if (typeof XMLHttpRequest != 'undefined')
-		xmlhttp = new XMLHttpRequest();
-	else
-		try { xmlhttp = new ActiveXObject("Msxml2.XMLHTTP"); }
-		catch (E) { try {xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); } catch (e) { console.log(e); }}
+// function sendRequest(url, callback, body)
+// {
+// 	var xmlhttp;
+// 	if (typeof XMLHttpRequest != 'undefined')
+// 		xmlhttp = new XMLHttpRequest();
+// 	else
+// 		try { xmlhttp = new ActiveXObject("Msxml2.XMLHTTP"); }
+// 		catch (E) { try {xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); } catch (e) { console.log(e); }}
 
-	xmlhttp.open(body ? "POST" : "GET", url, true);
-	if (body)
-	{
-		xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		xmlhttp.setRequestHeader('Content-length', body.length);
-	}
-	xmlhttp.onreadystatechange = function() { if (xmlhttp.readyState == 4) callback(xmlhttp); }
-	xmlhttp.send(body || "");
-}
+// 	xmlhttp.open(body ? "POST" : "GET", url, true);
+// 	if (body)
+// 	{
+// 		xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+// 		xmlhttp.setRequestHeader('Content-length', body.length);
+// 	}
+// 	xmlhttp.onreadystatechange = function() { if (xmlhttp.readyState == 4) callback(xmlhttp); }
+// 	xmlhttp.send(body || "");
+// }
 
-function sendJSONRequest(url, callback)
-{
-	sendRequest(url, function(xmlhttp)
-	{
-		var text = xmlhttp.responseText;
-		callback(JSON.parse(text));
-	});
-}
+// function sendJSONRequest(url, callback)
+// {
+// 	sendRequest(url, function(xmlhttp)
+// 	{
+// 		var text = xmlhttp.responseText;
+// 		callback(JSON.parse(text));
+// 	});
+// }
 
 nsGmx.Utils.uniqueGlobalName = (function()
 {
@@ -563,14 +563,13 @@ nsGmx.Utils.sendCrossDomainJSONRequest = sendCrossDomainJSONRequest;
 
 function createCookie(name, value, days)
 {
+    var expires = '';
 	if (days)
 	{
 		var date = new Date();
 		date.setTime(date.getTime() + (days*24*60*60*1000));
-		var expires = "; expires=" + date.toGMTString();
+		expires = "; expires=" + date.toGMTString();
 	}
-	else
-		var expires = "";
 	document.cookie = name + "=" + value + expires + "; path=/";
 }
 
@@ -578,7 +577,7 @@ function readCookie(name)
 {
 	var nameEQ = name + "=";
 	var ca = document.cookie.split(';');
-	for(var i = 0; i < ca.length; i++)
+	for (var i = 0; i < ca.length; i++)
 	{
 		var c = ca[i];
 		while (c.charAt(0)==' ')
@@ -687,7 +686,7 @@ function loadFunc(iframe, callback)
 		{
 			parsedData = JSON.parse(data)
 		}
-		catch(e)
+		catch (e)
 		{
 			parsedData = {Status:"error",ErrorInfo: {ErrorMessage: "JSON.parse exeption", ExceptionType:"JSON.parse", StackTrace: data}}
 		}
@@ -704,17 +703,17 @@ function loadFunc(iframe, callback)
 
 function createPostIframe(id, callback)
 {
-	var userAgent = navigator.userAgent.toLowerCase(),
-		callbackName = nsGmx.Utils.uniqueGlobalName(function()
-		{
-			loadFunc(iframe, callback);
-		}),
-		iframe;
+	// var userAgent = navigator.userAgent.toLowerCase(),
+    var callbackName = nsGmx.Utils.uniqueGlobalName(function()
+    {
+        loadFunc(iframe, callback);
+    }),
+    iframe;
 
 	try {
 		iframe = document.createElement('<iframe style="display:none" onload="' + callbackName + '()" src="javascript:true" id="' + id + '" name="' + id + '"></iframe>');
     }
-	catch(e)
+	catch (e)
 	{
 		iframe = document.createElement("iframe");
 		iframe.style.display = 'none';
@@ -727,7 +726,7 @@ function createPostIframe(id, callback)
 	return iframe;
 }
 
-!function() {
+(function() {
     var requests = {},
         lastRequestId = 0,
         uniquePrefix = 'id' + Math.random();
@@ -746,7 +745,7 @@ function createPostIframe(id, callback)
 
         // console.log(dataObj);
         var request = requests[e.origin][dataObj.CallbackName];
-        if(!request) return;    // message от других запросов
+        if (!request) return;    // message от других запросов
 
         delete requests[e.origin][dataObj.CallbackName];
         delete dataObj.CallbackName;
@@ -820,7 +819,7 @@ function createPostIframe(id, callback)
 
     window.createPostIframe2 = createPostIframe2;
 
-}();
+})();
 
 /** Посылает кроссдоменный POST запрос
 *
@@ -837,7 +836,7 @@ function sendCrossDomainPostRequest(url, params, callback, baseForm)
 		rnd = String(Math.random()),
 		id = '$$iframe_' + url + rnd;
 
-	var iframe = createPostIframe2(id, callback, url),
+	var iframe = window.createPostIframe2(id, callback, url),
         originalFormAction;
 
 	if (baseForm)
@@ -952,7 +951,7 @@ function parseXML(str)
 	{
 		if (window.DOMParser)
 		{
-			parser = new DOMParser();
+			var parser = new DOMParser();
 			xmlDoc = parser.parseFromString(str,"text/xml");
 		}
 		else // Internet Explorer
@@ -963,7 +962,7 @@ function parseXML(str)
 			xmlDoc.loadXML(str);
 		}
 	}
-	catch(e)
+	catch (e)
 	{
 		alert(e)
 	}
@@ -981,18 +980,18 @@ function disableSelection(target)
 	    target.onmousedown = function(){return false}
 }
 
-function parsePropertiesDate(str)
-{
-	if (str == null || str == "")
-		return 0;
+// function parsePropertiesDate(str)
+// {
+// 	if (str == null || str == "")
+// 		return 0;
 
-	var dateParts = str.split('.');
+// 	var dateParts = str.split('.');
 
-	if (dateParts.length != 3)
-		return 0;
+// 	if (dateParts.length != 3)
+// 		return 0;
 
-	return new Date(dateParts[2], dateParts[1] - 1, dateParts[0]).valueOf();
-}
+// 	return new Date(dateParts[2], dateParts[1] - 1, dateParts[0]).valueOf();
+// }
 
 function stringDate(msec, isUtc)
 {
@@ -1043,21 +1042,21 @@ function inputError(input, delay)
 
 function equals(x, y)
 {
-	for(p in y)
+	for (let p in y)
 	{
-	    if(typeof(x[p])=='undefined') {return false;}
+	    if (typeof(x[p])=='undefined') { return false; }
 	}
 
-	for(p in y)
+	for (let p in y)
 	{
 	    if (y[p])
 	    {
-	        switch(typeof(y[p]))
+	        switch (typeof(y[p]))
 	        {
 	                case 'object':
-	                        if (!equals(x[p], y[p])) { return false }; break;
+	                        if (!equals(x[p], y[p])) { return false; } break;
 	                case 'function':
-	                        if (typeof(x[p])=='undefined' || (p != 'equals' && y[p].toString() != x[p].toString())) { return false; }; break;
+	                        if (typeof(x[p])=='undefined' || (p != 'equals' && y[p].toString() != x[p].toString())) { return false; } break;
 	                default:
 	                        if (y[p] != x[p]) { return false; }
 	        }
@@ -1071,9 +1070,9 @@ function equals(x, y)
 	    }
 	}
 
-	for(p in x)
+	for (let p in x)
 	{
-	    if(typeof(y[p])=='undefined') {return false;}
+	    if (typeof(y[p])=='undefined') { return false; }
 	}
 
 	return true;
@@ -1158,7 +1157,7 @@ $.extend(nsGmx.Utils, {
         } catch (e) {
             return false;
         }
-        if (str === '' || str === 'null' || str === 'undefined' || typeof(str) === 'Number') {
+        if (str === '' || str === 'null' || str === 'undefined' || typeof str === 'number') {
             return false;
         } else {
             return true;
@@ -1312,7 +1311,7 @@ $.extend(nsGmx.Utils, {
             return value;
         }
 
-        var lowerCaseType = type.toLowerCase();
+        let lowerCaseType = type.toLowerCase();
 
         if (lowerCaseType == 'string')
         {
@@ -1321,32 +1320,32 @@ $.extend(nsGmx.Utils, {
         else if (lowerCaseType == 'integer' || lowerCaseType == 'float' || lowerCaseType == 'number')
         {
             if (value === '') return null;
-            var num = Number(value);
+            let num = Number(value);
             return isNaN(num) ? null : num;
         }
         else if (lowerCaseType == 'date')
         {
-            var localDateValue = $.datepicker.parseDate('dd.mm.yy', value);
+            let localDateValue = $.datepicker.parseDate('dd.mm.yy', value);
             if (localDateValue === null) return null;
 
-            var localValue = localDateValue.valueOf()/1000;
-            var timeOffset = (new Date(localValue*1000)).getTimezoneOffset()*60;
+            let localValue = localDateValue.valueOf()/1000;
+            let timeOffset = (new Date(localValue*1000)).getTimezoneOffset()*60;
             return localValue - timeOffset;
         }
         else if (lowerCaseType == 'time')
         {
-            var resTime = $.datepicker.parseTime('HH:mm:ss', value);
+            let resTime = $.datepicker.parseTime('HH:mm:ss', value);
             if (!resTime) return null;
 
             return resTime.hour*3600 + resTime.minute*60 + resTime.second;
         }
         else if (lowerCaseType == 'datetime')
         {
-            var localDateValue = $.datepicker.parseDateTime('dd.mm.yy', 'HH:mm:ss', value);
+            let localDateValue = $.datepicker.parseDateTime('dd.mm.yy', 'HH:mm:ss', value);
             if (localDateValue === null) return null;
 
-            var localValue = localDateValue.valueOf()/1000;
-            var timeOffset = (new Date(localValue*1000)).getTimezoneOffset()*60;
+            let localValue = localDateValue.valueOf()/1000;
+            let timeOffset = (new Date(localValue*1000)).getTimezoneOffset()*60;
             return localValue - timeOffset;
         }
 
@@ -1363,7 +1362,7 @@ $.extend(nsGmx.Utils, {
 		window.gmxProcessAuthentication = function(userInfo){
 			callback && callback(userInfo);
 		}
-		var features, w = 600, h = 350, l, t;
+		var features, w = 600, h = 350;
 		var handlerName = 'LoginDialog';
 		if (oAuthServer != 'MyKosmosnimki') {
 			handlerName += oAuthServer;
@@ -1371,15 +1370,16 @@ $.extend(nsGmx.Utils, {
 		}
 		var url = authServerBase + handlerName + '.ashx?redirect_uri=' + escape(redirectUri);
 
-		if (!isHidden){
+		if (!isHidden) {
 			var top = (screen.height - h)/2, left = (screen.width - w)/2;
 			features = 'location=0,menubar=0,resizable=0,status=0,toolbar=0,width='+w+',height='+h+',left='+left+',top='+top ;
 
 			window.open(url, '_blank', features);
-		}else{
+        }
+        else {
 			$('<iframe />', {
-				 'src': url
-				,'style': 'display: block !important; position: absolute; left: -99999px;'
+                'src': url,
+                'style': 'display: block !important; position: absolute; left: -99999px;'
 			}).appendTo('body'); //стиль такой кривой иначе будет бага в FF
 		}
     },
@@ -1436,8 +1436,8 @@ $.extend(nsGmx.Utils, {
                 var formData = new FormData();
                 formData.append('file', shpFileForm);
                 var xhr = new XMLHttpRequest();
-                xhr.open('POST', serverBase + 'ShapeLoader');
-                xhr.onload = function () {
+                xhr.open('POST', window.serverBase + 'ShapeLoader');
+                xhr.onload = function (response) {
                     if (xhr.status === 200) {
                         response = JSON.parse(xhr.responseText.substr(1, xhr.responseText.length-2));
 
@@ -1451,12 +1451,13 @@ $.extend(nsGmx.Utils, {
 
                 xhr.send(formData);
             } else {
-                sendCrossDomainPostRequest(serverBase + "ShapeLoader", {WrapStyle: "window"}, function(response)
+                sendCrossDomainPostRequest(window.serverBase + "ShapeLoader", {WrapStyle: "window"}, function(response)
                 {
-                    if (parseResponse(response, errorMessages))
+                    if (parseResponse(response, errorMessages)) {
                         def.resolve(response.Result);
-                    else
+                    } else {
                         def.reject(response);
+                    }
                 }, shpFileForm)
             }
 
@@ -1503,7 +1504,7 @@ $.extend(nsGmx.Utils, {
             });
         });
 
-        sendCrossDomainPostRequest(serverBase + "Shapefile", {
+        sendCrossDomainPostRequest(window.serverBase + "Shapefile", {
             name:     options.fileName,
             format:   options.format,
             points:   JSON.stringify(objectsByType["Point"] || []),
@@ -1563,9 +1564,8 @@ $.extend(nsGmx.Utils, {
             }
         }
 
-        var parseRing = function(origRing) {
-            var segments = [],
-                ring = origRing.coords,
+        var parseRing = function(origRing) {            
+            var ring = origRing.coords,
                 len = ring.length;
 
             var getNextSegment = function(i) {
@@ -1594,7 +1594,7 @@ $.extend(nsGmx.Utils, {
             }
 
             do {
-                startI = (segment[0] + 1) % len;
+                var startI = (segment[0] + 1) % len;
                 segment = getNextSegment((startI + 1) % len);
                 var nextSegment = {
                     points: [].concat([ring[startI]], segment[1], [ring[segment[0]]])
@@ -1629,22 +1629,22 @@ $.extend(nsGmx.Utils, {
                 crossPoints.push(seg.lastY);
                 seg = findSegment(seg.lastY);
                 points = points.concat(seg.points);
-            };
+            }
 
-            res.points = points,
-            res.crossPoints = crossPoints,
-            res.minCrossPoint = Math.min.apply(Math, crossPoints)
+            res.points = points;
+            res.crossPoints = crossPoints;
+            res.minCrossPoint = Math.min.apply(Math, crossPoints);
 
             return res;
         }
 
-        var parseGeometry = function(geom) {
-            for (var c = 0; c < geom.coordinates.length; c++) {
-                var origComp = [];
+        let parseGeometry = function(geom) {
+            for (let c = 0; c < geom.coordinates.length; c++) {
+                let origComp = [];
                 origData.push(origComp);
-                var comp = geom.coordinates[c];
-                for (var r = 0; r < comp.length; r++) {
-                    var origRing = {
+                let comp = geom.coordinates[c];
+                for (let r = 0; r < comp.length; r++) {
+                    let origRing = {
                         coords: comp[r],
                         segments: []
                     }
@@ -1663,8 +1663,8 @@ $.extend(nsGmx.Utils, {
         })
 
         while (segmentsToJoin.length) {
-            var y0 = segmentsToJoin[0].points[0][1];
-            var joinedSeg = joinSegment(y0);
+            let y0 = segmentsToJoin[0].points[0][1];
+            let joinedSeg = joinSegment(y0);
             joinedSegments.push(joinedSeg);
             crossPoints = crossPoints.concat(joinedSeg.crossPoints);
         }
@@ -1675,7 +1675,7 @@ $.extend(nsGmx.Utils, {
             return s1.minCrossPoint - s2.minCrossPoint;
         })
 
-        joinedSegments.forEach(function(s, i) {
+        joinedSegments.forEach(function(s) {
             s.isExternal = (crossPoints.indexOf(s.minCrossPoint) % 2) === 0;
         })
 
@@ -1690,21 +1690,21 @@ $.extend(nsGmx.Utils, {
         })
 
         //добавляем компоненты, которые не пересекались со 180 градусом
-        for (var c = 0; c < origData.length; c++) {
+        for (let c = 0; c < origData.length; c++) {
             if (origData[c][0].regularRing) {
                 console.log('external component', c)
-                var geomToCopy = [];
-                for (var r = 0; r < origData[c].length; r++) {
+                let geomToCopy = [];
+                for (let r = 0; r < origData[c].length; r++) {
                     geomToCopy.push(origData[c][r].regularRing);
                 }
                 finalPolygon.push(geomToCopy);
                 continue;
             }
-            for (var r = 1; r < origData[c].length; r++) {
+            for (let r = 1; r < origData[c].length; r++) {
                 if (origData[c][r].regularRing) {
                     console.log('internal component', c, r, origData[c][0].segments);
-                    for (var s = 0; s < origData[c][0].segments.length; s++) {
-                        var joinedSeg = origData[c][0].segments[s].joinedSeg;
+                    for (let s = 0; s < origData[c][0].segments.length; s++) {
+                        let joinedSeg = origData[c][0].segments[s].joinedSeg;
                         if (joinedSeg.isExternal) {
                             joinedSeg.finalComponent.push(origData[c][r].regularRing);
                             break;
@@ -1734,7 +1734,7 @@ $.extend(nsGmx.Utils, {
         */
         create: function(data, tempFlag) {
             var def = $.Deferred();
-            sendCrossDomainPostRequest(serverBase + "TinyReference/Create.ashx", {
+            sendCrossDomainPostRequest(window.serverBase + "TinyReference/Create.ashx", {
                 WrapStyle: 'message',
                 content: JSON.stringify(data),
                 temp: tempFlag
@@ -1756,7 +1756,7 @@ $.extend(nsGmx.Utils, {
         */
         get: function(id) {
             var def = $.Deferred();
-            sendCrossDomainJSONRequest(serverBase + "TinyReference/Get.ashx?id=" + id, function(response){
+            sendCrossDomainJSONRequest(window.serverBase + "TinyReference/Get.ashx?id=" + id, function(response){
                 //если пермалинк не найден, сервер не возвращает ошибку, а просто пустой результат
                 if (parseResponse(response) && response.Result) {
                     def.resolve(JSON.parse(response.Result));
@@ -1774,7 +1774,7 @@ $.extend(nsGmx.Utils, {
         */
         remove: function(id) {
             var def = $.Deferred();
-            sendCrossDomainJSONRequest(serverBase + "TinyReference/Delete.ashx?id=" + id, function(response){
+            sendCrossDomainJSONRequest(window.serverBase + "TinyReference/Delete.ashx?id=" + id, function(response){
                 if (parseResponse(response)) {
                     def.resolve();
                 } else {
@@ -1791,23 +1791,19 @@ $.extend(nsGmx.Utils, {
 
     getLatLngBounds: function (layer) {
         var gmxBounds = layer._gmx.layerID ? L.gmxUtil.getGeometryBounds(layer._gmx.geometry) : layer._gmx.dataManager.getItemsBounds(),
-            srs = layer._gmx.srs,
-            array = [],
-            projection, bounds;
+            // srs = layer._gmx.srs,
+            array = [];
 
-            console.log(gmxBounds);
-
-
-        if (srs) {
-            for (var proj in L.CRS) {
-                if (proj.indexOf(srs) !== -1) {
-                    projection = L.CRS[proj];
-                    break;
-                }
-            }
-        } else {
-            projection = L.CRS['EPSG:3395'];
-        }
+        // if (srs) {
+        //     for (let proj in L.CRS) {
+        //         if (proj.indexOf(srs) !== -1) {
+        //             projection = L.CRS[proj];
+        //             break;
+        //         }
+        //     }
+        // } else {
+        //     projection = L.CRS['EPSG:3395'];
+        // }
 
         array.push(L.Projection.Mercator.unproject(gmxBounds.min));
         array.push(L.Projection.Mercator.unproject(gmxBounds.max));
@@ -1828,6 +1824,8 @@ window.gmxCore && window.gmxCore.addModule('utilities', nsGmx.Utils);
 const {
     _br,
     _div,
+    _form,
+    _iframe,
     _img,
     _input,
     _li,
@@ -1853,11 +1851,15 @@ export {
     attachEffects,    
     _br, 
     _checkbox,    
+    createPostIframe,
     disableSelection,
     _div,
+    _iframe,    
 	_img,
     createCookie,
     eraseCookie,
+    equals,
+    _form,
     getkey,
     getOffsetRect,
     getOwnChildNumber,
@@ -1867,14 +1869,17 @@ export {
     hide,
     hidden,
     _input,
+    inputError,
     insertAtCursor,
     _li,    
+    makeButton,
     makeImageButton,    
     makeLinkButton,
     objLength,
     _option,    
     parseColor,
     parseResponse,
+    parseXML,
     readCookie,    
     removeDialog,
     sendCrossDomainJSONRequest,
@@ -1882,6 +1887,7 @@ export {
     showDialog,
     showErrorMessage,
     stopEvent,
+    strip,
     switchSelect,
     _span,
 	_a,

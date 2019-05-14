@@ -1,4 +1,7 @@
-﻿var nsMapCommon = function($){
+﻿import nsGmx from './nsGmx.js';
+import gmxCore from './gmxcore.js';
+
+var nsMapCommon = function($){
     var publicInterface = {
         generateWinniePermalink: function() {
             var mapProps = nsGmx.gmxMap.properties,
@@ -14,11 +17,9 @@
                     if ($("div[GroupID='" + groupId + "']").length || props.changedByViewer) {
                         layersState.expanded[groupId] = props.expanded;
                     }
-                } else {
-                    if (props.changedByViewer) {
-                        layersState.visible[props.name] = props.visible;
-                    }
-                }
+                } else if (props.changedByViewer) {
+                    layersState.visible[props.name] = props.visible;
+                }                
             });
 
             var config = {

@@ -1,5 +1,6 @@
 ﻿import nsGmx from './nsGmx.js';
 import { showDialog, removeDialog, showErrorMessage, _table, _tbody, _tr, _td, _t, _input, _span, _div, _title } from './utilities.js';
+import gmxCore from './gmxcore.js';
 
 (function(_) {
 /** Разнообразные вспомогательные контролы (базовые элементы GUI)
@@ -74,57 +75,59 @@ nsGmx.Controls = {
 
 				_(icon, [border]);
 			}
-		} else {
-			if (type.indexOf('linestring') < 0) {
-				if (parentStyle.fill && parentStyle.fill.pattern) {
-					let opaqueStyle = L.gmxUtil.fromServerStyle($.extend(true, {}, parentStyle, {fill: {opacity: 100}})),
-						patternData = L.gmxUtil.getPatternIcon(null, opaqueStyle);
-					icon = patternData ? patternData.canvas : document.createElement('canvas');
-					_(icon, [], [['dir','className','icon'],['attr','styleType','icon'],['css','width','13px'],['css','height','13px']]);
-				} else {
-					let fill = _div(null, [['dir','className','fillIcon'],['css','backgroundColor',(parentStyle.fill && typeof parentStyle.fill.color != 'undefined') ? nsGmx.Utils.convertColor(parentStyle.fill.color) : "#FFFFFF"]]),
-						border = _div(null, [['dir','className','borderIcon'],['attr','styleType','color'],['css','borderColor',(parentStyle.outline && typeof parentStyle.outline.color != 'undefined') ? nsGmx.Utils.convertColor(parentStyle.outline.color) : "#0000FF"]]),
-						fillOpacity = (parentStyle.fill && typeof parentStyle.fill.opacity != 'undefined') ? parentStyle.fill.opacity : 100,
-						borderOpacity = (parentStyle.outline && typeof parentStyle.outline.opacity != 'undefined') ? parentStyle.outline.opacity : 100;
+        }
+        else if (type.indexOf('linestring') < 0) {
+            if (parentStyle.fill && parentStyle.fill.pattern) {
+                let opaqueStyle = L.gmxUtil.fromServerStyle($.extend(true, {}, parentStyle, {fill: {opacity: 100}})),
+                    patternData = L.gmxUtil.getPatternIcon(null, opaqueStyle);
+                icon = patternData ? patternData.canvas : document.createElement('canvas');
+                _(icon, [], [['dir','className','icon'],['attr','styleType','icon'],['css','width','13px'],['css','height','13px']]);
+            }
+            else {
+                let fill = _div(null, [['dir','className','fillIcon'],['css','backgroundColor',(parentStyle.fill && typeof parentStyle.fill.color != 'undefined') ? nsGmx.Utils.convertColor(parentStyle.fill.color) : "#FFFFFF"]]),
+                    border = _div(null, [['dir','className','borderIcon'],['attr','styleType','color'],['css','borderColor',(parentStyle.outline && typeof parentStyle.outline.color != 'undefined') ? nsGmx.Utils.convertColor(parentStyle.outline.color) : "#0000FF"]]),
+                    fillOpacity = (parentStyle.fill && typeof parentStyle.fill.opacity != 'undefined') ? parentStyle.fill.opacity : 100,
+                    borderOpacity = (parentStyle.outline && typeof parentStyle.outline.opacity != 'undefined') ? parentStyle.outline.opacity : 100;
 
 
-					fill.style.opacity = fillOpacity / 100;
-					border.style.opacity = borderOpacity / 100;
+                fill.style.opacity = fillOpacity / 100;
+                border.style.opacity = borderOpacity / 100;
 
-					if (type.indexOf('point') > -1) {
+                if (type.indexOf('point') > -1) {
 
-						border.style.height = '5px';
-						fill.style.height = '5px';
-						border.style.width = '5px';
-						fill.style.width = '5px';
+                    border.style.height = '5px';
+                    fill.style.height = '5px';
+                    border.style.width = '5px';
+                    fill.style.width = '5px';
 
-						border.style.top = '3px';
-						fill.style.top = '4px';
-						border.style.left = '1px';
-						fill.style.left = '2px';
-					}
+                    border.style.top = '3px';
+                    fill.style.top = '4px';
+                    border.style.left = '1px';
+                    fill.style.left = '2px';
+                }
 
-					_(icon, [border, fill]);
-				}
-			} else {
-				let border = _div(null, [['dir','className','borderIcon'],['attr','styleType','color'],['css','borderColor',(parentStyle.outline && typeof parentStyle.outline.color != 'undefined') ? nsGmx.Utils.convertColor(parentStyle.outline.color) : "#0000FF"]]),
-					borderOpacity = (parentStyle.outline && typeof parentStyle.outline.opacity != 'undefined') ? parentStyle.outline.opacity : 100;
+                _(icon, [border, fill]);
+            }
+        }
+        else {
+            let border = _div(null, [['dir','className','borderIcon'],['attr','styleType','color'],['css','borderColor',(parentStyle.outline && typeof parentStyle.outline.color != 'undefined') ? nsGmx.Utils.convertColor(parentStyle.outline.color) : "#0000FF"]]),
+                borderOpacity = (parentStyle.outline && typeof parentStyle.outline.opacity != 'undefined') ? parentStyle.outline.opacity : 100;
 
 
-				border.style.opacity = borderOpacity / 100;
+            border.style.opacity = borderOpacity / 100;
 
-				border.style.width = '4px';
-				border.style.height = '13px';
+            border.style.width = '4px';
+            border.style.height = '13px';
 
-				border.style.borderTop = 'none';
-				border.style.borderBottom = 'none';
-				border.style.borderLeft = 'none';
+            border.style.borderTop = 'none';
+            border.style.borderBottom = 'none';
+            border.style.borderLeft = 'none';
 
-				_(icon, [border]);
-			}
-		}
+            _(icon, [border]);
+        }
+		
 
-		icon.oncontextmenu = function(e) {
+		icon.oncontextmenu = function() {
 			return false;
 		}
 
@@ -229,8 +232,7 @@ nsGmx.Controls = {
         if ($('#drawingBorderDialog' + name).length)
             return;
 
-        let drawingObjs = [],
-            _this = this;
+        let drawingObjs = [];
 
         nsGmx.leafletMap.gmxDrawing.getFeatures().forEach(function(obj)
         {
@@ -252,7 +254,7 @@ nsGmx.Controls = {
                     collection.Add(drawingObjs[i]);
                 }
 
-                let list = new drawing.DrawingObjectList(nsGmx.leafletMap, canvas, collection, {
+                new drawing.DrawingObjectList(nsGmx.leafletMap, canvas, collection, {
                     allowDelete: false,
                     editStyle: false,
                     showButtons: false,

@@ -591,7 +591,7 @@
       };
     }
 
-    function show$1(elem) {
+    function show(elem) {
       elem.style.display = '';
     }
 
@@ -629,7 +629,7 @@
       }
     }
 
-    function objLength$1(obj) {
+    function objLength(obj) {
       var cnt = 0;
 
       for (var field in obj) {
@@ -639,7 +639,7 @@
       return cnt;
     }
 
-    function getOffsetRect$1(elem) {
+    function getOffsetRect(elem) {
       var box = elem.getBoundingClientRect(),
           body = document.body,
           docElem = document.documentElement,
@@ -706,12 +706,26 @@
       return btn;
     }
 
-    function makeLinkButton$1(text) {
+    function makeLinkButton(text) {
       var span = _span$1([_t$1(String(text))], [['dir', 'className', 'buttonLink']]);
 
       attachEffects$1(span, 'buttonLinkHover');
       return span;
     } // function makeHelpButton(helpText){
+    // 	var btn = makeImageButton(window.gmxAPI.getAPIHostRoot() + 'api/img/help.gif');
+    // 	btn.setAttribute('title', helpText)
+    // 	btn.onclick = function(){
+    // 		showDialog('', _t(helpText), 300, 150);
+    // 	}
+    // 	return btn;
+    // }
+
+
+    function getOwnChildNumber$1(elem) {
+      for (var i = 0; i < elem.parentNode.childNodes.length; i++) {
+        if (elem == elem.parentNode.childNodes[i]) return i;
+      }
+    }
 
     function stopEvent$1(e) {
       if (!e) e = window.event; //e.cancelBubble is supported by IE - this will kill the bubbling process.
@@ -774,7 +788,7 @@
         },
         close: function close() {
           if (params.closeFunc && params.closeFunc()) return;
-          removeDialog$1(canvas);
+          removeDialog(canvas);
         },
         open: function open() {},
         closeText: null
@@ -807,7 +821,7 @@
       return canvas;
     }
 
-    function removeDialog$1(canvas) {
+    function removeDialog(canvas) {
       jQuery(canvas).dialog('destroy').remove();
     }
 
@@ -858,6 +872,33 @@
         myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
       } else myField.value += myValue;
     }
+    /* ----------------------------- */
+    // function sendRequest(url, callback, body)
+    // {
+    // 	var xmlhttp;
+    // 	if (typeof XMLHttpRequest != 'undefined')
+    // 		xmlhttp = new XMLHttpRequest();
+    // 	else
+    // 		try { xmlhttp = new ActiveXObject("Msxml2.XMLHTTP"); }
+    // 		catch (E) { try {xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); } catch (e) { console.log(e); }}
+    // 	xmlhttp.open(body ? "POST" : "GET", url, true);
+    // 	if (body)
+    // 	{
+    // 		xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    // 		xmlhttp.setRequestHeader('Content-length', body.length);
+    // 	}
+    // 	xmlhttp.onreadystatechange = function() { if (xmlhttp.readyState == 4) callback(xmlhttp); }
+    // 	xmlhttp.send(body || "");
+    // }
+    // function sendJSONRequest(url, callback)
+    // {
+    // 	sendRequest(url, function(xmlhttp)
+    // 	{
+    // 		var text = xmlhttp.responseText;
+    // 		callback(JSON.parse(text));
+    // 	});
+    // }
+
 
     nsGmx$1.Utils.uniqueGlobalName = function () {
       var freeid = 0;
@@ -899,11 +940,13 @@
     nsGmx$1.Utils.sendCrossDomainJSONRequest = sendCrossDomainJSONRequest$1;
 
     function createCookie(name, value, days) {
+      var expires = '';
+
       if (days) {
         var date = new Date();
         date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-        var expires = "; expires=" + date.toGMTString();
-      } else var expires = "";
+        expires = "; expires=" + date.toGMTString();
+      }
 
       document.cookie = name + "=" + value + expires + "; path=/";
     }
@@ -943,6 +986,10 @@
       return myHeight;
     }
 
+    function strip(s) {
+      return s.replace(/^\s*/, "").replace(/\s*$/, "");
+    }
+
     (function () {
       var replacements = {};
       var temp;
@@ -976,7 +1023,7 @@
       };
     })();
 
-    !function () {
+    (function () {
       var requests = {},
           lastRequestId = 0,
           uniquePrefix = 'id' + Math.random();
@@ -1074,7 +1121,7 @@
       }
 
       window.createPostIframe2 = createPostIframe2;
-    }();
+    })();
     /** Посылает кроссдоменный POST запрос
     *
     * @memberOf nsGmx.Utils
@@ -1085,11 +1132,12 @@
     *                                В функции эта форма будет модифицироваться, но после отправления запроса будет приведена к исходному виду.
     */
 
-    function sendCrossDomainPostRequest$1(url, params, callback, baseForm) {
+
+    function sendCrossDomainPostRequest(url, params, callback, baseForm) {
       var form,
           rnd = String(Math.random()),
           id = '$$iframe_' + url + rnd;
-      var iframe = createPostIframe2(id, callback, url),
+      var iframe = window.createPostIframe2(id, callback, url),
           originalFormAction;
 
       if (baseForm) {
@@ -1178,13 +1226,43 @@
       elem.setAttribute('title', title);
     }
 
+    function parseXML(str) {
+      var xmlDoc;
+
+      try {
+        if (window.DOMParser) {
+          var parser = new DOMParser();
+          xmlDoc = parser.parseFromString(str, "text/xml");
+        } else // Internet Explorer
+          {
+            xmlDoc = new ActiveXObject("MSXML2.DOMDocument.3.0");
+            xmlDoc.validateOnParse = false;
+            xmlDoc.async = false;
+            xmlDoc.loadXML(str);
+          }
+      } catch (e) {
+        alert(e);
+      }
+
+      return xmlDoc;
+    }
+
     function disableSelection(target) {
       if (typeof target.onselectstart != "undefined") target.onselectstart = function () {
         return false;
       };else if (typeof target.style.MozUserSelect != "undefined") target.style.MozUserSelect = "none";else target.onmousedown = function () {
         return false;
       };
-    }
+    } // function parsePropertiesDate(str)
+    // {
+    // 	if (str == null || str == "")
+    // 		return 0;
+    // 	var dateParts = str.split('.');
+    // 	if (dateParts.length != 3)
+    // 		return 0;
+    // 	return new Date(dateParts[2], dateParts[1] - 1, dateParts[0]).valueOf();
+    // }
+
 
     function stringDate(msec, isUtc) {
       var date = new Date(msec),
@@ -1204,6 +1282,73 @@
 
     function stringDateTime(msec, isUtc) {
       return stringDate(msec, isUtc) + ' ' + stringTime(msec, isUtc);
+    }
+    /** Подсвечивает красным input, убирает подсветку через некоторое время
+    *
+    * @param {HTMLDOMElement|Array<HTMLDOMElement>} input - целевой input-элемент или массив таких элементов
+    * @param {integer} delay - время подсвечивания ошибки в миллисекундах
+    */
+
+
+    function inputError(input, delay) {
+      delay = delay || 1000;
+      if (!jQuery.isArray(input)) input = [input];
+
+      for (var k = 0; k < input.length; k++) {
+        jQuery(input[k]).addClass('error');
+      }
+
+      setTimeout(function () {
+        for (var k = 0; k < input.length; k++) {
+          if (input[k]) jQuery(input[k]).removeClass('error');
+        }
+      }, delay);
+    }
+
+    function equals(x, y) {
+      for (var p in y) {
+        if (typeof x[p] == 'undefined') {
+          return false;
+        }
+      }
+
+      for (var _p2 in y) {
+        if (y[_p2]) {
+          switch (_typeof(y[_p2])) {
+            case 'object':
+              if (!equals(x[_p2], y[_p2])) {
+                return false;
+              }
+
+              break;
+
+            case 'function':
+              if (typeof x[_p2] == 'undefined' || _p2 != 'equals' && y[_p2].toString() != x[_p2].toString()) {
+                return false;
+              }
+
+              break;
+
+            default:
+              if (y[_p2] != x[_p2]) {
+                return false;
+              }
+
+          }
+        } else {
+          if (x[_p2]) {
+            return false;
+          }
+        }
+      }
+
+      for (var _p3 in x) {
+        if (typeof y[_p3] == 'undefined') {
+          return false;
+        }
+      }
+
+      return true;
     }
     /**
         @namespace nsGmx.Utils
@@ -1272,7 +1417,7 @@
           return false;
         }
 
-        if (str === '' || str === 'null' || str === 'undefined' || typeof str === 'Number') {
+        if (str === '' || str === 'null' || str === 'undefined' || typeof str === 'number') {
           return false;
         } else {
           return true;
@@ -1283,7 +1428,7 @@
              @memberOf nsGmx.Utils
          */
       getDialogPos: function getDialogPos(div, offsetFlag, height) {
-        var pos = getOffsetRect$1(div),
+        var pos = getOffsetRect(div),
             left = pos.left + 30,
             top = pos.top - 10,
             windowHeight = getWindowHeight();
@@ -1418,11 +1563,15 @@
           if (!resTime) return null;
           return resTime.hour * 3600 + resTime.minute * 60 + resTime.second;
         } else if (lowerCaseType == 'datetime') {
-          var localDateValue = $.datepicker.parseDateTime('dd.mm.yy', 'HH:mm:ss', value);
-          if (localDateValue === null) return null;
-          var localValue = localDateValue.valueOf() / 1000;
-          var timeOffset = new Date(localValue * 1000).getTimezoneOffset() * 60;
-          return localValue - timeOffset;
+          var _localDateValue = $.datepicker.parseDateTime('dd.mm.yy', 'HH:mm:ss', value);
+
+          if (_localDateValue === null) return null;
+
+          var _localValue = _localDateValue.valueOf() / 1000;
+
+          var _timeOffset = new Date(_localValue * 1000).getTimezoneOffset() * 60;
+
+          return _localValue - _timeOffset;
         }
 
         return value;
@@ -1516,9 +1665,9 @@
             var formData = new FormData();
             formData.append('file', shpFileForm);
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', serverBase + 'ShapeLoader');
+            xhr.open('POST', window.serverBase + 'ShapeLoader');
 
-            xhr.onload = function () {
+            xhr.onload = function (response) {
               if (xhr.status === 200) {
                 response = JSON.parse(xhr.responseText.substr(1, xhr.responseText.length - 2));
 
@@ -1532,10 +1681,14 @@
 
             xhr.send(formData);
           } else {
-            sendCrossDomainPostRequest$1(serverBase + "ShapeLoader", {
+            sendCrossDomainPostRequest(window.serverBase + "ShapeLoader", {
               WrapStyle: "window"
             }, function (response) {
-              if (parseResponse$1(response, errorMessages)) def.resolve(response.Result);else def.reject(response);
+              if (parseResponse$1(response, errorMessages)) {
+                def.resolve(response.Result);
+              } else {
+                def.reject(response);
+              }
             }, shpFileForm);
           }
 
@@ -1578,7 +1731,7 @@
             }
           });
         });
-        sendCrossDomainPostRequest$1(serverBase + "Shapefile", {
+        sendCrossDomainPostRequest(window.serverBase + "Shapefile", {
           name: options.fileName,
           format: options.format,
           points: JSON.stringify(objectsByType["Point"] || []),
@@ -1667,7 +1820,7 @@
           }
 
           do {
-            startI = (segment[0] + 1) % len;
+            var startI = (segment[0] + 1) % len;
             segment = getNextSegment((startI + 1) % len);
             var nextSegment = {
               points: [].concat([ring[startI]], segment[1], [ring[segment[0]]])
@@ -1704,19 +1857,22 @@
             seg = findSegment(seg.lastY);
             points = points.concat(seg.points);
           }
-          res.points = points, res.crossPoints = crossPoints, res.minCrossPoint = Math.min.apply(Math, crossPoints);
+
+          res.points = points;
+          res.crossPoints = crossPoints;
+          res.minCrossPoint = Math.min.apply(Math, crossPoints);
           return res;
         };
 
         var parseGeometry = function parseGeometry(geom) {
-          for (var c = 0; c < geom.coordinates.length; c++) {
+          for (var _c = 0; _c < geom.coordinates.length; _c++) {
             var origComp = [];
             origData.push(origComp);
-            var comp = geom.coordinates[c];
+            var comp = geom.coordinates[_c];
 
-            for (var r = 0; r < comp.length; r++) {
+            for (var _r = 0; _r < comp.length; _r++) {
               var origRing = {
-                coords: comp[r],
+                coords: comp[_r],
                 segments: []
               };
               origComp.push(origRing);
@@ -1745,7 +1901,7 @@
         joinedSegments = joinedSegments.sort(function (s1, s2) {
           return s1.minCrossPoint - s2.minCrossPoint;
         });
-        joinedSegments.forEach(function (s, i) {
+        joinedSegments.forEach(function (s) {
           s.isExternal = crossPoints.indexOf(s.minCrossPoint) % 2 === 0;
         }); //собираем объединённые сегменты в мультиполигон
 
@@ -1759,28 +1915,29 @@
           s.finalComponent = finalPolygon[finalPolygon.length - 1];
         }); //добавляем компоненты, которые не пересекались со 180 градусом
 
-        for (var c = 0; c < origData.length; c++) {
-          if (origData[c][0].regularRing) {
-            console.log('external component', c);
+        for (var _c2 = 0; _c2 < origData.length; _c2++) {
+          if (origData[_c2][0].regularRing) {
+            console.log('external component', _c2);
             var geomToCopy = [];
 
-            for (var r = 0; r < origData[c].length; r++) {
-              geomToCopy.push(origData[c][r].regularRing);
+            for (var _r2 = 0; _r2 < origData[_c2].length; _r2++) {
+              geomToCopy.push(origData[_c2][_r2].regularRing);
             }
 
             finalPolygon.push(geomToCopy);
             continue;
           }
 
-          for (var r = 1; r < origData[c].length; r++) {
-            if (origData[c][r].regularRing) {
-              console.log('internal component', c, r, origData[c][0].segments);
+          for (var _r3 = 1; _r3 < origData[_c2].length; _r3++) {
+            if (origData[_c2][_r3].regularRing) {
+              console.log('internal component', _c2, _r3, origData[_c2][0].segments);
 
-              for (var s = 0; s < origData[c][0].segments.length; s++) {
-                var joinedSeg = origData[c][0].segments[s].joinedSeg;
+              for (var s = 0; s < origData[_c2][0].segments.length; s++) {
+                var _joinedSeg = origData[_c2][0].segments[s].joinedSeg;
 
-                if (joinedSeg.isExternal) {
-                  joinedSeg.finalComponent.push(origData[c][r].regularRing);
+                if (_joinedSeg.isExternal) {
+                  _joinedSeg.finalComponent.push(origData[_c2][_r3].regularRing);
+
                   break;
                 }
               }
@@ -1814,7 +1971,7 @@
         */
         create: function create(data, tempFlag) {
           var def = $.Deferred();
-          sendCrossDomainPostRequest$1(serverBase + "TinyReference/Create.ashx", {
+          sendCrossDomainPostRequest(window.serverBase + "TinyReference/Create.ashx", {
             WrapStyle: 'message',
             content: JSON.stringify(data),
             temp: tempFlag
@@ -1834,7 +1991,7 @@
         */
         get: function get(id) {
           var def = $.Deferred();
-          sendCrossDomainJSONRequest$1(serverBase + "TinyReference/Get.ashx?id=" + id, function (response) {
+          sendCrossDomainJSONRequest$1(window.serverBase + "TinyReference/Get.ashx?id=" + id, function (response) {
             //если пермалинк не найден, сервер не возвращает ошибку, а просто пустой результат
             if (parseResponse$1(response) && response.Result) {
               def.resolve(JSON.parse(response.Result));
@@ -1851,7 +2008,7 @@
         */
         remove: function remove(id) {
           var def = $.Deferred();
-          sendCrossDomainJSONRequest$1(serverBase + "TinyReference/Delete.ashx?id=" + id, function (response) {
+          sendCrossDomainJSONRequest$1(window.serverBase + "TinyReference/Delete.ashx?id=" + id, function (response) {
             if (parseResponse$1(response)) {
               def.resolve();
             } else {
@@ -1866,41 +2023,38 @@
       },
       getLatLngBounds: function getLatLngBounds(layer) {
         var gmxBounds = layer._gmx.layerID ? L.gmxUtil.getGeometryBounds(layer._gmx.geometry) : layer._gmx.dataManager.getItemsBounds(),
-            srs = layer._gmx.srs,
-            array = [],
-            projection;
-        console.log(gmxBounds);
-
-        if (srs) {
-          for (var proj in L.CRS) {
-            if (proj.indexOf(srs) !== -1) {
-              projection = L.CRS[proj];
-              break;
-            }
-          }
-        } else {
-          projection = L.CRS['EPSG:3395'];
-        }
+            // srs = layer._gmx.srs,
+        array = []; // if (srs) {
+        //     for (let proj in L.CRS) {
+        //         if (proj.indexOf(srs) !== -1) {
+        //             projection = L.CRS[proj];
+        //             break;
+        //         }
+        //     }
+        // } else {
+        //     projection = L.CRS['EPSG:3395'];
+        // }
 
         array.push(L.Projection.Mercator.unproject(gmxBounds.min));
         array.push(L.Projection.Mercator.unproject(gmxBounds.max));
         return L.latLngBounds(array);
       },
       showDialog: showDialog$1,
-      removeDialog: removeDialog$1,
+      removeDialog: removeDialog,
       makeImageButton: makeImageButton$1,
-      makeLinkButton: makeLinkButton$1,
+      makeLinkButton: makeLinkButton,
       makeButton: makeButton$1,
       _title: _title$1,
       _checkbox: _checkbox$1
     });
     window.gmxCore && window.gmxCore.addModule('utilities', nsGmx$1.Utils);
-    var _br$1 = domManipulation._br,
+    var _br = domManipulation._br,
         _div$1 = domManipulation._div,
+        _form$1 = domManipulation._form,
         _img$1 = domManipulation._img,
         _input$1 = domManipulation._input,
         _li$1 = domManipulation._li,
-        _option$1 = domManipulation._option,
+        _option = domManipulation._option,
         _span$1 = domManipulation._span,
         _a = domManipulation._a,
         _t$1 = domManipulation._t,
@@ -2120,12 +2274,12 @@
 
     DumpClass.prototype = commonTranslationsManager;
     window._translationsHash = new DumpClass();
-    _translationsHash.gettext = commonTranslationsManager.getText.bind(commonTranslationsManager), _translationsHash.addtext = commonTranslationsManager.addText.bind(commonTranslationsManager), _translationsHash.showLanguages = function () {
+    window._translationsHash.gettext = commonTranslationsManager.getText.bind(commonTranslationsManager), window._translationsHash.addtext = commonTranslationsManager.addText.bind(commonTranslationsManager), window._translationsHash.showLanguages = function () {
       var langCanvas = _div$1(null, [['dir', 'className', 'floatRight'], ['css', 'margin', ' 7px 10px 0px 0px']]);
 
       for (var lang in this.hash) {
         if (lang != window.language) {
-          var button = makeLinkButton$1(_translationsHash.titles[lang]);
+          var button = makeLinkButton(window._translationsHash.titles[lang]);
           button.style.marginLeft = '5px';
           button.style.fontSize = '11px';
 
@@ -2145,7 +2299,7 @@
 
           langCanvas.appendChild(button);
         } else {
-          langCanvas.appendChild(_span$1([_t$1(_translationsHash.titles[lang])], [['css', 'marginLeft', '5px'], ['css', 'color', '#fc830b']]));
+          langCanvas.appendChild(_span$1([_t$1(window._translationsHash.titles[lang])], [['css', 'marginLeft', '5px'], ['css', 'color', '#fc830b']]));
         }
       }
 
@@ -4180,7 +4334,7 @@
     var _menuUp = new UpMenu(); // содержит ссылку на рабочую область для текущей вкладки
 
 
-    var leftMenu$1 = function leftMenu() {
+    var leftMenu = function leftMenu() {
       this.workCanvas = null;
       this.parentWorkCanvas = null;
     }; //варианты вызова:
@@ -4189,7 +4343,7 @@
     // options - те же, что и в LeftPanelItem
 
 
-    leftMenu$1.prototype.createWorkCanvas = function (canvasID, closeFunc, options) {
+    leftMenu.prototype.createWorkCanvas = function (canvasID, closeFunc, options) {
       if (typeof closeFunc !== 'function') {
         options = closeFunc || {};
         closeFunc = options.closeFunc;
@@ -4609,7 +4763,7 @@
       };
     }();
 
-    !function (_) {
+    (function (_) {
       var BaseLayersControl = function BaseLayersControl(container, blm) {
         var lang = _translationsHash.getLanguage();
 
@@ -4719,7 +4873,7 @@
 
 
       var addSubGroup = function addSubGroup(div, layersTree) {
-        var ul = _abstractTree.getChildsUl(div.parentNode),
+        var ul = window._abstractTree.getChildsUl(div.parentNode),
             newIndex;
 
         if (!ul) newIndex = 0;else newIndex = ul.childNodes.length + 1;
@@ -4729,7 +4883,7 @@
         var elemProperties = div.gmxProperties.content ? div.gmxProperties.content.properties : div.gmxProperties.properties,
             newName = elemProperties.title,
             inputIndex = _input$1(null, [['attr', 'value', newName + ' ' + newIndex], ['dir', 'className', 'inputStyle'], ['css', 'width', '140px']]),
-            create = makeButton(_gtxt('Создать')),
+            create = makeButton$1(_gtxt('Создать')),
             pos = nsGmx$1.Utils.getDialogPos(div, true, 100),
             createSubGroup = function createSubGroup() {
           if (inputIndex.value == '') return;
@@ -4750,7 +4904,7 @@
               children: []
             }
           },
-              li = _layersTree.getChildsList(newGroupProperties, parentProperties, false, div.getAttribute('MapID') ? true : _layersTree.getLayerVisibility($(div).find('input[type="checkbox"]')[0]));
+              li = window._layersTree.getChildsList(newGroupProperties, parentProperties, false, div.getAttribute('MapID') ? true : window._layersTree.getLayerVisibility($(div).find('input[type="checkbox"]')[0]));
 
           _queryMapLayers.addDraggable(li);
 
@@ -4760,18 +4914,18 @@
 
           layersTree.addTreeElem(div, 0, newGroupProperties);
 
-          var childsUl = _abstractTree.getChildsUl(div.parentNode);
+          var childsUl = window._abstractTree.getChildsUl(div.parentNode);
 
           if (childsUl) {
-            _abstractTree.addNode(div.parentNode, li);
+            window._abstractTree.addNode(div.parentNode, li);
 
-            _layersTree.updateListType(li, true);
+            window._layersTree.updateListType(li, true);
 
             if (!childsUl.loaded) li.removeNode(true);
           } else {
-            _abstractTree.addNode(div.parentNode, li);
+            window._abstractTree.addNode(div.parentNode, li);
 
-            _layersTree.updateListType(li, true);
+            window._layersTree.updateListType(li, true);
           }
 
           $(dialogDiv).dialog('destroy');
@@ -4793,7 +4947,7 @@
         });
         create.style.marginTop = '5px';
 
-        var parentDiv = _div$1([inputIndex, _br$1(), create], [['css', 'textAlign', 'center']]);
+        var parentDiv = _div$1([inputIndex, _br(), create], [['css', 'textAlign', 'center']]);
 
         var trs = [{
           name: _gtxt("Имя группы"),
@@ -4806,14 +4960,13 @@
 
         var propsTable = _div$1([_table$1([_tbody$1(trsControls)], [['dir', 'className', 'propertiesTable']])]);
 
-        _(parentDiv, [propsTable, _br$1(), create]);
+        _(parentDiv, [propsTable, _br(), create]);
 
         var dialogDiv = showDialog$1(_gtxt("Введите имя группы"), parentDiv, 270, 220, pos.left, pos.top);
       };
 
       var createGroupEditorProperties = function createGroupEditorProperties(div, isMap, mainLayersTree) {
         var elemProperties = isMap ? div.gmxProperties.properties : div.gmxProperties.content.properties;
-
         var rawTree = mainLayersTree.treeModel.getRawTree();
 
         var title = _input$1(null, [['attr', 'value', typeof elemProperties.title != 'undefined' ? elemProperties.title : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '206px']]);
@@ -4829,7 +4982,7 @@
           elemProperties.ShowCheckbox = visibilityProperties.get('isVisibilityControl');
           elemProperties.expanded = elemProperties.initExpand = visibilityProperties.get('isExpanded');
 
-          _layersTree.treeModel.updateNodeVisibility(mainLayersTree.findTreeElem(div).elem, null);
+          window._layersTree.treeModel.updateNodeVisibility(mainLayersTree.findTreeElem(div).elem, null);
 
           var curBox = div.firstChild;
 
@@ -4848,10 +5001,10 @@
             mainLayersTree.findTreeElem(div).elem.content.properties = div.gmxProperties.content.properties;
           }
 
-          var ul = _abstractTree.getChildsUl(div.parentNode);
+          var ul = window._abstractTree.getChildsUl(div.parentNode);
 
           $(ul).children('li').each(function () {
-            var box = _layersTree.updateListType(this, true);
+            window._layersTree.updateListType(this, true);
           });
         });
 
@@ -4895,8 +5048,8 @@
               layerOrder = $('<select class="selectStyle">' + '<option value="Native">' + _gtxt('layerOrder.native') + '</label>' + '<option value="VectorOnTop">' + _gtxt('layerOrder.vectorOnTop') + '</label>' + '</select>')[0],
               downloadVectors = _checkbox$1(elemProperties.CanDownloadVectors, 'checkbox'),
               downloadRasters = _checkbox$1(elemProperties.CanDownloadRasters, 'checkbox'),
-              WMSLink = _a([_t$1(_gtxt('ссылка'))], [['attr', 'href', serverBase + 'TileService.ashx?map=' + elemProperties.name]]),
-              WMSLinks = $(Handlebars.compile('<div>' + '<ul>' + '{{#each this.services}}' + '<li>' + '{{this.upper}}: {{this.url}}rest/ver1/service/{{this.name}}?map={{this.mapName}}{{#if this.site}}&apikey=[APIKEY_VALUE]{{/if}}' + '</li>' + '<br>' + '{{/each}}' + '</ul>' + '</div>')({
+              // WMSLink = _a([_t(_gtxt('ссылка'))], [['attr', 'href', window.serverBase + 'TileService.ashx?map=' + elemProperties.name]]),
+          WMSLinks = $(Handlebars.compile('<div>' + '<ul>' + '{{#each this.services}}' + '<li>' + '{{this.upper}}: {{this.url}}rest/ver1/service/{{this.name}}?map={{this.mapName}}{{#if this.site}}&apikey=[APIKEY_VALUE]{{/if}}' + '</li>' + '<br>' + '{{/each}}' + '</ul>' + '</div>')({
             services: [{
               site: window.mapsSite,
               url: window.serverBase,
@@ -4916,7 +5069,7 @@
               defLong = _input$1(null, [['attr', 'placeholder', _gtxt("placeholder degrees")], ['attr', 'value', elemProperties.DefaultLong !== null ? elemProperties.DefaultLong : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '62px']]),
               defPermalink = _input$1(null, [['attr', 'value', elemProperties.ViewUrl != null ? elemProperties.ViewUrl : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '206px']]),
               defZoom = _input$1(null, [['attr', 'placeholder', _gtxt("placeholder zoom")], ['attr', 'value', elemProperties.DefaultZoom != null ? elemProperties.DefaultZoom : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '60px']]),
-              onLoad = _textarea(null, [['dir', 'className', 'inputStyle group-editor-onload']]),
+              onLoad = _textarea$1(null, [['dir', 'className', 'inputStyle group-editor-onload']]),
               copyright = _input$1(null, [['attr', 'value', elemProperties.Copyright != null ? elemProperties.Copyright : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '206px']]),
               minViewX = _input$1(null, [['attr', 'placeholder', _gtxt("placeholder degrees")], ['attr', 'value', elemProperties.MinViewX != null && elemProperties.MinViewX != 0 ? elemProperties.MinViewX : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '62px']]),
               minViewY = _input$1(null, [['attr', 'placeholder', _gtxt("placeholder degrees")], ['attr', 'value', elemProperties.MinViewY != null && elemProperties.MinViewY != 0 ? elemProperties.MinViewY : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '62px']]),
@@ -5135,13 +5288,13 @@
           }],
               shownViewProperties = [{
             name: _gtxt("Начальная позиция"),
-            elem: _table$1([_tbody$1([_tr$1([_td$1([_span$1([_t$1(_gtxt('Широта'))], [['css', 'marginLeft', '3px']]), _br$1(), defLat], [['css', 'width', '70px']]), _td$1([_span$1([_t$1(_gtxt('Долгота'))], [['css', 'marginLeft', '3px']]), _br$1(), defLong], [['css', 'width', '70px']]), _td$1([_span$1([_t$1(_gtxt('Зум'))], [['css', 'marginLeft', '3px']]), _br$1(), defZoom], [['css', 'width', '68px']])])])], [['css', 'borderCollapse', 'collapse']])
+            elem: _table$1([_tbody$1([_tr$1([_td$1([_span$1([_t$1(_gtxt('Широта'))], [['css', 'marginLeft', '3px']]), _br(), defLat], [['css', 'width', '70px']]), _td$1([_span$1([_t$1(_gtxt('Долгота'))], [['css', 'marginLeft', '3px']]), _br(), defLong], [['css', 'width', '70px']]), _td$1([_span$1([_t$1(_gtxt('Зум'))], [['css', 'marginLeft', '3px']]), _br(), defZoom], [['css', 'width', '68px']])])])], [['css', 'borderCollapse', 'collapse']])
           }, {
             name: _gtxt("Зум"),
-            elem: _table$1([_tbody$1([_tr$1([_td$1([_span$1([_t$1(_gtxt('Мин'))], [['css', 'marginLeft', '3px']]), _br$1(), minZoom], [['css', 'width', '70px']]), _td$1([_span$1([_t$1(_gtxt('Макс'))], [['css', 'marginLeft', '3px']]), _br$1(), maxZoom], [['css', 'width', '70px'], ['css', 'rowspan', '2']])])])], [['css', 'borderCollapse', 'collapse']])
+            elem: _table$1([_tbody$1([_tr$1([_td$1([_span$1([_t$1(_gtxt('Мин'))], [['css', 'marginLeft', '3px']]), _br(), minZoom], [['css', 'width', '70px']]), _td$1([_span$1([_t$1(_gtxt('Макс'))], [['css', 'marginLeft', '3px']]), _br(), maxZoom], [['css', 'width', '70px'], ['css', 'rowspan', '2']])])])], [['css', 'borderCollapse', 'collapse']])
           }, {
             name: _gtxt("Граница обрезки"),
-            elem: _table$1([_tbody$1([_tr$1([_td$1([_span$1(null, [['css', 'marginLeft', '3px']]), _br$1()], [['css', 'width', '73px']]), _td$1([_span$1([_t$1(_gtxt('Широта'))], [['css', 'marginLeft', '3px']])], [['css', 'width', '70px']]), _td$1([_span$1([_t$1(_gtxt('Долгота'))], [['css', 'marginLeft', '3px']])], [['css', 'width', '68px']])]), _tr$1([_td$1([_span$1([_t$1(_gtxt('Мин'))], [['css', 'marginLeft', '3px']])]), _td$1([minViewY]), _td$1([minViewX])]), _tr$1([_td$1([_span$1([_t$1(_gtxt('Макс'))], [['css', 'marginLeft', '3px']])]), _td$1([maxViewY]), _td$1([maxViewX])])])], [['css', 'borderCollapse', 'collapse']])
+            elem: _table$1([_tbody$1([_tr$1([_td$1([_span$1(null, [['css', 'marginLeft', '3px']]), _br()], [['css', 'width', '73px']]), _td$1([_span$1([_t$1(_gtxt('Широта'))], [['css', 'marginLeft', '3px']])], [['css', 'width', '70px']]), _td$1([_span$1([_t$1(_gtxt('Долгота'))], [['css', 'marginLeft', '3px']])], [['css', 'width', '68px']])]), _tr$1([_td$1([_span$1([_t$1(_gtxt('Мин'))], [['css', 'marginLeft', '3px']])]), _td$1([minViewY]), _td$1([minViewX])]), _tr$1([_td$1([_span$1([_t$1(_gtxt('Макс'))], [['css', 'marginLeft', '3px']])]), _td$1([maxViewY]), _td$1([maxViewX])])])], [['css', 'borderCollapse', 'collapse']])
           }];
 
           var id = 'mapProperties' + String(Math.random()).substring(2, 12),
@@ -5156,7 +5309,7 @@
 
           _(tabMenu, [divCommon, divBaseLayers, divPolicy, divSearch, divView, divOnload, divPlugins]);
 
-          var baseLayersControl = new BaseLayersControl(divBaseLayers, nsGmx$1.leafletMap.gmxBaseLayersManager);
+          new BaseLayersControl(divBaseLayers, nsGmx$1.leafletMap.gmxBaseLayersManager);
 
           _(divCommon, [_table$1([_tbody$1(addProperties(shownCommonProperties))], [['css', 'width', '100%'], ['dir', 'className', 'propertiesTable']])]);
 
@@ -5268,7 +5421,7 @@
           return false;
         };
 
-        var canvas = createGroupEditorProperties(div, false, _layersTree);
+        var canvas = createGroupEditorProperties(div, false, window._layersTree);
         showDialog$1(_gtxt('Группа [value0]', elemProperties.title), canvas, 340, 230, pos.left, pos.top, null, closeFunc);
         _groupEditorsHash[elemProperties.GroupID] = true;
         canvas.parentNode.style.width = canvas.clientWidth + 'px';
@@ -5281,20 +5434,19 @@
 
       var createMapEditor = function createMapEditor(div, activePage) {
         var elemProperties = div.gmxProperties.properties;
-
-        if (_mapEditorsHash[elemProperties.MapID]) return;
+        if (window._mapEditorsHash[elemProperties.MapID]) return;
 
         var pos = nsGmx$1.Utils.getDialogPos(div, true, 530),
             closeFunc = function closeFunc() {
-          delete _mapEditorsHash[elemProperties.MapID];
+          delete window._mapEditorsHash[elemProperties.MapID];
           canvas.updateFunc();
           canvas.closeFunc();
           return false;
         };
 
-        var canvas = createGroupEditorProperties(div, true, _layersTree);
+        var canvas = createGroupEditorProperties(div, true, window._layersTree);
         showDialog$1(_gtxt('Карта [value0]', elemProperties.title), canvas, 450, 410, pos.left, pos.top, null, closeFunc);
-        _mapEditorsHash[elemProperties.MapID] = {
+        window._mapEditorsHash[elemProperties.MapID] = {
           update: canvas.updateFunc
         };
         $(canvas).tabs({
@@ -5303,12 +5455,12 @@
         canvas.parentNode.style.width = canvas.clientWidth + 'px';
       };
 
-      gmxCore.addModule('GroupEditor', {
+      gmxCore$1.addModule('GroupEditor', {
         addSubGroup: addSubGroup,
         createGroupEditor: createGroupEditor,
         createMapEditor: createMapEditor
       });
-    }(nsGmx$1.Utils._);
+    })(nsGmx$1.Utils._);
 
     (function (_) {
       /** Разнообразные вспомогательные контролы (базовые элементы GUI)
@@ -5383,57 +5535,55 @@
 
               _(icon, [_border]);
             }
-          } else {
-            if (type.indexOf('linestring') < 0) {
-              if (parentStyle.fill && parentStyle.fill.pattern) {
-                var _opaqueStyle = L.gmxUtil.fromServerStyle($.extend(true, {}, parentStyle, {
-                  fill: {
-                    opacity: 100
-                  }
-                })),
-                    _patternData = L.gmxUtil.getPatternIcon(null, _opaqueStyle);
-
-                icon = _patternData ? _patternData.canvas : document.createElement('canvas');
-
-                _(icon, [], [['dir', 'className', 'icon'], ['attr', 'styleType', 'icon'], ['css', 'width', '13px'], ['css', 'height', '13px']]);
-              } else {
-                var _fill = _div$1(null, [['dir', 'className', 'fillIcon'], ['css', 'backgroundColor', parentStyle.fill && typeof parentStyle.fill.color != 'undefined' ? nsGmx$1.Utils.convertColor(parentStyle.fill.color) : "#FFFFFF"]]),
-                    _border2 = _div$1(null, [['dir', 'className', 'borderIcon'], ['attr', 'styleType', 'color'], ['css', 'borderColor', parentStyle.outline && typeof parentStyle.outline.color != 'undefined' ? nsGmx$1.Utils.convertColor(parentStyle.outline.color) : "#0000FF"]]),
-                    _fillOpacity = parentStyle.fill && typeof parentStyle.fill.opacity != 'undefined' ? parentStyle.fill.opacity : 100,
-                    _borderOpacity2 = parentStyle.outline && typeof parentStyle.outline.opacity != 'undefined' ? parentStyle.outline.opacity : 100;
-
-                _fill.style.opacity = _fillOpacity / 100;
-                _border2.style.opacity = _borderOpacity2 / 100;
-
-                if (type.indexOf('point') > -1) {
-                  _border2.style.height = '5px';
-                  _fill.style.height = '5px';
-                  _border2.style.width = '5px';
-                  _fill.style.width = '5px';
-                  _border2.style.top = '3px';
-                  _fill.style.top = '4px';
-                  _border2.style.left = '1px';
-                  _fill.style.left = '2px';
+          } else if (type.indexOf('linestring') < 0) {
+            if (parentStyle.fill && parentStyle.fill.pattern) {
+              var _opaqueStyle = L.gmxUtil.fromServerStyle($.extend(true, {}, parentStyle, {
+                fill: {
+                  opacity: 100
                 }
+              })),
+                  _patternData = L.gmxUtil.getPatternIcon(null, _opaqueStyle);
 
-                _(icon, [_border2, _fill]);
-              }
+              icon = _patternData ? _patternData.canvas : document.createElement('canvas');
+
+              _(icon, [], [['dir', 'className', 'icon'], ['attr', 'styleType', 'icon'], ['css', 'width', '13px'], ['css', 'height', '13px']]);
             } else {
-              var _border3 = _div$1(null, [['dir', 'className', 'borderIcon'], ['attr', 'styleType', 'color'], ['css', 'borderColor', parentStyle.outline && typeof parentStyle.outline.color != 'undefined' ? nsGmx$1.Utils.convertColor(parentStyle.outline.color) : "#0000FF"]]),
-                  _borderOpacity3 = parentStyle.outline && typeof parentStyle.outline.opacity != 'undefined' ? parentStyle.outline.opacity : 100;
+              var _fill = _div$1(null, [['dir', 'className', 'fillIcon'], ['css', 'backgroundColor', parentStyle.fill && typeof parentStyle.fill.color != 'undefined' ? nsGmx$1.Utils.convertColor(parentStyle.fill.color) : "#FFFFFF"]]),
+                  _border2 = _div$1(null, [['dir', 'className', 'borderIcon'], ['attr', 'styleType', 'color'], ['css', 'borderColor', parentStyle.outline && typeof parentStyle.outline.color != 'undefined' ? nsGmx$1.Utils.convertColor(parentStyle.outline.color) : "#0000FF"]]),
+                  _fillOpacity = parentStyle.fill && typeof parentStyle.fill.opacity != 'undefined' ? parentStyle.fill.opacity : 100,
+                  _borderOpacity2 = parentStyle.outline && typeof parentStyle.outline.opacity != 'undefined' ? parentStyle.outline.opacity : 100;
 
-              _border3.style.opacity = _borderOpacity3 / 100;
-              _border3.style.width = '4px';
-              _border3.style.height = '13px';
-              _border3.style.borderTop = 'none';
-              _border3.style.borderBottom = 'none';
-              _border3.style.borderLeft = 'none';
+              _fill.style.opacity = _fillOpacity / 100;
+              _border2.style.opacity = _borderOpacity2 / 100;
 
-              _(icon, [_border3]);
+              if (type.indexOf('point') > -1) {
+                _border2.style.height = '5px';
+                _fill.style.height = '5px';
+                _border2.style.width = '5px';
+                _fill.style.width = '5px';
+                _border2.style.top = '3px';
+                _fill.style.top = '4px';
+                _border2.style.left = '1px';
+                _fill.style.left = '2px';
+              }
+
+              _(icon, [_border2, _fill]);
             }
+          } else {
+            var _border3 = _div$1(null, [['dir', 'className', 'borderIcon'], ['attr', 'styleType', 'color'], ['css', 'borderColor', parentStyle.outline && typeof parentStyle.outline.color != 'undefined' ? nsGmx$1.Utils.convertColor(parentStyle.outline.color) : "#0000FF"]]),
+                _borderOpacity3 = parentStyle.outline && typeof parentStyle.outline.opacity != 'undefined' ? parentStyle.outline.opacity : 100;
+
+            _border3.style.opacity = _borderOpacity3 / 100;
+            _border3.style.width = '4px';
+            _border3.style.height = '13px';
+            _border3.style.borderTop = 'none';
+            _border3.style.borderBottom = 'none';
+            _border3.style.borderLeft = 'none';
+
+            _(icon, [_border3]);
           }
 
-          icon.oncontextmenu = function (e) {
+          icon.oncontextmenu = function () {
             return false;
           };
 
@@ -5529,16 +5679,14 @@
           }, params);
 
           if ($('#drawingBorderDialog' + name).length) return;
-
           var drawingObjs = [];
-
           nsGmx$1.leafletMap.gmxDrawing.getFeatures().forEach(function (obj) {
             if (!_params.geomType || TYPE_CONVERT_DICT[obj.getType()] === _params.geomType.toLowerCase()) {
               drawingObjs.push(obj);
             }
           });
           if (!drawingObjs.length) showErrorMessage$1(_params.errorMessage, true, _params.errorTitle);else {
-            gmxCore.loadModule('DrawingObjects').done(function (drawing) {
+            gmxCore$1.loadModule('DrawingObjects').done(function (drawing) {
               var canvas = _div$1();
 
               var collection = new drawing.DrawingObjectCollection(nsGmx$1.leafletMap);
@@ -5547,13 +5695,13 @@
                 collection.Add(drawingObjs[i]);
               }
 
-              var list = new drawing.DrawingObjectList(nsGmx$1.leafletMap, canvas, collection, {
+              new drawing.DrawingObjectList(nsGmx$1.leafletMap, canvas, collection, {
                 allowDelete: false,
                 editStyle: false,
                 showButtons: false,
                 click: function click(drawingObject) {
                   callback && callback(drawingObject);
-                  removeDialog$1(jDialog);
+                  removeDialog(jDialog);
                 }
               });
               var jDialog = nsGmx$1.Utils.showDialog(_params.title, _div$1([canvas], [['attr', 'id', 'drawingBorderDialog' + name], ['dir', 'className', 'drawingObjectsCanvas']]), {
@@ -5690,11 +5838,90 @@
           });
         }
       };
-      gmxCore.addModule('Controls', nsGmx$1.Controls);
+      gmxCore$1.addModule('Controls', nsGmx$1.Controls);
     })(nsGmx$1.Utils._);
 
-    //Создание интерфейса редактирования стилей слоя
-    !function (_) {
+    (function () {
+      var getZoomValue = function getZoomValue(zoomControl) {
+        var isNotValid = zoomControl.value == '' || isNaN(Number(zoomControl.value)) || Number(zoomControl.value) != Math.floor(Number(zoomControl.value)) || Number(zoomControl.value) < 1;
+
+        if (isNotValid) {
+          $(zoomControl).addClass("error");
+          return null;
+        } else {
+          $(zoomControl).removeClass("error");
+          return Number(zoomControl.value);
+        }
+      };
+
+      var checkZoom = function checkZoom(minZoomInput, maxZoomInput) {
+        var minVal = getZoomValue(minZoomInput);
+        var maxVal = getZoomValue(maxZoomInput);
+
+        if (minVal && maxVal && minVal > maxVal) {
+          $(minZoomInput).addClass("error");
+          $(maxZoomInput).addClass("error");
+          return false;
+        }
+
+        return !!(minVal && maxVal);
+      };
+      /**
+       Контрол для задания максимального и минимального зумов слоя/стиля.
+       Выдаёт два 'li' элемента, которые клиент сам помещает куда-нибудь.
+       Генерит событие "change", когда изменились валидные значения зумов
+       @memberOf nsGmx
+       @class
+       @param minZoom {int} Начальный минимальный зум
+       @param maxZoom {int} Начальный максимальный зум
+      */
+
+
+      var ZoomPropertiesControl = function ZoomPropertiesControl(minZoom, maxZoom) {
+        var _this = this;
+
+        var minZoomInput = _input(null, [['dir', 'className', 'inputStyle'], ['attr', 'paramName', 'MinZoom'], ['css', 'width', '30px'], ['attr', 'value', minZoom || 1]]);
+
+        var maxZoomInput = _input(null, [['dir', 'className', 'inputStyle'], ['attr', 'paramName', 'MaxZoom'], ['css', 'width', '30px'], ['attr', 'value', maxZoom || 17]]);
+
+        checkZoom(minZoomInput, maxZoomInput);
+
+        var liMinZoom = _li([_div([_table([_tbody([_tr([_td([_span([_t(_gtxt("Мин. зум"))], [['css', 'fontSize', '12px']])], [['css', 'width', '60px']]), _td([minZoomInput])])])])])]);
+
+        var liMaxZoom = _li([_div([_table([_tbody([_tr([_td([_span([_t(_gtxt("Макс. зум"))], [['css', 'fontSize', '12px']])], [['css', 'width', '60px']]), _td([maxZoomInput])])])])])]);
+
+        minZoomInput.onkeyup = maxZoomInput.onkeyup = function () {
+          if (checkZoom(minZoomInput, maxZoomInput)) $(_this).change();
+          return true;
+        };
+
+        this.getMinLi = function () {
+          return liMinZoom;
+        };
+
+        this.getMaxLi = function () {
+          return liMaxZoom;
+        };
+        /** Получить минимальный зум
+        */
+
+
+        this.getMinZoom = function () {
+          return Number(minZoomInput.value);
+        };
+        /** Получить максимальный зум
+        */
+
+
+        this.getMaxZoom = function () {
+          return Number(maxZoomInput.value);
+        };
+      };
+
+      nsGmx$1.ZoomPropertiesControl = ZoomPropertiesControl;
+    })();
+
+    (function (_) {
       //явно прописывает все свойства балунов в стиле.
       var applyBalloonDefaultStyle = function applyBalloonDefaultStyle(style) {
         //слой только что создали - всё по умолчанию!
@@ -5790,7 +6017,7 @@
         var fillColor = _fillStyle.color;
         var fillOpacity = _fillStyle.opacity; //выбор цвета
 
-        var fillColorPicker = nsGmx.Controls.createColorPicker(fillColor, function (colpkr) {
+        var fillColorPicker = nsGmx$1.Controls.createColorPicker(fillColor, function (colpkr) {
           $(colpkr).fadeIn(500);
           return false;
         }, function (colpkr) {
@@ -5802,7 +6029,7 @@
           fillColor = parseInt("0x" + hex);
           $(_this).change();
         }),
-            fillOpacitySlider = nsGmx.Controls.createSlider(fillOpacity, function (event, ui) {
+            fillOpacitySlider = nsGmx$1.Controls.createSlider(fillOpacity, function (event, ui) {
           fillOpacity = ui.value;
           $(_this).change();
         });
@@ -5835,7 +6062,7 @@
           $(_this).change();
         });
         var patternOpacity = _fillStyle.opacity;
-        var patternOpacitySlider = nsGmx.Controls.createSlider(_fillStyle.opacity, function (event, ui) {
+        var patternOpacitySlider = nsGmx$1.Controls.createSlider(_fillStyle.opacity, function (event, ui) {
           patternOpacity = ui.value;
           $(_this).change();
         });
@@ -5887,7 +6114,7 @@
             for (var k = 0; k < _colors.length; k++) {
               (function (k) {
                 if (_colors[k] === null) return;
-                var colorPicker = nsGmx.Controls.createColorPicker(_colors[k], function (colpkr) {
+                var colorPicker = nsGmx$1.Controls.createColorPicker(_colors[k], function (colpkr) {
                   $(colpkr).fadeIn(500);
                   return false;
                 }, function (colpkr) {
@@ -6002,7 +6229,7 @@
         var filterText = _textarea(null, [['dir', 'className', 'inputStyle'], ['css', 'overflow', 'auto'], ['css', 'width', '250px'], ['css', 'height', '50px']]),
             setFilter = function setFilter() {
           var filterNum = getOwnChildNumber(filterText.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode),
-              layer = nsGmx.gmxMap.layersByID[elemCanvas.parentNode.gmxProperties.content.properties.name],
+              layer = nsGmx$1.gmxMap.layersByID[elemCanvas.parentNode.gmxProperties.content.properties.name],
               filter = layer.getStyle(filterNum);
           var newStyle = $.extend(true, {}, filter);
           newStyle.Filter = filterText.value;
@@ -6018,7 +6245,7 @@
 
         var mapName = elemCanvas.parentNode.gmxProperties.content.properties.mapName,
             layerName = elemCanvas.parentNode.gmxProperties.content.properties.name,
-            attrSuggestWidget = new nsGmx.AttrSuggestWidget([filterText], attrs || [], _mapHelper.attrValues[mapName][layerName], setFilter, ['attrs', 'operators']);
+            attrSuggestWidget = new nsGmx$1.AttrSuggestWidget([filterText], attrs || [], _mapHelper.attrValues[mapName][layerName], setFilter, ['attrs', 'operators']);
         var suggestCanvas = attrSuggestWidget.el[0];
 
         var div = _div([filterText, suggestCanvas], [['attr', 'filterTable', true]]);
@@ -6064,7 +6291,7 @@
             balloonText = _textarea(null, [['dir', 'className', 'inputStyle balloonEditor'], ['css', 'overflow', 'auto'], ['css', 'width', '251px'], ['css', 'height', '80px'], ['dir', 'id', textareaID]]),
             setBalloon = function setBalloon() {
           var filterNum = getOwnChildNumber(balloonText.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode),
-              layer = nsGmx.gmxMap.layersByID[layerName],
+              layer = nsGmx$1.gmxMap.layersByID[layerName],
               style = layer.getStyle(filterNum);
           var newStyle = $.extend(true, {}, style, div.getBalloonState());
           layer.setStyle(newStyle, filterNum);
@@ -6109,7 +6336,7 @@
         };
 
         balloonText.value = balloonParams.Balloon ? balloonParams.Balloon : defaultBalloonText();
-        var suggestWidget = new nsGmx.SuggestWidget(attrs ? attrs : [], [balloonText], '[suggest]', setBalloon);
+        var suggestWidget = new nsGmx$1.SuggestWidget(attrs ? attrs : [], [balloonText], '[suggest]', setBalloon);
 
         var divAttr = _div([_t(_gtxt("Атрибут >")), suggestWidget.el], [['dir', 'className', 'suggest-link-container']]);
 
@@ -6118,7 +6345,7 @@
           return true;
         };
 
-        var setDefaultBalloonText = nsGmx.Utils.makeLinkButton(_gtxt('По умолчанию'));
+        var setDefaultBalloonText = nsGmx$1.Utils.makeLinkButton(_gtxt('По умолчанию'));
 
         setDefaultBalloonText.onclick = function () {
           window.tinyMCE.get(textareaID).setContent(defaultBalloonText());
@@ -6165,7 +6392,7 @@
       var createFilter = function createFilter(layer, styleIndex, parentStyle, geometryType, attrs, elemCanvas, ulParent, treeviewFlag) {
         var templateStyle = {};
         $.extend(true, templateStyle, _mapHelper.makeStyle(parentStyle));
-        var zoomPropertiesControl = new nsGmx.ZoomPropertiesControl(parentStyle.MinZoom, parentStyle.MaxZoom);
+        var zoomPropertiesControl = new nsGmx$1.ZoomPropertiesControl(parentStyle.MinZoom, parentStyle.MaxZoom);
 
         var filterInput = _textarea([_t(parentStyle.Filter || '')], [['dir', 'className', 'inputStyle'], ['css', 'overflow', 'auto'], ['css', 'margin', '1px 0px'], ['css', 'width', '260px'], ['css', 'height', '40px']]),
             liMinZoom = zoomPropertiesControl.getMinLi(),
@@ -6214,7 +6441,7 @@
 
         $(zoomPropertiesControl).change(function () {
           var filterNum = getOwnChildNumber(ulParent.parentNode.parentNode.parentNode),
-              layer = nsGmx.gmxMap.layersByID[elemCanvas.parentNode.gmxProperties.content.properties.name],
+              layer = nsGmx$1.gmxMap.layersByID[elemCanvas.parentNode.gmxProperties.content.properties.name],
               style = layer.getStyle(filterNum);
           var newStyle = $.extend(true, {}, style, {
             MinZoom: this.getMinZoom(),
@@ -6238,7 +6465,7 @@
           dx: checkedXShift,
           dy: checkedYShift
         },
-            labelColor = nsGmx.Controls.createColorPicker(checkedLabelColor, function (colpkr) {
+            labelColor = nsGmx$1.Controls.createColorPicker(checkedLabelColor, function (colpkr) {
           $(colpkr).fadeIn(500);
           return false;
         }, function (colpkr) {
@@ -6253,9 +6480,9 @@
 
           templateStyle.label.color = labelColor.hex = parseInt('0x' + hex);
           checkedLabelColor = labelColor.hex = parseInt('0x' + hex);
-          nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
+          nsGmx$1.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
         }),
-            labelHaloColor = nsGmx.Controls.createColorPicker(checkedLabelHaloColor, function (colpkr) {
+            labelHaloColor = nsGmx$1.Controls.createColorPicker(checkedLabelHaloColor, function (colpkr) {
           $(colpkr).fadeIn(500);
           return false;
         }, function (colpkr) {
@@ -6270,21 +6497,21 @@
 
           templateStyle.label.haloColor = labelHaloColor.hex = parseInt('0x' + hex);
           checkedLabelHaloColor = labelHaloColor.hex = parseInt('0x' + hex);
-          nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
+          nsGmx$1.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
         }),
             layerName = elemCanvas.parentNode.gmxProperties.content.properties.name,
             textareaID = 'labeleditor' + layerName + _labelEditorId++,
             labelText = _textarea(null, [['dir', 'className', 'inputStyle labelEditor'], ['attr', 'placeholder', _gtxt("Пример выражения")], ['css', 'overflow', 'auto'], ['css', 'width', '251px'], ['css', 'height', '80px'], ['dir', 'id', textareaID]]);
 
-        _title(labelColor, _gtxt("Цвет шрифта"));
+        _title$1(labelColor, _gtxt("Цвет шрифта"));
 
-        _title(labelHaloColor, _gtxt("Цвет обводки"));
+        _title$1(labelHaloColor, _gtxt("Цвет обводки"));
 
-        _title(fontSizeInput, _gtxt("Размер шрифта"));
+        _title$1(fontSizeInput, _gtxt("Размер шрифта"));
 
-        _title(xShiftInput, _gtxt("Смещение по x"));
+        _title$1(xShiftInput, _gtxt("Смещение по x"));
 
-        _title(yShiftInput, _gtxt("Смещение по y")); // при загрузке выставим в инпуты значения либо template, либо label
+        _title$1(yShiftInput, _gtxt("Смещение по y")); // при загрузке выставим в инпуты значения либо template, либо label
 
 
         if (templateStyle.labelTemplate) {
@@ -6324,7 +6551,7 @@
                   templateStyle.label.field = key;
                 }
 
-                nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
+                nsGmx$1.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
                 return;
               } // в других случаях в label передается templateStyle.labelTemplate
               // если внтутри квадратных скобок оказывается какой-то произвольный текст
@@ -6351,7 +6578,7 @@
             templateStyle.labelTemplate = str;
           }
 
-          nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
+          nsGmx$1.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
         };
 
         labelText.onkeyup = updateLabelText;
@@ -6363,7 +6590,7 @@
 
           templateStyle.label.size = Number(this.value);
           checkedFontSize = Number(this.value);
-          nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
+          nsGmx$1.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
         };
 
         xShiftInput.onkeyup = function () {
@@ -6373,7 +6600,7 @@
 
           templateStyle.labelAnchor[0] = Number(this.value);
           checkedXShift = Number(this.value);
-          nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
+          nsGmx$1.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
           layer.setStyle(templateStyle);
         };
 
@@ -6384,10 +6611,10 @@
 
           templateStyle.labelAnchor[1] = -Number(this.value);
           checkedYShift = -Number(this.value);
-          nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
+          nsGmx$1.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
         };
 
-        var suggestWidget = new nsGmx.SuggestWidget(attrs ? attrs : [], [labelText], '[suggest]', updateLabelText.bind(labelText));
+        var suggestWidget = new nsGmx$1.SuggestWidget(attrs ? attrs : [], [labelText], '[suggest]', updateLabelText.bind(labelText));
 
         var divAttr = _div([_t(_gtxt("Атрибут >")), suggestWidget.el], [['dir', 'className', 'suggest-link-container']]);
 
@@ -6427,14 +6654,14 @@
 
         var bindChangeEvent = function bindChangeEvent() {
           $(resObject).change(function () {
-            nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
+            nsGmx$1.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
           });
         }; // common
 
 
         var symbolsTitle = _div();
 
-        if (nsGmx.AuthManager.isRole(nsGmx.ROLE_ADMIN)) {
+        if (nsGmx$1.AuthManager.isRole(nsGmx$1.ROLE_ADMIN)) {
           var styleLibIcon = makeImageButton('img/stylelib-main.png', 'img/stylelib-main.png');
           styleLibIcon.style.verticalAlign = 'middle';
           styleLibIcon.style.marginLeft = '5px';
@@ -6443,7 +6670,7 @@
           _(symbolsTitle, [_span([_t(_gtxt("Символика"))], [['css', 'fontSize', '12px']]), styleLibIcon]);
 
           styleLibIcon.onclick = function () {
-            nsGmx.showStyleLibraryDialog('select', geometryType.toUpperCase()).done(function (activeStyleManager) {
+            nsGmx$1.showStyleLibraryDialog('select', geometryType.toUpperCase()).done(function (activeStyleManager) {
               $(activeStyleManager).change(function () {
                 var styleFromLib = this.getActiveStyle();
 
@@ -6452,7 +6679,7 @@
                   $(liStyle.lastChild).empty();
                   resObject = createStyleEditor(liStyle.lastChild, templateStyle, geometryType, isWindLayer);
                   bindChangeEvent();
-                  nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
+                  nsGmx$1.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
                 }
               });
             });
@@ -6537,7 +6764,7 @@
               thickness: 1
             }
           },
-              layer = nsGmx.gmxMap.layersByID[elem.name];
+              layer = nsGmx$1.gmxMap.layersByID[elem.name];
           lastStyle = lastStyle || {}; //копируем состояние балунов с последнего стиля
 
           newStyle.Balloon = lastStyle.Balloon || '';
@@ -6570,7 +6797,7 @@
 
       var swapFilters = function swapFilters(div, firstNum, filterCanvas) {
         var layerName = div.gmxProperties.content.properties.name,
-            layer = nsGmx.gmxMap.layersByID[layerName],
+            layer = nsGmx$1.gmxMap.layersByID[layerName],
             filters = layer.getStyles(),
             newFilters = [];
 
@@ -6594,7 +6821,7 @@
 
         $.extend(true, templateStyle, _mapHelper.makeStyle(parentStyle));
 
-        _title(nameInput, _gtxt("Имя фильтра"));
+        _title$1(nameInput, _gtxt("Имя фильтра"));
 
         filterCanvas.getStyle = function () {
           return templateStyle;
@@ -6671,9 +6898,9 @@
         moveUp.setAttribute('filterMoveButton', 'up');
         moveDown.setAttribute('filterMoveButton', 'down');
 
-        _title(moveUp, _gtxt("Переместить фильтр вверх"));
+        _title$1(moveUp, _gtxt("Переместить фильтр вверх"));
 
-        _title(moveDown, _gtxt("Переместить фильтр вниз"));
+        _title$1(moveDown, _gtxt("Переместить фильтр вниз"));
 
         _(liFilter.firstChild, [moveDown, moveUp]);
 
@@ -6694,7 +6921,7 @@
         remove.style.height = '16px';
         remove.style.margin = '0px 1px -3px 2px';
 
-        _title(remove, _gtxt("Удалить фильтр"));
+        _title$1(remove, _gtxt("Удалить фильтр"));
 
         _(liFilter.firstChild, [remove]);
 
@@ -6849,7 +7076,7 @@
 
         outlineTitleTds.push(_td([outlineToggle], [['css', 'width', '20px'], ['css', 'height', '24px']]));
         outlineTitleTds.push(_td([_t(_gtxt("Граница"))], [['css', 'width', '70px']]));
-        var outlineColor = nsGmx.Controls.createColorPicker(templateStyle.outline && typeof templateStyle.outline.color != 'undefined' ? templateStyle.outline.color : 0x0000FF, function (colpkr) {
+        var outlineColor = nsGmx$1.Controls.createColorPicker(templateStyle.outline && typeof templateStyle.outline.color != 'undefined' ? templateStyle.outline.color : 0x0000FF, function (colpkr) {
           $(colpkr).fadeIn(500);
           return false;
         }, function (colpkr) {
@@ -6863,25 +7090,25 @@
         });
         if (templateStyle.outline && typeof templateStyle.outline.color != 'undefined') outlineColor.hex = templateStyle.outline.color;else outlineColor.hex = 0x0000FF;
         outlineTds.push(_td([outlineColor], [['css', 'width', '40px']]));
-        var divSlider = nsGmx.Controls.createSlider(templateStyle.outline && typeof templateStyle.outline.opacity != 'undefined' ? templateStyle.outline.opacity : 100, function (event, ui) {
+        var divSlider = nsGmx$1.Controls.createSlider(templateStyle.outline && typeof templateStyle.outline.opacity != 'undefined' ? templateStyle.outline.opacity : 100, function (event, ui) {
           templateStyle.outline = templateStyle.outline || {};
           templateStyle.outline.opacity = ui.value;
           $(resObject).change();
         });
         outlineTds.push(_td([divSlider], [['css', 'width', '100px'], ['css', 'padding', '4px 5px 3px 5px']]));
-        var outlineThick = nsGmx.Controls.createInput(templateStyle.outline && typeof templateStyle.outline.thickness != 'undefined' ? templateStyle.outline.thickness : 2, function () {
+        var outlineThick = nsGmx$1.Controls.createInput(templateStyle.outline && typeof templateStyle.outline.thickness != 'undefined' ? templateStyle.outline.thickness : 2, function () {
           templateStyle.outline = templateStyle.outline || {};
           templateStyle.outline.thickness = Number(this.value);
           $(resObject).change();
           return true;
         });
 
-        _title(outlineThick, _gtxt("Толщина линии"));
+        _title$1(outlineThick, _gtxt("Толщина линии"));
 
         outlineTds.push(_td([outlineThick], [['css', 'width', '30px']]));
 
         var dashInput = _input(null, [['attr', 'value', templateStyle.outline && typeof templateStyle.outline.dashes != 'undefined' ? templateStyle.outline.dashes : ''], ['dir', 'className', 'inputStyle'], ['css', 'width', '140px']]),
-            dashSelect = nsGmx.Utils._select(null, [['dir', 'className', 'selectStyle'], ['css', 'width', '50px'], ['css', 'fontSize', '12px'], ['css', 'fontWeight', 'bold']]),
+            dashSelect = nsGmx$1.Utils._select(null, [['dir', 'className', 'selectStyle'], ['css', 'width', '50px'], ['css', 'fontSize', '12px'], ['css', 'fontWeight', 'bold']]),
             borderValues = {
           "1": "",
           "2": "4,4",
@@ -6998,7 +7225,7 @@
           fillTitleTds.push(_td([fillStyleControl.getSelector()[0]], [['css', 'width', '70px']]));
           var checkedFillColor = typeof templateStyle.fill != 'undefined' && typeof templateStyle.fill.color != 'undefined' ? templateStyle.fill.color : 0xFFFFFF,
               checkedFillOpacity = typeof templateStyle.fill != 'undefined' && typeof templateStyle.fill.opacity != 'undefined' ? templateStyle.fill.opacity : 0,
-              fillColor = nsGmx.Controls.createColorPicker(checkedFillColor, function (colpkr) {
+              fillColor = nsGmx$1.Controls.createColorPicker(checkedFillColor, function (colpkr) {
             $(colpkr).fadeIn(500);
             return false;
           }, function (colpkr) {
@@ -7011,7 +7238,7 @@
 
             $(resObject).change();
           }),
-              fillSlider = nsGmx.Controls.createSlider(checkedFillOpacity, function (event, ui) {
+              fillSlider = nsGmx$1.Controls.createSlider(checkedFillOpacity, function (event, ui) {
             templateStyle.fill.opacity = ui.value;
             $(resObject).change();
           });
@@ -7044,21 +7271,21 @@
         });
 
         if (geometryType == "point") {
-          var markerSizeInput = nsGmx.Controls.createInput(templateStyle.marker && templateStyle.marker.size || 3, function () {
+          var markerSizeInput = nsGmx$1.Controls.createInput(templateStyle.marker && templateStyle.marker.size || 3, function () {
             templateStyle.marker = templateStyle.marker || {};
             templateStyle.marker.size = Number(this.value);
             $(resObject).change();
             return true;
           });
 
-          _title(markerSizeInput, _gtxt("Размер точек"));
+          _title$1(markerSizeInput, _gtxt("Размер точек"));
 
           var markerSizeTds = [_td(), _td([_t(_gtxt("Размер"))]), _td([markerSizeInput], [['attr', 'fade', true]])];
 
           _(markerSizeParent, markerSizeTds, [['attr', 'fade', true]]);
 
           if (isWindLayer) {
-            var markerColor = nsGmx.Controls.createColorPicker(templateStyle.marker && typeof templateStyle.marker.color != 'undefined' ? templateStyle.marker.color : 0xFF00FF, function (colpkr) {
+            var markerColor = nsGmx$1.Controls.createColorPicker(templateStyle.marker && typeof templateStyle.marker.color != 'undefined' ? templateStyle.marker.color : 0xFF00FF, function (colpkr) {
               $(colpkr).fadeIn(500);
               return false;
             }, function (colpkr) {
@@ -7079,7 +7306,7 @@
               $(resObject).change();
             };
 
-            _title(scale, _gtxt("Масштаб"));
+            _title$1(scale, _gtxt("Масштаб"));
 
             angle = _input(null, [['dir', 'className', 'inputStyle'], ['attr', 'value', templateStyle.marker && templateStyle.marker.angle ? templateStyle.marker.angle : ''], ['css', 'width', '68px']]);
 
@@ -7089,7 +7316,7 @@
               $(resObject).change();
             };
 
-            _title(angle, _gtxt("Угол поворота"));
+            _title$1(angle, _gtxt("Угол поворота"));
 
             iconTds.push(_td([_table([_tbody([_tr([_td([inputUrl.getControl()], [['attr', 'colSpan', 3]])]), _tr([_td([markerColor], [['css', 'paddingLeft', '1px']]), _td([angle]), _td([scale], [['css', 'paddingRight', '3px']])])])])]));
           } else iconTds.push(_td([inputUrl.getControl()]));
@@ -7128,7 +7355,7 @@
             parentIcon = $(div).children("[styleType]")[0],
             filtersCanvas = _div(null, [['css', 'marginLeft', '10px']]),
             filterHeader = createFilterHeader(filtersCanvas, elemProperties, parentIcon),
-            layer = nsGmx.gmxMap.layersByID[elemProperties.name],
+            layer = nsGmx$1.gmxMap.layersByID[elemProperties.name],
             layerStyles = layer.getStyles();
 
         for (var i = 0; i < layerStyles.length; i++) {
@@ -7178,7 +7405,7 @@
         }
 
         window._mapHelper.layerStylesHash[layerName] = true;
-        var pos = nsGmx.Utils.getDialogPos(div, true, 390);
+        var pos = nsGmx$1.Utils.getDialogPos(div, true, 390);
 
         var updateFunc = function updateFunc() {
           var _styles = elemProperties.styles;
@@ -7200,7 +7427,7 @@
         }
 
         _mapHelper.attrValues[mapName] = _mapHelper.attrValues[mapName] || {};
-        _mapHelper.attrValues[mapName][layerName] = new nsGmx.LazyAttributeValuesProviderFromServer(attributesHash, layerName);
+        _mapHelper.attrValues[mapName][layerName] = new nsGmx$1.LazyAttributeValuesProviderFromServer(attributesHash, layerName);
 
         var closeFunc = function closeFunc() {
           updateFunc();
@@ -7266,7 +7493,7 @@
         createStylesDialog: createStylesDialog,
         updateAllStyles: updateAllStyles
       });
-    }(nsGmx.Utils._);
+    })(nsGmx$1.Utils._);
 
     /** Менеджер дополнительных данных карты. Данные собираются и используются набором сборщиков данных, каждый из которых имеет свой уникальный id.
     @class userObjectsManager
@@ -7355,7 +7582,7 @@
 
     nsGmx$1.Controls = nsGmx$1.Controls || {};
 
-    nsGmx$1.Controls.LanguageSelector = function (container, defLang) {
+    nsGmx$1.Controls.LanguageSelector = function (container) {
       var LANGUAGES = [{
         lang: 'rus',
         title: 'rus'
@@ -7396,13 +7623,13 @@
       this.tabs = [];
     };
 
-    queryTabs.prototype = new leftMenu$1();
+    queryTabs.prototype = new leftMenu();
 
     queryTabs.prototype.load = function () {
       if (!this.builded) {
         var _this = this;
 
-        this.tabsCanvas = _div(null, [['dir', 'className', 'tabsCanvas']]);
+        this.tabsCanvas = _div$1(null, [['dir', 'className', 'tabsCanvas']]);
         this.workCanvas.appendChild(this.tabsCanvas);
 
         for (var i = 0; i < this.tabs.length; i++) {
@@ -7415,7 +7642,7 @@
           tolerance: 'pointer',
           containment: 'parent'
         });
-        $(this.tabsCanvas).bind('sortupdate', function (event, ui) {
+        $(this.tabsCanvas).bind('sortupdate', function () {
           var orderedTabs = [];
           $(_this.tabsCanvas).children().each(function () {
             orderedTabs.push(this.tabInfo);
@@ -7485,7 +7712,7 @@
       var createTab = function createTab() {
         updateDataLoc(langControl.getLang());
 
-        var mapState = _mapHelper.getMapState(),
+        var mapState = window._mapHelper.getMapState(),
             tab = {
           name: titleLoc.rus || titleLoc.eng,
           description: descrLoc.rus || descrLoc.eng,
@@ -7529,14 +7756,14 @@
       canvas.tabInfo = tabInfo;
       $('.tabName', canvas).click(this.show.bind(this, tabInfo.state));
       $('.gmx-icon-close', canvas).click(function () {
-        var index = getOwnChildNumber(canvas);
+        var index = getOwnChildNumber$1(canvas);
 
         _this.tabs.splice(index, 1);
 
         canvas.removeNode(true);
       });
       $('.gmx-icon-edit', canvas).click(function () {
-        var index = getOwnChildNumber(canvas);
+        var index = getOwnChildNumber$1(canvas);
 
         _this.add(_this.tabs[index], index);
       }).toggle(_queryMapLayers.currentMapRights() === "edit");
@@ -7564,13 +7791,13 @@
 
       gmxDrawing.getFeatures().slice(0).forEach(gmxDrawing.remove.bind(gmxDrawing));
 
-      for (var i = 0; i < parsedState.drawnObjects.length; i++) {
+      for (var _i = 0; _i < parsedState.drawnObjects.length; _i++) {
         //старый формат - число, новый - строка
-        var rawColor = parsedState.drawnObjects[i].color,
+        var rawColor = parsedState.drawnObjects[_i].color,
             color = (typeof rawColor === 'number' ? '#' + L.gmxUtil.dec2hex(rawColor) : rawColor) || '#0000FF',
-            thickness = parsedState.drawnObjects[i].thickness || 2,
-            opacity = parsedState.drawnObjects[i].opacity || 80;
-        gmxDrawing.addGeoJSON(parsedState.drawnObjects[i].geometry, {
+            thickness = parsedState.drawnObjects[_i].thickness || 2,
+            opacity = parsedState.drawnObjects[_i].opacity || 80;
+        gmxDrawing.addGeoJSON(parsedState.drawnObjects[_i].geometry, {
           lineStyle: {
             color: color,
             weight: thickness,
@@ -7581,7 +7808,7 @@
 
       _queryMapLayers.applyState(parsedState.condition, parsedState.mapStyles);
 
-      if (typeof parsedState.customParamsCollection !== 'undefined') _mapHelper.customParamsManager.loadParams(parsedState.customParamsCollection);
+      if (typeof parsedState.customParamsCollection !== 'undefined') window._mapHelper.customParamsManager.loadParams(parsedState.customParamsCollection);
 
       if (parsedState.openPopups) {
         for (var l in parsedState.openPopups) {
@@ -7614,7 +7841,7 @@
         $('#left_mapTabs').remove();
         _queryTabs.builded = false;
         _queryTabs.tabs = data;
-        mapHelp.tabs.load('mapTabs');
+        window.mapHelp.tabs.load('mapTabs');
       }
     });
 
@@ -7624,7 +7851,7 @@
     */
 
     nsGmx$1.mapHelper = {};
-    var mapHelp$1 = {
+    var mapHelp = {
       mapHelp: {},
       serviceHelp: {},
       tabs: {},
@@ -7717,7 +7944,7 @@
             return _borders[name] && _borders[name].drawingFeature;
           },
           length: function length() {
-            return objLength$1(_borders);
+            return objLength(_borders);
           },
           //callback(name, obj)
           forEach: function forEach(callback) {
@@ -7765,7 +7992,7 @@
       this.unsavedChanges = false;
     };
 
-    mapHelper$1.prototype = new leftMenu$1();
+    mapHelper$1.prototype = new leftMenu();
     /** Менеджер кастомных параметров карты.
      * Содержит набор провайдеров доп. параметров, которые могут сохранять и загружать данные из хранилища параметров
      * Данные загружаются один раз. Возможна асинхронная загрузка данных/добавление провайдеров.
@@ -7832,7 +8059,7 @@
         };
 
         if (style.Icon) {
-          var src = style.Icon.indexOf("http://") != -1 || style.Icon.indexOf("https://") != -1 ? style.Icon : baseAddress + "/" + style.Icon;
+          var src = style.Icon.indexOf("http://") != -1 || style.Icon.indexOf("https://") != -1 ? style.Icon : window.baseAddress + "/" + style.Icon;
           givenStyle.marker = {
             image: src,
             center: true
@@ -8276,7 +8503,7 @@
         var dialogDiv = showDialog$1(type != 'Vector' ? _gtxt('Создать растровый слой') : _gtxt('Создать векторный слой'), parent, 340, height, false, false);
         nsGmx$1.createLayerEditor(false, type, parent, properties, {
           doneCallback: function doneCallback() {
-            removeDialog$1(dialogDiv);
+            removeDialog(dialogDiv);
           }
         });
       } else {
@@ -8415,9 +8642,9 @@
           if (this.layerEditorsHash[layerName]) return;
           this.layerEditorsHash[layerName] = true;
 
-          var _id = 'layertabs' + layerName,
-              divProperties = _div$1(null, [['attr', 'id', 'properties' + _id], ['css', 'height', '100%']]),
-              divStyles = _div$1(null, [['attr', 'id', 'styles' + _id], ['css', 'height', '100%'], ['css', 'overflowY', 'auto']]);
+          var id = 'layertabs' + layerName,
+              divProperties = _div$1(null, [['attr', 'id', 'properties' + id], ['css', 'height', '100%']]),
+              divStyles = _div$1(null, [['attr', 'id', 'styles' + id], ['css', 'height', '100%'], ['css', 'overflowY', 'auto']]);
 
           var layer = nsGmx$1.gmxMap.layersByID[layerName],
               parentStyle = elemProperties.styles && elemProperties.styles[0] || elemProperties;
@@ -8452,7 +8679,7 @@
 
             _this.drawingBorders.removeRoute(layerName, true);
 
-            if ($('#drawingBorderDialog' + layerName).length) removeDialog$1($('#drawingBorderDialog' + layerName)[0].parentNode);
+            if ($('#drawingBorderDialog' + layerName).length) removeDialog($('#drawingBorderDialog' + layerName)[0].parentNode);
             return false;
           };
 
@@ -8461,7 +8688,9 @@
           nsGmx$1.createMultiLayerEditorServer(elemProperties, div, treeView);
         }
       } else if (elemProperties.type == "Virtual") {
-        var _divProperties = _div$1(null, [['attr', 'id', 'properties' + id], ['css', 'height', '100%']]);
+        var _id = 'layertabs' + layerName;
+
+        var _divProperties = _div$1(null, [['attr', 'id', 'properties' + _id], ['css', 'height', '100%']]);
 
         this.createLoadingLayerEditorProperties(div, _divProperties, null, {
           doneCallback: function doneCallback() {
@@ -8552,7 +8781,7 @@
     };
 
     mapHelper$1.prototype.createChartsEditor = function (parent, elemCanvas) {
-      var graphTypeSel = nsGmx$1.Utils._select([_option$1([_t$1(_gtxt("График по времени"))], [['attr', 'value', 'func']]), _option$1([_t$1(_gtxt("Круговая"))], [['attr', 'value', 'pie']])], [['dir', 'className', 'selectStyle'], ['css', 'width', '180px']]),
+      var graphTypeSel = nsGmx$1.Utils._select([_option([_t$1(_gtxt("График по времени"))], [['attr', 'value', 'func']]), _option([_t$1(_gtxt("Круговая"))], [['attr', 'value', 'pie']])], [['dir', 'className', 'selectStyle'], ['css', 'width', '180px']]),
           propertiesMask = _input$1(null, [['dir', 'className', 'inputStyle'], ['css', 'width', '180px']]);
 
       switchSelect(graphTypeSel, elemCanvas.graphDataType);
@@ -8840,7 +9069,7 @@
         params.geometry_cs = crs;
       }
 
-      sendCrossDomainPostRequest$1(window.serverBase + "VectorLayer/ModifyVectorObjects.ashx", params, function (addResponse) {
+      sendCrossDomainPostRequest(window.serverBase + "VectorLayer/ModifyVectorObjects.ashx", params, function (addResponse) {
         if (!parseResponse$1(addResponse)) {
           def.reject();
           return;
@@ -8893,7 +9122,7 @@
 
       requestParams.page = options.page || 0;
       requestParams.pagesize = options.pagesize || 100000;
-      sendCrossDomainPostRequest$1(window.serverBase + "VectorLayer/Search.ashx", requestParams, function (response) {
+      sendCrossDomainPostRequest(window.serverBase + "VectorLayer/Search.ashx", requestParams, function (response) {
         if (!parseResponse$1(response)) {
           def.reject(response);
           return;
@@ -8953,7 +9182,7 @@
         requestParams.columns = JSON.stringify(params.columns);
       }
 
-      sendCrossDomainPostRequest$1(window.location.protocol + "//" + params.host + "/" + "DownloadLayer.ashx", requestParams); // if (window.FormData) {
+      sendCrossDomainPostRequest(window.location.protocol + "//" + params.host + "/" + "DownloadLayer.ashx", requestParams); // if (window.FormData) {
       //
       // 	var form = document.createElement("form");
       // 	form.style.display = 'none';
@@ -9017,27 +9246,27 @@
     window._mapHelper = _mapHelper$1;
     window.mapHelper = mapHelper$1;
 
-    mapHelp$1.mapHelp.load = function () {
+    mapHelp.mapHelp.load = function () {
       var alreadyLoaded = _mapHelper$1.createWorkCanvas(arguments[0]);
 
       if (!alreadyLoaded) _mapHelper$1.load();
     };
 
-    mapHelp$1.mapHelp.unload = function () {};
+    mapHelp.mapHelp.unload = function () {};
 
-    mapHelp$1.serviceHelp.load = function () {
+    mapHelp.serviceHelp.load = function () {
       var alreadyLoaded = _serviceHelper.createWorkCanvas(arguments[0]);
 
       if (!alreadyLoaded) _serviceHelper.load();
     };
 
-    mapHelp$1.serviceHelp.unload = function () {};
+    mapHelp.serviceHelp.unload = function () {};
 
     var serviceHelper = function serviceHelper() {
       this.builded = false;
     };
 
-    serviceHelper.prototype = new leftMenu$1();
+    serviceHelper.prototype = new leftMenu();
 
     serviceHelper.prototype.load = function () {
       var _this = this;
@@ -9063,21 +9292,21 @@
 
     window._serviceHelper = _serviceHelper;
 
-    mapHelp$1.tabs.load = function () {
+    mapHelp.tabs.load = function () {
       var alreadyLoaded = _queryTabs.createWorkCanvas(arguments[0]);
 
       if (!alreadyLoaded) _queryTabs.load();
     };
 
-    mapHelp$1.tabs.unload = function () {};
+    mapHelp.tabs.unload = function () {};
 
-    mapHelp$1.externalMaps.load = function () {
+    mapHelp.externalMaps.load = function () {
       var alreadyLoaded = window._queryExternalMaps.createWorkCanvas(arguments[0]);
 
       if (!alreadyLoaded) window._queryExternalMaps.load();
     };
 
-    mapHelp$1.externalMaps.unload = function () {}; //Динамически подгружаемые части вьюера
+    mapHelp.externalMaps.unload = function () {}; //Динамически подгружаемые части вьюера
     //Редактирование мультислоя
 
 
@@ -9238,7 +9467,7 @@
         };
 
         this.login = function (login, password, callback, errorCallback) {
-          sendCrossDomainPostRequest$1(window.serverBase + "Login.ashx", {
+          sendCrossDomainPostRequest(window.serverBase + "Login.ashx", {
             WrapStyle: 'message',
             login: login,
             pass: password
@@ -9268,7 +9497,7 @@
             if (!parseResponse$1(response)) return;
 
             if (_this.isAccounts() && window.gmxAuthServer) {
-              sendCrossDomainJSONRequest$1(window.gmxAuthServer + "Handler/Logout", function (response) {
+              sendCrossDomainJSONRequest$1(window.gmxAuthServer + "Handler/Logout", function () {
                 //TODO: check result
                 _this.setUserInfo({
                   Login: false
@@ -9566,12 +9795,13 @@
         return this._view.find(".headerWidget-languageContainer").show();
       };
 
-      HeaderWidget.prototype.getSocialsPlaceholder = function (first_argument) {
+      HeaderWidget.prototype.getSocialsPlaceholder = function () {
         return this._view.find(".headerWidget-socialsContainer");
       };
 
       return HeaderWidget;
     }();
+
     nsGmx$1.Translations.addText('rus', {
       header: {
         'langRu': 'Ru',
@@ -9590,7 +9820,7 @@
     nsGmx$1.Templates.HeaderWidget["socials"] = "<div class=\"headerWidget-socialIcons\">\n" + "    {{#if vk}}\n" + "        <div class=\"headerWidget-socialIconCell\"><a href=\"{{vk}}\" target=\"_blank\"><i class=\"icon-vk\"></i></a></div>\n" + "    {{/if}}\n" + "    {{#if facebook}}\n" + "        <div class=\"headerWidget-socialIconCell\"><a href=\"{{facebook}}\" target=\"_blank\"><i class=\"icon-facebook\"></i></a></div>\n" + "    {{/if}}\n" + "    {{#if twitter}}\n" + "        <div class=\"headerWidget-socialIconCell\"><a href=\"{{twitter}}\" target=\"_blank\"><i class=\"icon-twitter\"></i></a></div>\n" + "    {{/if}}\n" + "</div>";
 
     nsGmx$1.LanguageWidget = function () {
-      var LanguageWidget = function LanguageWidget(options) {
+      var LanguageWidget = function LanguageWidget() {
         this._view = $(Handlebars.compile(nsGmx$1.Templates.LanguageWidget.layout)({
           eng: nsGmx$1.Translations.getLanguage() === 'eng',
           rus: nsGmx$1.Translations.getLanguage() === 'rus'
@@ -9618,6 +9848,7 @@
 
       return LanguageWidget;
     }();
+
     nsGmx$1.Templates = nsGmx$1.Templates || {};
     nsGmx$1.Templates.LanguageWidget = {};
     nsGmx$1.Templates.LanguageWidget["layout"] = "<div class=\"languageWidget ui-widget\">\n" + "    <div class=\"languageWidget-item languageWidget-item_rus\"><span class=\"{{^rus}}link languageWidget-link{{/rus}}{{#rus}}languageWidget-disabled{{/rus}}\">Ru</span></div>\n" + "    <div class=\"languageWidget-item languageWidget-item_eng\"><span class=\"{{^eng}}link languageWidget-link{{/eng}}{{#eng}}languageWidget-disabled{{/eng}}\">En</span></div>\n" + "</div>";
@@ -10629,8 +10860,6 @@
         }.bind(this));
       },
       _createLayerElement: function _createLayerElement(layerObj) {
-        var layer = layerObj.layer;
-
         var el = L.Control.IconLayers.prototype._createLayerElement.call(this, layerObj);
 
         var shutterEl = L.DomUtil.create('div', 'leaflet-iconLayers-layerShutter');
@@ -12015,9 +12244,6 @@
       var toMidnight = nsGmx$1.DateInterval.toMidnight,
           dayms = nsGmx$1.DateInterval.MS_IN_DAY;
       var calendarWidgetTemplate = '' + '<div class="commoncalendar-container">' + '<div class="calendar-layers-container">' + '<div class="calendar-container">' + '<div class="calendar-widget-container"></div>' + '</div>' + '</div>' + '<div class="sync-switch-container switch-container">' + '<label class="sync-switch switch">' + '<input type="checkbox"' + '{{#if synchronyzed}}checked{{/if}}' + '>' + '<div class="sync-switch-slider switch-slider round"></div>' + '</label>' + '<span class="sync-switch-slider-description">{{i "CommonCalendarWidget.sync"}}</span>' + '<label class="daily-switch">' + '<input type="checkbox"' + '{{#if dailyFilter}}checked{{/if}}' + '>' + '{{i "CommonCalendarWidget.daily"}}' + '</label>' + '</div>' + '<div class="unsync-layers-container" style="display: none">' + '<select class="layersList">' + '{{#each this.layers}}' + '<option value="{{this.layer}}"' + '{{#if this.current}} selected="selected"{{/if}}>' + '{{this.layer}}' + '</option>' + '{{/each}}' + '</select>' + '</div>' + '</div>';
-
-      var _gtxt = nsGmx$1.Translations.getText.bind(nsGmx$1.Translations);
-
       var CommonCalendarModel = Backbone.Model.extend({
         defaults: {
           active: true,
@@ -12040,7 +12266,7 @@
           'change .daily-switch': 'toggleDailyFilter',
           'change .layersList': 'changeCurrentLayer'
         },
-        initialize: function initialize(options) {
+        initialize: function initialize() {
           var _this = this;
 
           this.$el.html(this.template({
@@ -12146,12 +12372,13 @@
               var layer = layers[i],
                   props = layer.getGmxProperties(),
                   t = props.title,
-                  isTemporalLayer = layer instanceof L.gmx.VectorLayer && props.Temporal || props.type === 'Virtual' && layer.getDateInterval;
-              int = layer.getDateInterval();
+                  isTemporalLayer = layer instanceof L.gmx.VectorLayer && props.Temporal || props.type === 'Virtual' && layer.getDateInterval,
+                  _int = layer.getDateInterval();
 
-              if (isTemporalLayer && int) {
-                var b = int.beginDate.toString(),
-                    e = int.endDate.toString();
+              if (isTemporalLayer && _int) {
+                var b = _int.beginDate.toString(),
+                    e = _int.endDate.toString();
+
                 list.push({
                   title: t,
                   beginDate: b,
@@ -12197,7 +12424,7 @@
               if (nsGmx$1.gmxMap.properties.MapID === '0786A7383DF74C3484C55AFC3580412D') {
                 _queryMapLayers.getContainerAfter().find('.commoncalendar-container').replaceWith(calendarDiv);
               } else {
-                _queryMapLayers.getContainerBefore().findcommoncalendar - container('.commoncalendar-container').replaceWith(calendarDiv);
+                _queryMapLayers.getContainerBefore().find('.commoncalendar-container').replaceWith(calendarDiv);
               }
             }; //явная проверка, так как хочется быть максимально синхронными в этом методе
 
@@ -12254,6 +12481,7 @@
               clone[variable] = unbindedTemporalLayers[variable];
             }
           }
+
           delete clone[layerName];
           this.model.set('unbindedTemporalLayers', clone);
           this.updateTemporalLayers();
@@ -12266,8 +12494,7 @@
             return;
           }
 
-          var props = layer.getGmxProperties(),
-              unbindedTemporalLayers = attrs.unbindedTemporalLayers,
+          var unbindedTemporalLayers = attrs.unbindedTemporalLayers,
               clone = {};
           layer.removeLayerFilter({
             id: 'dailyFilter'
@@ -12278,6 +12505,7 @@
               clone[variable] = unbindedTemporalLayers[variable];
             }
           }
+
           clone[layerName] = true;
           this.model.set('unbindedTemporalLayers', clone);
           this.updateTemporalLayers([layer]);
@@ -12328,14 +12556,12 @@
                 this._updateOneLayer(layer, dateBegin, dateEnd);
               }
             }
-          } else {
-            if (currentLayer && !(currentLayer in attrs.unbindedTemporalLayers)) {
-              currentLayer = nsGmx$1.gmxMap.layersByID[currentLayer];
+          } else if (currentLayer && !(currentLayer in attrs.unbindedTemporalLayers)) {
+            currentLayer = nsGmx$1.gmxMap.layersByID[currentLayer];
 
-              this._updateOneLayer(currentLayer, dateBegin, dateEnd);
-            } else {
-              return;
-            }
+            this._updateOneLayer(currentLayer, dateBegin, dateEnd);
+          } else {
+            return;
           }
 
           if (layersMaxDates.length > 0) {
@@ -12364,7 +12590,8 @@
             return;
           }
 
-          props = layer.getGmxProperties(), layerID = props.LayerID;
+          props = layer.getGmxProperties();
+          var layerID = props.LayerID;
 
           if (layerID in attrs.unbindedTemporalLayers) {
             return;
@@ -12375,7 +12602,9 @@
               return;
             }
 
-            dateInterval = layer.getDateInterval(), dateBegin = dateInterval.beginDate, dateEnd = dateInterval.endDate;
+            dateInterval = layer.getDateInterval();
+            dateBegin = dateInterval.beginDate;
+            dateEnd = dateInterval.endDate;
             this.setDateInterval(dateBegin, dateEnd, layer);
           }
         },
@@ -12454,25 +12683,27 @@
             }
           }
 
-          for (var i = 0; i < temporalLayers.length; i++) {
-            var layer = temporalLayers[i],
-                props = layer.getGmxProperties(),
-                layerID = props.LayerID;
-            str += '<option value=' + layerID + '>' + props.title + '</option>';
+          for (var _i = 0; _i < temporalLayers.length; _i++) {
+            var _layer = temporalLayers[_i],
+                _props = _layer.getGmxProperties(),
+                layerID = _props.LayerID;
+
+            str += '<option value=' + layerID + '>' + _props.title + '</option>';
           }
+
           $(layersList).html(str);
 
           if (currentLayer) {
-            var l = nsGmx$1.gmxMap.layersByID[currentLayer];
             this.$('.layersList option').each(function () {
               if ($(this).val() === currentLayer) {
                 $(this).prop("selected", true);
               }
             }); // установим текщим первый слой из списка
           } else if (!currentLayer && temporalLayers.length) {
-            var props = temporalLayers[0].getGmxProperties(),
-                layerID = props.LayerID;
-            this.$('.layersList option[value="' + layerID + '"]').prop("selected", true);
+            var _props2 = temporalLayers[0].getGmxProperties(),
+                _layerID = _props2.LayerID;
+
+            this.$('.layersList option[value="' + _layerID + '"]').prop("selected", true);
           }
 
           $(layersList).temporallayersmenu({
@@ -12483,7 +12714,7 @@
                   layerFilters = filters[layerID],
                   dateBegin,
                   dateEnd;
-              dateInterval = layer.getDateInterval();
+              var dateInterval = layer.getDateInterval();
 
               if (dateInterval.beginDate && dateInterval.endDate) {
                 dateBegin = dateInterval.beginDate;
@@ -12521,46 +12752,48 @@
               synchronyzed = attrs.synchronyzed,
               currentLayer = attrs.currentLayer,
               listContainer = this.$('.unsync-layers-container'),
-              layersList = this.$('.layersList'),
               dateBegin,
               dateEnd;
 
           if (synchronyzed) {
-            dateBegin = _this.dateInterval.get('dateBegin'), dateEnd = _this.dateInterval.get('dateEnd'), _this.setDateInterval(dateBegin, dateEnd);
+            dateBegin = _this.dateInterval.get('dateBegin');
+            dateEnd = _this.dateInterval.get('dateEnd');
+
+            _this.setDateInterval(dateBegin, dateEnd);
+
             this.model.set('currentLayer', null);
             this.model.set('currentLayer', null);
             this.$('.sync-switch input').prop("checked", true);
             $(listContainer).hide();
+          } else if (currentLayer) {
+            return;
           } else {
-            if (currentLayer) {
-              return;
-            } else {
-              var temporalLayers = [];
-              this.$('.sync-switch input').prop("checked", false);
-              $(listContainer).show();
-              this.updateVisibleTemporalLayers(layers);
+            var temporalLayers = [];
+            this.$('.sync-switch input').prop("checked", false);
+            $(listContainer).show();
+            this.updateVisibleTemporalLayers(layers);
 
-              for (var i = 0; i < layers.length; i++) {
-                var layer = layers[i];
+            for (var i = 0; i < layers.length; i++) {
+              var layer = layers[i];
 
-                if (layer.getGmxProperties) {
-                  var props = layer.getGmxProperties(),
-                      isVisible = props.visible,
-                      isTemporalLayer = layer instanceof L.gmx.VectorLayer && props.Temporal || props.type === 'Virtual' && layer.getDateInterval;
+              if (layer.getGmxProperties) {
+                var props = layer.getGmxProperties(),
+                    isVisible = props.visible,
+                    isTemporalLayer = layer instanceof L.gmx.VectorLayer && props.Temporal || props.type === 'Virtual' && layer.getDateInterval;
 
-                  if (isTemporalLayer && isVisible) {
-                    temporalLayers.push(layer);
-                  }
+                if (isTemporalLayer && isVisible) {
+                  temporalLayers.push(layer);
                 }
               }
+            }
 
-              if (!temporalLayers.length) {
-                this.model.set('currentLayer', null);
-              } else {
-                var props = temporalLayers[0].getGmxProperties(),
-                    layerID = props.LayerID;
-                this.model.set('currentLayer', layerID);
-              }
+            if (!temporalLayers.length) {
+              this.model.set('currentLayer', null);
+            } else {
+              var _props3 = temporalLayers[0].getGmxProperties(),
+                  layerID = _props3.LayerID;
+
+              this.model.set('currentLayer', layerID);
             }
           }
         },
@@ -12578,10 +12811,7 @@
         },
         handleFiltersHash: function handleFiltersHash() {
           var attrs = this.model.toJSON(),
-              synchronyzed = attrs.synchronyzed,
               currentLayer = attrs.currentLayer,
-              dateInterval = this.dateInterval,
-              calendar = attrs.calendar,
               dailyFilter = attrs.dailyFilter,
               dailyFiltersHash = attrs.dailyFiltersHash;
 
@@ -12591,12 +12821,10 @@
             } else {
               this._fillFiltersHash();
             }
+          } else if (currentLayer) {
+            dailyFiltersHash[currentLayer] = false;
           } else {
-            if (currentLayer) {
-              dailyFiltersHash[currentLayer] = false;
-            } else {
-              this._clearFiltersHash();
-            }
+            this._clearFiltersHash();
           }
         },
         applyDailyFilter: function applyDailyFilter(layers) {
@@ -12608,7 +12836,6 @@
               synchronyzed = attrs.synchronyzed,
               currentLayer = attrs.currentLayer,
               dateInterval = this.dateInterval,
-              calendar = attrs.calendar,
               dateBegin = this.dateInterval.get('dateBegin'),
               dateEnd = this.dateInterval.get('dateEnd'),
               hourBegin = Number(nsGmx$1.CalendarWidget1.getTime(dateBegin, 'begin')) * 1000 * 3600,
@@ -12625,7 +12852,7 @@
           for (var i = 0; i < temporalLayers.length; i++) {
             var l = temporalLayers[i],
                 p = l.getGmxProperties && l.getGmxProperties(),
-                layerName;
+                layerName = void 0;
 
             if (!p) {
               continue;
@@ -12660,10 +12887,11 @@
                   var dm = layer.getDataManager(),
                       dmOpt = dm.options,
                       fullDays,
-                      intervals = [];
+                      intervals = [],
+                      tmpKeyNum;
 
                   if (dmOpt.Temporal) {
-                    var tmpKeyNum = dm.tileAttributeIndexes[dmOpt.TemporalColumnName];
+                    tmpKeyNum = dm.tileAttributeIndexes[dmOpt.TemporalColumnName];
                   }
 
                   if (hourEnd < dayms) {
@@ -12672,10 +12900,10 @@
                     fullDays = toMidnight(dateEnd).valueOf() - toMidnight(dateBegin).valueOf();
                   }
 
-                  for (var i = 0; i < fullDays; i += dayms) {
+                  for (var _i2 = 0; _i2 < fullDays; _i2 += dayms) {
                     intervals.push({
-                      begin: toMidnight(dateBegin).valueOf() + hourBegin + i,
-                      end: toMidnight(dateBegin).valueOf() + hourEnd + i
+                      begin: toMidnight(dateBegin).valueOf() + hourBegin + _i2,
+                      end: toMidnight(dateBegin).valueOf() + hourEnd + _i2
                     });
                   }
 
@@ -12807,7 +13035,7 @@
         var localParams = $.extend({
           WrapStyle: 'message'
         }, params);
-        sendCrossDomainPostRequest$1(url, localParams, processResponse);
+        sendCrossDomainPostRequest(url, localParams, processResponse);
       } else {
         throw 'Wrong request type';
       }
@@ -12820,7 +13048,7 @@
       sendGmxPostRequest: sendGmxRequest.bind(null, 'post')
     };
 
-    !function () {
+    (function () {
       //Контроллёр контектных меню и соответствующие пункты всех меню...
 
       /**
@@ -12854,7 +13082,7 @@
             menu = menuFunc();
             if (!menu) return false;
 
-            var contextMenu = _div([menu], [['dir', 'className', 'contextMenu'], ['attr', 'id', 'contextMenuCanvas']]);
+            var contextMenu = _div$1([menu], [['dir', 'className', 'contextMenu'], ['attr', 'id', 'contextMenuCanvas']]);
 
             var evt = e || window.event;
             hidden(contextMenu);
@@ -12921,7 +13149,7 @@
             }));
             ui.find('.contextMenuItem').click(function () {
               var itemIndex = Number($(this).data('itemindex'));
-              context.contentMenuArea = getOffsetRect$1(this);
+              context.contentMenuArea = getOffsetRect(this);
               context.contentMenuType = type;
 
               _contextClose();
@@ -13066,8 +13294,9 @@
             var securityDialog = new nsGmx$1.multiLayerSecurity();
             securityDialog.getRights(context.elem.MultiLayerID, context.elem.title);
           } else {
-            var securityDialog = new nsGmx$1.layerSecurity(context.elem.name);
-            securityDialog.getRights(context.elem.name, context.elem.title);
+            var _securityDialog = new nsGmx$1.layerSecurity(context.elem.name);
+
+            _securityDialog.getRights(context.elem.name, context.elem.title);
           }
         }
       }, 'Layer');
@@ -13097,16 +13326,14 @@
 
           var div;
           if (context.elem.MultiLayerID) div = $(_queryMapLayers.buildedTree).find("div[MultiLayerID='" + context.elem.MultiLayerID + "']")[0];else div = $(_queryMapLayers.buildedTree).find("div[LayerID='" + context.elem.name + "']")[0];
-
-          var treeElem = _layersTree.findTreeElem(div).elem,
-              node = div.parentNode,
+          var node = div.parentNode,
               parentTree = node.parentNode;
 
           _layersTree.removeTreeElem(div);
 
           node.removeNode(true);
 
-          _abstractTree.delNode(null, parentTree, parentTree.parentNode);
+          window._abstractTree.delNode(null, parentTree, parentTree.parentNode);
 
           _mapHelper.updateUnloadEvent(true);
         }
@@ -13151,12 +13378,12 @@
         isVisible: function isVisible(context) {
           return context.elem.type == "Vector" && (context.layerManagerFlag || _queryMapLayers.currentMapRights() === "edit");
         },
-        isSeparatorBefore: function isSeparatorBefore(context) {
+        isSeparatorBefore: function isSeparatorBefore() {
           return false;
         },
         clickCallback: function clickCallback(context) {
-          sendCrossDomainJSONRequest(window.serverBase + "Layer/GetLayerInfo.ashx?WrapStyle=func&NeedAttrValues=false&LayerName=" + context.elem.name, function (response) {
-            if (!parseResponse(response)) {
+          sendCrossDomainJSONRequest$1(window.serverBase + "Layer/GetLayerInfo.ashx?WrapStyle=func&NeedAttrValues=false&LayerName=" + context.elem.name, function (response) {
+            if (!parseResponse$1(response)) {
               return;
             }
 
@@ -13186,7 +13413,7 @@
                 copy: true,
                 sourceLayerName: context.elem.name,
                 query: query,
-                doneCallback: function doneCallback(res) {
+                doneCallback: function doneCallback() {
                   nsGmx$1.Utils.removeDialog(dialogDiv);
                 }
               };
@@ -13203,7 +13430,7 @@
         isVisible: function isVisible(context) {
           return context.elem.type == "Vector" && (context.layerManagerFlag || _queryMapLayers.currentMapRights() === "edit");
         },
-        isSeparatorBefore: function isSeparatorBefore(context) {
+        isSeparatorBefore: function isSeparatorBefore() {
           return false;
         },
         clickCallback: function clickCallback(context) {
@@ -13213,11 +13440,11 @@
               list = copyLayerParams.list || '';
           var url = window.serverBase + "VectorLayer/Append?LayerName=" + context.elem.name + "&FromLayer=" + copyLayerName + "&Query=" + copyLayerQuery;
           var def = nsGmx$1.asyncTaskManager.sendGmxPostRequest(url);
-          def.done(function (taskInfo) {
-            showErrorMessage(list, true, window._gtxt('Объекты добавлены'));
-          }).fail(function (taskInfo) {
-            showErrorMessage(window._gtxt('Вставить объекты не удалось'), true); // console.log(taskInfo);
-          }).progress(function (taskInfo) {// console.log(taskInfo);
+          def.done(function () {
+            showErrorMessage$1(list, true, window._gtxt('Объекты добавлены'));
+          }).fail(function () {
+            showErrorMessage$1(window._gtxt('Вставить объекты не удалось'), true); // console.log(taskInfo);
+          }).progress(function () {// console.log(taskInfo);
           });
         }
       }, 'Layer');
@@ -13257,6 +13484,7 @@
               if (layerContent.properties.type !== "Vector" || layerContent.properties.GeometryType !== stylesType) {
                 return;
               }
+
               layerContent.properties.styles = newStyles;
 
               _mapHelper.updateMapStyles(newStyles, layerContent.properties.name);
@@ -13343,7 +13571,7 @@
           var securityDialog = new nsGmx$1.mapSecurity();
           securityDialog.getRights(context.tree.treeModel.getMapProperties().MapID, context.tree.treeModel.getMapProperties().title);
         },
-        isVisible: function isVisible(context) {
+        isVisible: function isVisible() {
           return nsGmx$1.AuthManager.canDoAction(nsGmx$1.ACTION_SEE_MAP_RIGHTS) && (_queryMapLayers.currentMapRights() === "edit" || nsGmx$1.AuthManager.isRole(nsGmx$1.ROLE_ADMIN));
         }
       }, 'Map'); //групповое редактирование слоев
@@ -13367,14 +13595,14 @@
           });
           return nsGmx$1.AuthManager.canDoAction(nsGmx$1.ACTION_SEE_MAP_RIGHTS) && layersFlag && layersRights;
         },
-        clickCallback: function clickCallback(context) {
+        clickCallback: function clickCallback() {
           var securityDialog = new nsGmx$1.layersGroupSecurity(),
               props = _layersTree.treeModel.getMapProperties();
 
           securityDialog.getRights(props.MapID, props.title);
         }
       }, 'Map');
-    }();
+    })();
 
     nsGmx$1.GeomixerFrameworkVersion = '05.12.2018';
 
@@ -13572,7 +13800,7 @@
             this._state = false;
           }
         };
-        this.limitSel = nsGmx$1.Utils._select([_option$1([_t$1("10")], [['attr', 'value', 10]]), _option$1([_t$1("20")], [['attr', 'value', 20]]), _option$1([_t$1("50")], [['attr', 'value', 50]]), _option$1([_t$1("100")], [['attr', 'value', 100]]), _option$1([_t$1("200")], [['attr', 'value', 200]]), _option$1([_t$1("500")], [['attr', 'value', 500]])], [['dir', 'className', 'selectStyle floatRight'], ['css', 'width', '60px']]);
+        this.limitSel = nsGmx$1.Utils._select([_option([_t$1("10")], [['attr', 'value', 10]]), _option([_t$1("20")], [['attr', 'value', 20]]), _option([_t$1("50")], [['attr', 'value', 50]]), _option([_t$1("100")], [['attr', 'value', 100]]), _option([_t$1("200")], [['attr', 'value', 200]]), _option([_t$1("500")], [['attr', 'value', 500]])], [['dir', 'className', 'selectStyle floatRight'], ['css', 'width', '60px']]);
       };
       /** Установка провайдера данных
        @param {nsGmx.ScrollTable.IDataProvider} dataProvider Провайдер данных
@@ -13663,7 +13891,7 @@
 
             $(el).addClass('page');
           } else {
-            var link = makeLinkButton$1(i.toString());
+            var link = makeLinkButton(i.toString());
             link.setAttribute('page', i - 1);
             link.style.margin = '0px 2px';
 
@@ -13773,7 +14001,7 @@
               button;
 
           if (title != '' && field.isSortable) {
-            button = makeLinkButton$1(title);
+            button = makeLinkButton(title);
             button.sortType = title;
           } else button = _t$1(title);
 
@@ -14362,7 +14590,7 @@
       };
 
       nsGmx$1.MapsManagerControl.prototype._drawMaps = function (map, mapIndex, mapsManager) {
-        var name = makeLinkButton$1(map.Title),
+        var name = makeLinkButton(map.Title),
             img_url = map.Name === mapsManager._previewMapName ? 'img/collapse-arrow-se.png' : 'img/collapse-arrow-right.gif',
             load = makeImageButton$1(img_url, img_url),
             remove = makeImageButton$1("img/recycle.png", "img/recycle_a.png");
@@ -15645,7 +15873,7 @@
         var layerName = _input$1(null, [['dir', 'className', 'inputStyle'], ['css', 'width', '185px']]),
             layerOwner = _input$1(null, [['dir', 'className', 'inputStyle'], ['css', 'width', '185px']]);
 
-        var typeSel = nsGmx$1.Utils._select([_option$1([_t$1(_gtxt("Любой"))], [['attr', 'value', '']]), _option$1([_t$1(_gtxt("Векторный"))], [['attr', 'value', 'vector']]), _option$1([_t$1(_gtxt("Растровый"))], [['attr', 'value', 'raster']]), _option$1([_t$1(_gtxt("Мультислой"))], [['attr', 'value', 'multilayer']]), _option$1([_t$1(_gtxt("Каталог растров"))], [['attr', 'value', 'catalog']])], [['dir', 'className', 'selectStyle'], ['css', 'width', '100px']]);
+        var typeSel = nsGmx$1.Utils._select([_option([_t$1(_gtxt("Любой"))], [['attr', 'value', '']]), _option([_t$1(_gtxt("Векторный"))], [['attr', 'value', 'vector']]), _option([_t$1(_gtxt("Растровый"))], [['attr', 'value', 'raster']]), _option([_t$1(_gtxt("Мультислой"))], [['attr', 'value', 'multilayer']]), _option([_t$1(_gtxt("Каталог растров"))], [['attr', 'value', 'catalog']])], [['dir', 'className', 'selectStyle'], ['css', 'width', '100px']]);
 
         var calendar = new nsGmx$1.CalendarWidget({
           minimized: false,
@@ -15805,7 +16033,7 @@
       });
     })(nsGmx$1.Utils._);
 
-    !function (_) {
+    (function (_) {
       var mapLayers = {
         mapLayers: {}
       };
@@ -15827,7 +16055,7 @@
       AbstractTree.prototype.toggle = function (box) {
         box.onclick = function () {
           $(this.parentNode).find(">.hitarea").swapClass('collapsable-hitarea', 'expandable-hitarea').swapClass('lastCollapsable-hitarea', 'lastExpandable-hitarea').end().swapClass('collapsable', 'expandable').swapClass('lastCollapsable', 'lastExpandable');
-          if ($(this.parentNode).hasClass('expandable') || $(this.parentNode).hasClass('lastExpandable')) hide(_abstractTree.getChildsUl(this.parentNode));else show(_abstractTree.getChildsUl(this.parentNode));
+          if ($(this.parentNode).hasClass('expandable') || $(this.parentNode).hasClass('lastExpandable')) hide$1(_abstractTree.getChildsUl(this.parentNode));else show(_abstractTree.getChildsUl(this.parentNode));
         };
       };
 
@@ -15884,15 +16112,15 @@
 
           $(parent).removeClass("collapsable");
           $(parent).replaceClass("lastCollapsable", "last");
-        } else {
-          // изменим дерево родителя
-          if ($(parentTree).children("li:last").hasClass("collapsable")) {
+        } // изменим дерево родителя
+        else if ($(parentTree).children("li:last").hasClass("collapsable")) {
             $(parentTree).children("li:last").addClass("lastCollapsable");
             $(parentTree).children("li:last").each(function () {
               $(this.firstChild).addClass("lastCollapsable-hitarea");
             });
-          } else $(parentTree).children("li:last").addClass("last");
-        }
+          } else {
+            $(parentTree).children("li:last").addClass("last");
+          }
       };
 
       AbstractTree.prototype.swapNode = function (node, newNodeCanvas) {
@@ -15992,7 +16220,7 @@
         this.treeModel = new nsGmx$1.LayersTree(tree);
         this._mapTree = tree; //Устарело: используйте this.treeModel для доступа к исходному дереву
 
-        this.treeModel.forEachLayer(function (layerContent, isVisible) {
+        this.treeModel.forEachLayer(function (layerContent) {
           layerContent.properties.initVisible = layerContent.properties.visible;
         });
 
@@ -16059,29 +16287,29 @@
             }
           } else {
             childsUl.loaded = true;
-            var childs = [];
+            var _childs = [];
 
-            for (var i = 0; i < elem.content.children.length; i++) {
-              childs.push(this.getChildsList(elem.content.children[i], elem.content.properties, layerManagerFlag, parentVisibility && elem.content.properties.visible));
+            for (var _i = 0; _i < elem.content.children.length; _i++) {
+              _childs.push(this.getChildsList(elem.content.children[_i], elem.content.properties, layerManagerFlag, parentVisibility && elem.content.properties.visible));
             }
 
-            _(childsUl, childs);
+            _(childsUl, _childs);
           }
 
           _(li, [childsUl, _abstractTree.makeSwapChild()]);
         } else if (elem.children) {
           if (elem.children.length > 0) {
-            var childs = [];
+            var _childs2 = [];
 
-            for (var i = 0; i < elem.children.length; i++) {
-              childs.push(this.getChildsList(elem.children[i], elem.properties, layerManagerFlag, true));
+            for (var _i2 = 0; _i2 < elem.children.length; _i2++) {
+              _childs2.push(this.getChildsList(elem.children[_i2], elem.properties, layerManagerFlag, true));
             }
 
-            var childsUl = _ul$1(childs);
+            var _childsUl = _ul$1(_childs2);
 
-            childsUl.loaded = true;
+            _childsUl.loaded = true;
 
-            _(li, [childsUl]);
+            _(li, [_childsUl]);
           }
 
           _(li, [_div$1()]);
@@ -16090,7 +16318,8 @@
         } else _(li, [_abstractTree.makeSwapChild()]); // видимость слоя в дереве
 
 
-        if (!nsGmx$1.AuthManager.isRole(nsGmx$1.ROLE_ADMIN) && elem.type && elem.type == 'layer' && typeof invisibleLayers != 'undefined' && invisibleLayers[elem.content.properties.name]) li.style.display = 'none';
+        if (!nsGmx$1.AuthManager.isRole(nsGmx$1.ROLE_ADMIN) && elem.type && elem.type == 'layer' // && typeof invisibleLayers != 'undefined' && invisibleLayers[elem.content.properties.name]
+        ) li.style.display = 'none';
         return li;
       };
 
@@ -16185,7 +16414,7 @@
           div.gmxProperties = elem;
         }
 
-        div.oncontextmenu = function (e) {
+        div.oncontextmenu = function () {
           return false;
         };
 
@@ -16223,7 +16452,7 @@
         return minLayerZoom;
       };
 
-      layersTree.prototype.layerZoomToExtent = function (bounds, minZoom) {
+      layersTree.prototype.layerZoomToExtent = function (bounds) {
         if (!bounds) return;
         var lmap = nsGmx$1.leafletMap; // var z = lmap.getBoundsZoom(bounds);
         // if (minZoom !== 20) {
@@ -16260,7 +16489,7 @@
           };
         }
 
-        var span = _span$1([_t(elem.title)], [['dir', 'className', 'layer'], ['attr', 'dragg', true]]);
+        var span = _span$1([_t$1(elem.title)], [['dir', 'className', 'layer'], ['attr', 'dragg', true]]);
 
         var timer = null,
             clickFunc = function clickFunc() {
@@ -16310,7 +16539,7 @@
         if (layerManagerFlag == 1) {
           var imgIconSrc = elem.type == "Vector" ? 'img/vector.png' : typeof elem.MultiLayerID != 'undefined' ? 'img/multi.png' : 'img/rastr.png';
           if (elem.type == "Alias") imgIconSrc = 'img/shortcut.png';
-          return [_img(null, [['attr', 'src', imgIconSrc], ['css', 'marginLeft', '3px']]), spanParent, spanDescr];
+          return [_img$1(null, [['attr', 'src', imgIconSrc], ['css', 'marginLeft', '3px']]), spanParent, spanDescr];
         }
 
         if (this._renderParams.showVisibilityCheckbox && !elem.visible) {
@@ -16339,7 +16568,7 @@
         }
 
         if (count || elem.Legend) {
-          _(borderDescr, [_t('i')], [['dir', 'className', 'layerInfoButton']]);
+          _(borderDescr, [_t$1('i')], [['dir', 'className', 'layerInfoButton']]);
 
           borderDescr.onclick = function () {
             nsGmx$1.Controls.showLayerInfo({
@@ -16403,11 +16632,10 @@
             };
 
             if (elem.name in nsGmx$1.gmxMap.layersByID) {
-              var layer = nsGmx$1.gmxMap.layersByID[elem.name];
+              var _layer = nsGmx$1.gmxMap.layersByID[elem.name];
 
-              if (layer.getGmxProperties) {
-                var props = layer.getGmxProperties(),
-                    layerName = props.name;
+              if (_layer.getGmxProperties) {
+                var props = _layer.getGmxProperties();
 
                 if (props.Temporal && (props.IsRasterCatalog || props.Quicklook && props.Quicklook !== 'null')) {
                   timelineIcon = this.CreateTimelineIcon(elem);
@@ -16430,8 +16658,10 @@
           }
 
           return resElems;
+        } else if (this._renderParams.showVisibilityCheckbox) {
+          return [box, spanParent, spanDescr, borderDescr];
         } else {
-          if (this._renderParams.showVisibilityCheckbox) return [box, spanParent, spanDescr, borderDescr];else return [spanParent, spanDescr, borderDescr];
+          return [spanParent, spanDescr, borderDescr];
         }
       };
 
@@ -16454,7 +16684,7 @@
             icon.title = conf.removeTitle;
             icon.classList.add('disabled');
           }
-        }; // TODO: требуется замена jQuery	+ не эффективно устанавливается множество хэндлеров
+        }; // TODO: требуется замена jQuery    + не эффективно устанавливается множество хэндлеров
 
 
         $(this).on('layerTimelineRemove', function (e, data) {
@@ -16504,7 +16734,7 @@
           }
         }
 
-        var span = _span$1([_t(elem.title)], [['dir', 'className', 'groupLayer'], ['attr', 'dragg', true]]);
+        var span = _span$1([_t$1(elem.title)], [['dir', 'className', 'groupLayer'], ['attr', 'dragg', true]]);
 
         var timer = null,
             clickFunc = function clickFunc() {
@@ -16577,7 +16807,7 @@
       };
 
       layersTree.prototype.drawHeaderGroupLayer = function (elem, parentParams, layerManagerFlag) {
-        var span = _span$1([_t(elem.title)], [['dir', 'className', 'groupLayer']]),
+        var span = _span$1([_t$1(elem.title)], [['dir', 'className', 'groupLayer']]),
             spanParent = _div$1([span], [['css', 'display', 'inline'], ['css', 'position', 'relative'], ['css', 'borderBottom', 'none'], ['css', 'paddingRight', '3px']]),
             _this = this;
 
@@ -16699,13 +16929,13 @@
           text = text.substring(0, 37) + '...';
         }
 
-        return div = _div$1([_t(text)], [['dir', 'className', 'dragableDummy']]);
+        return _div$1([_t$1(text)], [['dir', 'className', 'dragableDummy']]);
       }; //проходится по всем слоям дерева и устанавливает им z-индексы в соответствии с их порядком в дереве
 
 
       layersTree.prototype.updateZIndexes = function () {
         var curZIndex = 0;
-        this.treeModel.forEachLayer(function (layerContent, isVisible, nodeDepth) {
+        this.treeModel.forEachLayer(function (layerContent) {
           var layer = nsGmx$1.gmxMap.layersByID[layerContent.properties.name];
           var zIndex = curZIndex++;
           layer.setZIndex && layer.setZIndex(zIndex);
@@ -16774,12 +17004,17 @@
         var layerProperties = gmxProperties.type !== 'layer' || !isFromList ? gmxProperties : false,
             copyFunc = function copyFunc() {
           if (addToMap) {
-            if (!_this.addLayersToMap(layerProperties)) return;
-          } else {
-            if (_this.treeModel.findElemByGmxProperties(gmxProperties)) {
-              if (layerProperties.type === 'layer') showErrorMessage(_gtxt("Слой '[value0]' уже есть в карте", layerProperties.content.properties.title), true);else showErrorMessage(_gtxt("Группа '[value0]' уже есть в карте", layerProperties.content.properties.title), true);
+            if (!_this.addLayersToMap(layerProperties)) {
               return;
             }
+          } else if (_this.treeModel.findElemByGmxProperties(gmxProperties)) {
+            if (layerProperties.type === 'layer') {
+              showErrorMessage$1(_gtxt("Слой '[value0]' уже есть в карте", layerProperties.content.properties.title), true);
+            } else {
+              showErrorMessage$1(_gtxt("Группа '[value0]' уже есть в карте", layerProperties.content.properties.title), true);
+            }
+
+            return;
           }
 
           var node = divDestination.parentNode,
@@ -16850,13 +17085,12 @@
           _mapHelper.updateUnloadEvent(true);
 
           _this.updateZIndexes();
-        },
-            _this = this;
+        };
 
         if (!layerProperties) {
           if (gmxProperties.content.properties.LayerID) {
-            sendCrossDomainJSONRequest$1(serverBase + "Layer/GetLayerJson.ashx?WrapStyle=func&LayerName=" + gmxProperties.content.properties.name + "&srs=" + (nsGmx$1.leafletMap.options.srs || "3395"), function (response) {
-              if (!parseResponse(response)) return;
+            sendCrossDomainJSONRequest$1(window.serverBase + "Layer/GetLayerJson.ashx?WrapStyle=func&LayerName=" + gmxProperties.content.properties.name + "&srs=" + (nsGmx$1.leafletMap.options.srs || "3395"), function (response) {
+              if (!parseResponse$1(response)) return;
               layerProperties = {
                 type: 'layer',
                 content: response.Result
@@ -16875,8 +17109,8 @@
               copyFunc();
             });
           } else {
-            sendCrossDomainJSONRequest$1(serverBase + "MultiLayer/GetMultiLayerJson.ashx?WrapStyle=func&MultiLayerID=" + gmxProperties.content.properties.MultiLayerID, function (response) {
-              if (!parseResponse(response)) return;
+            sendCrossDomainJSONRequest$1(window.serverBase + "MultiLayer/GetMultiLayerJson.ashx?WrapStyle=func&MultiLayerID=" + gmxProperties.content.properties.MultiLayerID, function (response) {
+              if (!parseResponse$1(response)) return;
               layerProperties = {
                 type: 'layer',
                 content: response.Result
@@ -16936,7 +17170,7 @@
           var alreadyOnMap = this.checkGroupForDuplicates(elem.content.children);
 
           if (alreadyOnMap) {
-            showErrorMessage(_gtxt("Слой '[value0]' уже есть в карте", alreadyOnMap), true);
+            showErrorMessage$1(_gtxt("Слой '[value0]' уже есть в карте", alreadyOnMap), true);
             return false;
           } else {
             for (var i = 0; i < elem.content.children.length; i++) {
@@ -16954,7 +17188,6 @@
 
           if (!nsGmx$1.gmxMap.layersByID[name]) {
             var visibility = typeof layer.properties.visible != 'undefined' ? layer.properties.visible : false,
-                rcMinZoom = layer.properties.RCMinZoomForRasters,
                 layerOnMap = L.gmx.createLayer(layer, {
               layerID: name,
               hostName: propsHostName,
@@ -16967,7 +17200,7 @@
             nsGmx$1.gmxMap.addLayer(layerOnMap);
             visibility && nsGmx$1.leafletMap.addLayer(layerOnMap);
             layerOnMap.getGmxProperties().changedByViewer = true;
-            nsGmx$1.leafletMap.on('zoomend', function (e) {
+            nsGmx$1.leafletMap.on('zoomend', function () {
               currentZoom = nsGmx$1.leafletMap.getZoom();
 
               for (var l = 0; l < nsGmx$1.gmxMap.layers.length; l++) {
@@ -16976,7 +17209,7 @@
               }
             });
           } else {
-            showErrorMessage(_gtxt("Слой '[value0]' уже есть в карте", nsGmx$1.gmxMap.layersByID[name].getGmxProperties().title), true);
+            showErrorMessage$1(_gtxt("Слой '[value0]' уже есть в карте", nsGmx$1.gmxMap.layersByID[name].getGmxProperties().title), true);
             return false;
           }
         }
@@ -17078,7 +17311,7 @@
         this.loadDeferred = $.Deferred();
       };
 
-      queryMapLayers.prototype = new leftMenu$1();
+      queryMapLayers.prototype = new leftMenu();
 
       queryMapLayers.prototype.addLayers = function (data, condition, mapStyles, LayersTreePermalinkParams) {
         if (condition) _layersTree.condition = condition;
@@ -17088,13 +17321,13 @@
       };
 
       queryMapLayers.prototype.applyState = function (condition, mapLayersParam, div) {
-        if (!objLength$1(condition.visible) && !objLength$1(condition.expanded) && !objLength$1(mapLayersParam)) return;
+        if (!objLength(condition.visible) && !objLength(condition.expanded) && !objLength(mapLayersParam)) return;
 
         var parentElem = typeof div == 'undefined' ? _layersTree.treeModel.getRawTree() : _layersTree.findTreeElem(div).elem,
             visFlag = typeof div == 'undefined' ? true : _layersTree.getLayerVisibility($(div).find('input[type="checkbox"]')[0] || $(div).find('input[type="radio"]')[0]),
             _this = this;
 
-        _mapHelper.findTreeElems(parentElem, function (elem, visibleFlag) {
+        _mapHelper.findTreeElems(parentElem, function (elem) {
           var props = elem.content.properties;
 
           if (elem.type == 'group') {
@@ -17112,10 +17345,11 @@
 
             if (typeof condition.expanded[groupId] != 'undefined' && props.expanded != condition.expanded[groupId]) {
               props.expanded = condition.expanded[groupId];
-              var group = $(_this.buildedTree).find("div[GroupID='" + groupId + "']");
 
-              if (group.length) {
-                var clickDiv = $(group[0].parentNode).children("div.hitarea");
+              var _group = $(_this.buildedTree).find("div[GroupID='" + groupId + "']");
+
+              if (_group.length) {
+                var clickDiv = $(_group[0].parentNode).children("div.hitarea");
                 if (clickDiv.length) $(clickDiv[0]).trigger("click");
               }
             }
@@ -17131,13 +17365,13 @@
             if (props.type == "Vector" && typeof mapLayersParam != 'undefined' && typeof mapLayersParam[name] != 'undefined' && !_this.equalStyles(props.styles, mapLayersParam[name])) {
               // что-то менялось в стилях
               var newStyles = mapLayersParam[name],
-                  div = $(_this.buildedTree).find("div[LayerID='" + props.LayerID + "']")[0];
+                  _div2 = $(_this.buildedTree).find("div[LayerID='" + props.LayerID + "']")[0];
               props.styles = newStyles;
 
               _mapHelper.updateMapStyles(newStyles, name);
 
               props.changedByViewer = true;
-              div && _mapHelper.updateTreeStyles(newStyles, div, _layersTree, true);
+              _div2 && _mapHelper.updateTreeStyles(newStyles, _div2, _layersTree, true);
             }
           }
         }, visFlag);
@@ -17163,14 +17397,14 @@
         return $('.layers-after', this.workCanvas).show();
       };
 
-      queryMapLayers.prototype.load = function (data) {
+      queryMapLayers.prototype.load = function () {
         if (this.buildedTree && !this.builded) {
           var _this = this;
 
           this.treeCanvas = _div$1(null, [['dir', 'className', 'layers-tree']]); //Для обратной совместимости - есть много мапплетов карт, которые пытаются интегрироваться после первого table
           //TODO: изнечтожить все такие мапплеты
 
-          _(this.workCanvas, [_table()]);
+          _(this.workCanvas, [_table$1()]);
 
           _(this.workCanvas, [_div$1([//_table([_tbody([_tr([_td([_span([_t(_gtxt("Шкала прозрачности"))],[['css','marginLeft','7px'],['css','color','#153069'],['css','fontSize','12px']])]), _td([this.rasterLayersSlider(_queryMapLayers.treeCanvas)])])])])
           ], [['dir', 'className', 'layers-before'], ['css', 'display', 'none']])]);
@@ -17249,7 +17483,7 @@
         slider.style.margin = '10px';
         slider.style.backgroundColor = '#F4F4F4';
 
-        _title(slider, _gtxt("Прозрачность выбранного слоя/группы/карты"));
+        _title$1(slider, _gtxt("Прозрачность выбранного слоя/группы/карты"));
 
         return _div$1([elem], [['css', 'padding', '5px 0px 0px 15px']]);
       };
@@ -17274,7 +17508,7 @@
       };
 
       queryMapLayers.prototype.removeUserActions = function () {
-        //	removeChilds(this.buttonsCanvas);
+        //  removeChilds(this.buttonsCanvas);
         this.removeDraggable(this.treeCanvas);
         this.removeDroppable(this.treeCanvas);
         this.removeSwappable(this.treeCanvas);
@@ -17333,10 +17567,10 @@
 
             queryMapLayers._swapHandler.call(swapElem[0], ev, ui);
           },
-          over: function over(ev, ui) {
+          over: function over() {
             $(this).next().addClass('swap-droppableHover');
           },
-          out: function out(ev, ui) {
+          out: function out() {
             $(this).next().removeClass('swap-droppableHover');
           }
         });
@@ -17391,7 +17625,7 @@
 
         _abstractTree.addNode(parentDiv, _li$1([taskDiv, _div$1(null, [['css', 'height', '5px'], ['css', 'fontSize', '0px']])]));
 
-        promise.fail(function (taskInfo) {
+        promise.fail(function () {
           var parentTree = taskDiv.parentNode.parentNode;
           taskDiv.parentNode.removeNode(true);
 
@@ -17448,8 +17682,7 @@
 
             _abstractTree.addNode(parentDiv.parentNode, li);
 
-            var divElem = $(li).children("div[LayerID]")[0],
-                divParent = $(li.parentNode.parentNode).children("div[MapID],div[GroupID]")[0];
+            var divParent = $(li.parentNode.parentNode).children("div[MapID],div[GroupID]")[0];
 
             _layersTree.addTreeElem(divParent, 0, {
               type: 'layer',
@@ -17472,7 +17705,7 @@
         }).progress(function (taskInfo) {
           $(taskDiv).empty();
 
-          _(taskDiv, [_span$1([_t(title + ':')], [['css', 'color', '#153069'], ['css', 'margin', '0px 3px']]), _t(taskInfo.Status)]);
+          _(taskDiv, [_span$1([_t$1(title + ':')], [['css', 'color', '#153069'], ['css', 'margin', '0px 3px']]), _t$1(taskInfo.Status)]);
         });
       };
 
@@ -17554,7 +17787,7 @@
             $(taskDiv).empty();
           }
 
-          _(taskDiv, [_span$1([_t(properties.Title + ':')], [['css', 'color', '#153069'], ['css', 'margin', '0px 3px']]), _t(taskInfo.Status)]);
+          _(taskDiv, [_span$1([_t$1(properties.Title + ':')], [['css', 'color', '#153069'], ['css', 'margin', '0px 3px']]), _t$1(taskInfo.Status)]);
         });
       };
 
@@ -17571,7 +17804,7 @@
 
         _abstractTree.addNode(parentDiv, _li$1([taskDiv, _div$1(null, [['css', 'height', '5px'], ['css', 'fontSize', '0px']])]));
 
-        promise.fail(function (taskInfo) {
+        promise.fail(function () {
           console.log('failed');
           var parentTree = taskDiv.parentNode.parentNode;
           taskDiv.parentNode.removeNode(true);
@@ -17631,8 +17864,7 @@
 
             _abstractTree.addNode(parentDiv.parentNode, li);
 
-            var divElem = $(li).children("div[LayerID]")[0],
-                divParent = $(li.parentNode.parentNode).children("div[MapID],div[GroupID]")[0];
+            var divParent = $(li.parentNode.parentNode).children("div[MapID],div[GroupID]")[0];
 
             _layersTree.addTreeElem(divParent, 0, {
               type: 'layer',
@@ -17656,7 +17888,7 @@
           console.log('progress');
           $(taskDiv).empty();
 
-          _(taskDiv, [_span$1([_t(title + ':')], [['css', 'color', '#153069'], ['css', 'margin', '0px 3px']]), _t(taskInfo.Status)]);
+          _(taskDiv, [_span$1([_t$1(title + ':')], [['css', 'color', '#153069'], ['css', 'margin', '0px 3px']]), _t$1(taskInfo.Status)]);
         }).always(function (taskInfo) {
           console.log(taskInfo);
         });
@@ -17686,7 +17918,7 @@
         }
 
         layerManagerControl.disableLayers(existLayers);
-        var dialogDiv = showDialog$1(_gtxt("Список слоев"), canvas, 571, 485, 535, 130, function (size) {
+        showDialog$1(_gtxt("Список слоев"), canvas, 571, 485, 535, 130, function (size) {
           layerManagerControl.resize(size.height - 55);
         });
       };
@@ -17706,7 +17938,7 @@
           input.focus();
 
           if (input.value != '') {
-            removeDialog$1(dialogDiv);
+            removeDialog(dialogDiv);
             func(input.value);
           } else {
             inputError(input);
@@ -17725,8 +17957,8 @@
       };
 
       queryMapLayers.prototype.createMap = function (name) {
-        sendCrossDomainJSONRequest$1(serverBase + 'Map/Insert.ashx?WrapStyle=func&Title=' + encodeURIComponent(name), function (response) {
-          if (!parseResponse(response)) return;
+        sendCrossDomainJSONRequest$1(window.serverBase + 'Map/Insert.ashx?WrapStyle=func&Title=' + encodeURIComponent(name), function (response) {
+          if (!parseResponse$1(response)) return;
           window.location.replace(window.location.href.split(/\?|#/)[0] + "?" + response.Result);
         });
       };
@@ -17735,9 +17967,9 @@
         var saveMapInternal = function saveMapInternal(scriptName, mapTitle, callback) {
           var mapID = String($(_queryMapLayers.buildedTree).find("[MapID]")[0].gmxProperties.properties.MapID),
               saveTree = {};
-          window._mapEditorsHash && _mapEditorsHash[mapID] && _mapEditorsHash[mapID].update(); //обновим стили слоёв из всех незакрытых диалогов редактирования стилей
+          window._mapEditorsHash && window._mapEditorsHash[mapID] && window._mapEditorsHash[mapID].update(); //обновим стили слоёв из всех незакрытых диалогов редактирования стилей
 
-          var mStyleEditor = gmxCore.getModule('LayerStylesEditor');
+          var mStyleEditor = gmxCore$1.getModule('LayerStylesEditor');
           mStyleEditor && mStyleEditor.updateAllStyles();
           nsGmx$1.userObjectsManager.collect();
           $(_queryMapLayers.buildedTree).find("[MapID]")[0].gmxProperties.properties.UserData = JSON.stringify(nsGmx$1.userObjectsManager.getData());
@@ -17745,7 +17977,7 @@
           var attributesToSave = ['visible', 'styles', 'AllowSearch', 'TiledQuicklook', 'TiledQuicklookMinZoom', 'name', 'MapStructureID'];
           saveTree.properties.BaseLayers = JSON.stringify(nsGmx$1.leafletMap.gmxBaseLayersManager.getActiveIDs()); //раскрываем все группы так, как записано в свойствах групп
 
-          _mapHelper.findTreeElems(saveTree, function (child, flag) {
+          _mapHelper.findTreeElems(saveTree, function (child) {
             var props = child.content.properties;
 
             if (child.type === "group") {
@@ -17773,14 +18005,14 @@
                 var keys = L.gmx.StyleManager.DEFAULT_STYLE_KEYS,
                     stylesHash = {};
 
-                for (var i = 0; i < keys.length; i++) {
-                  stylesHash[keys[i]] = true;
+                for (var _i3 = 0; _i3 < keys.length; _i3++) {
+                  stylesHash[keys[_i3]] = true;
                 }
 
                 propsToSave.gmxStyles = props.gmxStyles;
 
-                for (var s = 0; s < propsToSave.gmxStyles.styles.length; s++) {
-                  var st = propsToSave.gmxStyles.styles[s];
+                for (var _s = 0; _s < propsToSave.gmxStyles.styles.length; _s++) {
+                  var st = propsToSave.gmxStyles.styles[_s];
                   delete st.HoverStyle;
 
                   for (var key in st.RenderStyle) {
@@ -17802,8 +18034,8 @@
             MapJson: JSON.stringify(saveTree)
           };
           if (mapTitle) params.Title = mapTitle;
-          sendCrossDomainPostRequest$1(serverBase + scriptName, params, function (response) {
-            if (!parseResponse(response)) return;
+          sendCrossDomainPostRequest(window.serverBase + scriptName, params, function (response) {
+            if (!parseResponse$1(response)) return;
             callback && callback(response.Result);
 
             _mapHelper.updateUnloadEvent(false);
@@ -17838,7 +18070,7 @@
       };
 
       mapLayers.mapLayers.unload = function () {};
-    }(nsGmx$1.Utils._);
+    })(nsGmx$1.Utils._);
 
     nsGmx$1.Templates = nsGmx$1.Templates || {};
     nsGmx$1.Templates.AuthWidget = {};
@@ -17876,7 +18108,6 @@
       };
 
       AuthWidget.prototype._render = function (vm) {
-
         this._view.html(Handlebars.compile(nsGmx$1.Templates.AuthWidget.authWidget)(vm));
 
         if (vm.userName) {
@@ -17935,7 +18166,7 @@
           dropdownMenuWidget.appendTo(this._view.find('.authWidget-userPanel-userMenuCell'));
         }
 
-        this._view.find('.authWidget-usergroupMenuItem').click(function (e) {
+        this._view.find('.authWidget-usergroupMenuItem').click(function () {
           if (this._options.callbacks && 'authWidget-usergroupMenuItem' in this._options.callbacks) {
             this._options.callbacks['authWidget-usergroupMenuItem']();
           } else {
@@ -17943,13 +18174,13 @@
           }
         }.bind(this));
 
-        this._view.find('.authWidget-changePasswordButton').click(function (e) {
+        this._view.find('.authWidget-changePasswordButton').click(function () {
           var _native = this._authManager.getNative();
 
           _native.changePasswordDialog();
         }.bind(this));
 
-        this._view.find('.authWidget-loginButton').click(function (e) {
+        this._view.find('.authWidget-loginButton').click(function () {
           var $iframeContainer;
 
           if (this._options.loginDialog) {
@@ -17958,7 +18189,7 @@
               width: 500,
               height: 450,
               closeText: nsGmx$1.Translations.getText('auth.closeDialog'),
-              close: function close(je, ui) {
+              close: function close() {
                 $(this).dialog('destroy');
               }
             }); // HACK:
@@ -17971,7 +18202,7 @@
           });
         }.bind(this));
 
-        this._view.find('.authWidget-logoutButton').click(function (e) {
+        this._view.find('.authWidget-logoutButton').click(function () {
           this._authManager.logout().then(function (response) {
             this._render(response);
 
@@ -17999,6 +18230,7 @@
 
       return AuthWidget;
     }();
+
     nsGmx$1.Translations.addText('rus', {
       auth: {
         'login': 'Войти',
@@ -18036,8 +18268,8 @@
         var oldInput = _input$1(null, [['dir', 'className', 'inputStyle'], ['css', 'width', '160px'], ['attr', 'type', 'password']]),
             newInput = _input$1(null, [['dir', 'className', 'inputStyle'], ['css', 'width', '160px'], ['attr', 'type', 'password']]),
             confirmInput = _input$1(null, [['dir', 'className', 'inputStyle'], ['css', 'width', '160px'], ['attr', 'type', 'password']]),
-            changeButton = makeButton(_gtxt("Изменить")),
-            canvas = _div$1([_div$1([_span$1([_t(_gtxt("Старый пароль"))]), _br$1(), oldInput, _br$1(), _span$1([_t(_gtxt("Новый пароль"))]), _br$1(), newInput, _br$1(), _span$1([_t(_gtxt("Подтвердите пароль"))]), _br$1(), confirmInput, _br$1()], [['css', 'textAlign', 'center']]), _div$1([changeButton], [['css', 'textAlign', 'center'], ['css', 'margin', '5px']])], [['attr', 'id', 'changePasswordCanvas']]),
+            changeButton = makeButton$1(_gtxt("Изменить")),
+            canvas = _div$1([_div$1([_span$1([_t$1(_gtxt("Старый пароль"))]), _br(), oldInput, _br(), _span$1([_t$1(_gtxt("Новый пароль"))]), _br(), newInput, _br(), _span$1([_t$1(_gtxt("Подтвердите пароль"))]), _br(), confirmInput, _br()], [['css', 'textAlign', 'center']]), _div$1([changeButton], [['css', 'textAlign', 'center'], ['css', 'margin', '5px']])], [['attr', 'id', 'changePasswordCanvas']]),
             checkPassw = function checkPassw() {
           if (newInput.value != confirmInput.value) {
             newInput.value = '';
@@ -18053,7 +18285,7 @@
             canvas.parentNode.removeNode(true);
             nsGmx$1.widgets.notifications.stopAction('changePassword', 'success', _gtxt('Пароль изменён'));
           }, function (message) {
-            message && showErrorMessage(message, true);
+            message && showErrorMessage$1(message, true);
             nsGmx$1.widgets.notifications.stopAction('changePassword', 'failure');
           });
           oldInput.value = '';
@@ -18061,7 +18293,7 @@
           confirmInput.value = '';
         };
 
-        showDialog(_gtxt("Изменение пароля"), canvas, 200, 200, false, false);
+        showDialog$1(_gtxt("Изменение пароля"), canvas, 200, 200, false, false);
         canvas.parentNode.style.overflow = 'hidden';
         oldInput.focus();
 
@@ -18091,7 +18323,7 @@
         options = options || {};
 
         var _createLogin = function _createLogin() {
-          var span = makeLinkButton$1(_gtxt('Вход'));
+          var span = makeLinkButton(_gtxt('Вход'));
 
           span.onclick = function () {
             _this.showLoginDialog(loginCallback);
@@ -18101,11 +18333,11 @@
         };
 
         var _createLogout = function _createLogout() {
-          var logoutSpan = makeLinkButton$1(_gtxt('Выход'));
+          var logoutSpan = makeLinkButton(_gtxt('Выход'));
 
           logoutSpan.onclick = function () {
             _authManager.logout(function () {
-              if (nsGmx$1.GeomixerFramework) _mapHelper.reloadMap();else window.location.replace(window.location.href.split("?")[0] + (defaultMapID == globalMapName ? "" : "&" + globalMapName));
+              if (nsGmx$1.GeomixerFramework) _mapHelper.reloadMap();else window.location.replace(window.location.href.split("?")[0] + (window.defaultMapID == window.globalMapName ? "" : "&" + window.globalMapName));
             });
           };
 
@@ -18113,7 +18345,7 @@
 
           if (_authManager.getFullname() !== null && _authManager.getFullname() !== '') userText += ' (' + _authManager.getFullname() + ')';
 
-          var userSpan = _span$1([_t(userText)], [['css', 'cursor', 'pointer']]);
+          var userSpan = _span$1([_t$1(userText)], [['css', 'cursor', 'pointer']]);
 
           userSpan.onclick = function () {
             if (_authManager.isAccounts()) {
@@ -18125,7 +18357,7 @@
 
           _title$1(userSpan, _gtxt("Изменение пароля"));
 
-          _(_container, [_table([_tr([_td([_div$1([userSpan], [['attr', 'id', 'user'], ['dir', 'className', 'user']])]), _td([_div$1([logoutSpan], [['attr', 'id', 'log'], ['dir', 'className', 'log']])])])])]);
+          _(_container, [_table$1([_tr$1([_td$1([_div$1([userSpan], [['attr', 'id', 'user'], ['dir', 'className', 'user']])]), _td$1([_div$1([logoutSpan], [['attr', 'id', 'log'], ['dir', 'className', 'log']])])])])]);
         };
 
         var _update = function _update() {
@@ -18187,7 +18419,7 @@
           };
 
           _dialogCanvas = canvas;
-          var jQueryDialog = showDialog(_gtxt("Пожалуйста, авторизуйтесь"), canvas[0], 248, dialogHeight, false, false, null, function () {
+          var jQueryDialog = showDialog$1(_gtxt("Пожалуйста, авторизуйтесь"), canvas[0], 248, dialogHeight, false, false, null, function () {
             _dialogCanvas = null;
           });
           loginInput.focus();
@@ -18331,7 +18563,7 @@
         }, function (colpkr) {
           $(colpkr).fadeOut(500);
           return false;
-        }, function (hsb, hex, rgb) {
+        }, function (hsb, hex) {
           outlineColor.style.backgroundColor = '#' + hex;
           templateStyle.outline.color = outlineColor.hex = parseInt('0x' + hex);
           $(elemCanvas).find(".borderIcon")[0].style.borderColor = '#' + hex;
@@ -18371,7 +18603,7 @@
 
         _$3(outlineParent, outlineTitleTds.concat(_td$1([_div$1([_table$1([_tbody$1([_tr$1(outlineTds)])])], [['attr', 'fade', true]])])));
 
-        var text = _input(null, [['attr', 'value', parentObject.options.title || ""], ['dir', 'className', 'inputStyle'], ['css', 'width', '180px']]);
+        var text = _input$1(null, [['attr', 'value', parentObject.options.title || ""], ['dir', 'className', 'inputStyle'], ['css', 'width', '180px']]);
 
         $(text).on('keyup', function (evt) {
           if (evt.keyCode === 13) {
@@ -18389,7 +18621,7 @@
         _$3(canvas, [_table$1([_tbody$1([_tr$1([_td$1([_t$1(_gtxt('drawingObjects.edit.description'))], [['css', 'width', '70px']]), _td$1([text])])])]), _br(), _table$1([_tbody$1([outlineParent])])]);
 
         var pos = nsGmx$1.Utils.getDialogPos(elemCanvas, false, 80);
-        jQueryDialog = showDialog(_gtxt('drawingObjects.edit.title'), canvas, 280, 130, pos.left, pos.top, false, closeFunc);
+        jQueryDialog = showDialog$1(_gtxt('drawingObjects.edit.title'), canvas, 280, 130, pos.left, pos.top, false, closeFunc);
         $(jQueryDialog).addClass('drawing-object-leaflet-id-' + parentObject._leaflet_id);
       };
 
@@ -18404,7 +18636,7 @@
     */
 
 
-    var DrawingObjectCollection = function DrawingObjectCollection(oInitMap) {
+    var DrawingObjectCollection = function DrawingObjectCollection() {
       var _objects = []; //{item:, editID: , removeID: }
 
       var _this = this;
@@ -18463,13 +18695,10 @@
 
 
       this.RemoveAt = function (index) {
-        var obj = _objects.splice(index, 1)[0];
         /** Вызывается при удалении объекта из коллекции
         @name DrawingObjects.DrawingObjectCollection.onRemove
         @event
         @param {int} index индекс удаляённого объекта*/
-
-
         $(this).triggerHandler('onRemove', [index]);
       };
       /** Удаляет объект из коллекции
@@ -18555,7 +18784,7 @@
 
       if (_options.editStyle) {
         if (geom.type == "Point") {
-          icon = _img(null, [['attr', 'src', (window.gmxJSHost || '') + 'img/flag_min.png'], ['dir', 'className', 'colorIcon']]);
+          icon = _img$1(null, [['attr', 'src', (window.gmxJSHost || '') + 'img/flag_min.png'], ['dir', 'className', 'colorIcon']]);
         } else {
           var regularDrawingStyle = {
             outline: {
@@ -18713,7 +18942,7 @@
         $(row).bind('onRemove', function () {
           drawingObject.remove();
         });
-        if (_collection.Count() == 1 && _options.showButtons) show$1(_divButtons);
+        if (_collection.Count() == 1 && _options.showButtons) show(_divButtons);
         /** В списке мышь переместилась над объект
         @name DrawingObjects.DrawingObjectList.mouseover
         @event
@@ -18775,7 +19004,7 @@
         return _divButtons;
       };
 
-      var delAll = makeLinkButton$1(_gtxt('drawingObjects.removeAll'));
+      var delAll = makeLinkButton(_gtxt('drawingObjects.removeAll'));
       delAll.onclick = this.Clear;
 
       _$3(_divButtons, [_div$1([delAll])]);
@@ -18825,7 +19054,7 @@
 
       var oMap = null;
       var gmxMap = null;
-      var oMenu = new leftMenu$1();
+      var oMenu = new leftMenu();
 
       var oListDiv = _div$1(null, [['dir', 'className', 'DrawingObjectsLeftMenu']]);
 
@@ -18873,7 +19102,7 @@
       };
 
       var downloadFormat = null;
-      var downloadShp = makeLinkButton$1(_gtxt('drawingObjects.downloadShp'));
+      var downloadShp = makeLinkButton(_gtxt('drawingObjects.downloadShp'));
 
       downloadShp.onclick = function () {
         downloadFormat = 'Shape';
@@ -18881,7 +19110,7 @@
       };
 
       downloadShp.style.margin = '0px 3px';
-      var downloadGeoJSON = makeLinkButton$1(_gtxt('drawingObjects.downloadGeoJSON'));
+      var downloadGeoJSON = makeLinkButton(_gtxt('drawingObjects.downloadGeoJSON'));
 
       downloadGeoJSON.onclick = function () {
         downloadFormat = 'GeoJSON';
@@ -18889,7 +19118,7 @@
       };
 
       downloadGeoJSON.style.margin = '0px 3px';
-      var downloadGpx = makeLinkButton$1(_gtxt('drawingObjects.downloadGpx'));
+      var downloadGpx = makeLinkButton(_gtxt('drawingObjects.downloadGpx'));
 
       downloadGpx.onclick = function () {
         downloadFormat = 'gpx';
@@ -18897,7 +19126,7 @@
       };
 
       downloadGpx.style.margin = '0px 3px';
-      var downloadCsv = makeLinkButton$1(_gtxt('drawingObjects.downloadCsv'));
+      var downloadCsv = makeLinkButton(_gtxt('drawingObjects.downloadCsv'));
 
       downloadCsv.onclick = function () {
         downloadFormat = 'csv_wkt';
@@ -18949,7 +19178,7 @@
           window.location.href = window.location.protocol + "//" + props.hostName + "/DownloadLayer.ashx" + "?t=" + props.name + "&MinX=" + truncate9(bounds.getWest()) + "&MinY=" + truncate9(bounds.getSouth()) + "&MaxX=" + truncate9(bounds.getEast()) + "&MaxY=" + truncate9(bounds.getNorth()) + "&Format=" + format + temporalParam;
         }
       });
-      var downloadRaster = makeLinkButton$1(_gtxt('drawingObjects.downloadRaster'));
+      var downloadRaster = makeLinkButton(_gtxt('drawingObjects.downloadRaster'));
 
       downloadRaster.onclick = function () {
         if (downloadRasterOptions.find(':visible').length || checkRasterLayer()) {
@@ -19017,7 +19246,7 @@
         }
 
         if (!obj) {
-          showErrorMessage(_gtxt('drawingObjects.noRectangleError'), true);
+          showErrorMessage$1(_gtxt('drawingObjects.noRectangleError'), true);
           return;
         }
 
@@ -19078,7 +19307,7 @@
         }
 
         if (!layer) {
-          showErrorMessage(_gtxt('drawingObjects.noRasterError'), true);
+          showErrorMessage$1(_gtxt('drawingObjects.noRasterError'), true);
           return;
         }
 
@@ -19246,7 +19475,7 @@
 
     exports.copy = copy;
     exports.extend = extend;
-
+    //# sourceMappingURL=scanex-object-extensions.cjs.js.map
     });
 
     unwrapExports(scanexObjectExtensions_cjs);
@@ -19890,9 +20119,7 @@
       /**object[]*/
       oProps,
       /**string*/
-      sPropSeparator,
-      /**object[]*/
-      arrDisplayFields) {
+      sPropSeparator) {
         var sResultString = "";
 
         if (oProps != null) {
@@ -19948,7 +20175,9 @@
         var color = Math.round(0x22 + 0x99 * iPosition / iCount);
         var sDescr = "<b>" + Functions.GetFullName(oFoundObject.TypeName, oFoundObject.ObjName) + "</b><br/>" + Functions.GetPath(oFoundObject.Parent, "<br/>", true);
         if (oFoundObject.properties != null) sDescr += "<br/>" + Functions.GetPropertiesString(oFoundObject.properties, "<br/>");
-        sDescr = sDescr.replace(/;/g, "<br/>");
+        sDescr = sDescr.replace(/;/g, "<br/>"); // var fnBaloon = function(o) {
+        // 	return o.properties.Descr.replace(/;/g, "<br/>");
+        // };
 
         var centerMapElem, boundaryMapElem; //Рисуем центр объекта
 
@@ -19969,7 +20198,7 @@
 
         if (oFoundObject.Geometry != null && oFoundObject.Geometry.type.toUpperCase() != 'POINT') {
           boundaryMapElem = L.geoJson(L.gmxUtil.geometryToGeoJSON(oFoundObject.Geometry), {
-            style: function style(feature) {
+            style: function style() {
               return;
             },
             onEachFeature: function onEachFeature(feature, layer) {
@@ -19999,19 +20228,17 @@
 
         if (oFoundObject.Geometry == null) {
           if (oFoundObject.MinLon != null && oFoundObject.MaxLon != null && oFoundObject.MinLat != null && oFoundObject.MaxLat != null && oFoundObject.MaxLon - oFoundObject.MinLon < 1e-9 && oFoundObject.MaxLat - oFoundObject.MinLat < 1e-9) map.setView([oFoundObject.CntrLat, oFoundObject.CntrLon], iZoom);else map.fitBounds([[oFoundObject.MinLat, oFoundObject.MinLon], [oFoundObject.MaxLat, oFoundObject.MaxLon]]);
-        } else {
-          if (oFoundObject.Geometry.type.toUpperCase() == 'POINT') {
-            if (oFoundObject.MinLon != oFoundObject.MaxLon && oFoundObject.MinLat != oFoundObject.MaxLat) {
-              map.fitBounds([[oFoundObject.MinLat, oFoundObject.MinLon], [oFoundObject.MaxLat, oFoundObject.MaxLon]]);
-            } else {
-              var c = oFoundObject.Geometry.coordinates;
-              map.setView([c[1], c[0]], iZoom);
-            }
+        } else if (oFoundObject.Geometry.type.toUpperCase() == 'POINT') {
+          if (oFoundObject.MinLon != oFoundObject.MaxLon && oFoundObject.MinLat != oFoundObject.MaxLat) {
+            map.fitBounds([[oFoundObject.MinLat, oFoundObject.MinLon], [oFoundObject.MaxLat, oFoundObject.MaxLon]]);
           } else {
-            var bounds = L.gmxUtil.getGeometryBounds(oFoundObject.Geometry); //var oExtent = getBounds(oFoundObject.Geometry.coordinates);
-
-            map.fitBounds([[bounds.min.y, bounds.min.x], [bounds.max.y, bounds.max.x]]);
+            var c = oFoundObject.Geometry.coordinates;
+            map.setView([c[1], c[0]], iZoom);
           }
+        } else {
+          var bounds = L.gmxUtil.getGeometryBounds(oFoundObject.Geometry); //var oExtent = getBounds(oFoundObject.Geometry.coordinates);
+
+          map.fitBounds([[bounds.min.y, bounds.min.x], [bounds.max.y, bounds.max.x]]);
         }
       };
       /**Центрует карту по переданному объекту
@@ -20043,9 +20270,9 @@
         if (!this.arrContainer[iDataSourceN]) {
           this.arrContainer[iDataSourceN] = L.layerGroup();
           counts[iDataSourceN] = 0;
-        }
+        } // iCount = arrFoundObjects.length;
 
-        iCount = arrFoundObjects.length;
+
         var mapObjects = [];
         counts[iDataSourceN] += arrFoundObjects.length; //Отрисовываем задом наперед, чтобы номер 1 был сверху от 10ого
 
@@ -20057,7 +20284,46 @@
         if (bAutoCenter && iDataSourceN == 0) CenterObject(arrFoundObjects[0]);
         return mapObjects;
       };
-    };
+    }; // /** Конструктор
+    //  @class Предоставляет функции, отображающие найденные объекты на карте
+    //  @memberof Search
+    //  @param {object} oInitMap карта, на которой будут рисоваться объекты
+    //  @param {function} fnSearchLocation = function({Geometry, callback})- функция поиска объектов по переданной геометрии*/
+    // var LocationTitleRenderer = function(oInitMap, fnSearchLocation){
+    // 	var _this = this;
+    // 	var oMap = oInitMap;
+    // 	var dtLastSearch;
+    // 	/**Добавляет объект в список найденных результатов*/
+    // 	var drawObject = function(oFoundObject, elemDiv)
+    // 	{
+    // 		if (oFoundObject.Parent != null) drawObject(oFoundObject.Parent, elemDiv, true);
+    // 		var	realPath = oFoundObject.IsForeign ? oFoundObject.ObjName : Functions.GetFullName(oFoundObject.TypeName, oFoundObject.ObjName);
+    // 		var searchElemHeader = _span([_t(realPath)], [['dir', 'className', 'searchLocationPath']]);
+    // 		/** Вызывается при клике на найденный объект в списке результатов поиска
+    // 		@name Search.ResultList.onObjectClick
+    // 		@event
+    // 		@param {object} oFoundObject Найденный объект*/
+    // 		searchElemHeader.onclick = function(){$(_this).triggerHandler('onObjectClick', [oFoundObject]);};
+    // 		if (oFoundObject.Parent != null) _(elemDiv, [_t("->")]);
+    // 		_(elemDiv, [searchElemHeader]);
+    // 	}
+    // 	var setLocationTitleDiv = function(div, attr) {
+    // 		if (dtLastSearch && Number(new Date()) - dtLastSearch < 300) return;
+    // 		dtLastSearch = new Date();
+    // 		var locationTitleDiv = div;
+    // 		fnSearchLocation({Geometry: attr['screenGeometry'], callback: function(arrResultDataSources){
+    // 			$(locationTitleDiv).empty();
+    // 			if (arrResultDataSources.length>0 && arrResultDataSources[0].SearchResult.length>0){
+    // 				drawObject(arrResultDataSources[0].SearchResult[0], locationTitleDiv);
+    // 			}
+    // 			else {
+    // 				_(locationTitleDiv, [_t(_gtxt("Текущее местоположение отображается только для России и Украины"))]);
+    // 			}
+    // 		}});
+    // 	};
+    // 	if (oMap.coordinates) oMap.coordinates.addCoordinatesFormat(setLocationTitleDiv);
+    // }
+
 
     var ResultList = function ResultList(oInitContainer, oRenderer, ImagesHost) {
       /**Объект, в котором находится контрол (div)*/
@@ -20082,26 +20348,39 @@
         Container.appendChild(oResultCanvas);
       }
 
-      var oLoading = nsGmx$1.Utils._div([_img(null, [['attr', 'src', sImagesHost + '/progress.gif'], ['dir', 'className', 'searchResultListLoadingImg']]), _t(_gtxt("загрузка..."))], [['dir', 'className', 'searchResultListLoading']]);
+      var oLoading = nsGmx$1.Utils._div([_img$1(null, [['attr', 'src', sImagesHost + '/progress.gif'], ['dir', 'className', 'searchResultListLoadingImg']]), _t$1(_gtxt("загрузка..."))], [['dir', 'className', 'searchResultListLoading']]);
 
       var fnNotFound = function fnNotFound() {
-        nsGmx$1.Utils._(oResultCanvas, [nsGmx$1.Utils._div([_t(_gtxt("Поиск не дал результатов"))], [['dir', 'className', 'SearchResultListNotFound']])]);
+        nsGmx$1.Utils._(oResultCanvas, [nsGmx$1.Utils._div([_t$1(_gtxt("Поиск не дал результатов"))], [['dir', 'className', 'SearchResultListNotFound']])]);
       };
       /**Удаляет все найденные объекты из результатов поиска*/
 
 
       var unload = function unload() {
-        for (i = 0; i < arrDisplayedObjects.length; i++) {
+        for (var i = 0; i < arrDisplayedObjects.length; i++) {
           SetDisplayedObjects(i, []);
         }
 
         $(oResultCanvas).empty();
-      };
+      }; // /** Переход на следующие страницы*/
+      // var next = function(iDataSourceN, divChilds, divPages) {
+      //     var button = makeImageButton(sImagesHost + '/next.png', sImagesHost + '/next_a.png');
+      //     button.style.marginBottom = '-7px';
+      //     button.onclick = function() {
+      // 		var oDataSource = arrTotalResultSet[iDataSourceN];
+      //         oDataSource.start += iPagesCount;
+      //         oDataSource.reportStart = oDataSource.start * iLimit;
+      //         drawPagesRow(iDataSourceN, divChilds, divPages);
+      //     }
+      //     _title(button, _gtxt('Следующие [value0] страниц', iPagesCount));
+      //     return button;
+      // }
+
       /** Переход на предыдущие страницы*/
 
 
       var previous = function previous(iDataSourceN, divChilds, divPages) {
-        var button = makeImageButton(sImagesHost + '/prev.png', sImagesHost + '/prev_a.png');
+        var button = makeImageButton$1(sImagesHost + '/prev.png', sImagesHost + '/prev_a.png');
         button.style.marginBottom = '-7px';
 
         button.onclick = function () {
@@ -20111,7 +20390,7 @@
           drawPagesRow(iDataSourceN, divChilds, divPages);
         };
 
-        _title(button, _gtxt('Предыдущие [value0] страниц', iPagesCount));
+        _title$1(button, _gtxt('Предыдущие [value0] страниц', iPagesCount));
 
         return button;
       };
@@ -20119,8 +20398,7 @@
 
 
       var first = function first(iDataSourceN, divChilds, divPages) {
-        var button = makeImageButton(sImagesHost + '/first.png', sImagesHost + '/first_a.png');
-
+        var button = makeImageButton$1(sImagesHost + '/first.png', sImagesHost + '/first_a.png');
         button.style.marginBottom = '-7px';
 
         button.onclick = function () {
@@ -20130,10 +20408,24 @@
           drawPagesRow(iDataSourceN, divChilds, divPages);
         };
 
-        _title(button, _gtxt('Первая страница'));
+        _title$1(button, _gtxt('Первая страница'));
 
         return button;
-      };
+      }; // /** Переход на последнюю страницу*/
+      // var last = function(iDataSourceN, divChilds, divPages) {
+      //     var _this = this,
+      // 		button = makeImageButton(sImagesHost + '/last.png', sImagesHost + '/last_a.png');
+      //     button.style.marginBottom = '-7px';
+      //     button.onclick = function() {
+      // 		var oDataSource = arrTotalResultSet[iDataSourceN];
+      //         oDataSource.start = Math.floor((oDataSource.SearchResult.length - 1)/ (iPagesCount * iLimit)) * iPagesCount;
+      //         oDataSource.reportStart = Math.floor((oDataSource.SearchResult.length - 1)/ (iLimit)) * iLimit;
+      //         drawPagesRow(iDataSourceN, divChilds, divPages);
+      //     }
+      //     _title(button, _gtxt('Последняя страница'));
+      //     return button;
+      // }
+
       /**Добавляет объект в список найденных результатов*/
 
 
@@ -20141,7 +20433,7 @@
         var realPath = oFoundObject.CountryCode != 28000 && oFoundObject.CountryCode != 310000183 ? oFoundObject.ObjName : Functions.GetFullName(oFoundObject.TypeName, oFoundObject.ObjName);
         if (oFoundObject.Parent != null) realPath += ",";
 
-        var searchElemHeader = _span([_t(realPath)], [['dir', 'className', bIsParent ? 'searchElemParent' : 'searchElem']]);
+        var searchElemHeader = _span$1([_t$1(realPath)], [['dir', 'className', bIsParent ? 'searchElemParent' : 'searchElem']]);
         /** Вызывается при клике на найденный объект в списке результатов поиска
         @name Search.ResultList.onObjectClick
         @event
@@ -20164,19 +20456,19 @@
         var arrObjects = arrDisplayedObjects[iDataSourceN];
         $(divChilds).empty();
 
-        var tbody = _tbody();
+        var tbody = _tbody$1();
 
         for (var i = 0; i < arrObjects.length; i++) {
-          var elemTR = _tr(null, [['dir', 'className', 'SearchResultRow']]);
+          var elemTR = _tr$1(null, [['dir', 'className', 'SearchResultRow']]);
 
-          var elemTD = _td(null, [['dir', 'className', 'SearchResultText']]);
+          var elemTD = _td$1(null, [['dir', 'className', 'SearchResultText']]);
 
-          nsGmx$1.Utils._(elemTR, [_td([_t((i + 1).toString() + ".")], [['dir', 'className', 'searchElemPosition']]), elemTD]);
+          nsGmx$1.Utils._(elemTR, [_td$1([_t$1((i + 1).toString() + ".")], [['dir', 'className', 'searchElemPosition']]), elemTD]);
 
           drawObject(arrObjects[i], elemTD); // загрузка SHP Файла
 
           if (window.gmxGeoCodeShpDownload && arrObjects[i].Geometry != null) {
-            var shpFileLink = _span([_t(".shp")], [['dir', 'className', 'searchElem'], ['attr', 'title', 'скачать SHP-файл'], ['attr', 'number', i]]);
+            var shpFileLink = _span$1([_t$1(".shp")], [['dir', 'className', 'searchElem'], ['attr', 'title', 'скачать SHP-файл'], ['attr', 'number', i]]);
 
             shpFileLink.onclick = function () {
               var obj = arrObjects[$(this).attr('number')];
@@ -20184,7 +20476,7 @@
               $(_this).triggerHandler('onDownloadSHP', [obj.ObjCode, objsToDownload]);
             };
 
-            nsGmx$1.Utils._(elemTD, [_t(" ")]);
+            nsGmx$1.Utils._(elemTD, [_t$1(" ")]);
 
             nsGmx$1.Utils._(elemTD, [shpFileLink]);
           }
@@ -20200,8 +20492,34 @@
           nsGmx$1.Utils._(tbody, [elemTR]);
         }
 
-        nsGmx$1.Utils._(divChilds, [_table([tbody])]);
-      };
+        nsGmx$1.Utils._(divChilds, [_table$1([tbody])]);
+      }; // /**рисует номера страниц списка
+      // @param end - последний номер
+      // @param iDataSourceN - номер источника данных
+      // @param divChilds - раздел для элементов списка
+      // @param divPages - раздел для номеров страниц списка*/
+      // var drawPages = function(end, iDataSourceN, divChilds, divPages) {
+      // 	var oDataSource = arrTotalResultSet[iDataSourceN];
+      // 	for (var i = oDataSource.start + 1; i <= end; i++) {
+      // 		// текущий элемент
+      // 		if (i - 1 == oDataSource.reportStart / iLimit) {
+      // 			var el = _span([_t(i.toString())]);
+      // 			nsGmx.Utils._(divPages, [el]);
+      // 			$(el).addClass('page');
+      // 		}
+      // 		else {
+      // 			var link = makeLinkButton(i.toString());
+      // 			link.setAttribute('page', i - 1);
+      // 			link.style.margin = '0px 2px';
+      // 			nsGmx.Utils._(divPages, [link]);
+      // 			link.onclick = function() {
+      // 				arrTotalResultSet[iDataSourceN].reportStart = this.getAttribute('page') * iLimit;
+      // 				drawPagesRow(iDataSourceN, divChilds, divPages);
+      // 			};
+      // 		}
+      // 	}
+      // }
+
       /**Рисует одну из страниц списка
       @param iDataSourceN - номер источника данных
       @param divChilds - раздел для элементов списка
@@ -20211,8 +20529,8 @@
       var drawPagesRow = function drawPagesRow(iDataSourceN, divChilds, divPages) {
         var oDataSource = arrTotalResultSet[iDataSourceN]; // перерисовывем номера страниц
 
-        $(divPages).empty();
-        var end = oDataSource.start + iPagesCount <= oDataSource.allPages ? oDataSource.start + iPagesCount : oDataSource.allPages;
+        $(divPages).empty(); // var end = (oDataSource.start + iPagesCount <= oDataSource.allPages) ? oDataSource.start + iPagesCount : oDataSource.allPages;
+
         if (oDataSource.start - iPagesCount >= 0) nsGmx$1.Utils._(divPages, [first(iDataSourceN, divChilds, divPages), previous(iDataSourceN, divChilds, divPages)]); // drawPages(end, iDataSourceN, divChilds, divPages);
         // if (end + 1 <= oDataSource.allPages)
         // 	nsGmx.Utils._(divPages, [next(iDataSourceN, divChilds, divPages), last(iDataSourceN, divChilds, divPages)]);
@@ -20249,9 +20567,9 @@
         var oDataSource = arrTotalResultSet[iDataSourceN];
 
         var canvas = nsGmx$1.Utils._div(),
-            filename = _input(null, [['dir', 'className', 'filename'], ['attr', 'value', oDataSource.name]]);
+            filename = _input$1(null, [['dir', 'className', 'filename'], ['attr', 'value', oDataSource.name]]);
 
-        var downloadButton = makeButton(_gtxt("Скачать"));
+        var downloadButton = makeButton$1(_gtxt("Скачать"));
 
         downloadButton.onclick = function () {
           if (filename.value == '') {
@@ -20269,10 +20587,10 @@
           $(canvas.parentNode).dialog("destroy").remove();
         };
 
-        nsGmx$1.Utils._(canvas, [nsGmx$1.Utils._div([_t(_gtxt("Введите имя файла для скачивания")), filename], [['dir', 'className', 'DownloadSHPButtonText']]), nsGmx$1.Utils._div([downloadButton], [['dir', 'className', 'DownloadSHPButton']])]);
+        nsGmx$1.Utils._(canvas, [nsGmx$1.Utils._div([_t$1(_gtxt("Введите имя файла для скачивания")), filename], [['dir', 'className', 'DownloadSHPButtonText']]), nsGmx$1.Utils._div([downloadButton], [['dir', 'className', 'DownloadSHPButton']])]);
 
         var area = getOffsetRect(Container);
-        showDialog(_gtxt("Скачать shp-файл"), canvas, 291, 120, 30, area.top + 10);
+        showDialog$1(_gtxt("Скачать shp-файл"), canvas, 291, 120, 30, area.top + 10);
       };
       /**Отображает результаты поиска с источника данных
       @param iDataSourceN - номер источника данных*/
@@ -20285,13 +20603,13 @@
 
         var divChilds = nsGmx$1.Utils._div(null, [['dir', 'className', 'SearchResultListChildsCanvas']]),
             divPages = nsGmx$1.Utils._div(),
-            liInner = _li([divChilds, divPages]),
+            liInner = _li$1([divChilds, divPages]),
             li;
 
         if (arrTotalResultSet.length == 1) {
           li = nsGmx$1.Utils._ul([liInner]);
         } else {
-          li = _li([nsGmx$1.Utils._div([_t(header), _span([_t("(" + arrDataSourceList.length + ")")])], [['dir', 'className', 'searchLayerHeader']]), nsGmx$1.Utils._ul([liInner])]);
+          li = _li$1([nsGmx$1.Utils._div([_t$1(header), _span$1([_t$1("(" + arrDataSourceList.length + ")")])], [['dir', 'className', 'searchLayerHeader']]), nsGmx$1.Utils._ul([liInner])]);
         }
 
         oDataSource.start = 0;
@@ -20331,7 +20649,7 @@
         // $(oSearchResultDiv).triggerHandler('onObjectClick', [oFoundObject]);
       };
 
-      var fnDownloadSHP = function fnDownloadSHP(event, filename, arrObjectsToDownload) {
+      var fnDownloadSHP = function fnDownloadSHP() {
         /** Вызывается при необходимости осуществить загрузку SHP-файла с результатами поиска
         @name Search.ResultListMap.onDownloadSHP
         @event
@@ -20382,7 +20700,7 @@
         if (arrTotalResultSet.length == 1) {
           nsGmx$1.Utils._(oResultCanvas, [ulSearch]);
         } else {
-          nsGmx$1.Utils._(oResultCanvas, [_li([nsGmx$1.Utils._div([_t(sTotalListName)], [['dir', 'className', 'SearchTotalHeader']]), ulSearch])]);
+          nsGmx$1.Utils._(oResultCanvas, [_li$1([nsGmx$1.Utils._div([_t$1(sTotalListName)], [['dir', 'className', 'SearchTotalHeader']]), ulSearch])]);
         }
 
         if (typeof $.fn.treeview === 'function') {
@@ -20402,7 +20720,7 @@
 
       this.CreatePager = function (results, onclick) {
         function makeNavigButton(pager, img, imga, id, title) {
-          var b = makeImageButton(sImagesHost + img, sImagesHost + imga);
+          var b = makeImageButton$1(sImagesHost + img, sImagesHost + imga);
           b.style.marginBottom = '-7px';
           $(b).attr('id', id);
 
@@ -20413,10 +20731,10 @@
           return b;
         }
 
-        containerList = Container;
+        var containerList = Container;
         $('#respager').remove(); //var pager = nsGmx.Utils._div([_t('всего: ' + results[0].ResultsCount)], [["attr", "id", "respager"]]);
 
-        var pager = nsGmx$1.Utils._div([_t('')], [["attr", "id", "respager"]]);
+        var pager = nsGmx$1.Utils._div([_t$1('')], [["attr", "id", "respager"]]);
 
         nsGmx$1.Utils._(containerList, [pager]);
 
@@ -20440,12 +20758,12 @@
 
             if (i == 0) {
               $(pagelink).attr('class', 'page');
-              attachEffects(pagelink, '');
+              attachEffects$1(pagelink, '');
             }
 
             $(pagelink).bind('click', onclick);
 
-            nsGmx$1.Utils._(pager, [pagelink, _t(' ')]);
+            nsGmx$1.Utils._(pager, [pagelink, _t$1(' ')]);
           }
 
           var remains = pcount % iPagesCount;
@@ -20543,7 +20861,7 @@
       this.ShowError = function () {
         $(oResultCanvas).empty();
 
-        nsGmx$1.Utils._(oResultCanvas, [_t("Произошла ошибка")]);
+        nsGmx$1.Utils._(oResultCanvas, [_t$1("Произошла ошибка")]);
       };
       /**Очищает результаты поиска
       @returns {void}*/
@@ -20571,15 +20889,15 @@
         this.oSearchResultDiv.className = 'ddfdfdf';
         this.oSearchResultDiv.title = window._gtxt('Изменить параметры поиска');
 
-        var fnBeforeSearch = function fnBeforeSearch(event) {
+        var fnBeforeSearch = function fnBeforeSearch() {
           /** Вызывается перед началом поиска
           @name Search.SearchGeomixer.onBeforeSearch
           @event */
           $(this.oSearchResultDiv).triggerHandler('onBeforeSearch');
-          fnLoad();
+          this.fnLoad();
         };
 
-        var fnAfterSearch = function fnAfterSearch(event) {
+        var fnAfterSearch = function fnAfterSearch() {
           /** Вызывается после окончания поиска
           @name Search.SearchGeomixer.onAfterSearch
           @event */
@@ -20672,11 +20990,11 @@
           $('#prevpages~span:visible').attr('class', 'buttonLink');
 
           for (var i = 0; i < $('#prevpages~span:visible').length; ++i) {
-            attachEffects($('#prevpages~span:visible')[i], 'buttonLinkHover');
+            attachEffects$1($('#prevpages~span:visible')[i], 'buttonLinkHover');
           }
 
           $(active).attr('class', 'page');
-          attachEffects(active, '');
+          attachEffects$1(active, '');
 
           _this.lstResult.ShowResult(searchString, response, {
             page: activePage
@@ -20704,9 +21022,10 @@
         }
       },
       layersSearch: function layersSearch(res) {
-
         if (!nsGmx$1.gmxMap) {
-          reject(res);
+          return new Promise(function (resolve, reject) {
+            reject(res);
+          });
         }
 
         var promisesArr = [];
@@ -20755,7 +21074,7 @@
           });
           return Promise.all(promisesArr);
         } else {
-          return new Promise(function (resolve, reject) {
+          return new Promise(function (resolve) {
             resolve(res);
           });
         }
@@ -20767,7 +21086,7 @@
 
           if (searchReq.Status == 'ok') {
             for (var iServer = 0; iServer < searchReq.Result.length; iServer++) {
-              var limitSearchResults = typeof LayerSearchLimit == "number" ? LayerSearchLimit : 100;
+              var limitSearchResults = typeof window.LayerSearchLimit == "number" ? window.LayerSearchLimit : 100;
               var req = searchReq.Result[iServer];
 
               for (var j = 0; j < limitSearchResults && j < req.SearchResult.length; j++) {
@@ -22067,7 +22386,7 @@
     exports.OsmDataProvider = OsmDataProvider;
     exports.SearchControl = SearchControl;
     exports.SearchWidget = SearchWidget;
-
+    //# sourceMappingURL=main.js.map
     });
 
     unwrapExports(main);
@@ -22132,9 +22451,9 @@
 
       _this2.searchString = value;
 
-      var _strong = Boolean(strong) ? 1 : 0;
+      var _strong = strong ? 1 : 0;
 
-      var _withoutGeometry = Boolean(retrieveGeometry) ? 0 : 1;
+      var _withoutGeometry = retrieveGeometry ? 0 : 1;
 
       var query = 'WrapStyle=None&RequestType=SearchObject&IsStrongSearch=' + _strong + '&WithoutGeometry=' + _withoutGeometry + '&UseOSM=1&Limit=' + limit + '&SearchString=' + encodeURIComponent(value);
       var req = new Request(this._serverBase + '/SearchObject/SearchAddress.ashx?' + query + this._key);
@@ -22177,10 +22496,10 @@
             arr.push(result.Result[i]);
           }
 
-          for (var i = 0; i < json2.length; i++) {
-            if (json2[i] && json2[i].length) {
-              for (var j = 0; j < json2[i].length; j++) {
-                arr.push(json2[i][j]);
+          for (var _i = 0; _i < json2.length; _i++) {
+            if (json2[_i] && json2[_i].length) {
+              for (var j = 0; j < json2[_i].length; j++) {
+                arr.push(json2[_i][j]);
               }
             }
           }
@@ -22241,13 +22560,13 @@
       });
     };
 
-    _translationsHash.addtext("rus", {
+    window._translationsHash.addtext("rus", {
       "loadShape.inputTitle": "Добавить shp-файл (в zip)",
       "loadShape.loadDone": "Геометрия успешно загружена",
       "loadShape.loadFail": "Ошибка загрузки геометрии"
     });
 
-    _translationsHash.addtext("eng", {
+    window._translationsHash.addtext("eng", {
       "loadShape.inputTitle": "Add shp-file (zipped)",
       "loadShape.loadDone": "Successfully loaded",
       "loadShape.loadFail": "Error loading file"
@@ -22262,7 +22581,7 @@
       this.uploader = null;
     };
 
-    queryLoadShp.prototype = new leftMenu$1(); //Старый вариант для IE9
+    queryLoadShp.prototype = new leftMenu(); //Старый вариант для IE9
     //просто удаляет все контролы и создаёт все их заново...
 
     queryLoadShp.prototype._regenerateControl = function () {
@@ -22270,17 +22589,17 @@
 
       $(this.workCanvas).empty();
 
-      var fileInput = _input(null, [['attr', 'type', 'file'], ['attr', 'name', 'file'], ['attr', 'id', 'upload_shapefile']]);
+      var fileInput = _input$1(null, [['attr', 'type', 'file'], ['attr', 'name', 'file'], ['attr', 'id', 'upload_shapefile']]);
 
       fileInput.onchange = function () {
         if (this.value != "") _this.upload();
       }; //задаём одновременно и enctype и encoding для корректной работы в IE
 
 
-      this.postForm = _form([fileInput], [['attr', 'method', 'POST'], ['attr', 'encoding', 'multipart/form-data'], ['attr', 'enctype', 'multipart/form-data'], ['attr', 'id', 'upload_shapefile_form']]);
-      this.progress = _img(null, [['attr', 'src', 'img/progress.gif'], ['css', 'display', 'none']]);
-      this.inputControl = _div([_span([_t(_gtxt("loadShape.inputTitle") + ":")]), this.postForm]);
-      this.workCanvas.appendChild(_div([this.inputControl, this.progress], [['css', 'padding', '10px 0px 5px 20px']]));
+      this.postForm = _form$1([fileInput], [['attr', 'method', 'POST'], ['attr', 'encoding', 'multipart/form-data'], ['attr', 'enctype', 'multipart/form-data'], ['attr', 'id', 'upload_shapefile_form']]);
+      this.progress = _img$1(null, [['attr', 'src', 'img/progress.gif'], ['css', 'display', 'none']]);
+      this.inputControl = _div$1([_span$1([_t$1(_gtxt("loadShape.inputTitle") + ":")]), this.postForm]);
+      this.workCanvas.appendChild(_div$1([this.inputControl, this.progress], [['css', 'padding', '10px 0px 5px 20px']]));
     };
 
     queryLoadShp.prototype.load = function () {
@@ -22293,11 +22612,11 @@
 
     queryLoadShp.prototype._showObjectsOnMap = function (objs) {
       if (objs.length == 0) {
-        showErrorMessage(_gtxt("Загруженный shp-файл пуст"), true);
+        showErrorMessage$1(_gtxt("Загруженный shp-файл пуст"), true);
         return;
       }
 
-      var lmap = nsGmx.leafletMap,
+      var lmap = nsGmx$1.leafletMap,
           gmxDrawing = lmap.gmxDrawing,
           latLngBounds = L.latLngBounds([]);
 
@@ -22318,23 +22637,23 @@
 
 
     queryLoadShp.prototype.loadAndShowFiles = function (files) {
-      nsGmx.widgets.notifications.startAction('uploadShp');
+      nsGmx$1.widgets.notifications.startAction('uploadShp');
       var def = $.when.apply($, [].slice.call(files).map(function (file) {
-        return nsGmx.Utils.parseShpFile(file);
+        return nsGmx$1.Utils.parseShpFile(file);
       }));
       def.then(function () {
         this._showObjectsOnMap(_.flatten([].slice.call(arguments)));
 
-        nsGmx.widgets.notifications.stopAction('uploadShp', 'success', _gtxt('loadShape.loadDone'));
+        nsGmx$1.widgets.notifications.stopAction('uploadShp', 'success', _gtxt('loadShape.loadDone'));
       }.bind(this), function () {
-        nsGmx.widgets.notifications.stopAction('uploadShp', 'failure', _gtxt('loadShape.loadFail'));
+        nsGmx$1.widgets.notifications.stopAction('uploadShp', 'failure', _gtxt('loadShape.loadFail'));
       });
       return def;
     }; //Загружает файлы из поля "file"
 
 
     queryLoadShp.prototype.upload = function () {
-      hide(this.inputControl);
+      hide$1(this.inputControl);
       show(this.progress);
       this.loadAndShowFiles([this.postForm]).always(function () {
         this.inputControl.removeChild(this.postForm);
@@ -22464,10 +22783,10 @@
         '1.1.1': 'LatLonBoundingBox',
         '1.3.0': 'EX_GeographicBoundingBox'
       };
-      var serviceLayers = [],
-          strResp = response.replace(/[\t\n\r]/g, ' '),
-          strResp = strResp.replace(/\s+/g, ' '),
-          xml = parseXML(response),
+      var serviceLayers = []; // var strResp = response.replace(/[\t\n\r]/g, ' ');
+      //     strResp = strResp.replace(/\s+/g, ' ');
+
+      var xml = parseXML(response),
           mainTag = xml.getElementsByTagName('WMS_Capabilities')[0] || xml.getElementsByTagName('WMT_MS_Capabilities')[0],
           version = mainTag.getAttribute('version'),
           layersXML = xml.getElementsByTagName('Layer');
@@ -22587,10 +22906,10 @@
     };
 
     wfsParser.prototype.parse = function (response, srs) {
-      var geometries = [],
-          strResp = response.replace(/[\t\n\r]/g, ' '),
-          strResp = strResp.replace(/\s+/g, ' '),
-          xml = parseXML(strResp),
+      var geometries = [];
+      var strResp = response.replace(/[\t\n\r]/g, ' ');
+      strResp = strResp.replace(/\s+/g, ' ');
+      var xml = parseXML(strResp),
           parsedNS = strResp.indexOf('<kml') > -1 ? this.kmlns : this.gmlns;
       this.axisOrder = srs && srs.indexOf("urn:") == 0 ? 'latlong' : 'longlat';
       var order = ["Polygon", "LineString", "Point"];
@@ -22600,7 +22919,7 @@
             nodeList = this.elementsNS(xml.documentElement, parsedNS, type);
 
         for (var j = 0; j < nodeList.length; ++j) {
-          geometry = this['parse' + type].apply(this, [nodeList[j]]);
+          var geometry = this['parse' + type].apply(this, [nodeList[j]]);
           if (geometry) geometries.push(geometry);
         }
       }
@@ -22647,8 +22966,7 @@
     };
 
     wfsParser.prototype.parseLineString = function (node) {
-      var nodeList,
-          coordString,
+      var coordString,
           coords = [],
           points = [],
           nodeList = this.elementsNS(node, this.gmlns, "posList");
@@ -22658,9 +22976,7 @@
         coords = coordString.split(" ");
 
         for (var i = 0; i < coords.length / 2; ++i) {
-          j = i * 2;
-          x = coords[j];
-          y = coords[j + 1];
+          var j = i * 2;
           points.push(this.swapCoordinates([Number(coords[j]), Number(coords[j + 1])]));
         }
       }
@@ -22673,8 +22989,8 @@
           coordString = coordString.replace(/\s*,\s*/g, ",");
           var pointList = coordString.split(" ");
 
-          for (var i = 0; i < pointList.length; ++i) {
-            coords = pointList[i].split(",");
+          for (var _i = 0; _i < pointList.length; ++_i) {
+            coords = pointList[_i].split(",");
             points.push(this.swapCoordinates([Number(coords[0]), Number(coords[1])]));
           }
         }
@@ -22772,17 +23088,17 @@
         });
       } else {
         for (var i = 0; i < feature.geometry.coordinates.length; i++) {
-          var newCoords = [];
+          var _newCoords = [];
 
-          for (var j = 0; j < feature.geometry.coordinates[i].length; j++) {
-            newCoords.push(this.swapCoordinates(feature.geometry.coordinates[i][j]));
+          for (var _j = 0; _j < feature.geometry.coordinates[i].length; _j++) {
+            _newCoords.push(this.swapCoordinates(feature.geometry.coordinates[i][_j]));
           }
 
           geometryArr.push({
             feature: feature,
             geometry: {
               type: 'LINESTRING',
-              coordinates: newCoords
+              coordinates: _newCoords
             }
           });
         }
@@ -22792,11 +23108,13 @@
     jsonParser.prototype.parsePolygon = function (feature, geometryArr) {
       if (feature.geometry.type.toLowerCase().indexOf('multi') < 0) {
         var newCoords = [];
+        var k = 0,
+            j = 0;
 
-        for (var k = 0; k < feature.geometry.coordinates.length; j++) {
+        for (k = 0; k < feature.geometry.coordinates.length; j++) {
           var newCoords2 = [];
 
-          for (var j = 0; j < feature.geometry.coordinates[k].length; k++) {
+          for (j = 0; j < feature.geometry.coordinates[k].length; k++) {
             newCoords2.push(this.swapCoordinates(feature.geometry.coordinates[k][j]));
           }
 
@@ -22812,23 +23130,23 @@
         });
       } else {
         for (var i = 0; i < feature.geometry.coordinates.length; i++) {
-          var newCoords = [];
+          var _newCoords2 = [];
 
-          for (var k = 0; k < feature.geometry.coordinates[i].length; k++) {
-            var newCoords2 = [];
+          for (var _k = 0; _k < feature.geometry.coordinates[i].length; _k++) {
+            var _newCoords3 = [];
 
-            for (var j = 0; j < feature.geometry.coordinates[i][k].length; j++) {
-              newCoords2.push(this.swapCoordinates(feature.geometry.coordinates[i][k][j]));
+            for (var _j2 = 0; _j2 < feature.geometry.coordinates[i][_k].length; _j2++) {
+              _newCoords3.push(this.swapCoordinates(feature.geometry.coordinates[i][_k][_j2]));
             }
 
-            newCoords.push(newCoords2);
+            _newCoords2.push(_newCoords3);
           }
 
           geometryArr.push({
             feature: feature,
             geometry: {
               type: 'POLYGON',
-              coordinates: newCoords
+              coordinates: _newCoords2
             }
           });
         }
@@ -22851,7 +23169,7 @@
       this.customParams = undefined;
     };
 
-    queryServerData.prototype = new leftMenu$1();
+    queryServerData.prototype = new leftMenu();
     /**
         Загружает виджет для добавления/просмотра WMS/WFS слоёв
      @param protocol
@@ -22863,7 +23181,7 @@
      @param version {string} Версия протокола, которая будет использоваться
     */
 
-    queryServerData.prototype.load = function (protocol, parseFunc, drawFunc, customParamsManager, version) {
+    queryServerData.prototype.load = function (protocol, parseFunc, drawFunc, customParamsManager) {
       window.convertCoords = function (coordsStr) {
         var res = [],
             coordsPairs = strip(coordsStr).replace(/\s+/, ' ').split(' ');
@@ -22873,8 +23191,9 @@
             res.push([Number(coordsPairs[2 * j + 1]), Number(coordsPairs[2 * j])]);
           }
         } else {
-          for (var j = 0; j < coordsPairs.length; j++) {
-            var parsedCoords = coordsPairs[j].split(',');
+          for (var _j3 = 0; _j3 < coordsPairs.length; _j3++) {
+            var parsedCoords = coordsPairs[_j3].split(',');
+
             res.push([Number(parsedCoords[1]), Number(parsedCoords[0])]);
           }
         }
@@ -22886,11 +23205,11 @@
         if (format == 'gml') return _wfsParser.parse(response, srs);else if (format == 'json') return _jsonParser.parse(response, srs);else return [];
       };
 
-      var inputField = _input(null, [['dir', 'className', 'inputStyle'], ['css', 'width', '200px']]);
+      var inputField = _input$1(null, [['dir', 'className', 'inputStyle'], ['css', 'width', '200px']]);
 
-      this.parentCanvas = _div(null, [['dir', 'className', 'serverDataCanvas']]);
+      this.parentCanvas = _div$1(null, [['dir', 'className', 'serverDataCanvas']]);
 
-      var goButton = makeButton(_gtxt("Загрузить")),
+      var goButton = makeButton$1(_gtxt("Загрузить")),
           _this = this;
 
       var doGetCapabilities = function doGetCapabilities() {
@@ -22911,10 +23230,10 @@
         }
       });
 
-      var canvas = _div([_div([_span([_t(_gtxt("URL сервера"))])], [['css', 'marginBottom', '3px']]), _table([_tbody([_tr([_td([inputField]), _td([goButton])])])], [['css', 'marginBottom', '5px']])], [['css', 'margin', '3px 0px 0px 10px']]);
+      var canvas = _div$1([_div$1([_span$1([_t$1(_gtxt("URL сервера"))])], [['css', 'marginBottom', '3px']]), _table$1([_tbody$1([_tr$1([_td$1([inputField]), _td$1([goButton])])])], [['css', 'marginBottom', '5px']])], [['css', 'margin', '3px 0px 0px 10px']]);
 
       if (customParamsManager) {
-        var customParamsDiv = _div();
+        var customParamsDiv = _div$1();
 
         $(canvas).append(customParamsDiv);
         _this.customParams = customParamsManager.init(customParamsDiv);
@@ -22924,7 +23243,7 @@
     };
 
     queryServerData.prototype.getCapabilities = function (protocol, url, parseFunc, drawFunc, version) {
-      var loading = _div([_img(null, [['attr', 'src', 'img/progress.gif'], ['css', 'marginRight', '10px']]), _t(_gtxt('загрузка...'))], [['css', 'margin', '3px 0px 3px 20px']]),
+      var loading = _div$1([_img$1(null, [['attr', 'src', 'img/progress.gif'], ['css', 'marginRight', '10px']]), _t$1(_gtxt('загрузка...'))], [['css', 'margin', '3px 0px 3px 20px']]),
           _this = this;
 
       if (this.parentCanvas.childNodes.length == 0) _$4(this.parentCanvas, [loading]);else this.parentCanvas.insertBefore(loading, this.parentCanvas.firstChild);
@@ -22936,8 +23255,8 @@
         capabilitiesUrl += '&VERSION=' + version;
       }
 
-      sendCrossDomainJSONRequest(serverBase + "ApiSave.ashx?get=" + encodeURIComponent(capabilitiesUrl), function (response) {
-        if (!parseResponse(response)) return;
+      sendCrossDomainJSONRequest$1(window.serverBase + "ApiSave.ashx?get=" + encodeURIComponent(capabilitiesUrl), function (response) {
+        if (!parseResponse$1(response)) return;
         var servicelayers = parseFunc.call(_this, response.Result);
         drawFunc.call(_this, servicelayers, url, loading, undefined, _this.customParams);
       });
@@ -22945,9 +23264,9 @@
 
     queryServerData.prototype.parseWFSCapabilities = function (response) {
       var serviceLayers = [],
-          strResp = response.replace(/[\t\n\r]/g, ' '),
-          strResp = strResp.replace(/\s+/g, ' '),
-          featuresXML = parseXML(response).getElementsByTagName('FeatureType');
+          // strResp = response.replace(/[\t\n\r]/g, ' '),
+      // strResp = strResp.replace(/\s+/g, ' '),
+      featuresXML = parseXML(response).getElementsByTagName('FeatureType');
 
       for (var i = 0; i < featuresXML.length; i++) {
         var layer = {},
@@ -22966,9 +23285,9 @@
     queryServerData.prototype.loadGML = function (url, parentTreeCanvas, box, header, format, loadLayerParams, srs) {
       var _this = this;
 
-      sendCrossDomainJSONRequest(serverBase + "ApiSave.ashx?get=" + encodeURIComponent(url), function (response) {
-        if (!parseResponse(response)) return;
-        var geometries = parseGML(response.Result, format, srs);
+      sendCrossDomainJSONRequest$1(window.serverBase + "ApiSave.ashx?get=" + encodeURIComponent(url), function (response) {
+        if (!parseResponse$1(response)) return;
+        var geometries = window.parseGML(response.Result, format, srs);
 
         _this.drawGML(geometries, url, parentTreeCanvas, box, header, loadLayerParams);
       });
@@ -22977,18 +23296,18 @@
     queryServerData.prototype.saveGML = function (geometries) {
       if (typeof geometries == 'undefined' || geometries == null) {
         geometries = [];
-        globalFlashMap.drawing.forEachObject(function (ret) {
+        window.globalFlashMap.drawing.forEachObject(function (ret) {
           geometries.push(ret.geometry);
         });
       }
 
       window.promptFunction(_gtxt('Введите имя gml-файла для скачивания:'), 'objects.gml', function (fileName) {
-        globalFlashMap.saveObjects(geometries, nsGmx$1.Utils.translit(fileName));
+        window.globalFlashMap.saveObjects(geometries, nsGmx$1.Utils.translit(fileName));
       });
       return false;
     };
 
-    queryServerData.prototype.drawGML = function (geometries, url, parentTreeCanvas, box, header, loadLayerParams) {
+    queryServerData.prototype.drawGML = function (geometries, url, parentTreeCanvas, box) {
       var parent = {
         'Point': L.gmx.createLayer({
           properties: {}
@@ -22999,35 +23318,12 @@
         'Polygon': L.gmx.createLayer({
           properties: {}
         }).addTo(nsGmx$1.leafletMap)
-      },
-          styles = {
-        'Point': typeof loadLayerParams != 'undefined' && loadLayerParams['point'] ? loadLayerParams['point'].RenderStyle : {
-          marker: {
-            size: 2
-          },
-          outline: {
-            color: 0x0000ff,
-            thickness: 1
-          }
-        },
-        'LineString': typeof loadLayerParams != 'undefined' && loadLayerParams['linestring'] ? loadLayerParams['linestring'].RenderStyle : {
-          outline: {
-            color: 0x0000ff,
-            thickness: 2
-          }
-        },
-        'Polygon': typeof loadLayerParams != 'undefined' && loadLayerParams['polygon'] ? loadLayerParams['polygon'].RenderStyle : {
-          outline: {
-            color: 0x0000ff,
-            thickness: 2,
-            opacity: 100
-          },
-          fill: {
-            color: 0xffffff,
-            opacity: 20
-          }
-        }
-      }; // parent['POINT'].setStyle(styles['POINT']);
+      }; // var styles = {
+      // 			'Point': typeof loadLayerParams != 'undefined' && loadLayerParams['point'] ? loadLayerParams['point'].RenderStyle : { marker: { size: 2 }, outline: { color: 0x0000ff, thickness: 1 } },
+      // 			'LineString': typeof loadLayerParams != 'undefined' && loadLayerParams['linestring'] ? loadLayerParams['linestring'].RenderStyle : { outline: { color: 0x0000ff, thickness: 2 } },
+      // 			'Polygon': typeof loadLayerParams != 'undefined' && loadLayerParams['polygon'] ? loadLayerParams['polygon'].RenderStyle : { outline: { color: 0x0000ff, thickness: 2, opacity: 100 }, fill: {color: 0xffffff, opacity: 20} }
+      // 		};
+      // parent['POINT'].setStyle(styles['POINT']);
       // parent['LINESTRING'].setStyle(styles['LINESTRING']);
       // parent['POLYGON'].setStyle(styles['POLYGON']);
 
@@ -23070,10 +23366,10 @@
       parent['LineString'].addData(items['LineString']);
       parent['Polygon'].addData(items['Polygon']);
 
-      var divCanvas = _div(),
-          divChilds = _div(),
-          spanHeader = _span([_t(url.length < 45 ? url : url.substr(0, 45) + '...')]),
-          _this = this;
+      var divCanvas = _div$1(),
+          divChilds = _div$1(),
+          // spanHeader = _span([_t(url.length < 45 ? url : url.substr(0, 45) + '...')]),
+      _this = this;
 
       var clickFunc = function clickFunc(flag) {
         var lmap = nsGmx$1.leafletMap,
@@ -23081,7 +23377,7 @@
         lmap[method](parent['Point']);
         lmap[method](parent['LineString']);
         lmap[method](parent['Polygon']);
-        if (flag) show(divChilds);else hide(divChilds);
+        if (flag) show(divChilds);else hide$1(divChilds);
       };
 
       parentTreeCanvas.loaded = function () // переопределим функцию загрузки слоя на центрирование
@@ -23149,9 +23445,9 @@
 
 
     queryServerData.prototype.drawWMS = function (serviceLayers, url, replaceElem, loadParams, serverParams) {
-      var ulCanvas = _ul(null, [['css', 'paddingBottom', '5px'], ['attr', 'url', url]]),
-          ulChilds = _ul(),
-          remove = makeImageButton('img/closemin.png', 'img/close_orange.png'),
+      var ulCanvas = _ul$1(null, [['css', 'paddingBottom', '5px'], ['attr', 'url', url]]),
+          ulChilds = _ul$1(),
+          remove = makeImageButton$1('img/closemin.png', 'img/close_orange.png'),
           lmap = nsGmx$1.leafletMap;
 
       $(replaceElem).replaceWith(ulCanvas);
@@ -23169,7 +23465,7 @@
       remove.className = 'remove';
       remove.style.right = '0px';
 
-      _$4(ulCanvas, [_li([_div([_span([_t(url.length < 45 ? url : url.substr(0, 45) + '...')], [['dir', 'className', 'urlHeader']]), remove], [['css', 'position', 'relative']]), ulChilds])]);
+      _$4(ulCanvas, [_li$1([_div$1([_span$1([_t$1(url.length < 45 ? url : url.substr(0, 45) + '...')], [['dir', 'className', 'urlHeader']]), remove], [['css', 'position', 'relative']]), ulChilds])]);
 
       var clickFunc = function clickFunc(layer, parent, flag) {
         if (!flag) {
@@ -23193,14 +23489,14 @@
         if (res) {
           var b = res.bounds;
           parent.clearLayers();
-          parent.addLayer(L.imageOverlay(serverBase + "ImgSave.ashx?now=true&get=" + encodeURIComponent(res.url), L.latLngBounds([[b.minY, b.minX], [b.maxY, b.maxX]])));
+          parent.addLayer(L.imageOverlay(window.serverBase + "ImgSave.ashx?now=true&get=" + encodeURIComponent(res.url), L.latLngBounds([[b.minY, b.minX], [b.maxY, b.maxX]])));
         }
       };
 
       serviceLayers.forEach(function (layer) {
-        var elemCanvas = _div(null, [['css', 'padding', '2px']]),
-            box = _checkbox(false, 'checkbox'),
-            spanElem = _span([_t(layer.title)], [['css', 'cursor', 'pointer'], ['dir', 'className', 'layerfeature']]),
+        var elemCanvas = _div$1(null, [['css', 'padding', '2px']]),
+            box = _checkbox$1(false, 'checkbox'),
+            spanElem = _span$1([_t$1(layer.title)], [['css', 'cursor', 'pointer'], ['dir', 'className', 'layerfeature']]),
             parent = L.layerGroup().addTo(nsGmx$1.leafletMap);
 
         spanElem.gmxObject = parent;
@@ -23223,7 +23519,7 @@
 
         _$4(elemCanvas, [box, spanElem]);
 
-        _$4(ulChilds, [_li([elemCanvas])]);
+        _$4(ulChilds, [_li$1([elemCanvas])]);
 
         if (typeof loadParams != 'undefined' && loadParams[layer.name]) $(spanElem).trigger("click");
       });
@@ -23242,11 +23538,11 @@
       var _targetDiv = null;
       return {
         init: function init(targetDiv) {
-          var select = nsGmx$1.Utils._select([_option([_t('png')]), _option([_t('jpeg')])], [['dir', 'className', 'selectStyle'], ['css', 'width', '60px']]);
+          var select = nsGmx$1.Utils._select([_option([_t$1('png')]), _option([_t$1('jpeg')])], [['dir', 'className', 'selectStyle'], ['css', 'width', '60px']]);
 
           _targetDiv = targetDiv;
 
-          _$4(_targetDiv, [_t(_gtxt('Формат изображения') + ': '), select]);
+          _$4(_targetDiv, [_t$1(_gtxt('Формат изображения') + ': '), select]);
 
           _targetDiv.style.marginBottom = '5px';
         },
@@ -23259,10 +23555,10 @@
     }();
 
     queryServerData.prototype.drawWFS = function (serviceLayers, url, replaceElem, loadParams) {
-      var ulCanvas = _ul(null, [['css', 'paddingBottom', '5px'], ['attr', 'url', url]]),
-          ulChilds = _ul(),
-          divFormat = _div(),
-          remove = makeImageButton('img/closemin.png', 'img/close_orange.png'),
+      var ulCanvas = _ul$1(null, [['css', 'paddingBottom', '5px'], ['attr', 'url', url]]),
+          ulChilds = _ul$1(),
+          divFormat = _div$1(),
+          remove = makeImageButton$1('img/closemin.png', 'img/close_orange.png'),
           _this = this;
 
       $(replaceElem).replaceWith(ulCanvas);
@@ -23278,9 +23574,9 @@
       remove.className = 'remove';
       remove.style.right = '0px';
 
-      _$4(ulCanvas, [_li([_div([_span([_t(url.length < 45 ? url : url.substr(0, 45) + '...')], [['dir', 'className', 'urlHeader']]), divFormat, remove], [['css', 'position', 'relative']]), ulChilds])]);
+      _$4(ulCanvas, [_li$1([_div$1([_span$1([_t$1(url.length < 45 ? url : url.substr(0, 45) + '...')], [['dir', 'className', 'urlHeader']]), divFormat, remove], [['css', 'position', 'relative']]), ulChilds])]);
 
-      var formatSelect = nsGmx$1.Utils._select([_option([_t("JSON")], [['attr', 'value', 'json']]), _option([_t("GML / KML")], [['attr', 'value', 'gml']])], [['dir', 'className', 'selectStyle'], ['css', 'width', '100px']]);
+      var formatSelect = nsGmx$1.Utils._select([_option([_t$1("JSON")], [['attr', 'value', 'json']]), _option([_t$1("GML / KML")], [['attr', 'value', 'gml']])], [['dir', 'className', 'selectStyle'], ['css', 'width', '100px']]);
 
       _$4(divFormat, [formatSelect]);
 
@@ -23299,20 +23595,20 @@
             elemCanvas.loaded = true;
             elemCanvas.format = newFormat;
 
-            var loading = _div([_img(null, [['attr', 'src', 'img/progress.gif'], ['css', 'marginRight', '10px']]), _t(_gtxt('загрузка...'))], [['css', 'margin', '3px 0px']]);
+            var loading = _div$1([_img$1(null, [['attr', 'src', 'img/progress.gif'], ['css', 'marginRight', '10px']]), _t$1(_gtxt('загрузка...'))], [['css', 'margin', '3px 0px']]);
 
             _$4(elemCanvas, [loading]);
-          } else {
-            if (typeof elemCanvas.loaded == 'function') elemCanvas.loaded();
+          } else if (typeof elemCanvas.loaded == 'function') {
+            elemCanvas.loaded();
           }
         }
       };
 
       for (var i = 0; i < serviceLayers.length; i++) {
-        var elemCanvas = _div(null, [['css', 'padding', '2px']]),
-            box = _checkbox(false, 'checkbox'),
-            spanElem = _span([_t(serviceLayers[i].title != '' ? serviceLayers[i].title : serviceLayers[i].name)], [['css', 'cursor', 'pointer'], ['dir', 'className', 'layerfeature']]),
-            elemChilds = _div(null, [['css', 'marginLeft', '20px']]);
+        var elemCanvas = _div$1(null, [['css', 'padding', '2px']]),
+            box = _checkbox$1(false, 'checkbox'),
+            spanElem = _span$1([_t$1(serviceLayers[i].title != '' ? serviceLayers[i].title : serviceLayers[i].name)], [['css', 'cursor', 'pointer'], ['dir', 'className', 'layerfeature']]),
+            elemChilds = _div$1(null, [['css', 'marginLeft', '20px']]);
 
         box.className = 'floatLeft';
         box.setAttribute('layerName', serviceLayers[i].name);
@@ -23328,9 +23624,9 @@
           };
         })(serviceLayers[i], elemChilds, box, spanElem);
 
-        _$4(elemCanvas, [box, _div([spanElem], [['css', 'display', 'inline']]), elemChilds]);
+        _$4(elemCanvas, [box, _div$1([spanElem], [['css', 'display', 'inline']]), elemChilds]);
 
-        _$4(ulChilds, [_li([elemCanvas])]);
+        _$4(ulChilds, [_li$1([elemCanvas])]);
 
         if (typeof loadParams != 'undefined' && loadParams[serviceLayers[i].name]) {
           if (!box.checked) box.checked = true;
@@ -23478,7 +23774,7 @@
         newWindow: true,
         id: 'HeaderLinkGeoMixer'
       }];
-      return $.extend(true, [], items).map(function (item, index, array) {
+      return $.extend(true, [], items).map(function (item, index) {
         item.link = item.href;
         return {
           id: 'headerLinksItem' + index,
@@ -23495,7 +23791,8 @@
     nsGmx$1.TransparencySliderWidget = function (container) {
       var _this = this;
 
-      var ui = $(Handlebars.compile('<div class="leaflet-gmx-iconSvg leaflet-gmx-iconSvg-transparency svgIcon leaflet-control gmx-transslider-toggle-icon" title="{{i "TransparencySliderWidget.title"}}"><svg role="img" class="svgIcon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#transparency"></use></svg></div>' + '<div class = "gmx-transslider-container"></div>' + '<div class = "leaflet-gmx-iconSvg leaflet-gmx-iconSvg-transparency-eye svgIcon leaflet-gmx-iconSvg-active leaflet-control gmx-transslider-onoff" title="{{i "TransparencySliderWidget.onOffTitle"}}"><svg role="img" class="svgIcon gmx-transslider-hide"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#transparency-eye"></use></svg><svg role="img" class="svgIcon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#transparency-eye-off"></use></svg></div>')()).appendTo(container);
+      var ui = $(Handlebars.compile('<div class="leaflet-gmx-iconSvg leaflet-gmx-iconSvg-transparency svgIcon leaflet-control gmx-transslider-toggle-icon" title="{{i "TransparencySliderWidget.title"}}"><svg role="img" class="svgIcon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#transparency"></use></svg></div>' + '<div class = "gmx-transslider-container"></div>' + '<div class = "leaflet-gmx-iconSvg leaflet-gmx-iconSvg-transparency-eye svgIcon leaflet-gmx-iconSvg-active leaflet-control gmx-transslider-onoff" title="{{i "TransparencySliderWidget.onOffTitle"}}"><svg role="img" class="svgIcon gmx-transslider-hide"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#transparency-eye"></use></svg><svg role="img" class="svgIcon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#transparency-eye-off"></use></svg></div>')());
+      ui.appendTo(container);
       var sliderContainer = container.find('.gmx-transslider-container');
       this._isCollapsed = true;
       container.find('.gmx-transslider-toggle-icon').click(function () {
@@ -23706,17 +24003,17 @@
           container.appendChild(label);
           return label;
         } else {
-          var label = document.createElement('label'),
-              checked = this._map.hasLayer(obj.layer),
-              input;
+          var _label = document.createElement('label'),
+              _checked = this._map.hasLayer(obj.layer),
+              _input;
 
           if (obj.overlay) {
-            input = document.createElement('input');
-            input.type = 'checkbox';
-            input.className = 'leaflet-control-layers-selector';
-            input.defaultChecked = checked;
+            _input = document.createElement('input');
+            _input.type = 'checkbox';
+            _input.className = 'leaflet-control-layers-selector';
+            _input.defaultChecked = _checked;
           } else {
-            input = this._createRadioElement('leaflet-base-layers', checked);
+            _input = this._createRadioElement('leaflet-base-layers', _checked);
           }
 
           var presentLayer, presentIndex;
@@ -23732,27 +24029,33 @@
           presentIndex = this._layerControlInputs.indexOf(presentLayer);
 
           if (presentLayer) {
-            this._layerControlInputs = [].concat(this._layerControlInputs.slice(0, presentIndex), input, this._layerControlInputs.slice(presentIndex + 1, this._layerControlInputs.length));
+            this._layerControlInputs = [].concat(this._layerControlInputs.slice(0, presentIndex), _input, this._layerControlInputs.slice(presentIndex + 1, this._layerControlInputs.length));
           } else {
-            this._layerControlInputs.push(input);
+            this._layerControlInputs.push(_input);
           }
 
-          input.layerId = L.Util.stamp(obj.layer);
-          L.DomEvent.on(input, 'click', this._onInputClick, this);
-          var name = document.createElement('span');
-          name.innerHTML = ' ' + obj.name; // Helps from preventing layer control flicker when checkboxes are disabled
+          _input.layerId = L.Util.stamp(obj.layer);
+          L.DomEvent.on(_input, 'click', this._onInputClick, this);
+
+          var _name = document.createElement('span');
+
+          _name.innerHTML = ' ' + obj.name; // Helps from preventing layer control flicker when checkboxes are disabled
           // https://github.com/Leaflet/Leaflet/issues/2771
 
           var holder = document.createElement('div');
-          label.appendChild(holder);
-          holder.appendChild(input);
-          holder.appendChild(name);
-          var container = obj.overlay ? this._overlaysList : this._baseLayersList;
-          container.appendChild(label);
+
+          _label.appendChild(holder);
+
+          holder.appendChild(_input);
+          holder.appendChild(_name);
+
+          var _container = obj.overlay ? this._overlaysList : this._baseLayersList;
+
+          _container.appendChild(_label);
 
           this._checkDisabledLayers();
 
-          return label;
+          return _label;
         }
       },
       _update: function _update() {
@@ -23772,10 +24075,9 @@
         this._overlaysList.innerHTML = '';
         var baseLayersPresent = false,
             overlaysPresent = false,
-            i,
             obj;
 
-        for (i in this._layers) {
+        for (var i in this._layers) {
           obj = this._layers[i];
 
           if (obj.overlay) {
@@ -23804,13 +24106,12 @@
         this._listContainer.className = this._listContainer.className.replace(' leaflet-control-layers-expanded', '');
         this.setActive(false);
       },
-      setActive: function setActive(active, skipEvent) {
+      setActive: function setActive(active) {
         var options = this.options,
             togglable = options.togglable || options.toggle;
 
         if (togglable) {
-          var prev = options.isActive,
-              prefix = this._prefix,
+          var prefix = this._prefix,
               className = prefix + '-' + options.id,
               container = this._iconContainer;
           options.isActive = active;
@@ -24483,6 +24784,406 @@
     gmxCore.addModule("MediaPlugin2", publicInterface$1, {// css: 'MediaPlugin2.css'
     });
 
+    /** Загрузчик модулей ГеоМиксера
+    Позволяет загружать модули из разных файлов.
+    Модуль - единица кода, имеющая уникальное имя и зависящая от других модулей и скриптов.
+    @namespace
+    */
+
+    var gmxCore$2 = function () {
+      var _callbacks = [];
+      var _modules = {}; //null - файл модуля уже загружается, но сам модуль пока не доступен
+
+      var _globalNamespace = this;
+
+      var _modulesDefaultHost = "";
+      var _modulePathes = {
+        /*#buildinclude<modules_path.txt>*/
+      };
+      var _moduleFiles = {
+        /*#buildinclude<module_files.txt>*/
+      };
+
+      var getScriptURL = function getScriptURL(scriptName) {
+        scriptName = scriptName.toLowerCase();
+        var scripts1 = document.getElementsByTagName("script");
+
+        for (var i = 0; i < scripts1.length; i++) {
+          var src = scripts1[i].getAttribute("src");
+          if (src && src.toLowerCase().indexOf(scriptName) != -1) return src;
+        }
+
+        return false;
+      }; //производится регистронезависимое сравнение
+
+
+      var getScriptBase = function getScriptBase(scriptName) {
+        scriptName = scriptName.toLowerCase();
+        var url = getScriptURL(scriptName);
+        return url ? url.toLowerCase().substring(0, url.toLowerCase().indexOf(scriptName)) : "";
+      };
+
+      var invokeCallbacks = function invokeCallbacks() {
+        for (var k = 0; k < _callbacks.length; k++) {
+          var isAllModules = true;
+          var curModules = _callbacks[k].modules;
+          var modules = [];
+
+          for (var m = 0; m < curModules.length; m++) {
+            if (!_modules[curModules[m]]) {
+              isAllModules = false;
+              break;
+            }
+
+            modules.push(_modules[curModules[m]]);
+          }
+
+          if (isAllModules) {
+            var curCallback = _callbacks[k].callback; //first delete, then callback!
+
+            _callbacks.splice(k, 1);
+
+            k = k - 1;
+            curCallback.apply(null, modules);
+          }
+        }
+      };
+
+      var LABjsDeferred = null;
+
+      var lazyLoadLABjs = function lazyLoadLABjs() {
+        if (!LABjsDeferred) {
+          LABjsDeferred = $.Deferred(); //load LAB.js (snippest from its website)
+
+          (function (g, b, _d) {
+            var c = b.head || b.getElementsByTagName("head"),
+                D = "readyState",
+                E = "onreadystatechange",
+                F = "DOMContentLoaded",
+                G = "addEventListener",
+                H = setTimeout;
+            H(function () {
+              if ("item" in c) {
+                if (!c[0]) {
+                  H(arguments.callee, 25);
+                  return;
+                }
+
+                c = c[0];
+              }
+
+              var a = b.createElement("script"),
+                  e = false;
+
+              a.onload = a[E] = function () {
+                if (a[D] && a[D] !== "complete" && a[D] !== "loaded" || e) {
+                  return false;
+                }
+
+                a.onload = a[E] = null;
+                e = true;
+                LABjsDeferred.resolve();
+              };
+
+              a.src = (getScriptBase('gmxcore.js') || window.gmxJSHost || "") + 'LAB.min.js';
+              c.insertBefore(a, c.firstChild);
+            }, 0);
+
+            if (b[D] == null && b[G]) {
+              b[D] = "loading";
+              b[G](F, _d = function d() {
+                b.removeEventListener(F, _d, false);
+                b[D] = "complete";
+              }, false);
+            }
+          })(this, document);
+        }
+
+        return LABjsDeferred.promise();
+      };
+
+      var cssLoader = null;
+
+      var withCachePostfix = function withCachePostfix(filename) {
+        var sym = filename.indexOf('?') === -1 ? '?' : '&';
+
+        if (window.gmxDropBrowserCache) {
+          filename += sym + Math.random();
+        } else if (window.nsGmx && nsGmx$1.buildGUID) {
+          filename += sym + nsGmx$1.buildGUID;
+        }
+
+        return filename;
+      };
+
+      var publicInterface =
+      /** @lends gmxCore */
+      {
+        /** Добавить новый модуль
+        * @param {String} moduleName Уникальное имя модуля
+        * @param {Object|Function} moduleObj Тело модуля или ф-ция, возвращающая тело. Аргумент ф-ции - путь к модулю. Будет вызвана после загрузки всех зависимостей.
+        * @param {Object} [options] Дополнительные параметры модуля
+        * @param {String[]} [options.require] Какие модули должны быть загрежены перед данным
+        * @param {Function} [options.init] Ф-ция для инициализации модуля. Сигнатура: function (moduleObj, modulePath)->{void|{@link jQuery.Deferred}}. Если ф-ция возвращает {@link jQuery.Deferred}, загрузчик будет ждать его для окончания инициализации.
+        * @param {String|String[]} [options.css] CSS файлы для загрузки. Пути к CSS указываются относительно файла текущего модуля.
+        */
+        addModule: function addModule(moduleName, moduleObj, options) {
+          var requiredModules = options && 'require' in options ? options.require : [];
+          var initDeferred = null;
+
+          var _this = this;
+
+          for (var r = 0; r < requiredModules.length; r++) {
+            this.loadModule(requiredModules[r]);
+          }
+
+          this.addModulesCallback(requiredModules, function () {
+            if (options && 'init' in options) {
+              initDeferred = options.init(moduleObj, _modulePathes[moduleName]);
+            }
+
+            if (options && 'css' in options) {
+              var cssFiles = typeof options.css === 'string' ? [options.css] : options.css;
+              var path = _modulePathes[moduleName] || window.gmxJSHost || "";
+
+              for (var iF = 0; iF < cssFiles.length; iF++) {
+                _this.loadCSS(withCachePostfix(path + cssFiles[iF]));
+              }
+            }
+
+            var doAdd = function doAdd() {
+              if (typeof moduleObj === 'function') {
+                moduleObj = moduleObj(_modulePathes[moduleName]);
+              }
+
+              _modules[moduleName] = moduleObj;
+              invokeCallbacks();
+            };
+
+            if (initDeferred) {
+              initDeferred.done(doAdd);
+            } else {
+              doAdd();
+            }
+          });
+        },
+
+        /** Загрузить модуль
+        * @param { String } moduleName Имя модуля для загрузки
+        * @param { String } [moduleSource] Имя файла, откуда загружать модуль. Если не указан, будет сформирован в виде (defaultHost + moduleName + '.js')
+        * @param { Function } [callback] Ф-ция, которая будет вызвана после загрузки и инициализации. В ф-цию первым параметром передаётся тело модуля
+        * @return { jQuery.Deferred } Promise, который будет resolve при загрузке модуля (параметр - модуль).
+        */
+        loadModule: function loadModule(moduleName, moduleSource, callback) {
+          var def = $.Deferred();
+
+          if (typeof moduleSource === 'function') {
+            callback = moduleSource;
+            moduleSource = undefined;
+          }
+
+          this.addModulesCallback([moduleName], function (module) {
+            callback && callback(module);
+            def.resolve(module);
+          });
+
+          if (!(moduleName in _modules)) {
+            _modules[moduleName] = null;
+            var headElem = document.getElementsByTagName("head")[0];
+            var newScript = document.createElement('script');
+            var path;
+
+            if (typeof moduleSource != 'undefined') {
+              path = moduleSource.match(/^https?:\/\//i) ? moduleSource : (window.gmxJSHost || "") + moduleSource;
+            } else {
+              path = moduleName in _moduleFiles ? _moduleFiles[moduleName] : (_modulesDefaultHost || window.gmxJSHost || "") + moduleName + '.js';
+            }
+
+            var pathRegexp = /(.*)\/[^\/]+/;
+            if (typeof _modulePathes[moduleName] === 'undefined') _modulePathes[moduleName] = pathRegexp.test(path) ? path.match(pathRegexp)[1] + "/" : ""; // var pathPostfix = "";
+
+            newScript.onerror = function () {
+              def.reject();
+            };
+
+            newScript.type = 'text/javascript';
+            newScript.src = withCachePostfix(path);
+            newScript.charset = "utf-8";
+            headElem.appendChild(newScript);
+          }
+
+          return def;
+        },
+
+        /** Добавить callback, который будет вызван после загрузки моделей
+        *
+        * Если модули уже загружены, callback будет вызван сразу же
+        *
+        * @param {Array} moduleNames Массив имён модулей
+        * @param {Function} callback Ф-ция, которую нужно вызвать после загрузки. В качестве аргументов в ф-цию передаются загруженные модули
+        */
+        addModulesCallback: function addModulesCallback(moduleNames, callback) {
+          _callbacks.push({
+            modules: moduleNames,
+            callback: callback
+          });
+
+          invokeCallbacks();
+        },
+
+        /** Получить модуль по имени.
+        *
+        * @param {String} moduleName Имя модуля
+        * @return {Object} Тело модуля. Если модуль не загружен, вернётся null.
+        */
+        getModule: function getModule(moduleName) {
+          return _modules[moduleName] || null;
+        },
+
+        /** Установить дефольный путь к модулям. Используется если указан локальный файл модуля.
+        * @param {String} defaultHost Дефолтный путь у модулям.
+        */
+        setDefaultModulesHost: function setDefaultModulesHost(defaultHost) {
+          _modulesDefaultHost = defaultHost;
+        },
+
+        /** Явно задать полный путь к модулю
+        * @param {String} moduleName Имя модуля
+        * @param {String} defaultHost Путь к файлу модулю. При загрузке модуля будет загружен файл по указанному пути
+        */
+        setModuleFile: function setModuleFile(moduleName, moduleFile) {
+          _moduleFiles[moduleName] = moduleFile;
+        },
+        pushModule2GlobalNamespace: function pushModule2GlobalNamespace(moduleName) {
+          if (!_modules[moduleName]) return;
+          var module = _modules[moduleName];
+
+          for (var p in module) {
+            _globalNamespace[p] = module[p];
+          }
+        },
+
+        /** Получить путь к директории, из которой был загружен модуль.
+        * @param {String} moduleName Имя модуля
+        * @returns {String} Путь к директории, из которой был загружен модуль. Для не загруженных модулей ничего не возвращает
+        */
+        getModulePath: function getModulePath(moduleName) {
+          return _modulePathes[moduleName];
+        },
+
+        /** Возвращает ф-цию, которая делает следующее:
+        *
+        *  - Если модуль moduleName не загружен, загружает его
+        *  - Потом просто вызывает ф-цию с именем functionName из этого модуля, передав ей все свои параметры
+        *
+        *  - Возвращённая ф-ция при вызове возвращает jQuery.Promise, который будет resolve с параметрами, возвращёнными исходной ф-цией из модуля
+        * @param {String} moduleName Имя модуля
+        * @param {String} functionName Название ф-ции внутри модуля
+        * @param {Function} callback Ф-ция, которая будет вызвана после того, как отработает ф-ция модуля. В callback будет передан ответ исходной ф-ции.
+        */
+        createDeferredFunction: function createDeferredFunction(moduleName, functionName, callback) {
+          var _this = this;
+
+          return function () {
+            var deferred = $.Deferred();
+            var args = arguments;
+
+            _this.loadModule(moduleName).done(function (module) {
+              var res = module[functionName].apply(this, args);
+              callback && callback(res);
+              deferred.resolve(res);
+            });
+
+            return deferred.promise();
+          };
+        },
+
+        /** Загружает скрипт после предвариетельной проверки условий.
+        *
+        * @param {Array} filesInfo Массив объектов со следующими свойствами:
+        *
+        *   * check: function() -> Bool. Если возвращает true, ни js ни css не будет загружены
+        *   * script: String. Не обязательно. Скрипт для загрузки, если провалится проверка
+        *   * css: String | String[]. Не обязательно. CSS файл(ы) для загрузки, если провалится проверка
+        *   @returns {jQuery.Deferred} Deferred, который будет разрешён когда все скрипты выполнятся (окончание загрузки css не отслеживается)
+        */
+        loadScriptWithCheck: function loadScriptWithCheck(filesInfo) {
+          var _this = this;
+
+          var localFilesInfo = filesInfo.slice(0);
+          var def = $.Deferred();
+
+          var doLoad = function doLoad() {
+            if (localFilesInfo.length > 0) {
+              var curInfo = localFilesInfo.shift();
+              if (curInfo.check()) doLoad();else {
+                var css = curInfo.css || [];
+
+                if (typeof css === 'string') {
+                  css = [css];
+                }
+
+                css.forEach(_this.loadCSS);
+                if (curInfo.script) _this.loadScript(curInfo.script).then(doLoad);else doLoad();
+              }
+            } else def.resolve();
+          };
+
+          doLoad();
+          return def.promise();
+        },
+
+        /**
+        * Загружает отдельный скрипт
+        * @param {String} fileName Имя файла скрипта
+        * @param {function} [callback] Ф-ция, которая будет вызвана после загрузки
+        * @param {String} [charset=utf-8] Кодировка загружаемого файла
+        * @returns {jQuery.Deferred}
+        */
+        loadScript: function loadScript(fileName, callback, charset) {
+          var def = $.Deferred();
+          lazyLoadLABjs().done(function () {
+            var descr = {
+              src: withCachePostfix(fileName)
+            };
+
+            if (charset) {
+              descr.charset = charset;
+            }
+
+            $LAB.script(descr).wait(function () {
+              def.resolve();
+              callback && callback();
+            });
+          });
+          return def.promise();
+        },
+
+        /** Загрузить отдельный css файл
+        * @param {String} cssFilename Имя css файла.
+        */
+        loadCSS: function loadCSS(cssFilename) {
+          var doLoadCss = function doLoadCss() {
+            $.getCSS(withCachePostfix(cssFilename));
+          };
+
+          if ('getCSS' in $) {
+            doLoadCss();
+          } else {
+            if (!cssLoader) {
+              var path = getScriptBase('gmxcore.js') || window.gmxJSHost || "";
+              cssLoader = $.getScript(path + "jquery/jquery.getCSS.js");
+            }
+
+            cssLoader.done(doLoadCss);
+          }
+        }
+      };
+      return publicInterface;
+    }();
+
+    window.gmxCore = gmxCore$2;
+
     var _$5 = nsGmx$1.Utils._; //для отслеживания того, что не открыли диалог редактирования одного и того же объекта несколько раз
 
     var EditObjectControlsManager = {
@@ -24690,7 +25391,7 @@
       var bindDrawingObject = function bindDrawingObject(obj) {
         geometryInfoRow && geometryInfoRow.RemoveRow();
         if (!obj) return;
-        var InfoRow = gmxCore.getModule('DrawingObjects').DrawingObjectInfoRow;
+        var InfoRow = gmxCore$2.getModule('DrawingObjects').DrawingObjectInfoRow;
         geometryInfoRow = new InfoRow(lmap, geometryInfoContainer, obj, {
           editStyle: false,
           allowDelete: false
@@ -24719,11 +25420,12 @@
           }
         }
       };
+
       var fieldsCollection = new FieldsCollection();
 
       var createDialog = function createDialog() {
-        var createButton = makeLinkButton$1(isNew ? _gtxt("Создать") : _gtxt("Изменить")),
-            removeButton = makeLinkButton$1(_gtxt("Удалить")),
+        var createButton = makeLinkButton(isNew ? _gtxt("Создать") : _gtxt("Изменить")),
+            removeButton = makeLinkButton(_gtxt("Удалить")),
             isSaving = false;
 
         var canvas = _div$1(null, [['dir', 'className', 'edit-obj']]);
@@ -24744,7 +25446,7 @@
             action: 'delete',
             id: objectId
           }]).done(function () {
-            removeDialog$1(dialogDiv);
+            removeDialog(dialogDiv);
             closeFunc();
           });
         };
@@ -24803,12 +25505,12 @@
 
           _mapHelper.modifyObjectLayer(layerName, [obj], 'EPSG:4326').done(function () {
             $(_this).trigger('modify');
-            removeDialog$1(dialogDiv);
+            removeDialog(dialogDiv);
             closeFunc();
           });
         };
 
-        var resizeFunc = function resizeFunc(event, ui) {
+        var resizeFunc = function resizeFunc() {
           if (!isNew && $(canvas).children("[loading]").length) return;
           canvas.firstChild.style.height = canvas.parentNode.offsetHeight - 25 - 10 - 10 + 'px';
         };
@@ -24823,7 +25525,7 @@
           originalGeometry = null;
 
           if (styleEditingDialog) {
-            removeDialog$1(styleEditingDialog);
+            removeDialog(styleEditingDialog);
           }
           EditObjectControlsManager.remove(layerName, objectId);
           $(_this).trigger('close');
@@ -24937,7 +25639,7 @@
           _$5(canvas, [loading]); //получаем геометрию объекта
 
 
-          sendCrossDomainJSONRequest$1(serverBase + "VectorLayer/Search.ashx?WrapStyle=func&layer=" + layerName + "&page=0&pagesize=1&orderby=" + identityField + "&geometry=true&query=[" + identityField + "]=" + objectId, function (response) {
+          sendCrossDomainJSONRequest$1(window.serverBase + "VectorLayer/Search.ashx?WrapStyle=func&layer=" + layerName + "&page=0&pagesize=1&orderby=" + identityField + "&geometry=true&query=[" + identityField + "]=" + objectId, function (response) {
             if (!parseResponse$1(response)) return;
             $(canvas).children("[loading]").remove();
             var columnNames = response.Result.fields;
@@ -25481,9 +26183,7 @@
                 successmess_timeout = setTimeout(function () {
                   success.hide();
                 }, 2000);
-              } else {
-                if (response.Result.length > 0 && response.Result[0].Key) page1.trigger('onerror', [response.Result[0].Key, response.Result[0].Value.Errors[0].ErrorMessage]);else page1.trigger('onerror', response.Result.Message);
-              }
+              } else if (response.Result.length > 0 && response.Result[0].Key) page1.trigger('onerror', [response.Result[0].Key, response.Result[0].Value.Errors[0].ErrorMessage]);else page1.trigger('onerror', response.Result.Message);
             });
           }); // Register client submit
 
@@ -25545,7 +26245,7 @@
               } else changePassForm.trigger('onerror', response.Result.Message);
             });
           });
-          changePassControls.first().click(function (e) {
+          changePassControls.first().click(function () {
             if (changePassForm.is(':visible')) {
               changePassForm.slideUp("fast");
               $(this).val(_gtxt('ProfilePlugin.getNew'));
@@ -25579,7 +26279,7 @@
                   wait = $('<div style="position:absolute; top:120px; left:270px"><img src="img/progress.gif"></div>');
               akDialog.append(wait);
               window.showDialog(_gtxt('ProfilePlugin.apiKey' + dtype + 'Cap'), akDialog[0], startW, startH).style.overflow = 'hidden';
-              akDialog.parent().on("dialogresizestart", function (event, ui) {//startW = ui.size.width;
+              akDialog.parent().on("dialogresizestart", function () {//startW = ui.size.width;
                 //startH = ui.size.height;
               }).on("dialogresize", function (event, ui) {
                 var list = akDialog.find('.list');
@@ -25587,8 +26287,8 @@
 
                 startH = ui.size.height;
               });
-              sendCrossDomainJSONRequest(mykosmosnimki + "/handler/apikeys?wrapstyle=func", function (response) {
-                if (parseResponse(response) || response.Status == 'OK') {
+              sendCrossDomainJSONRequest$1(mykosmosnimki + "/handler/apikeys?wrapstyle=func", function (response) {
+                if (parseResponse$1(response) || response.Status == 'OK') {
                   wait.remove();
 
                   if (response.Result && response.Result.length > 0) {
@@ -25633,7 +26333,7 @@
                     };
 
                     var filter = $('<div style="padding-left:6px">' + _gtxt('ProfilePlugin.apiKeyFilterApply') + ': <input type="text" placeholder="' + _gtxt('ProfilePlugin.apiKeyFilter') + '"></div>').appendTo(akDialog);
-                    filter.find('input[type="text"]').keyup(function (e) {
+                    filter.find('input[type="text"]').keyup(function () {
                       list.find('table').parent().remove();
                       list.mCustomScrollbar('destroy').append(createTbl($(this).val())).mCustomScrollbar();
                       apiKeyActivation();
@@ -25668,18 +26368,21 @@
               var fordirect = dtype == 'Direct' ? '<div>{{{i "ProfilePlugin.directKeyPurpose1"}}}</div>' + '<div>{{i "ProfilePlugin.directKeyPurpose2"}}</div>' : '';
               var fordomain = dtype == 'Domain' ? '<div>{{i "ProfilePlugin.apiKeySite"}}<input type="text" tabindex="2" class="ApiKeySite ApiKeySiteEmpty ApiKeySiteInvalid" value="http://"></div>' : '';
               var akForm = $(Handlebars.compile('<div class="apiKeyDialog">' + '<div class="first">' + '<div>{{i "ProfilePlugin.apiKeyReadAgreement"}}<span class="showLicence hyperLink">{{i "ProfilePlugin.apiKeyConditions"}}</span></div>' + '<div><div style="float:left;margin:0"><input type="checkbox" tabindex="1" id="agree" class="agree"></div><div style="padding-left:10px"><label for="agree">{{i "ProfilePlugin.apiKeyAgreement"}} {{i "ProfilePlugin.apiKeyConditions"}}</div></div>' + fordomain + fordirect + '<div class="spacer"></div>' + '<div class="ErrorSummary"><span class="fail"></span><span class="success"></span><img class="wait" src="img/progress.gif"></div>' + '<div class="submit"><input tabindex="3" type="button" class="get" title="{{i "ProfilePlugin.apiKeyUrge"}}" value="{{i "ProfilePlugin.apiKeyGet"}}"/></div>' + '</div>' + '<div class="licence"></div>' + '<div class="submit"><input tabindex="1" type="button" class="accept" value="{{i "ProfilePlugin.apiKeyAccept"}}"/><input tabindex="2" type="button" class="cancel" value="{{i "ProfilePlugin.apiKeyCancel"}}"/></div>' + '</div>')());
+
               var licence = akForm.find('.licence'),
                   spacer = akForm.find('.spacer'),
-                  startH;
+                  _startH;
+
               licence.hide().next().hide();
               if (dtype == 'Domain') spacer.height('20px');
+
               var summary = akForm.find('.ErrorSummary'),
-                  wait = summary.children('.wait'),
+                  _wait = summary.children('.wait'),
                   site = akForm.find('.ApiKeySite'),
                   agree = akForm.find('.agree'),
                   getKey = akForm.find('.get').css('opacity', 0.5).click(function () {
                 var respHandler = function respHandler(response) {
-                  wait.css('visibility', 'hidden');
+                  _wait.css('visibility', 'hidden');
 
                   if (response.Status.toLowerCase() == 'ok' && response.Result) {
                     summary.children('span.success').text(_gtxt('ProfilePlugin.apiKeyReceive') + ' ' + response.Result.Key);
@@ -25690,7 +26393,9 @@
                 };
 
                 clearError();
-                wait.css('visibility', 'visible');
+
+                _wait.css('visibility', 'visible');
+
                 if (site.length) sendCrossDomainPostRequest(mykosmosnimki + "/Handler/CreateKey", {
                   WrapStyle: 'message',
                   domain: site.val(),
@@ -25700,6 +26405,7 @@
                   agree: agree.is(':checked')
                 }, respHandler);
               });
+
               getKey.prop('disabled', true);
               site.prop('disabled', true).keydown(function (e) {
                 if ($(this).is('.error')) clearError();
@@ -25715,7 +26421,7 @@
                 clearError();
                 licence.show().prev().hide();
                 licence.next().show();
-                if (licence.text() == '') licence.load(gmxCore.getModulePath('ProfilePlugin') + 'license.html', function () {
+                if (licence.text() == '') licence.load(gmxCore$1.getModulePath('ProfilePlugin') + 'license.html', function () {
                   licence.mCustomScrollbar();
                 });
               });
@@ -25742,11 +26448,11 @@
               window.showDialog(_gtxt('ProfilePlugin.apiKey' + dtype + 'Cap'), akForm[0], 555, 320);
               akForm.parent('.ui-dialog-content').css('overflow', 'hidden');
               akForm.parent().on("dialogresizestart", function (event, ui) {
-                startH = ui.size.height;
+                _startH = ui.size.height;
               }).on("dialogresize", function (event, ui) {
-                licence.height(licence.height() + ui.size.height - startH);
-                spacer.height(spacer.height() + ui.size.height - startH);
-                startH = ui.size.height;
+                licence.height(licence.height() + ui.size.height - _startH);
+                spacer.height(spacer.height() + ui.size.height - _startH);
+                _startH = ui.size.height;
               });
             }
           };
@@ -25766,7 +26472,7 @@
               if (!submit.length) submit = $(this).parent().siblings('div.SubmitBlock').children('input[type="button"]');
               submit.click();
             } else clearInputErrors($(this));
-          }).focusin(function (e) {
+          }).focusin(function () {
             closeApiKeyDialog();
             clearInputErrors($(this));
           }); // Error display
@@ -25881,8 +26587,8 @@
               ppMainParts.hide();
               closeApiKeyDialog();
 
-              if (!nsGmx.leafletMap.gmxControlsManager.get('layers')) {
-                nsGmx.leafletMap.addControl(overlays);
+              if (!nsGmx$1.leafletMap.gmxControlsManager.get('layers')) {
+                nsGmx$1.leafletMap.addControl(overlays);
               }
             }
           });
@@ -25891,7 +26597,7 @@
         } // Show
 
 
-        var overlays = nsGmx.leafletMap.gmxControlsManager.get('layers');
+        var overlays = nsGmx$1.leafletMap.gmxControlsManager.get('layers');
         ppBackScreen.show();
         fillProfile(ppMainParts.data('ondataload'), function () {
           ppBackScreen.hide();
@@ -25900,8 +26606,8 @@
       };
 
       var fillProfile = function fillProfile(onsuccess, onerror) {
-        sendCrossDomainJSONRequest(mykosmosnimki + "/currentuser.ashx", function (response) {
-          if (parseResponse(response) && response.Result) {
+        sendCrossDomainJSONRequest$1(mykosmosnimki + "/currentuser.ashx", function (response) {
+          if (parseResponse$1(response) && response.Result) {
             var content = $('.profilePanel-content');
             content.find('.Email').text(response.Result[0].Email);
             content.find('.PasswordState').text(_gtxt('ProfilePlugin.passwordSaved'));
@@ -25947,7 +26653,7 @@
       }; // RegistrationForm
 
 
-      var showRegistrationForm = function showRegistrationForm(afterRegistration) {
+      var showRegistrationForm = function showRegistrationForm() {
         var registrationForm = $(Handlebars.compile('<table style="width:100%;height:100%;" border="0"><tr><td>\
         <form>\
             <table class="registrationForm" border="0">\
@@ -25989,8 +26695,8 @@
         </form>\
         </td></tr></table>')()),
             confirmScreen = $(Handlebars.compile('<div class="registrationConfirm"><div></div><div><input type="button" value="{{i "ProfilePlugin.close"}}"/></div></div>')()),
-            //errorSummaryHeight = 0,
-        submit = registrationForm.find('input[type="button"]').click(function () {
+            errorSummaryHeight,
+            submit = registrationForm.find('input[type="button"]').click(function () {
           var errorSummary = registrationForm.find('.ErrorSummary'),
               wait = submit.next('img').css('visibility', 'visible');
           registrationForm.find('form').submit();
@@ -26005,7 +26711,7 @@
               password: registrationForm.find('.Password').val(),
               repeat: registrationForm.find('.Repeat').val(),
               captcha: registrationForm.find('.Capcha').val(),
-              permalink: "http://" + window.location.host + window.location.pathname + "?permalink=" + id + (defaultMapID == globalMapName ? "" : "&" + globalMapName)
+              permalink: "http://" + window.location.host + window.location.pathname + "?permalink=" + id + (window.defaultMapID == window.globalMapName ? "" : "&" + window.globalMapName)
             }, function (response) {
               registrationForm.find('.Capcha').val("");
               registrationForm.find('input[type="button"]').focus();
@@ -26045,8 +26751,8 @@
         registrationForm.find('form').submit(function (e) {
           e.preventDefault();
         });
-        var regFormDialog = window.showDialog(_gtxt('ProfilePlugin.registration'), registrationForm[0], 560, 272),
-            dialogFrame = $(regFormDialog).dialog('option', 'resizable', false);
+        var regFormDialog = window.showDialog(_gtxt('ProfilePlugin.registration'), registrationForm[0], 560, 272);
+        $(regFormDialog).dialog('option', 'resizable', false);
         regFormDialog.style.overflow = 'hidden';
         errorSummaryHeight = regFormDialog.style.height;
         regFormDialog.style.height = '';
@@ -26060,17 +26766,21 @@
           if (e.which == 13) submit.click();
         }).focusin(clearError);
         return regFormDialog;
-      };
+      }; // var SubmitBlock = function (form, onsuccess, onerror) {
+      //     this.submit = function () { }
+      // };
 
-      gmxCore.addModule('ProfilePlugin', {
+
+      var checkExist;
+      gmxCore$1.addModule('ProfilePlugin', {
         pluginName: 'ProfilePlugin',
         showProfile: showProfile,
         showRegistrationForm: showRegistrationForm,
         afterViewer: function afterViewer() {
           checkExist = setInterval(function () {
-            if (nsGmx.widgets.authWidget && nsGmx.widgets.authWidget.getUserInfo() != null) {
-              if (nsGmx.widgets.authWidget.getUserInfo().Login != null) {
-                var a = $('a:contains("' + nsGmx.Translations.getText('auth.myAccount') + '")');
+            if (nsGmx$1.widgets.authWidget && nsGmx$1.widgets.authWidget.getUserInfo() != null) {
+              if (nsGmx$1.widgets.authWidget.getUserInfo().Login != null) {
+                var a = $('a:contains("' + nsGmx$1.Translations.getText('auth.myAccount') + '")');
                 a.attr({
                   'class': 'dropdownMenuWidget-dropdownItemAnchor'
                 });
@@ -26082,10 +26792,10 @@
                   event.stopPropagation();
                 });
               } else {
-                var showLoginDialog = nsGmx.widgets.authWidget._authManager.login,
+                var showLoginDialog = nsGmx$1.widgets.authWidget._authManager.login,
                     regForm;
 
-                nsGmx.widgets.authWidget._authManager.login = function () {
+                nsGmx$1.widgets.authWidget._authManager.login = function () {
                   if (regForm && $(regForm).is(':visible')) {
                     removeDialog(regForm);
                     regForm = false;
@@ -26108,7 +26818,7 @@
         }
       }, {
         // css: 'ProfilePlugin.css',
-        init: function init(module, path) {
+        init: function init() {
           initTranslations();
         }
       });
@@ -26171,7 +26881,7 @@
       }).change(function () {
         rcProperties.set('IsRasterCatalog', RCCheckbox[0].checked);
       });
-      var advancedParamsLink = $(makeLinkButton$1(_gtxt('LayerRCControl.advancedLink'))).addClass('RCCreate-advanced-link').click(function () {
+      var advancedParamsLink = $(makeLinkButton(_gtxt('LayerRCControl.advancedLink'))).addClass('RCCreate-advanced-link').click(function () {
         advancedMode = !advancedMode;
         updateVisibility();
       });
@@ -26493,8 +27203,8 @@
           var metaProperties = {};
           attrs.MetaProperties.eachValid(function (id, tag, value, type) {
             //для неизвестных тегов присваиваем тип String
-            var type = type || 'String';
-            var value = nsGmx$1.Utils.convertToServer(type, value);
+            type = type || 'String';
+            value = nsGmx$1.Utils.convertToServer(type, value);
 
             if (value !== null) {
               metaProperties[tag] = {
@@ -26696,11 +27406,10 @@
     };
 
     nsGmx$1.LayerProperties = LayerProperties;
-    nsGmx$1.LatLngColumnsModel = LatLngColumnsModel;
-    window.gmxCore.addModule('LayerProperties', {
-      LayerProperties: LayerProperties,
-      LatLngColumnsModel: LatLngColumnsModel
-    });
+    nsGmx$1.LatLngColumnsModel = LatLngColumnsModel; // window.gmxCore.addModule('LayerProperties', {
+    //     LayerProperties: LayerProperties,
+    //     LatLngColumnsModel: LatLngColumnsModel
+    // })
 
     nsGmx$1.ShpEncodingWidget = function () {
       var _encodings = {
@@ -28066,7 +28775,7 @@
           return;
         }
 
-        sendCrossDomainPostRequest$1(window.serverBase + 'FileBrowser/Upload.ashx', {
+        sendCrossDomainPostRequest(window.serverBase + 'FileBrowser/Upload.ashx', {
           WrapStyle: 'message',
           ParentDir: _this._path.get()
         }, function (response) {
@@ -28213,7 +28922,7 @@
       $(this.fileCanvas).empty();
       this.statusContainer = _div$1(null, [['dir', 'className', 'fileBrowser-progress'], ['css', 'display', 'none']]);
 
-      _$7(this.fileCanvas, [_div$1([this.pathWidget(), _br$1(), _t$1(_gtxt("Фильтр")), this.quickSearch(), this.statusContainer], [['dir', 'className', 'currentDir'], ['css', 'color', '#153069'], ['css', 'fontSize', '12px']])]);
+      _$7(this.fileCanvas, [_div$1([this.pathWidget(), _br(), _t$1(_gtxt("Фильтр")), this.quickSearch(), this.statusContainer], [['dir', 'className', 'currentDir'], ['css', 'color', '#153069'], ['css', 'fontSize', '12px']])]);
 
       _$7(this.fileCanvas, [this.draw(this.currentFiles)]);
 
@@ -28237,10 +28946,10 @@
     };
 
     fileBrowser.prototype.draw = function (files) {
-      var nameSort = makeLinkButton$1(_gtxt("Имя")),
-          extSort = makeLinkButton$1(_gtxt("Тип")),
-          sizeSort = makeLinkButton$1(_gtxt("Размер")),
-          dateSort = makeLinkButton$1(_gtxt("Дата")),
+      var nameSort = makeLinkButton(_gtxt("Имя")),
+          extSort = makeLinkButton(_gtxt("Тип")),
+          sizeSort = makeLinkButton(_gtxt("Размер")),
+          dateSort = makeLinkButton(_gtxt("Дата")),
           _this = this;
 
       nameSort.sortType = 'name';
@@ -28519,6 +29228,131 @@
     nsGmx$1.ContextMenuController.addContextMenuElem(zipUnzipActionFactory(true), ['FileBrowserFolder', 'FileBrowserFile']); //распаковываем только файлы
 
     nsGmx$1.ContextMenuController.addContextMenuElem(zipUnzipActionFactory(false), 'FileBrowserFile');
+    var _fileBrowser = window._fileBrowser;
+
+    window._translationsHash.addtext("rus", {
+      "tableBrowser.title": "Список таблиц",
+      "tableBrowser.filterText": "Фильтр по названию"
+    });
+
+    window._translationsHash.addtext("eng", {
+      "tableBrowser.title": "Tables list",
+      "tableBrowser.filterText": "Filter by name"
+    });
+
+    var tableBrowser = function tableBrowser() {
+      this.sortFuncs = {
+        name: [function (_a, _b) {
+          var a = String(_a).toLowerCase(),
+              b = String(_b).toLowerCase();
+          if (a > b) return 1;else if (a < b) return -1;else return 0;
+        }, function (_a, _b) {
+          var a = String(_a).toLowerCase(),
+              b = String(_b).toLowerCase();
+          if (a < b) return 1;else if (a > b) return -1;else return 0;
+        }]
+      };
+      this.tables = [];
+    };
+
+    tableBrowser.prototype.createBrowser = function (closeFunc) {
+      var canvas = $('#tableBrowserDialog');
+
+      if (canvas) {
+        canvas.parent().dialog("destroy");
+        canvas.parent().remove();
+      }
+
+      this.closeFunc = closeFunc;
+      if (!this.tables.length) this.loadInfo();else this.loadInfoHandler(this.tables);
+    };
+
+    tableBrowser.prototype.close = function (name) {
+      this.closeFunc(name);
+      var canvas = $('#tableBrowserDialog');
+      $(canvas).parent().dialog("destroy");
+      $(canvas).parent().remove();
+    };
+
+    tableBrowser.prototype.loadInfo = function () {
+      sendCrossDomainJSONRequest(serverBase + "VectorLayer/GetGeometryTables.ashx?WrapStyle=func", function (response) {
+        if (!parseResponse(response)) return;
+
+        _tableBrowser.loadInfoHandler(response.Result);
+      });
+    };
+
+    tableBrowser.prototype.loadInfoHandler = function (tables) {
+      this.tables = tables;
+
+      var _this = this;
+
+      var renderTableRow = function renderTableRow(table) {
+        var tdName = _td([_t(table)], [['css', 'fontSize', '12px']]),
+            returnButton = makeImageButton("img/choose.png", "img/choose_a.png"),
+            tr = _tr([_td([returnButton]), tdName], [['dir', 'className', 'tableTableRow']]);
+
+        returnButton.style.cursor = 'pointer';
+        returnButton.style.marginLeft = '5px';
+
+        _title(returnButton, _gtxt("Выбрать"));
+
+        returnButton.onclick = function () {
+          _this.close(table);
+        };
+
+        attachEffects(tr, 'hover');
+
+        for (var i = 0; i < tr.childNodes.length; i++) {
+          tr.childNodes[i].style.width = this._fields[i].width;
+        }
+
+        return tr;
+      };
+
+      var sortFuncs = {};
+      sortFuncs[_gtxt('Имя')] = this.sortFuncs['name'];
+      var tableProvider = new nsGmx.ScrollTable.StaticDataProvider();
+      tableProvider.setOriginalItems(this.tables);
+      tableProvider.setSortFunctions(sortFuncs);
+      var tableTable = new nsGmx.ScrollTable({
+        limit: 5000,
+        pagesCount: 5,
+        height: 220,
+        showFooter: false
+      });
+      tableTable.setDataProvider(tableProvider);
+
+      var tableParent = _div(null, [['dir', 'id', 'tableBrowserDialog']]);
+
+      tableTable.createTable({
+        parent: tableParent,
+        name: 'tableTable',
+        width: 0,
+        fields: ['', _gtxt('Имя')],
+        fieldsWidths: ['10%', '90%'],
+        sortableFields: sortFuncs,
+        drawFunc: renderTableRow,
+        isWidthScroll: false
+      });
+
+      var filterInput = _input(null, [['css', 'width', '150px'], ['dir', 'className', 'selectStyle']]);
+
+      $(tableParent).prepend(filterInput).prepend($('<span/>', {
+        'class': 'tableFilter'
+      }).text(_gtxt("tableBrowser.filterText") + ": "));
+      tableProvider.attachFilterEvents(filterInput, 'Table', function (fieldName, fieldValue, vals) {
+        return vals.filter(function (val) {
+          return String(val).toLowerCase().indexOf(fieldValue.toLowerCase()) > -1;
+        });
+      });
+      showDialog(_gtxt("tableBrowser.title"), tableParent, {
+        width: 300,
+        height: 300
+      });
+    };
+
+    var _tableBrowser = new tableBrowser();
 
     var _$8 = nsGmx$1.Utils._; //Создание интерфейса редактирования свойств слоя
 
@@ -28549,7 +29383,7 @@
           };
 
           for (var i = 0; i < fields.length; i++) {
-            var opt = _option$1([_t$1(fields[i])], [['attr', 'value', fields[i]]]);
+            var opt = _option([_t$1(fields[i])], [['attr', 'value', fields[i]]]);
 
             _$8(selectLat, [opt.cloneNode(true)]);
 
@@ -28660,7 +29494,7 @@
         return _div$1([_div$1(null, [['dir', 'className', 'layer-container-inner']])], [['dir', 'className', 'layer-container-outer']]);
       };
 
-      var props = typeof div === 'string' ? properties : div.gmxProperties.content.properties;
+      var props = div && (typeof div === 'string' ? properties : div.gmxProperties.content.properties) || {};
       var isReadonly = div && _queryMapLayers.layerRights(props.name || props.Name) !== 'edit' && props.Access !== 'edit'; // var isReadonly = div && _queryMapLayers.layerRights(div.gmxProperties.content.properties.name) !== 'edit' && div.gmxProperties.content.properties.Access !== 'edit';
 
       var createUI = function createUI() {
@@ -28710,7 +29544,7 @@
         }
 
         _this._saveButton = null;
-        _this._saveButton = makeLinkButton$1(div ? _gtxt("Изменить") : _gtxt("Создать"));
+        _this._saveButton = makeLinkButton(div ? _gtxt("Изменить") : _gtxt("Создать"));
         var origLayerProperties = layerProperties.clone();
 
         _this._createPageMain(mainContainer.firstChild, layerProperties, isReadonly, _params);
@@ -28818,14 +29652,10 @@
                 _layersTree.copyHandler(gmxProperties, targetDiv, false, true);
               });
             }
-          } else {
-            if (name) {
-              _queryMapLayers.asyncUpdateLayer(def, properties, true);
-            } else {
-              if (_params.addToMap) {
-                _queryMapLayers.asyncCreateLayer(def, layerTitle);
-              }
-            }
+          } else if (name) {
+            _queryMapLayers.asyncUpdateLayer(def, properties, true);
+          } else if (_params.addToMap) {
+            _queryMapLayers.asyncCreateLayer(def, layerTitle);
           }
         };
       };
@@ -28871,7 +29701,7 @@
       var selectIndex = getTabIndex(params.selected);
       $(tabMenu).tabs({
         active: selectIndex > -1 ? selectIndex : 0,
-        activate: function activate(event, ui) {
+        activate: function activate() {
           var activeIndex = $(tabMenu).tabs('option', 'active');
           $(saveMenuCanvas).toggle(activeIndex < _this._originalTabs.length);
         }
@@ -29009,7 +29839,7 @@
     LayerEditor.prototype._createPageVectorSource = function (layerProperties, params) {
       var _this = this;
 
-      var LatLngColumnsModel = new gmxCore$1.getModule('LayerProperties').LatLngColumnsModel;
+      var LatLngColumnsModel = nsGmx$1.LatLngColumnsModel;
       var shownProperties = [];
       var layerName = layerProperties.get('Name');
       var sourceType = layerProperties.get('SourceType');
@@ -29235,7 +30065,7 @@
 
       $(sourceTab).tabs({
         active: selectedSource,
-        activate: function activate(event, ui) {
+        activate: function activate() {
           var selectedSource = $(sourceTab).tabs('option', 'active');
 
           if (selectedSource == 0) {
@@ -29294,7 +30124,7 @@
           removeBorder = makeImageButton$1('img/closemin.png', 'img/close_orange.png'),
           divBorder = _div$1([drawingBorderDescr, removeBorder]),
           isAdmin = nsGmx$1.AuthManager.isRole(nsGmx$1.ROLE_ADMIN),
-          catalogPathElems = [_t$1(_gtxt("Каталог")), tileCatalogLink, _br$1()],
+          catalogPathElems = [_t$1(_gtxt("Каталог")), tileCatalogLink, _br()],
           filePathElems = [_t$1(_gtxt("Файл")), tileFileLink],
           trPath = _tr$1([_td$1(isAdmin ? catalogPathElems.concat(filePathElems) : filePathElems, [['css', 'paddingLeft', '5px'], ['css', 'fontSize', '12px']]), _td$1([tilePathInput])]),
           trShape = _tr$1([_td$1([_t$1(_gtxt("Граница")), shapeLink], [['css', 'paddingLeft', '5px'], ['css', 'fontSize', '12px']]), _td$1([shapePathInput, divBorder])]),
@@ -29334,7 +30164,7 @@
       };
 
       if (name) {
-        _$8(trShape.firstChild, [_br$1(), _t$1(_gtxt("Контур")), drawingBorderLink]);
+        _$8(trShape.firstChild, [_br(), _t$1(_gtxt("Контур")), drawingBorderLink]);
 
         if (shapePath.Path) shapeVisible(true);else {
           shapeVisible(false);
@@ -29485,7 +30315,6 @@
       var allowEdit = !isReadonly && (type === 'manual' || !isNewLayer && type === 'file' || params.copy);
       fileAttrView.setActive(allowEdit);
       $(fileAttrModel).change(function () {
-        var isManual = props.get('SourceType') === 'manual';
         props.set('Columns', fileAttrModel.toServerFormat());
       });
 
@@ -29560,11 +30389,16 @@
       '<fieldset {{^isRC}}disabled="disabled"{{/isRC}}><div id="rc-params-div"></div></fieldset>' + '</fieldset>');
       var rcFieldset = $(RCTemplate({
         isRC: layerProperties.get('RC').get('IsRasterCatalog')
-      })).appendTo(parent);
-      var rasterCatalogControl = new nsGmx$1.LayerRasterCatalogWidget($('#rc-params-div', rcFieldset), layerProperties.get('RC'));
-      var quicklookTemplate = Handlebars.compile('<fieldset class="layer-fieldset">' + '<legend>{{i "Накладываемое изображение"}}</legend>' + '<div class="layer-editor-quicklooks"></div>' + '</fieldset>');
-      var quicklookFieldset = $(quicklookTemplate()).appendTo(parent);
-      var quicklookWidget = new nsGmx$1.LayerQuicklookWidget($('.layer-editor-quicklooks', quicklookFieldset), layerProperties);
+      })).appendTo(parent); // var rasterCatalogControl = new nsGmx.LayerRasterCatalogWidget($('#rc-params-div', rcFieldset), layerProperties.get('RC'));
+      // var quicklookTemplate = Handlebars.compile(
+      //     '<fieldset class="layer-fieldset">' +
+      //         '<legend>{{i "Накладываемое изображение"}}</legend>' +
+      //         '<div class="layer-editor-quicklooks"></div>' +
+      //     '</fieldset>'
+      // );
+      // var quicklookFieldset = $(quicklookTemplate()).appendTo(parent);
+      // var quicklookWidget = new nsGmx.LayerQuicklookWidget($('.layer-editor-quicklooks', quicklookFieldset), layerProperties);
+
       $('#rc-params-isRC', rcFieldset).change(function () {
         layerProperties.get('RC').set('IsRasterCatalog', this.checked);
         rcFieldset.children('fieldset').prop('disabled', !this.checked);
@@ -29610,15 +30444,14 @@
     gmxCore$1.addModule('LayerEditor', {
       createLayerEditor: createLayerEditor,
       LayerEditor: LayerEditor
-    }, {
-      require: ['LayerProperties']
+    }, {// require: ['LayerProperties']
     });
 
     var nsMapCommon = function ($) {
       var publicInterface = {
         generateWinniePermalink: function generateWinniePermalink() {
-          var mapProps = nsGmx.gmxMap.properties,
-              lmap = nsGmx.leafletMap,
+          var mapProps = nsGmx$1.gmxMap.properties,
+              lmap = nsGmx$1.leafletMap,
               center = lmap.getCenter(),
               layersState = {
             expanded: {},
@@ -29634,10 +30467,8 @@
               if ($("div[GroupID='" + groupId + "']").length || props.changedByViewer) {
                 layersState.expanded[groupId] = props.expanded;
               }
-            } else {
-              if (props.changedByViewer) {
-                layersState.visible[props.name] = props.visible;
-              }
+            } else if (props.changedByViewer) {
+              layersState.visible[props.name] = props.visible;
             }
           });
 
@@ -29656,12 +30487,12 @@
                   z: lmap.getZoom()
                 }
               },
-              calendar: nsGmx.widgets.commonCalendar.getDateInterval().saveState(),
+              calendar: nsGmx$1.widgets.commonCalendar.getDateInterval().saveState(),
               baseLayersManager: lmap.gmxBaseLayersManager.saveState(),
               layersTree: layersState
             }
           };
-          return nsGmx.Utils.TinyReference.create(config, false);
+          return nsGmx$1.Utils.TinyReference.create(config, false);
         },
 
         /**
@@ -29736,8 +30567,8 @@
         }
       };
 
-      if (typeof gmxCore !== 'undefined') {
-        gmxCore.addModule('MapCommon', publicInterface);
+      if (typeof gmxCore$1 !== 'undefined') {
+        gmxCore$1.addModule('MapCommon', publicInterface);
       }
 
       return publicInterface;
@@ -29746,9 +30577,9 @@
     (function () {
       //Интерфейс для провайдеров значений параметров
       nsGmx$1.ILazyAttributeValuesProvider = function () {
-        this.isAttributeExists = function (attrName) {};
+        this.isAttributeExists = function () {};
 
-        this.getValuesForAttribute = function (attrName, callback) {};
+        this.getValuesForAttribute = function () {};
       }; //Простая обёртка над массивами для обратной совместимости
 
 
@@ -29809,7 +30640,7 @@
               _isInited = true;
               _isProcessing = false;
 
-              if (!parseResponse(response)) {
+              if (!parseResponse$1(response)) {
                 for (var n in _callbacks) {
                   for (var k = 0; k < _callbacks[n].length; k++) {
                     _callbacks[n][k]();
@@ -29821,9 +30652,9 @@
 
               _attrs = response.Result;
 
-              for (var n in _callbacks) {
-                for (var k = 0; k < _callbacks[n].length; k++) {
-                  _callbacks[n][k](_attrs[n]);
+              for (var _n in _callbacks) {
+                for (var _k = 0; _k < _callbacks[_n].length; _k++) {
+                  _callbacks[_n][_k](_attrs[_n]);
                 }
               }
             });
@@ -29905,7 +30736,7 @@
 
 
     nsGmx$1.initGeoMixer = function () {
-      var oSearchLeftMenu = new leftMenu$1();
+      var oSearchLeftMenu = new leftMenu();
       window.searchLogic = new nsGmx$1.SearchLogic(); //для синхронизации меню и тулбара при включении/выключении сетки координат
 
       nsGmx$1.gridManager = {
@@ -30051,7 +30882,7 @@
             id: 'mapTabsNew',
             title: _gtxt('Добавить закладку'),
             func: function func() {
-              mapHelp$1.tabs.load('mapTabs');
+              mapHelp.tabs.load('mapTabs');
 
               _queryTabs.add();
             }
@@ -30151,7 +30982,7 @@
                   var dialogDiv = showDialog$1('Создать виртуальный слой', parent, 340, 340, false, false);
                   nsGmx$1.createLayerEditor(false, 'Virtual', parent, properties, {
                     doneCallback: function doneCallback() {
-                      removeDialog$1(dialogDiv);
+                      removeDialog(dialogDiv);
                     }
                   });
                 });
@@ -30198,11 +31029,11 @@
           childs: [{
             id: 'externalMaps',
             title: _gtxt('Дополнительные карты'),
-            func: mapHelp$1.externalMaps.load
+            func: mapHelp.externalMaps.load
           }, {
             id: 'mapTabs',
             title: _gtxt('Закладки'),
-            func: mapHelp$1.tabs.load
+            func: mapHelp.tabs.load
           }, {
             id: 'DrawingObjects',
             title: _gtxt('Объекты'),
@@ -30407,7 +31238,7 @@
             addBefore: 'drawing'
           });
           bookmarkIcon.on('click', function () {
-            mapHelp$1.tabs.load('mapTabs');
+            mapHelp.tabs.load('mapTabs');
 
             _queryTabs.add();
           });
@@ -30604,13 +31435,13 @@
           childs: [{
             id: 'usage',
             title: _gtxt('Использование'),
-            onsel: mapHelp$1.mapHelp.load,
-            onunsel: mapHelp$1.mapHelp.unload
+            onsel: mapHelp.mapHelp.load,
+            onunsel: mapHelp.mapHelp.unload
           }, {
             id: 'serviceHelp',
             title: _gtxt('Сервисы'),
-            onsel: mapHelp$1.serviceHelp.load,
-            onunsel: mapHelp$1.serviceHelp.unload
+            onsel: mapHelp.serviceHelp.load,
+            onunsel: mapHelp.serviceHelp.unload
           }, {
             id: 'about',
             title: _gtxt('О проекте'),

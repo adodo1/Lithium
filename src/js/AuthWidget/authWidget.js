@@ -56,8 +56,7 @@ nsGmx.AuthWidget = (function() {
         }.bind(this));
     };
 
-    AuthWidget.prototype._render = function(vm) {
-        var self = this;
+    AuthWidget.prototype._render = function(vm) {        
 
         this._view.html(Handlebars.compile(nsGmx.Templates.AuthWidget.authWidget)(vm));
 
@@ -120,7 +119,7 @@ nsGmx.AuthWidget = (function() {
             dropdownMenuWidget.appendTo(this._view.find('.authWidget-userPanel-userMenuCell'));
         }
 
-        this._view.find('.authWidget-usergroupMenuItem').click(function(e) {
+        this._view.find('.authWidget-usergroupMenuItem').click(function() {
             if (this._options.callbacks && 'authWidget-usergroupMenuItem' in this._options.callbacks) {
                 this._options.callbacks['authWidget-usergroupMenuItem']();
             } else {
@@ -128,12 +127,12 @@ nsGmx.AuthWidget = (function() {
             }
         }.bind(this));
 
-        this._view.find('.authWidget-changePasswordButton').click(function(e) {
+        this._view.find('.authWidget-changePasswordButton').click(function() {
             var native = this._authManager.getNative();
             native.changePasswordDialog();
         }.bind(this));
 
-        this._view.find('.authWidget-loginButton').click(function(e) {
+        this._view.find('.authWidget-loginButton').click(function() {
             var $iframeContainer;
             if (this._options.loginDialog) {
                 $iframeContainer = $('<div>').addClass('authWidget-iframeContainer');
@@ -141,7 +140,7 @@ nsGmx.AuthWidget = (function() {
                     width: 500,
                     height: 450,
                     closeText: nsGmx.Translations.getText('auth.closeDialog'),
-                    close: function(je, ui) {
+                    close: function() {
                         $(this).dialog('destroy');
                     }
                 });
@@ -154,7 +153,7 @@ nsGmx.AuthWidget = (function() {
             });
         }.bind(this));
 
-        this._view.find('.authWidget-logoutButton').click(function(e) {
+        this._view.find('.authWidget-logoutButton').click(function() {
             this._authManager.logout().then(function(response) {
                 this._render(response);
                 this._userInfo = response.Result;
@@ -180,7 +179,7 @@ nsGmx.AuthWidget = (function() {
 
     return AuthWidget;
 })();
-;
+
 nsGmx.Translations.addText('rus', {
 	auth: {
 		'login': 'Войти',

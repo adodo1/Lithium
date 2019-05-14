@@ -1,5 +1,30 @@
 import nsGmx from './nsGmx.js';
 import {leftMenu} from './menu.js';
+import {
+	_checkbox,
+	_div,
+	hide,
+	_img,	
+	_input,
+	inputError,
+	_li,
+	makeButton,
+	makeImageButton,
+	objLength,
+	_option,	
+	parseResponse,
+	parseXML,
+	sendCrossDomainJSONRequest,
+	show,
+	_span,
+	strip,
+	_t,
+	_table,
+	_tbody,
+	_td,
+	_tr,
+	_ul,
+} from './utilities.js';
 
 const _ = nsGmx.Utils._;
 
@@ -103,10 +128,10 @@ var parseWMSCapabilities = function(response)
     var supportedVersions = {'1.1.1': true, '1.3.0': true};
     var SRSTagName = {'1.1.1': 'SRS', '1.3.0': 'CRS'};
     var BBOXTagName = {'1.1.1': 'LatLonBoundingBox', '1.3.0': 'EX_GeographicBoundingBox'};
-    var serviceLayers = [],
-        strResp = response.replace(/[\t\n\r]/g, ' '),
-        strResp = strResp.replace(/\s+/g, ' '),
-        xml = parseXML(response),
+    var serviceLayers = [];
+    // var strResp = response.replace(/[\t\n\r]/g, ' ');
+    //     strResp = strResp.replace(/\s+/g, ' ');
+    var xml = parseXML(response),
         mainTag = xml.getElementsByTagName('WMS_Capabilities')[0] || xml.getElementsByTagName('WMT_MS_Capabilities')[0],
         version = mainTag.getAttribute('version'),
         layersXML = xml.getElementsByTagName('Layer');
@@ -218,7 +243,7 @@ wfsParser.prototype.elementsNS = function(node,uri,name)
 			fullName = (potentialNode.prefix) ? (potentialNode.prefix + ":" + name) : name;
 			if ((name == "*") || (fullName == potentialNode.nodeName))
 			{
-				if( (uri == "*") || (uri == potentialNode.namespaceURI))
+				if ( (uri == "*") || (uri == potentialNode.namespaceURI))
 					elements.push(potentialNode);
 			}
 		}
@@ -232,7 +257,7 @@ wfsParser.prototype.getChildValue = function(node, def)
 	var value = def || "";
 	if (node)
 	{
-		for(var child = node.firstChild; child; child = child.nextSibling)
+		for (var child = node.firstChild; child; child = child.nextSibling)
 		{
 			switch (child.nodeType)
 			{
@@ -247,10 +272,10 @@ wfsParser.prototype.getChildValue = function(node, def)
 
 wfsParser.prototype.parse = function(response, srs)
 {
-	var geometries = [],
-		strResp = response.replace(/[\t\n\r]/g, ' '),
-		strResp = strResp.replace(/\s+/g, ' '),
-		xml = parseXML(strResp),
+	var geometries = [];
+	var strResp = response.replace(/[\t\n\r]/g, ' ');
+		strResp = strResp.replace(/\s+/g, ' ');
+	var xml = parseXML(strResp),
 		parsedNS = strResp.indexOf('<kml') > -1 ? this.kmlns : this.gmlns;
 
 	this.axisOrder = srs && srs.indexOf("urn:") == 0 ? 'latlong' : 'longlat';
@@ -264,7 +289,7 @@ wfsParser.prototype.parse = function(response, srs)
 
 		for (var j = 0; j < nodeList.length; ++j)
 		{
-			geometry = this['parse' + type].apply(this,[nodeList[j]]);
+			var geometry = this['parse' + type].apply(this,[nodeList[j]]);
 
 			if (geometry)
 				geometries.push(geometry);
@@ -313,23 +338,22 @@ wfsParser.prototype.parsePoint = function(node)
 }
 
 wfsParser.prototype.parseLineString = function(node)
-{
-	var nodeList,
-		coordString,
+{	
+	var coordString,
 		coords = [],
 		points = [],
-		nodeList = this.elementsNS(node,this.gmlns,"posList");
+		nodeList = this.elementsNS(node, this.gmlns, "posList");
 
 	if (nodeList.length > 0)
 	{
 		coordString = strip(this.getChildValue(nodeList[0]));
 		coords = coordString.split(" ");
 
-		for (var i = 0; i < coords.length / 2; ++i)
+		for (let i = 0; i < coords.length / 2; ++i)
 		{
-			j = i * 2;
-			x = coords[j];
-			y = coords[j + 1];
+			let j = i * 2;			
+
+
 
 			points.push(this.swapCoordinates([Number(coords[j]), Number(coords[j + 1])]));
 		}
@@ -345,7 +369,7 @@ wfsParser.prototype.parseLineString = function(node)
 
 			var pointList = coordString.split(" ");
 
-			for (var i = 0; i < pointList.length; ++i)
+			for (let i = 0; i < pointList.length; ++i)
 			{
 				coords = pointList[i].split(",");
 
@@ -433,20 +457,20 @@ jsonParser.prototype.parseLineString = function(feature, geometryArr)
 {
 	if (feature.geometry.type.toLowerCase().indexOf('multi') < 0)
 	{
-		var newCoords = [];
+		let newCoords = [];
 
-		for (var j = 0; j < feature.geometry.coordinates.length; j++)
+		for (let j = 0; j < feature.geometry.coordinates.length; j++)
 			newCoords.push(this.swapCoordinates(feature.geometry.coordinates[j]))
 
 		geometryArr.push({feature: feature, geometry:{type: 'LINESTRING', coordinates: newCoords}});
 	}
 	else
 	{
-		for (var i = 0; i < feature.geometry.coordinates.length; i++)
+		for (let i = 0; i < feature.geometry.coordinates.length; i++)
 		{
-			var newCoords = [];
+			let newCoords = [];
 
-			for (var j = 0; j < feature.geometry.coordinates[i].length; j++)
+			for (let j = 0; j < feature.geometry.coordinates[i].length; j++)
 				newCoords.push(this.swapCoordinates(feature.geometry.coordinates[i][j]))
 
 			geometryArr.push({feature: feature, geometry:{type: 'LINESTRING', coordinates: newCoords}});
@@ -457,13 +481,15 @@ jsonParser.prototype.parsePolygon = function(feature, geometryArr)
 {
 	if (feature.geometry.type.toLowerCase().indexOf('multi') < 0)
 	{
-		var newCoords = [];
+		let newCoords = [];
 
-		for (var k = 0; k < feature.geometry.coordinates.length; j++)
+		let k = 0, j = 0;
+
+		for (k = 0; k < feature.geometry.coordinates.length; j++)
 		{
-			var newCoords2 = [];
+			let newCoords2 = [];
 
-			for (var j = 0; j < feature.geometry.coordinates[k].length; k++)
+			for (j = 0; j < feature.geometry.coordinates[k].length; k++)
 				newCoords2.push(this.swapCoordinates(feature.geometry.coordinates[k][j]))
 
 			newCoords.push(newCoords2)
@@ -473,15 +499,15 @@ jsonParser.prototype.parsePolygon = function(feature, geometryArr)
 	}
 	else
 	{
-		for (var i = 0; i < feature.geometry.coordinates.length; i++)
+		for (let i = 0; i < feature.geometry.coordinates.length; i++)
 		{
-			var newCoords = [];
+			let newCoords = [];
 
-			for (var k = 0; k < feature.geometry.coordinates[i].length; k++)
+			for (let k = 0; k < feature.geometry.coordinates[i].length; k++)
 			{
-				var newCoords2 = [];
+				let newCoords2 = [];
 
-				for (var j = 0; j < feature.geometry.coordinates[i][k].length; j++)
+				for (let j = 0; j < feature.geometry.coordinates[i][k].length; j++)
 					newCoords2.push(this.swapCoordinates(feature.geometry.coordinates[i][k][j]))
 
 				newCoords.push(newCoords2)
@@ -528,23 +554,23 @@ queryServerData.prototype = new leftMenu();
         - collect()->Object Возвращает выбранные пользователем объекты<br/>
  @param version {string} Версия протокола, которая будет использоваться
 */
-queryServerData.prototype.load = function(protocol, parseFunc, drawFunc, customParamsManager, version)
+queryServerData.prototype.load = function(protocol, parseFunc, drawFunc, customParamsManager)
 {
 	window.convertCoords = function(coordsStr)
 	{
-		var res = [],
+		let res = [],
 			coordsPairs = strip(coordsStr).replace(/\s+/,' ').split(' ');
 
 		if (coordsStr.indexOf(',') == -1)
 		{
-			for (var j = 0; j < Math.floor(coordsPairs.length / 2); j++)
+			for (let j = 0; j < Math.floor(coordsPairs.length / 2); j++)
 				res.push([Number(coordsPairs[2 * j + 1]), Number(coordsPairs[2 * j])])
 		}
 		else
 		{
-			for (var j = 0; j < coordsPairs.length; j++)
+			for (let j = 0; j < coordsPairs.length; j++)
 			{
-				var parsedCoords = coordsPairs[j].split(',');
+				let parsedCoords = coordsPairs[j].split(',');
 
 				res.push([Number(parsedCoords[1]), Number(parsedCoords[0])])
 			}
@@ -630,7 +656,7 @@ queryServerData.prototype.getCapabilities = function(protocol, url, parseFunc, d
         capabilitiesUrl += '&VERSION=' + version;
     }
 
-	sendCrossDomainJSONRequest(serverBase + "ApiSave.ashx?get=" + encodeURIComponent(capabilitiesUrl), function(response) {
+	sendCrossDomainJSONRequest(window.serverBase + "ApiSave.ashx?get=" + encodeURIComponent(capabilitiesUrl), function(response) {
 		if (!parseResponse(response)) return;
 
 		var servicelayers = parseFunc.call(_this, response.Result);
@@ -642,8 +668,8 @@ queryServerData.prototype.getCapabilities = function(protocol, url, parseFunc, d
 queryServerData.prototype.parseWFSCapabilities = function(response)
 {
 	var serviceLayers = [],
-		strResp = response.replace(/[\t\n\r]/g, ' '),
-		strResp = strResp.replace(/\s+/g, ' '),
+		// strResp = response.replace(/[\t\n\r]/g, ' '),
+		// strResp = strResp.replace(/\s+/g, ' '),
 		featuresXML = parseXML(response).getElementsByTagName('FeatureType');
 
 	for (var i = 0; i < featuresXML.length; i++)
@@ -673,10 +699,10 @@ queryServerData.prototype.loadGML = function(url, parentTreeCanvas, box, header,
 {
 	var _this = this;
 
-	sendCrossDomainJSONRequest(serverBase + "ApiSave.ashx?get=" + encodeURIComponent(url), function(response)
+	sendCrossDomainJSONRequest(window.serverBase + "ApiSave.ashx?get=" + encodeURIComponent(url), function(response)
 	{
 		if (!parseResponse(response)) return;
-		var geometries = parseGML(response.Result, format, srs);
+		var geometries = window.parseGML(response.Result, format, srs);
 		_this.drawGML(geometries, url, parentTreeCanvas, box, header, loadLayerParams);
 	})
 }
@@ -687,7 +713,7 @@ queryServerData.prototype.saveGML = function(geometries)
 	{
 		geometries = [];
 
-		globalFlashMap.drawing.forEachObject(function(ret)
+		window.globalFlashMap.drawing.forEachObject(function(ret)
 		{
 			geometries.push(ret.geometry);
 		})
@@ -695,24 +721,24 @@ queryServerData.prototype.saveGML = function(geometries)
 
 	window.promptFunction(_gtxt('Введите имя gml-файла для скачивания:'), 'objects.gml', function(fileName)
 	{
-		globalFlashMap.saveObjects(geometries, nsGmx.Utils.translit(fileName));
+		window.globalFlashMap.saveObjects(geometries, nsGmx.Utils.translit(fileName));
 	});
 
 	return false;
 }
 
-queryServerData.prototype.drawGML = function(geometries, url, parentTreeCanvas, box, header, loadLayerParams)
+queryServerData.prototype.drawGML = function(geometries, url, parentTreeCanvas, box)
 {
 	var parent = {
 					'Point': L.gmx.createLayer({properties: {}}).addTo(nsGmx.leafletMap),
 					'LineString': L.gmx.createLayer({properties: {}}).addTo(nsGmx.leafletMap),
 					'Polygon': L.gmx.createLayer({properties: {}}).addTo(nsGmx.leafletMap)
-				},
-		styles = {
-					'Point': typeof loadLayerParams != 'undefined' && loadLayerParams['point'] ? loadLayerParams['point'].RenderStyle : { marker: { size: 2 }, outline: { color: 0x0000ff, thickness: 1 } },
-					'LineString': typeof loadLayerParams != 'undefined' && loadLayerParams['linestring'] ? loadLayerParams['linestring'].RenderStyle : { outline: { color: 0x0000ff, thickness: 2 } },
-					'Polygon': typeof loadLayerParams != 'undefined' && loadLayerParams['polygon'] ? loadLayerParams['polygon'].RenderStyle : { outline: { color: 0x0000ff, thickness: 2, opacity: 100 }, fill: {color: 0xffffff, opacity: 20} }
 				};
+		// var styles = {
+		// 			'Point': typeof loadLayerParams != 'undefined' && loadLayerParams['point'] ? loadLayerParams['point'].RenderStyle : { marker: { size: 2 }, outline: { color: 0x0000ff, thickness: 1 } },
+		// 			'LineString': typeof loadLayerParams != 'undefined' && loadLayerParams['linestring'] ? loadLayerParams['linestring'].RenderStyle : { outline: { color: 0x0000ff, thickness: 2 } },
+		// 			'Polygon': typeof loadLayerParams != 'undefined' && loadLayerParams['polygon'] ? loadLayerParams['polygon'].RenderStyle : { outline: { color: 0x0000ff, thickness: 2, opacity: 100 }, fill: {color: 0xffffff, opacity: 20} }
+		// 		};
 	// parent['POINT'].setStyle(styles['POINT']);
 	// parent['LINESTRING'].setStyle(styles['LINESTRING']);
 	// parent['POLYGON'].setStyle(styles['POLYGON']);
@@ -761,7 +787,7 @@ queryServerData.prototype.drawGML = function(geometries, url, parentTreeCanvas, 
 
 	var divCanvas = _div(),
 		divChilds = _div(),
-		spanHeader = _span([_t(url.length < 45 ? url : url.substr(0, 45) + '...')]),
+		// spanHeader = _span([_t(url.length < 45 ? url : url.substr(0, 45) + '...')]),
 		_this = this;
 
 	var clickFunc = function(flag)
@@ -864,7 +890,7 @@ queryServerData.prototype.drawWMS = function(serviceLayers, url, replaceElem, lo
 	var ulCanvas = _ul(null, [['css','paddingBottom','5px'], ['attr','url',url]]),
 		ulChilds = _ul(),
 		remove = makeImageButton('img/closemin.png','img/close_orange.png'),
-		_this = this,
+		
         lmap = nsGmx.leafletMap;
 
 	$(replaceElem).replaceWith(ulCanvas)
@@ -912,7 +938,7 @@ queryServerData.prototype.drawWMS = function(serviceLayers, url, replaceElem, lo
         {
             var b = res.bounds;
             parent.clearLayers();
-            parent.addLayer(L.imageOverlay(serverBase + "ImgSave.ashx?now=true&get=" + encodeURIComponent(res.url), L.latLngBounds([[b.minY, b.minX], [b.maxY, b.maxX]])));
+            parent.addLayer(L.imageOverlay(window.serverBase + "ImgSave.ashx?now=true&get=" + encodeURIComponent(res.url), L.latLngBounds([[b.minY, b.minX], [b.maxY, b.maxX]])));
         }
 	}
 
@@ -1038,10 +1064,8 @@ queryServerData.prototype.drawWFS = function(serviceLayers, url, replaceElem, lo
 
 				_(elemCanvas, [loading]);
 			}
-			else
-			{
-				if (typeof elemCanvas.loaded == 'function')
-					elemCanvas.loaded();
+			else if (typeof elemCanvas.loaded == 'function') {
+				elemCanvas.loaded();
 			}
 		}
 	}

@@ -143,7 +143,6 @@ nsGmx.LayersTree = function( tree )
      */
     this.cloneRawTree = function(filterFunc) {
         filterFunc = filterFunc || function(node) {return node;};
-        var res = {};
         var forEachLayerRec = function(o)
         {
             if (o.type == "layer") {
@@ -152,7 +151,7 @@ nsGmx.LayersTree = function( tree )
             else if (o.type == "group") {
                 var a = o.content.children;
                 var newChildren = [];
-                for (var k = 0; k < a.length; k++) {
+                for (let k = 0; k < a.length; k++) {
                     var newNode = forEachLayerRec(a[k]);
                     newNode && newChildren.push(newNode);
                 }
@@ -167,7 +166,7 @@ nsGmx.LayersTree = function( tree )
         }
         
         var newFirstLevelGroups = [];
-        for (var k = 0; k < _tree.children.length; k++) {
+        for (let k = 0; k < _tree.children.length; k++) {
             var newNode = forEachLayerRec(_tree.children[k]);
             newNode && newFirstLevelGroups.push(newNode);
         }

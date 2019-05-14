@@ -1,4 +1,7 @@
-var nsGmx = nsGmx || {};
+import nsGmx from './nsGmx.js';
+import {
+    inputError,
+} from './utilities.js';
 
 (function() {
 

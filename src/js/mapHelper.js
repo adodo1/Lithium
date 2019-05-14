@@ -254,7 +254,7 @@ mapHelper.prototype.makeStyle = function(style)
 		{
 			var src = (style.Icon.indexOf("http://") != -1) || (style.Icon.indexOf("https://") != -1) ?
 				style.Icon :
-				(baseAddress + "/" + style.Icon);
+				(window.baseAddress + "/" + style.Icon);
 			givenStyle.marker = { image: src, center: true };
 		}
 		if (style.BorderColor || style.BorderWidth)
@@ -945,6 +945,7 @@ mapHelper.prototype.createLayerEditor = function(div, treeView, selected)
             nsGmx.createMultiLayerEditorServer(elemProperties, div, treeView);
         }
 	} else if (elemProperties.type == "Virtual"){
+		let id = 'layertabs' + layerName;
         let divProperties = _div(null,[['attr','id','properties' + id], ['css', 'height', '100%']]);
 
         this.createLoadingLayerEditorProperties(div, divProperties, null, {

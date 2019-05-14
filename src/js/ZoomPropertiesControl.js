@@ -1,4 +1,6 @@
-﻿(function()
+﻿import nsGmx from './nsGmx.js';
+
+(function()
 {
     var getZoomValue = function(zoomControl)
     {

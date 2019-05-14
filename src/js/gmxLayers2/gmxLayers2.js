@@ -121,7 +121,7 @@ L.Control.GmxLayers2 = L.Control.Layers.extend({
 
     _addItem: function (obj) {
         if (L.version === '0.7.7') {
-            var label = document.createElement('label'),
+            let label = document.createElement('label'),
             input,
             checked = this._map.hasLayer(obj.layer);
 
@@ -138,18 +138,18 @@ L.Control.GmxLayers2 = L.Control.Layers.extend({
 
             L.DomEvent.on(input, 'click', this._onInputClick, this);
 
-            var name = document.createElement('span');
+            let name = document.createElement('span');
             name.innerHTML = ' ' + obj.name;
 
             label.appendChild(input);
             label.appendChild(name);
 
-            var container = obj.overlay ? this._overlaysList : this._baseLayersList;
+            let container = obj.overlay ? this._overlaysList : this._baseLayersList;
             container.appendChild(label);
 
             return label;
         } else {
-            var label = document.createElement('label'),
+            let label = document.createElement('label'),
                 checked = this._map.hasLayer(obj.layer),
                 input;
 
@@ -162,10 +162,10 @@ L.Control.GmxLayers2 = L.Control.Layers.extend({
                 input = this._createRadioElement('leaflet-base-layers', checked);
             }
 
-            var presentLayer, presentIndex;
+            let presentLayer, presentIndex;
 
-            for (var i = 0; i < this._layerControlInputs.length; i++) {
-                var inp = this._layerControlInputs[i];
+            for (let i = 0; i < this._layerControlInputs.length; i++) {
+                let inp = this._layerControlInputs[i];
                 if (inp.layerId === obj.layer._leaflet_id) {
                     presentLayer = inp;
                 }
@@ -186,18 +186,18 @@ L.Control.GmxLayers2 = L.Control.Layers.extend({
 
             L.DomEvent.on(input, 'click', this._onInputClick, this);
 
-            var name = document.createElement('span');
+            let name = document.createElement('span');
             name.innerHTML = ' ' + obj.name;
 
             // Helps from preventing layer control flicker when checkboxes are disabled
             // https://github.com/Leaflet/Leaflet/issues/2771
-            var holder = document.createElement('div');
+            let holder = document.createElement('div');
 
             label.appendChild(holder);
             holder.appendChild(input);
             holder.appendChild(name);
 
-            var container = obj.overlay ? this._overlaysList : this._baseLayersList;
+            let container = obj.overlay ? this._overlaysList : this._baseLayersList;
             container.appendChild(label);
 
             this._checkDisabledLayers();
@@ -221,10 +221,10 @@ L.Control.GmxLayers2 = L.Control.Layers.extend({
         this._overlaysList.innerHTML = '';
 
         var baseLayersPresent = false,
-            overlaysPresent = false,
-            i, len, obj;
+            overlaysPresent = false,                      
+            obj;
 
-        for (i in this._layers) {
+        for (let i in this._layers) {
             obj = this._layers[i];
             if (obj.overlay) {
                 this._addItemObject(obj);
@@ -256,12 +256,11 @@ L.Control.GmxLayers2 = L.Control.Layers.extend({
         this.setActive(false);
     },
 
-    setActive: function (active, skipEvent) {
+    setActive: function (active) {
         var options = this.options,
             togglable = options.togglable || options.toggle;
-        if (togglable) {
-            var prev = options.isActive,
-                prefix = this._prefix,
+        if (togglable) {            
+            let prefix = this._prefix,
                 className = prefix + '-' + options.id,
                 container = this._iconContainer;
 
@@ -288,7 +287,7 @@ L.Control.GmxLayers2 = L.Control.Layers.extend({
             // IE appends 'extended' class to the parent!
             if (L.DomUtil.hasClass(this._container, 'leaflet-control-layers-expanded')) {
                 L.DomUtil.removeClass(this._container, 'leaflet-control-layers-expanded')
-            };
+            }
         }
     },
 

@@ -191,7 +191,7 @@ import {
 
                 if (_this.isAccounts() && window.gmxAuthServer)
                 {
-                    sendCrossDomainJSONRequest(window.gmxAuthServer + "Handler/Logout", function(response)
+                    sendCrossDomainJSONRequest(window.gmxAuthServer + "Handler/Logout", function()
                     {
                         //TODO: check result
                         _this.setUserInfo({Login: false});
