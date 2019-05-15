@@ -1,9 +1,28 @@
 ﻿import nsGmx from './nsGmx.js';
 import './ZoomPropertiesControl.js';
 import {
+	_checkbox,
+	_div,
+	getOwnChildNumber,
+	hide,
+	_img,
+	_input,
 	makeLinkButton,
+	makeImageButton,
+	_li,
+	showDialog,
+	_span,
+	stopEvent,
+	_table,
+	_tbody,
+	_tr,
+	_td,
+	_t,
 	_title,
+	_textarea,
+	_ul,
 } from './utilities.js';
+import gmxCore from './gmxcore.js';
 
 //Создание интерфейса редактирования стилей слоя
 (function(_) {
@@ -11,327 +30,327 @@ import {
 //явно прописывает все свойства балунов в стиле.
 var applyBalloonDefaultStyle = function(style)
 {
-    //слой только что создали - всё по умолчанию!
-    if (typeof style.BalloonEnable === 'undefined')
-    {
-        style.BalloonEnable = true;
-        style.DisableBalloonOnClick = false;
-        style.DisableBalloonOnMouseMove = true;
-    }
-    else
-    {
-        //поддержка совместимости - если слой уже был, но новых параметров нет
-        if (typeof style.DisableBalloonOnClick === 'undefined')
-            style.DisableBalloonOnClick = false;
+	//слой только что создали - всё по умолчанию!
+	if (typeof style.BalloonEnable === 'undefined')
+	{
+		style.BalloonEnable = true;
+		style.DisableBalloonOnClick = false;
+		style.DisableBalloonOnMouseMove = true;
+	}
+	else
+	{
+		//поддержка совместимости - если слой уже был, но новых параметров нет
+		if (typeof style.DisableBalloonOnClick === 'undefined')
+			style.DisableBalloonOnClick = false;
 
-        if (typeof style.DisableBalloonOnMouseMove === 'undefined')
-            style.DisableBalloonOnMouseMove = false;
-    }
-    return style;
+		if (typeof style.DisableBalloonOnMouseMove === 'undefined')
+			style.DisableBalloonOnMouseMove = false;
+	}
+	return style;
 }
 
 var FillStyleControl = function(initStyle, params)
 {
-    var _params = $.extend({showSelectors: true}, params);
-    var _fillStyle = $.extend(true, {fill:
-        {color: 0xFFFFFF,
-         opacity: 50,
-         image: "",
-         pattern: {
-            width: 8,
-            step: 0,
-            colors: [0x000000,0xFFFFFF],
-            style: 'diagonal1'
-        }}}, initStyle).fill;
+	var _params = $.extend({showSelectors: true}, params);
+	var _fillStyle = $.extend(true, {fill:
+		{color: 0xFFFFFF,
+		 opacity: 50,
+		 image: "",
+		 pattern: {
+			width: 8,
+			step: 0,
+			colors: [0x000000,0xFFFFFF],
+			style: 'diagonal1'
+		}}}, initStyle).fill;
 
-    var _this = this;
-    var selectorDiv = $("<div/>", {'class': "fillStyleSelectorDiv"});
+	var _this = this;
+	var selectorDiv = $("<div/>", {'class': "fillStyleSelectorDiv"});
 
-    var colorContainer = $("<div/>");
-    var patternContainer = $("<div/>");
-    var imagePatternContainer = $("<div/>");
+	var colorContainer = $("<div/>");
+	var patternContainer = $("<div/>");
+	var imagePatternContainer = $("<div/>");
 
-    var colorIcon      = $("<img/>", {src: 'img/styles/color.png',   title: _gtxt("Заливка цветом")}).data('type', 'color');
-    var patternIcon    = $("<img/>", {src: 'img/styles/pattern.png', title: _gtxt("Заливка штриховкой")}).data('type', 'pattern');
-    var patternURLIcon = $("<img/>", {src: 'img/styles/globe.gif',   title: _gtxt("Заливка рисунком")}).data('type', 'bitmapPattern');
+	var colorIcon      = $("<img/>", {src: 'img/styles/color.png',   title: _gtxt("Заливка цветом")}).data('type', 'color');
+	var patternIcon    = $("<img/>", {src: 'img/styles/pattern.png', title: _gtxt("Заливка штриховкой")}).data('type', 'pattern');
+	var patternURLIcon = $("<img/>", {src: 'img/styles/globe.gif',   title: _gtxt("Заливка рисунком")}).data('type', 'bitmapPattern');
 
-    var controls = {
-        "color":         {icon: colorIcon,      control: colorContainer},
-        "pattern":       {icon: patternIcon,    control: patternContainer},
-        "bitmapPattern": {icon: patternURLIcon, control: imagePatternContainer}
-    };
+	var controls = {
+		"color":         {icon: colorIcon,      control: colorContainer},
+		"pattern":       {icon: patternIcon,    control: patternContainer},
+		"bitmapPattern": {icon: patternURLIcon, control: imagePatternContainer}
+	};
 
-    var initFillStyle = initStyle.fill || {};
+	var initFillStyle = initStyle.fill || {};
 
-    var activeFillType = null;
-    if ('image' in initFillStyle)
-        activeFillType = 'bitmapPattern';
-    else if ('pattern' in initFillStyle)
-        activeFillType = 'pattern';
-    else //if ('color' in initFillStyle)
-        activeFillType = 'color';
+	var activeFillType = null;
+	if ('image' in initFillStyle)
+		activeFillType = 'bitmapPattern';
+	else if ('pattern' in initFillStyle)
+		activeFillType = 'pattern';
+	else //if ('color' in initFillStyle)
+		activeFillType = 'color';
 
-    for (var c in controls)
-        if (c == activeFillType)
-            controls[c].icon.addClass('selectedType');
-        else
-            controls[c].control.hide();
+	for (var c in controls)
+		if (c == activeFillType)
+			controls[c].icon.addClass('selectedType');
+		else
+			controls[c].control.hide();
 
-    var selectorIconsDiv = $('<div/>')
-        .append(colorIcon)
-        .append(patternIcon)
-        .append(patternURLIcon);
+	var selectorIconsDiv = $('<div/>')
+		.append(colorIcon)
+		.append(patternIcon)
+		.append(patternURLIcon);
 
-    selectorDiv.append($("<span/>").text(_gtxt("Заливка"))).append($("<br/>"));
+	selectorDiv.append($("<span/>").text(_gtxt("Заливка"))).append($("<br/>"));
 
-    if (_params.showSelectors)
-        selectorDiv.append(selectorIconsDiv);
+	if (_params.showSelectors)
+		selectorDiv.append(selectorIconsDiv);
 
-    $("img", selectorDiv).click(function()
-    {
-        activeFillType = $(this).data('type');
-        for (var k in controls)
-            if (k === activeFillType)
-                $(controls[k].control).show(500);
-            else
-                $(controls[k].control).hide(500);
+	$("img", selectorDiv).click(function()
+	{
+		activeFillType = $(this).data('type');
+		for (var k in controls)
+			if (k === activeFillType)
+				$(controls[k].control).show(500);
+			else
+				$(controls[k].control).hide(500);
 
-        $("img", selectorDiv).removeClass('selectedType');
-        $(this).addClass('selectedType');
-        $(_this).change();
-    });
+		$("img", selectorDiv).removeClass('selectedType');
+		$(this).addClass('selectedType');
+		$(_this).change();
+	});
 
-    var fillColor = _fillStyle.color;
-    var fillOpacity = _fillStyle.opacity;
+	var fillColor = _fillStyle.color;
+	var fillOpacity = _fillStyle.opacity;
 
-    //выбор цвета
-    var fillColorPicker = nsGmx.Controls.createColorPicker(fillColor,
-        function (colpkr){
-            $(colpkr).fadeIn(500);
-            return false;
-        },
-        function (colpkr){
-            $(colpkr).fadeOut(500);
-            $(_this).change();
-            return false;
-        },
-        function (hsb, hex, rgb) {
-            fillColorPicker.style.backgroundColor = '#' + hex;
-            fillColor = parseInt("0x" + hex);
-            $(_this).change();
-        }),
-    fillOpacitySlider = nsGmx.Controls.createSlider(fillOpacity,
-        function(event, ui)
-        {
-            fillOpacity = ui.value;
-            $(_this).change();
-        });
+	//выбор цвета
+	var fillColorPicker = nsGmx.Controls.createColorPicker(fillColor,
+		function (colpkr){
+			$(colpkr).fadeIn(500);
+			return false;
+		},
+		function (colpkr){
+			$(colpkr).fadeOut(500);
+			$(_this).change();
+			return false;
+		},
+		function (hsb, hex) {
+			fillColorPicker.style.backgroundColor = '#' + hex;
+			fillColor = parseInt("0x" + hex);
+			$(_this).change();
+		}),
+	fillOpacitySlider = nsGmx.Controls.createSlider(fillOpacity,
+		function(event, ui)
+		{
+			fillOpacity = ui.value;
+			$(_this).change();
+		});
 
-    colorContainer.append($("<table/>").append($("<tr/>")
-        .append($("<td/>").append(fillColorPicker))
-        .append($("<td/>", {'class': 'fillColorOpacity'}).append(fillOpacitySlider))
-    ));
+	colorContainer.append($("<table/>").append($("<tr/>")
+		.append($("<td/>").append(fillColorPicker))
+		.append($("<td/>", {'class': 'fillColorOpacity'}).append(fillOpacitySlider))
+	));
 
-    var patternURL = new mapHelper.ImageInputControl(_fillStyle.image);
-    $(patternURL).change(function()
-    {
-        $(_this).change();
-    });
-    imagePatternContainer.append(patternURL.getControl());
+	var patternURL = new window.mapHelper.ImageInputControl(_fillStyle.image);
+	$(patternURL).change(function()
+	{
+		$(_this).change();
+	});
+	imagePatternContainer.append(patternURL.getControl());
 
-    //выбор втроенных паттернов
-    var patternTypeIcons = [
-        ['horizontal', 'img/styles/horisontal.png'],
-        ['vertical',   'img/styles/vertical.png'  ],
-        ['diagonal1',  'img/styles/diagonal1.png' ],
-        ['diagonal2',  'img/styles/diagonal2.png' ],
-        ['circle',     'img/styles/circle.png'    ],
-        ['cross',      'img/styles/cross.png'     ]
-    ];
+	//выбор втроенных паттернов
+	var patternTypeIcons = [
+		['horizontal', 'img/styles/horisontal.png'],
+		['vertical',   'img/styles/vertical.png'  ],
+		['diagonal1',  'img/styles/diagonal1.png' ],
+		['diagonal2',  'img/styles/diagonal2.png' ],
+		['circle',     'img/styles/circle.png'    ],
+		['cross',      'img/styles/cross.png'     ]
+	];
 
-    var patternStyleSelector = $("<div/>", {id: "patternStyleSelector"});
-    for (var i = 0; i < patternTypeIcons.length; i++)
-    {
-        var icon = $('<img/>', {src: patternTypeIcons[i][1]}).data("style", patternTypeIcons[i][0]);
-        patternStyleSelector.append(icon);
-        if (patternTypeIcons[i][0] === _fillStyle.pattern.style)
-            icon.addClass('activePatternType');
-    }
+	var patternStyleSelector = $("<div/>", {id: "patternStyleSelector"});
+	for (var i = 0; i < patternTypeIcons.length; i++)
+	{
+		var icon = $('<img/>', {src: patternTypeIcons[i][1]}).data("style", patternTypeIcons[i][0]);
+		patternStyleSelector.append(icon);
+		if (patternTypeIcons[i][0] === _fillStyle.pattern.style)
+			icon.addClass('activePatternType');
+	}
 
-    $("img", patternStyleSelector).click(function()
-    {
-        $("img", patternStyleSelector).removeClass('activePatternType');
-        $(this).addClass('activePatternType');
-        _fillStyle.pattern.style = $(this).data("style");
-        $(_this).change();
-    });
+	$("img", patternStyleSelector).click(function()
+	{
+		$("img", patternStyleSelector).removeClass('activePatternType');
+		$(this).addClass('activePatternType');
+		_fillStyle.pattern.style = $(this).data("style");
+		$(_this).change();
+	});
 
-    var patternOpacity = _fillStyle.opacity;
-    var patternOpacitySlider = nsGmx.Controls.createSlider( _fillStyle.opacity, function(event, ui)
-    {
-        patternOpacity = ui.value;
-        $(_this).change();
-    });
-    $(patternOpacitySlider).attr({id: "patternOpacitySlider"});
+	var patternOpacity = _fillStyle.opacity;
+	var patternOpacitySlider = nsGmx.Controls.createSlider( _fillStyle.opacity, function(event, ui)
+	{
+		patternOpacity = ui.value;
+		$(_this).change();
+	});
+	$(patternOpacitySlider).attr({id: "patternOpacitySlider"});
 
-    var patternOpacityContainer = $('<div/>', {'class': 'patternOpacityContainer'})
-        .append($('<table/>').append($('<tr/>')
-            .append($('<td/>').append($('<img/>', {src:'img/styles/pattern-opacity.PNG', 'class': 'opacityIcon'})))
-            .append($('<td/>').append(patternOpacitySlider))
-        ));
+	var patternOpacityContainer = $('<div/>', {'class': 'patternOpacityContainer'})
+		.append($('<table/>').append($('<tr/>')
+			.append($('<td/>').append($('<img/>', {src:'img/styles/pattern-opacity.PNG', 'class': 'opacityIcon'})))
+			.append($('<td/>').append(patternOpacitySlider))
+		));
 
-    var widthIcon = $("<img/>", {src: 'img/styles/pattern-width.PNG'});
-    var stepIcon = $("<img/>", {src: 'img/styles/pattern-step.PNG', 'class': 'stepIcon'});
+	var widthIcon = $("<img/>", {src: 'img/styles/pattern-width.PNG'});
+	var stepIcon = $("<img/>", {src: 'img/styles/pattern-step.PNG', 'class': 'stepIcon'});
 
-    var widthInput = $("<input/>", {'class': 'widthInput', title: _gtxt("Ширина паттерна")}).val(_fillStyle.pattern.width).change(function()
-    {
-        $(_this).change();
-    });
+	var widthInput = $("<input/>", {'class': 'widthInput', title: _gtxt("Ширина паттерна")}).val(_fillStyle.pattern.width).change(function()
+	{
+		$(_this).change();
+	});
 
-    var stepInput = $("<input/>", {title: _gtxt("Ширина отступа")}).val(_fillStyle.pattern.step).change(function()
-    {
-        $(_this).change();
-    });
+	var stepInput = $("<input/>", {title: _gtxt("Ширина отступа")}).val(_fillStyle.pattern.step).change(function()
+	{
+		$(_this).change();
+	});
 
-    var widthStepInputs = $("<table/>", {'class': "widthStepTable"}).append($("<tr/>")
-        .append($("<td/>").append(widthIcon).append(widthInput))
-        .append($("<td/>").append(stepIcon).append(stepInput))
-    );
+	var widthStepInputs = $("<table/>", {'class': "widthStepTable"}).append($("<tr/>")
+		.append($("<td/>").append(widthIcon).append(widthInput))
+		.append($("<td/>").append(stepIcon).append(stepInput))
+	);
 
-    var PatternColorControl = function(parentDiv, initColors)
-    {
-        var _parentDiv = $(parentDiv);
-        var _colors = initColors;
-        var _this = this;
-        var _redraw = function()
-        {
-            _parentDiv.empty();
-            var table = $('<table/>', {'class': 'patternColorControl'});
-            for (var k = 0; k < _colors.length; k++)
-            (function(k){
+	var PatternColorControl = function(parentDiv, initColors)
+	{
+		var _parentDiv = $(parentDiv);
+		var _colors = initColors;
+		var _this = this;
+		var _redraw = function()
+		{
+			_parentDiv.empty();
+			var table = $('<table/>', {'class': 'patternColorControl'});
+			for (var k = 0; k < _colors.length; k++)
+			(function(k){
 
-                if (_colors[k] === null) return;
+				if (_colors[k] === null) return;
 
-                var colorPicker = nsGmx.Controls.createColorPicker(_colors[k],
-                    function (colpkr){
-                        $(colpkr).fadeIn(500);
-                        return false;
-                    },
-                    function (colpkr){
-                        $(colpkr).fadeOut(500);
-                        $(_this).change();
-                        return false;
-                    },
-                    function (hsb, hex, rgb) {
-                        colorPicker.style.backgroundColor = '#' + hex;
-                        _colors[k] = parseInt('0x' + hex);
-                        $(_this).change();
-                    });
-                colorPicker.style.width = '100%';
+				var colorPicker = nsGmx.Controls.createColorPicker(_colors[k],
+					function (colpkr){
+						$(colpkr).fadeIn(500);
+						return false;
+					},
+					function (colpkr){
+						$(colpkr).fadeOut(500);
+						$(_this).change();
+						return false;
+					},
+					function (hsb, hex) {
+						colorPicker.style.backgroundColor = '#' + hex;
+						_colors[k] = parseInt('0x' + hex);
+						$(_this).change();
+					});
+				colorPicker.style.width = '100%';
 
-                var deleteIcon = makeImageButton('img/close.png', 'img/close_orange.png');
-                    deleteIcon.onclick = function()
-                    {
-                        _colors[k] = null;
-                        _redraw();
-                        $(_this).change();
-                    }
+				var deleteIcon = makeImageButton('img/close.png', 'img/close_orange.png');
+					deleteIcon.onclick = function()
+					{
+						_colors[k] = null;
+						_redraw();
+						$(_this).change();
+					}
 
-                table.append($("<tr/>")
-                    .append($("<td/>", {'class': 'patternColorPicker'}).append(colorPicker))
-                    .append($("<td/>", {'class': 'patternColorDelete'}).append(deleteIcon))
-                );
+				table.append($("<tr/>")
+					.append($("<td/>", {'class': 'patternColorPicker'}).append(colorPicker))
+					.append($("<td/>", {'class': 'patternColorDelete'}).append(deleteIcon))
+				);
 
-            })(k);
+			})(k);
 
-            var addIcon = makeImageButton('img/zoom_plus.png', 'img/zoom_plus_a.png');
-            addIcon.onclick = function()
-            {
-                var initColor = 0x00FF00;
-                for (var c = 0; c < _colors.length; c++)
-                    if (_colors[c] !== null)
-                        initColor = _colors[c];
+			var addIcon = makeImageButton('img/zoom_plus.png', 'img/zoom_plus_a.png');
+			addIcon.onclick = function()
+			{
+				var initColor = 0x00FF00;
+				for (var c = 0; c < _colors.length; c++)
+					if (_colors[c] !== null)
+						initColor = _colors[c];
 
-                _colors.push(initColor);
-                _redraw();
-                $(_this).change();
-            };
+				_colors.push(initColor);
+				_redraw();
+				$(_this).change();
+			};
 
-            table.append($("<tr/>")
-                .append($("<td/>", {'class': 'patternColorPicker'}))
-                .append($("<td/>").append(addIcon))
-            );
+			table.append($("<tr/>")
+				.append($("<td/>", {'class': 'patternColorPicker'}))
+				.append($("<td/>").append(addIcon))
+			);
 
-            _parentDiv.append(table);
-        }
+			_parentDiv.append(table);
+		}
 
-        _redraw();
+		_redraw();
 
-        this.getColors = function()
-        {
-            var res = [];
-            for (var c = 0; c < _colors.length; c++)
-                if (_colors[c] !== null )
-                    res.push(_colors[c]);
-            return res;
-        }
-    }
+		this.getColors = function()
+		{
+			var res = [];
+			for (var c = 0; c < _colors.length; c++)
+				if (_colors[c] !== null )
+					res.push(_colors[c]);
+			return res;
+		}
+	}
 
-    var patternColorSelector = $("<div/>");
-    var patternColorControl = new PatternColorControl(patternColorSelector, _fillStyle.pattern.colors);
-    $(patternColorControl).change(function()
-    {
-        $(_this).change();
-    });
+	var patternColorSelector = $("<div/>");
+	var patternColorControl = new PatternColorControl(patternColorSelector, _fillStyle.pattern.colors);
+	$(patternColorControl).change(function()
+	{
+		$(_this).change();
+	});
 
-    patternContainer.append(patternStyleSelector).append(patternOpacityContainer).append(widthStepInputs).append(patternColorSelector);
+	patternContainer.append(patternStyleSelector).append(patternOpacityContainer).append(widthStepInputs).append(patternColorSelector);
 
-    var fillControlsDiv = $("<div/>", {'class': 'fillStyleControls'}).append(colorContainer).append(imagePatternContainer).append(patternContainer);
+	var fillControlsDiv = $("<div/>", {'class': 'fillStyleControls'}).append(colorContainer).append(imagePatternContainer).append(patternContainer);
 
-    //public interface
-    this.getSelector = function()
-    {
-        return selectorDiv;
-    }
+	//public interface
+	this.getSelector = function()
+	{
+		return selectorDiv;
+	}
 
-    this.getControls = function()
-    {
-        return fillControlsDiv;
-    }
+	this.getControls = function()
+	{
+		return fillControlsDiv;
+	}
 
-    this.getFillStyle = function()
-    {
-        var fillStyle = {};
-        if (activeFillType === 'color')
-        {
-            fillStyle.color = fillColor;
-            fillStyle.opacity = fillOpacity;
-        }
-        else if (activeFillType === 'bitmapPattern')
-        {
-            fillStyle.image = patternURL.value();
-        }
-        else if (activeFillType === 'pattern')
-        {
-            fillStyle.pattern = {
-                style: _fillStyle.pattern.style,
-                width: parseInt(widthInput.val()),
-                step: parseInt(stepInput.val()),
-                colors: patternColorControl.getColors()
-            };
-            fillStyle.opacity = patternOpacity;
-        }
+	this.getFillStyle = function()
+	{
+		var fillStyle = {};
+		if (activeFillType === 'color')
+		{
+			fillStyle.color = fillColor;
+			fillStyle.opacity = fillOpacity;
+		}
+		else if (activeFillType === 'bitmapPattern')
+		{
+			fillStyle.image = patternURL.value();
+		}
+		else if (activeFillType === 'pattern')
+		{
+			fillStyle.pattern = {
+				style: _fillStyle.pattern.style,
+				width: parseInt(widthInput.val()),
+				step: parseInt(stepInput.val()),
+				colors: patternColorControl.getColors()
+			};
+			fillStyle.opacity = patternOpacity;
+		}
 
-        return fillStyle;
-    }
+		return fillStyle;
+	}
 
-    this.setVisibleSelectors = function(isVisible)
-    {
-        if (isVisible)
-            selectorIconsDiv.show();
-        else
-            selectorIconsDiv.hide();
-    }
+	this.setVisibleSelectors = function(isVisible)
+	{
+		if (isVisible)
+			selectorIconsDiv.show();
+		else
+			selectorIconsDiv.hide();
+	}
 }
 
 var createFilterEditorInner = function(filter, attrs, elemCanvas)
@@ -340,13 +359,13 @@ var createFilterEditorInner = function(filter, attrs, elemCanvas)
 		setFilter = function()
 		{
 			var filterNum = getOwnChildNumber(filterText.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode),
-                layer = nsGmx.gmxMap.layersByID[elemCanvas.parentNode.gmxProperties.content.properties.name],
+				layer = nsGmx.gmxMap.layersByID[elemCanvas.parentNode.gmxProperties.content.properties.name],
 				filter = layer.getStyle(filterNum);
 
-            var newStyle = $.extend(true, {}, filter);
+			var newStyle = $.extend(true, {}, filter);
 
-            newStyle.Filter = filterText.value;
-            layer.setStyle(newStyle, filterNum);
+			newStyle.Filter = filterText.value;
+			layer.setStyle(newStyle, filterNum);
 		}
 
 	filterText.value = filter;
@@ -360,11 +379,11 @@ var createFilterEditorInner = function(filter, attrs, elemCanvas)
 
 	var mapName = elemCanvas.parentNode.gmxProperties.content.properties.mapName,
 		layerName = elemCanvas.parentNode.gmxProperties.content.properties.name,
-        attrSuggestWidget = new nsGmx.AttrSuggestWidget([filterText], attrs || [], _mapHelper.attrValues[mapName][layerName], setFilter, ['attrs', 'operators']);
+		attrSuggestWidget = new nsGmx.AttrSuggestWidget([filterText], attrs || [], _mapHelper.attrValues[mapName][layerName], setFilter, ['attrs', 'operators']);
 
-    var suggestCanvas = attrSuggestWidget.el[0];
+	var suggestCanvas = attrSuggestWidget.el[0];
 
-    var div = _div([filterText, suggestCanvas],[['attr','filterTable',true]]);
+	var div = _div([filterText, suggestCanvas],[['attr','filterTable',true]]);
 
 	div.getFilter = function()
 	{
@@ -381,10 +400,10 @@ var createFilterEditorInner = function(filter, attrs, elemCanvas)
 var createFilterEditor = function(filterParam, attrs, elemCanvas)
 {
 	var filter = (typeof filterParam == 'undefined') ? '' : filterParam,
-        props = elemCanvas.parentNode.gmxProperties.content.properties,
-        mapName = props.mapName;
+		props = elemCanvas.parentNode.gmxProperties.content.properties,
+		mapName = props.mapName;
 
-    _mapHelper.attrValues[mapName] = _mapHelper.attrValues[mapName] || {};
+	_mapHelper.attrValues[mapName] = _mapHelper.attrValues[mapName] || {};
 
 	if (!_mapHelper.attrValues[mapName][props.name])
 	{
@@ -409,25 +428,25 @@ var _balloonEditorId = 0;
 //identityField - будем исключать из списка аттрибутов, показываемых в балуне, так как это внутренняя техническая информация
 var createBalloonEditor = function(balloonParams, attrs, elemCanvas, identityField)
 {
-    applyBalloonDefaultStyle(balloonParams);
+	applyBalloonDefaultStyle(balloonParams);
 
 	var layerName = elemCanvas.parentNode.gmxProperties.content.properties.name,
-        textareaID = 'ballooneditor' + layerName + (_balloonEditorId++),
-        balloonText = _textarea(null, [
-            ['dir','className','inputStyle balloonEditor'],
-            ['css','overflow','auto'],
-            ['css','width','251px'],
-            ['css','height','80px'],
-            ['dir','id', textareaID]
-        ]),
+		textareaID = 'ballooneditor' + layerName + (_balloonEditorId++),
+		balloonText = _textarea(null, [
+			['dir','className','inputStyle balloonEditor'],
+			['css','overflow','auto'],
+			['css','width','251px'],
+			['css','height','80px'],
+			['dir','id', textareaID]
+		]),
 		setBalloon = function()
 		{
 			var filterNum = getOwnChildNumber(balloonText.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode),
-                layer = nsGmx.gmxMap.layersByID[layerName],
-                style = layer.getStyle(filterNum);
+				layer = nsGmx.gmxMap.layersByID[layerName],
+				style = layer.getStyle(filterNum);
 
-            var newStyle = $.extend(true, {}, style, div.getBalloonState());
-            layer.setStyle(newStyle, filterNum);
+			var newStyle = $.extend(true, {}, style, div.getBalloonState());
+			layer.setStyle(newStyle, filterNum);
 		},
 		defaultBalloonText = function()
 		{
@@ -450,20 +469,18 @@ var createBalloonEditor = function(balloonParams, attrs, elemCanvas, identityFie
 		boxMove = _checkbox(!balloonParams.DisableBalloonOnMouseMove && balloonParams.BalloonEnable, 'checkbox'),
 		br = "\n";
 
+	gmxCore.loadModule('TinyMCELoader', window.location.protocol + '//' + window.location.host + window.location.pathname.replace('index.html', '') + 'TinyMCELoader.js', function() {
+		tinyMCE.onAddEditor.add(function(mgr,ed) {
+			if (ed.id === textareaID) {
+				ed.onKeyUp.add(setBalloon);
+				ed.onChange.add(setBalloon);
+				ed.onClick.add(function() {
+					$(suggestWidget.el).fadeOut(300);
+				});
 
-    gmxCore.loadModule('TinyMCELoader', window.location.protocol + '//' + window.location.host + window.location.pathname.replace('index.html', '') + 'TinyMCELoader.js', function() {
-        tinyMCE.onAddEditor.add(function(mgr,ed) {
-            if (ed.id === textareaID) {
-                ed.onKeyUp.add(setBalloon);
-                ed.onChange.add(setBalloon);
-                ed.onClick.add(function() {
-                    $(suggestWidget.el).fadeOut(300);
-                });
-
-            }
-        });
-    })
-
+			}
+		});
+	})
 
 	boxClick.className = 'box';
 
@@ -493,17 +510,17 @@ var createBalloonEditor = function(balloonParams, attrs, elemCanvas, identityFie
 		return true;
 	}
 
-    var setDefaultBalloonText = nsGmx.Utils.makeLinkButton(_gtxt('По умолчанию'));
+	var setDefaultBalloonText = nsGmx.Utils.makeLinkButton(_gtxt('По умолчанию'));
 
-    setDefaultBalloonText.onclick = function() {
-        window.tinyMCE.get(textareaID).setContent(defaultBalloonText());
-        setBalloon();
-    };
+	setDefaultBalloonText.onclick = function() {
+		window.tinyMCE.get(textareaID).setContent(defaultBalloonText());
+		setBalloon();
+	};
 
 	var suggestCanvas = _table([_tbody([
-        _tr([_td([_div([divAttr],[['css','position','relative']])]),
-             _td([_div([setDefaultBalloonText],[['css','float','right']])])
-         ])])],[['css','margin','0px 3px'], ['css','width','249px']]);
+		_tr([_td([_div([divAttr],[['css','position','relative']])]),
+			 _td([_div([setDefaultBalloonText],[['css','float','right']])])
+		 ])])],[['css','margin','0px 3px'], ['css','width','249px']]);
 
 	var div = _div([_div([boxClick, _span([_t(_gtxt("Показывать при клике"))],[['css','marginLeft','5px']])],[['css','margin','2px 0px 4px 3px']]),
 					_div([boxMove, _span([_t(_gtxt("Показывать при наведении"))],[['css','marginLeft','5px']])],[['css','margin','2px 0px 4px 3px']]),
@@ -511,8 +528,8 @@ var createBalloonEditor = function(balloonParams, attrs, elemCanvas, identityFie
 
 	div.getBalloon = function()
 	{
-        var value = window.tinyMCE && window.tinyMCE.get(textareaID) ? window.tinyMCE.get(textareaID).getContent() : balloonText.value;
-        return value == defaultBalloonText() ? '' : value;
+		var value = window.tinyMCE && window.tinyMCE.get(textareaID) ? window.tinyMCE.get(textareaID).getContent() : balloonText.value;
+		return value == defaultBalloonText() ? '' : value;
 	};
 
 	div.getBalloonEnable = function()
@@ -538,7 +555,7 @@ var createBalloonEditor = function(balloonParams, attrs, elemCanvas, identityFie
 			DisableBalloonOnMouseMove: !boxMove.checked
 		}
 
-        var value = window.tinyMCE && window.tinyMCE.get(textareaID) ? window.tinyMCE.get(textareaID).getContent() : balloonText.value;
+		var value = window.tinyMCE && window.tinyMCE.get(textareaID) ? window.tinyMCE.get(textareaID).getContent() : balloonText.value;
 		if (value !== defaultBalloonText())
 			state.Balloon = value;
 
@@ -556,10 +573,10 @@ var createFilter = function(layer, styleIndex, parentStyle, geometryType, attrs,
 
 	$.extend(true, templateStyle, _mapHelper.makeStyle(parentStyle));
 
-    var zoomPropertiesControl = new nsGmx.ZoomPropertiesControl(parentStyle.MinZoom, parentStyle.MaxZoom);
+	var zoomPropertiesControl = new nsGmx.ZoomPropertiesControl(parentStyle.MinZoom, parentStyle.MaxZoom);
 
-	var filterInput = _textarea([_t(parentStyle.Filter || '')], [['dir','className','inputStyle'],['css','overflow','auto'],['css','margin','1px 0px'],['css','width','260px'],['css','height','40px']]),
-        liMinZoom = zoomPropertiesControl.getMinLi(),
+	// var filterInput = _textarea([_t(parentStyle.Filter || '')], [['dir','className','inputStyle'],['css','overflow','auto'],['css','margin','1px 0px'],['css','width','260px'],['css','height','40px']]),
+	var liMinZoom = zoomPropertiesControl.getMinLi(),
 		liMaxZoom = zoomPropertiesControl.getMaxLi(),
 		ulfilterExpr = _ul([_li([_div()],[['css','paddingLeft','0px'],['css','background','none']])]),
 		liLabel = _li([_div()],[['css','paddingLeft','0px'],['css','background','none']]),
@@ -568,58 +585,58 @@ var createFilter = function(layer, styleIndex, parentStyle, geometryType, attrs,
 		ulBalloon = _ul([liBalloon]),
 		liStyle = _li([_div()],[['css','paddingLeft','0px'],['css','background','none']]),
 		ulStyle = _ul([liStyle]),
-        liClusters = _li([_div()],[['css','paddingLeft','0px'],['css','background','none']]),
-		ulClusters = _ul([liClusters]),
-        clusterCheckbox,
-        clusterControl;
+		// liClusters = _li([_div()],[['css','paddingLeft','0px'],['css','background','none']]),
+		// ulClusters = _ul([liClusters]),
+		// clusterCheckbox,
+		clusterControl;
 
-    // currently we don't support clustring
-    /*if (geometryType == 'point')
-    {
-        clusterControl = new nsGmx.ClusterParamsControl(liClusters, parentStyle.clusters);
-        $(clusterControl).change(function()
-        {
-            var filterNum = getOwnChildNumber(ulParent.parentNode.parentNode.parentNode),
-                    filter = globalFlashMap.layers[elemCanvas.parentNode.gmxProperties.content.properties.name].filters[filterNum];
+	// currently we don't support clustring
+	/*if (geometryType == 'point')
+	{
+		clusterControl = new nsGmx.ClusterParamsControl(liClusters, parentStyle.clusters);
+		$(clusterControl).change(function()
+		{
+			var filterNum = getOwnChildNumber(ulParent.parentNode.parentNode.parentNode),
+					filter = globalFlashMap.layers[elemCanvas.parentNode.gmxProperties.content.properties.name].filters[filterNum];
 
-            if (clusterControl.isApplyCluster())
-            {
-                filter.setClusters(clusterControl.getClusterStyle());
-            }
-            else
-            {
-                filter.delClusters();
-            }
-        })
+			if (clusterControl.isApplyCluster())
+			{
+				filter.setClusters(clusterControl.getClusterStyle());
+			}
+			else
+			{
+				filter.delClusters();
+			}
+		})
 
-        clusterCheckbox = _checkbox(clusterControl.isApplyCluster(), 'checkbox');
-        clusterCheckbox.style.marginTop = '2px';
-        clusterCheckbox.onchange = function()
-        {
-            clusterControl.applyClusters(this.checked);
-        }
+		clusterCheckbox = _checkbox(clusterControl.isApplyCluster(), 'checkbox');
+		clusterCheckbox.style.marginTop = '2px';
+		clusterCheckbox.onchange = function()
+		{
+			clusterControl.applyClusters(this.checked);
+		}
 
-        if (!clusterControl.isApplyCluster())
-        {
-            ulClusters.style.display = 'none';
-            ulClusters.className = 'hiddenTree';
-        }
-    }*/
+		if (!clusterControl.isApplyCluster())
+		{
+			ulClusters.style.display = 'none';
+			ulClusters.className = 'hiddenTree';
+		}
+	}*/
 
 	// zoom
 	$(zoomPropertiesControl).change(function()
-    {
-        var filterNum = getOwnChildNumber(ulParent.parentNode.parentNode.parentNode),
-            layer = nsGmx.gmxMap.layersByID[elemCanvas.parentNode.gmxProperties.content.properties.name],
-            style = layer.getStyle(filterNum);
+	{
+		var filterNum = getOwnChildNumber(ulParent.parentNode.parentNode.parentNode),
+			layer = nsGmx.gmxMap.layersByID[elemCanvas.parentNode.gmxProperties.content.properties.name],
+			style = layer.getStyle(filterNum);
 
-        var newStyle = $.extend(true, {}, style, {
-            MinZoom: this.getMinZoom(),
-            MaxZoom: this.getMaxZoom()
-        });
+		var newStyle = $.extend(true, {}, style, {
+			MinZoom: this.getMinZoom(),
+			MaxZoom: this.getMaxZoom()
+		});
 
-        layer.setStyle(newStyle, filterNum);
-    })
+		layer.setStyle(newStyle, filterNum);
+	})
 
 	// label
 
@@ -628,16 +645,16 @@ var createFilter = function(layer, styleIndex, parentStyle, geometryType, attrs,
 	    yShiftInput = _input(null, [['dir','className','inputStyle'],['attr','labelParamName','FontSize'],['css','width','26px'],['attr','value', templateStyle.labelAnchor && -(templateStyle.labelAnchor[1]) || '0']]),
 		checkedLabelColor = (typeof templateStyle.label != 'undefined' && typeof templateStyle.label.color != 'undefined') ? templateStyle.label.color : 0x000000,
 		checkedLabelHaloColor = (typeof templateStyle.label != 'undefined' && typeof templateStyle.label.haloColor != 'undefined') ? templateStyle.label.haloColor : 0xFFFFFF,
-        checkedFontSize = (typeof templateStyle.label != 'undefined' && typeof templateStyle.label.size != 'undefined') ? templateStyle.label.size : 12,
-        checkedXShift = (typeof templateStyle.labelAnchor != 'undefined' && typeof templateStyle.labelAnchor[0]) ? templateStyle.labelAnchor[0] : 0,
-        checkedYShift = (typeof templateStyle.labelAnchor != 'undefined' && typeof templateStyle.labelAnchor[1]) ? templateStyle.labelAnchor[1] : 0,
-        backupLabel = {
-            color: checkedLabelColor,
-            haloColor: checkedLabelHaloColor,
-            size: checkedFontSize,
-            dx: checkedXShift,
-            dy: checkedYShift
-        },
+		checkedFontSize = (typeof templateStyle.label != 'undefined' && typeof templateStyle.label.size != 'undefined') ? templateStyle.label.size : 12,
+		checkedXShift = (typeof templateStyle.labelAnchor != 'undefined' && typeof templateStyle.labelAnchor[0]) ? templateStyle.labelAnchor[0] : 0,
+		checkedYShift = (typeof templateStyle.labelAnchor != 'undefined' && typeof templateStyle.labelAnchor[1]) ? templateStyle.labelAnchor[1] : 0,
+		backupLabel = {
+			color: checkedLabelColor,
+			haloColor: checkedLabelHaloColor,
+			size: checkedFontSize,
+			dx: checkedXShift,
+			dy: checkedYShift
+		},
 		labelColor = nsGmx.Controls.createColorPicker(checkedLabelColor,
 			function (colpkr){
 				$(colpkr).fadeIn(500);
@@ -647,15 +664,15 @@ var createFilter = function(layer, styleIndex, parentStyle, geometryType, attrs,
 				$(colpkr).fadeOut(500);
 				return false;
 			},
-			function (hsb, hex, rgb) {
+			function (hsb, hex) {
 				labelColor.style.backgroundColor = '#' + hex;
 
-                if (typeof templateStyle.label == 'undefined') {
-                    templateStyle.label = backupLabel;
-                }
+				if (typeof templateStyle.label == 'undefined') {
+					templateStyle.label = backupLabel;
+				}
 
 				templateStyle.label.color = labelColor.hex = parseInt('0x' + hex);
-                checkedLabelColor = labelColor.hex = parseInt('0x' + hex);
+				checkedLabelColor = labelColor.hex = parseInt('0x' + hex);
 
 				nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
 			}),
@@ -668,28 +685,28 @@ var createFilter = function(layer, styleIndex, parentStyle, geometryType, attrs,
 				$(colpkr).fadeOut(500);
 				return false;
 			},
-			function (hsb, hex, rgb) {
+			function (hsb, hex) {
 				labelHaloColor.style.backgroundColor = '#' + hex;
 
 				if (typeof templateStyle.label == 'undefined') {
-                    templateStyle.label = backupLabel;
-                }
+					templateStyle.label = backupLabel;
+				}
 
 				templateStyle.label.haloColor = labelHaloColor.hex = parseInt('0x' + hex);
-                checkedLabelHaloColor = labelHaloColor.hex = parseInt('0x' + hex);
+				checkedLabelHaloColor = labelHaloColor.hex = parseInt('0x' + hex);
 
 				nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
 			}),
-            layerName = elemCanvas.parentNode.gmxProperties.content.properties.name,
-            textareaID = 'labeleditor' + layerName + (_labelEditorId++),
-            labelText = _textarea(null, [
-                ['dir','className','inputStyle labelEditor'],
-                ['attr','placeholder', _gtxt("Пример выражения")],
-                ['css','overflow','auto'],
-                ['css','width','251px'],
-                ['css','height','80px'],
-                ['dir','id', textareaID]
-            ]);
+			layerName = elemCanvas.parentNode.gmxProperties.content.properties.name,
+			textareaID = 'labeleditor' + layerName + (_labelEditorId++),
+			labelText = _textarea(null, [
+				['dir','className','inputStyle labelEditor'],
+				['attr','placeholder', _gtxt("Пример выражения")],
+				['css','overflow','auto'],
+				['css','width','251px'],
+				['css','height','80px'],
+				['dir','id', textareaID]
+			]);
 
 	_title(labelColor, _gtxt("Цвет шрифта"));
 	_title(labelHaloColor, _gtxt("Цвет обводки"));
@@ -697,126 +714,126 @@ var createFilter = function(layer, styleIndex, parentStyle, geometryType, attrs,
 	_title(xShiftInput, _gtxt("Смещение по x"));
 	_title(yShiftInput, _gtxt("Смещение по y"));
 
-    // при загрузке выставим в инпуты значения либо template, либо label
-    if (templateStyle.labelTemplate) {
-        $(labelText).val(templateStyle.labelTemplate);
-    } else if (templateStyle.label && templateStyle.label.field) {
-        $(labelText).val('[' + templateStyle.label.field + ']');
-    }
+	// при загрузке выставим в инпуты значения либо template, либо label
+	if (templateStyle.labelTemplate) {
+		$(labelText).val(templateStyle.labelTemplate);
+	} else if (templateStyle.label && templateStyle.label.field) {
+		$(labelText).val('[' + templateStyle.label.field + ']');
+	}
 
 	if (attrs) {
-        var keys = {};
-        attrs.forEach(function(attr){
-            keys[attr] = true;
-        });
-    }
+		var keys = {};
+		attrs.forEach(function(attr){
+			keys[attr] = true;
+		});
+	}
 
   // при изменении значения текстового поля меняется labelTemplate
   // если оно равно какому-либо атрибуту, он утанавливается в значение field
   // если же как-то отличается, то перечень атрибутов устанавливается на '';
   var updateLabelText = function() {
-        // соберем все значения в квадратных скобках
-        var matches = this.value.match(/\[([^\]]+)\]/ig);
-        var str = this.value;
-        if (matches) {
-            for (var i = 0, len = matches.length; i < len; i++) {
-                var key1 = matches[i],
-                    key = key1.substr(1, key1.length - 2);
-                // отсеиваем случаи, когда в textArea содержится единственный [атрибут]
-                if (matches.length === 1 && matches[0] === str && key in keys) {
-                  // в label передается templateStyle.label.field
-                  delete templateStyle.labelTemplate;
+		// соберем все значения в квадратных скобках
+		var matches = this.value.match(/\[([^\]]+)\]/ig);
+		var str = this.value;
+		if (matches) {
+			for (var i = 0, len = matches.length; i < len; i++) {
+				var key1 = matches[i],
+					key = key1.substr(1, key1.length - 2);
+				// отсеиваем случаи, когда в textArea содержится единственный [атрибут]
+				if (matches.length === 1 && matches[0] === str && key in keys) {
+				  // в label передается templateStyle.label.field
+				  delete templateStyle.labelTemplate;
 
-                  if (typeof templateStyle.label == 'undefined') {
-                      templateStyle.label = backupLabel;
-                      templateStyle.label.field = key;
-                  }	else {
-                      templateStyle.label.field = key;
-                  }
-                  nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
-                  return;
-                }
-                // в других случаях в label передается templateStyle.labelTemplate
-                // если внтутри квадратных скобок оказывается какой-то произвольный текст
-                if (!(key in keys)) {
-                    str = str.replace(key1, '');
-                }
-            }
-        }
-        if (!str) {
-            if (!this.value) {
-                delete templateStyle.labelTemplate;
-                delete templateStyle.label;
-            } else {
-                templateStyle.labelTemplate = this.value;
-            }
-        } else {
-            if (typeof templateStyle.label == 'undefined') {
-                templateStyle.label = backupLabel;
-            }
-            templateStyle.labelTemplate = str;
-        }
+				  if (typeof templateStyle.label == 'undefined') {
+					  templateStyle.label = backupLabel;
+					  templateStyle.label.field = key;
+				  }	else {
+					  templateStyle.label.field = key;
+				  }
+				  nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
+				  return;
+				}
+				// в других случаях в label передается templateStyle.labelTemplate
+				// если внтутри квадратных скобок оказывается какой-то произвольный текст
+				if (!(key in keys)) {
+					str = str.replace(key1, '');
+				}
+			}
+		}
+		if (!str) {
+			if (!this.value) {
+				delete templateStyle.labelTemplate;
+				delete templateStyle.label;
+			} else {
+				templateStyle.labelTemplate = this.value;
+			}
+		} else {
+			if (typeof templateStyle.label == 'undefined') {
+				templateStyle.label = backupLabel;
+			}
+			templateStyle.labelTemplate = str;
+		}
 
-        nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
-    };
+		nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
+	};
 
-    labelText.onkeyup = updateLabelText;
+	labelText.onkeyup = updateLabelText;
 
 	fontSizeInput.onkeyup = function()
 	{
-        if (typeof templateStyle.label == 'undefined') {
-            templateStyle.label = backupLabel;
-        }
+		if (typeof templateStyle.label == 'undefined') {
+			templateStyle.label = backupLabel;
+		}
 
 		templateStyle.label.size = Number(this.value);
-        checkedFontSize = Number(this.value);
+		checkedFontSize = Number(this.value);
 
 		nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
 	}
 
-    xShiftInput.onkeyup = function()
-    {
-        if (typeof templateStyle.labelAnchor == 'undefined') {
-            templateStyle.labelAnchor = [backupLabel.dx, backupLabel.dy];
-        }
-        	templateStyle.labelAnchor[0] = Number(this.value);
-            checkedXShift = Number(this.value);
-        	nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
-            layer.setStyle(templateStyle)
-    }
+	xShiftInput.onkeyup = function()
+	{
+		if (typeof templateStyle.labelAnchor == 'undefined') {
+			templateStyle.labelAnchor = [backupLabel.dx, backupLabel.dy];
+		}
+			templateStyle.labelAnchor[0] = Number(this.value);
+			checkedXShift = Number(this.value);
+			nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
+			layer.setStyle(templateStyle)
+	}
 
-    yShiftInput.onkeyup = function()
-    {
-        if (typeof templateStyle.labelAnchor == 'undefined') {
-            templateStyle.labelAnchor = [backupLabel.dx, backupLabel.dy];
-        }
-        	templateStyle.labelAnchor[1] = -(Number(this.value));
-            checkedYShift = -(Number(this.value));
-        	nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
-    }
+	yShiftInput.onkeyup = function()
+	{
+		if (typeof templateStyle.labelAnchor == 'undefined') {
+			templateStyle.labelAnchor = [backupLabel.dx, backupLabel.dy];
+		}
+			templateStyle.labelAnchor[1] = -(Number(this.value));
+			checkedYShift = -(Number(this.value));
+			nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
+	}
 
-    var suggestWidget = new nsGmx.SuggestWidget(attrs ? attrs : [], [labelText], '[suggest]', updateLabelText.bind(labelText));
+	var suggestWidget = new nsGmx.SuggestWidget(attrs ? attrs : [], [labelText], '[suggest]', updateLabelText.bind(labelText));
 
-    var divAttr = _div([_t(_gtxt("Атрибут >")), suggestWidget.el], [['dir','className','suggest-link-container']]);
+	var divAttr = _div([_t(_gtxt("Атрибут >")), suggestWidget.el], [['dir','className','suggest-link-container']]);
 
-    divAttr.onclick = function()
-    {
-    	if (suggestWidget.el.style.display == 'none')
-    		$(suggestWidget.el).fadeIn(300);
+	divAttr.onclick = function()
+	{
+		if (suggestWidget.el.style.display == 'none')
+			$(suggestWidget.el).fadeIn(300);
 
-    	return true;
-    }
+		return true;
+	}
 
-    var suggestCanvas = _table([_tbody([_tr([_td([_div([divAttr],[['css','position','relative']])])])])],[['css','margin','0px 3px']]);
+	// var suggestCanvas = _table([_tbody([_tr([_td([_div([divAttr],[['css','position','relative']])])])])],[['css','margin','0px 3px']]);
 
 	_(liLabel.lastChild, [_table([_tbody([
-      _tr([_td([_t(_gtxt("Цвет шрифта"))], [['css','width','100px']]), _td([labelColor])]),
-      _tr([_td([_t(_gtxt("Цвет обводки"))], [['css','width','100px']]), _td([labelHaloColor])]),
-      _tr([_td([_t(_gtxt("Размер шрифта"))], [['css','width','100px']]), _td([fontSizeInput])]),
-      _tr([_td([_t(_gtxt("Смещение по x"))], [['css','width','100px']]), _td([xShiftInput])]),
-      _tr([_td([_t(_gtxt("Смещение по y"))], [['css','width','100px']]), _td([yShiftInput])]),
-      _tr([_td([labelText], [['attr', 'colspan', 4]])]),
-      _tr([_td([divAttr])])
+	  _tr([_td([_t(_gtxt("Цвет шрифта"))], [['css','width','100px']]), _td([labelColor])]),
+	  _tr([_td([_t(_gtxt("Цвет обводки"))], [['css','width','100px']]), _td([labelHaloColor])]),
+	  _tr([_td([_t(_gtxt("Размер шрифта"))], [['css','width','100px']]), _td([fontSizeInput])]),
+	  _tr([_td([_t(_gtxt("Смещение по x"))], [['css','width','100px']]), _td([xShiftInput])]),
+	  _tr([_td([_t(_gtxt("Смещение по y"))], [['css','width','100px']]), _td([yShiftInput])]),
+	  _tr([_td([labelText], [['attr', 'colspan', 4]])]),
+	  _tr([_td([divAttr])])
   ])])]);
 
 	if (typeof templateStyle.label == 'undefined')
@@ -848,77 +865,77 @@ var createFilter = function(layer, styleIndex, parentStyle, geometryType, attrs,
 		ulBalloon.className = 'hiddenTree';
 	}
 
-    var bindChangeEvent = function() {
-        $(resObject).change(function()
-        {
-            nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
-        })
-    }
+	var bindChangeEvent = function() {
+		$(resObject).change(function()
+		{
+			nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
+		})
+	}
 
 	// common
-    var symbolsTitle = _div();
+	var symbolsTitle = _div();
 
-    if (nsGmx.AuthManager.isRole(nsGmx.ROLE_ADMIN)) {
-        var styleLibIcon = makeImageButton('img/stylelib-main.png', 'img/stylelib-main.png');
-        styleLibIcon.style.verticalAlign = 'middle';
-        styleLibIcon.style.marginLeft = '5px';
-        styleLibIcon.title = _gtxt('Библиотека стилей');
-        _(symbolsTitle, [_span([_t(_gtxt("Символика"))],[['css','fontSize','12px']]), styleLibIcon]);
-        styleLibIcon.onclick = function() {
-            nsGmx.showStyleLibraryDialog('select', geometryType.toUpperCase()).done(function(activeStyleManager) {
-                $(activeStyleManager).change(function() {
-                    var styleFromLib = this.getActiveStyle();
+	if (nsGmx.AuthManager.isRole(nsGmx.ROLE_ADMIN)) {
+		var styleLibIcon = makeImageButton('img/stylelib-main.png', 'img/stylelib-main.png');
+		styleLibIcon.style.verticalAlign = 'middle';
+		styleLibIcon.style.marginLeft = '5px';
+		styleLibIcon.title = _gtxt('Библиотека стилей');
+		_(symbolsTitle, [_span([_t(_gtxt("Символика"))],[['css','fontSize','12px']]), styleLibIcon]);
+		styleLibIcon.onclick = function() {
+			nsGmx.showStyleLibraryDialog('select', geometryType.toUpperCase()).done(function(activeStyleManager) {
+				$(activeStyleManager).change(function() {
+					var styleFromLib = this.getActiveStyle();
 
-                    if (styleFromLib) {
-                        templateStyle = styleFromLib;
+					if (styleFromLib) {
+						templateStyle = styleFromLib;
 
-                        $(liStyle.lastChild).empty();
-                        resObject = createStyleEditor(liStyle.lastChild, templateStyle, geometryType, isWindLayer);
-                        bindChangeEvent();
-                        nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
-                    }
-                })
-            })
-        }
-    } else {
-        _(symbolsTitle, [_span([_t(_gtxt("Символика"))],[['css','fontSize','12px']])]);
-    }
+						$(liStyle.lastChild).empty();
+						resObject = createStyleEditor(liStyle.lastChild, templateStyle, geometryType, isWindLayer);
+						bindChangeEvent();
+						nsGmx.Utils.setMapObjectStyle(layer, styleIndex, templateStyle);
+					}
+				})
+			})
+		}
+	} else {
+		_(symbolsTitle, [_span([_t(_gtxt("Символика"))],[['css','fontSize','12px']])]);
+	}
 
 	_(ulParent, [
-        liMinZoom, liMaxZoom,
-        _li([_div([_span([_t(_gtxt("Фильтр"))],[['css','fontSize','12px']])]), ulfilterExpr]),
-        _li([_div([_span([_t(_gtxt("Подпись"))],[['css','fontSize','12px']])]), ulLabel]),
-        _li([_div([_span([_t(_gtxt("Балун"))],[['css','fontSize','12px']])]), ulBalloon]),
-        _li([symbolsTitle, ulStyle])
-    ]);
+		liMinZoom, liMaxZoom,
+		_li([_div([_span([_t(_gtxt("Фильтр"))],[['css','fontSize','12px']])]), ulfilterExpr]),
+		_li([_div([_span([_t(_gtxt("Подпись"))],[['css','fontSize','12px']])]), ulLabel]),
+		_li([_div([_span([_t(_gtxt("Балун"))],[['css','fontSize','12px']])]), ulBalloon]),
+		_li([symbolsTitle, ulStyle])
+	]);
 
-    /*if (geometryType == 'point')
-    {
-        _(ulParent, [_li([
-            _div([clusterCheckbox,
-            _span([_t(_gtxt("Кластеризация"))],[['css','fontSize','12px'], ['css', 'marginLeft', '4px']])]),
-            ulClusters
-        ])])
-    }*/
+	/*if (geometryType == 'point')
+	{
+		_(ulParent, [_li([
+			_div([clusterCheckbox,
+			_span([_t(_gtxt("Кластеризация"))],[['css','fontSize','12px'], ['css', 'marginLeft', '4px']])]),
+			ulClusters
+		])])
+	}*/
 
 	if (treeviewFlag)
 		$(ulParent).treeview();
 
 	// styles
 
-    var isWindLayer = typeof elemCanvas.parentNode.gmxProperties != 'undefined' &&
+	var isWindLayer = typeof elemCanvas.parentNode.gmxProperties != 'undefined' &&
 				elemCanvas.parentNode.gmxProperties.content.properties.description &&
 				String(elemCanvas.parentNode.gmxProperties.content.properties.description).toLowerCase().indexOf('карта ветра') == 0;
 	var resObject = createStyleEditor(liStyle.lastChild, templateStyle, geometryType, isWindLayer);
 
-    bindChangeEvent();
+	bindChangeEvent();
 
 	ulParent.parentNode.parentNode.parentNode.getStyle = function()
 	{
 		return templateStyle;
 	}
 
-    ulParent.parentNode.parentNode.parentNode.getClusterStyle = function()
+	ulParent.parentNode.parentNode.parentNode.getClusterStyle = function()
 	{
 		return clusterControl && clusterControl.isApplyCluster() ? clusterControl.getClusterStyle() : null;
 	}
@@ -927,10 +944,10 @@ var createFilter = function(layer, styleIndex, parentStyle, geometryType, attrs,
 	{
 		$(liStyle.lastChild).find(".colorSelector").each(function()
 		{
-            $('#' + $(this).data("colorpickerId")).remove();
+			$('#' + $(this).data("colorpickerId")).remove();
 		})
 
-        $('#' + $(labelColor).data("colorpickerId")).remove();
+		$('#' + $(labelColor).data("colorpickerId")).remove();
 	}
 }
 
@@ -961,7 +978,7 @@ var attachLoadingFilterEvent = function(filterCanvas, layer, styleIndex, parentS
 {
 	$(filterCanvas.firstChild.firstChild.firstChild).bind('click', function()
 	{
-		var ulFilterParams = _abstractTree.getChildsUl(filterCanvas.firstChild.firstChild);
+		var ulFilterParams = window._abstractTree.getChildsUl(filterCanvas.firstChild.firstChild);
 
 		if (!ulFilterParams.loaded)
 		{
@@ -969,7 +986,7 @@ var attachLoadingFilterEvent = function(filterCanvas, layer, styleIndex, parentS
 
 			createFilter(layer, styleIndex, parentStyle, geometryType, attrs, elemCanvas, ulFilterParams, true);
 
-            _mapHelper.updateTinyMCE(filterCanvas);
+			_mapHelper.updateTinyMCE(filterCanvas);
 		}
 	})
 }
@@ -980,31 +997,31 @@ var createFilterHeader = function(filtersCanvas, elem, elemCanvas)
 	addButton.onclick = function()
 	{
 		if (!_layersTree.getLayerVisibility($(elemCanvas.parentNode).find('input[type="checkbox"]')[0])) {
-            _layersTree.treeModel.setNodeVisibility(elemCanvas.parentNode.gmxProperties, true);
-        }
+			_layersTree.treeModel.setNodeVisibility(elemCanvas.parentNode.gmxProperties, true);
+		}
 
 		var lastStyle = elemCanvas.parentNode.gmxProperties.content.properties.styles[elemCanvas.parentNode.gmxProperties.content.properties.styles.length - 1],
 			newStyle = {},
-            defaultStyle = {
-                fill: {
-                    color: 0x0FFFFFF,
-                    opacity: 20
-                },
-                outline: {
-                    color: 255,
-                    thickness: 1
-                }
-            },
-            layer = nsGmx.gmxMap.layersByID[elem.name];
+			defaultStyle = {
+				fill: {
+					color: 0x0FFFFFF,
+					opacity: 20
+				},
+				outline: {
+					color: 255,
+					thickness: 1
+				}
+			},
+			layer = nsGmx.gmxMap.layersByID[elem.name];
 
-        lastStyle = lastStyle || {};
+		lastStyle = lastStyle || {};
 
 		//копируем состояние балунов с последнего стиля
 		newStyle.Balloon = lastStyle.Balloon || '';
 		newStyle.BalloonEnable = !!lastStyle.BalloonEnable;
 		newStyle.DisableBalloonOnClick = !!lastStyle.DisableBalloonOnClick;
 		newStyle.DisableBalloonOnMouseMove = !!lastStyle.DisableBalloonOnMouseMove;
-        //TODO: вернуть правильные начальные параметры
+		//TODO: вернуть правильные начальные параметры
 		//globalFlashMap.balloonClassObject.setBalloonFromParams(newFilter, newStyle);
 
 		newStyle.MinZoom = lastStyle.MinZoom || 1;
@@ -1012,8 +1029,7 @@ var createFilterHeader = function(filtersCanvas, elem, elemCanvas)
 
 		newStyle.RenderStyle = defaultStyle;
 
-        layer.setStyles(layer.getStyles().concat(newStyle));
-
+		layer.setStyles(layer.getStyles().concat(newStyle));
 
 		var filter = createLoadingFilter(layer, layer.getStyles().length - 1, newStyle, elem.GeometryType.toLowerCase(), elem.attributes, elemCanvas, false);
 
@@ -1021,8 +1037,8 @@ var createFilterHeader = function(filtersCanvas, elem, elemCanvas)
 
 		updateFilterMoveButtons(filter)
 		if (filtersCanvas.childNodes.length >= 2) {
-            updateFilterMoveButtons(filtersCanvas.childNodes[filtersCanvas.childNodes.length - 2])
-        }
+			updateFilterMoveButtons(filtersCanvas.childNodes[filtersCanvas.childNodes.length - 2])
+		}
 
 		$(filter.firstChild).treeview();
 
@@ -1036,9 +1052,9 @@ var createFilterHeader = function(filtersCanvas, elem, elemCanvas)
 
 var swapFilters = function(div, firstNum, filterCanvas)
 {
-    var layerName = div.gmxProperties.content.properties.name,
-        layer = nsGmx.gmxMap.layersByID[layerName],
-        filters = layer.getStyles(),
+	var layerName = div.gmxProperties.content.properties.name,
+		layer = nsGmx.gmxMap.layersByID[layerName],
+		filters = layer.getStyles(),
 		newFilters = [];
 
 	for (var i = 0; i < filters.length; i++)
@@ -1051,7 +1067,7 @@ var swapFilters = function(div, firstNum, filterCanvas)
 			newFilters.push(filters[i - 1])
 	}
 
-    layer.setStyles(newFilters);
+	layer.setStyles(newFilters);
 
 	$(filterCanvas.childNodes[firstNum]).before(filterCanvas.childNodes[firstNum + 1]);
 
@@ -1077,7 +1093,7 @@ var createLoadingFilter = function(layer, styleIndex, parentStyle, geometryType,
 		return templateStyle;
 	}
 
-    filterCanvas.getClusterStyle = function()
+	filterCanvas.getClusterStyle = function()
 	{
 		return parentStyle.clusters;
 	}
@@ -1163,8 +1179,8 @@ var createLoadingFilter = function(layer, styleIndex, parentStyle, geometryType,
 		swapFilters(elemCanvas.parentNode, firstNum, this.parentNode.parentNode.parentNode.parentNode.parentNode);
 	}
 
-    moveUp.style.margin = '0px 1px -3px 2px';
-    moveDown.style.margin = '0px 1px -3px 2px';
+	moveUp.style.margin = '0px 1px -3px 2px';
+	moveDown.style.margin = '0px 1px -3px 2px';
 
 	moveUp.setAttribute('filterMoveButton','up');
 	moveDown.setAttribute('filterMoveButton','down');
@@ -1185,9 +1201,9 @@ var createLoadingFilter = function(layer, styleIndex, parentStyle, geometryType,
 
 		updateFilterMoveButtons(filtersParent.childNodes[num - 1])
 
-        var styles = layer.getStyles().slice();
-        styles.splice(styleIndex, 1);
-        layer.setStyles(styles);
+		var styles = layer.getStyles().slice();
+		styles.splice(styleIndex, 1);
+		layer.setStyles(styles);
 	}
 
 	remove.setAttribute('filterMoveButton','remove');
@@ -1195,7 +1211,7 @@ var createLoadingFilter = function(layer, styleIndex, parentStyle, geometryType,
 	remove.style.width = '16px';
 	remove.style.height = '16px';
 
-    remove.style.margin = '0px 1px -3px 2px';
+	remove.style.margin = '0px 1px -3px 2px';
 
 	_title(remove, _gtxt("Удалить фильтр"))
 
@@ -1229,7 +1245,7 @@ var updateStyles = function(filterCanvas)
 		var filter = filterCanvas.childNodes[i],
 			newFilterStyle = {};
 
-		if (!_abstractTree.getChildsUl(filter.firstChild.firstChild).childNodes.length)
+		if (!window._abstractTree.getChildsUl(filter.firstChild.firstChild).childNodes.length)
 			filter.addFilterParams(newFilterStyle);
 		else
 		{
@@ -1244,8 +1260,8 @@ var updateStyles = function(filterCanvas)
 		if (filterValue != '' && filterValue != null)
 			newFilterStyle.Filter = filterValue;
 
-		var balloonValueElem = $(filter).find("[balloonTable]").length > 0 ? $(filter).find("[balloonTable]")[0] : filter,
-			balloonValue = balloonValueElem.getBalloon();
+		var balloonValueElem = $(filter).find("[balloonTable]").length > 0 ? $(filter).find("[balloonTable]")[0] : filter;
+			//var balloonValue = balloonValueElem.getBalloon();
 
 		$.extend(newFilterStyle, balloonValueElem.getBalloonState());
 
@@ -1264,9 +1280,9 @@ var updateStyles = function(filterCanvas)
 
 		newFilterStyle.RenderStyle = filter.getStyle();
 
-        var clusterStyle = filter.getClusterStyle();
-        if (clusterStyle)
-            newFilterStyle.clusters = clusterStyle;
+		var clusterStyle = filter.getClusterStyle();
+		if (clusterStyle)
+			newFilterStyle.clusters = clusterStyle;
 
 		styles.push(newFilterStyle);
 	}
@@ -1276,7 +1292,7 @@ var updateStyles = function(filterCanvas)
 
 const createStyleEditor = function(parent, templateStyle, geometryType, isWindLayer) {
 	var markerSizeParent = _tr(),
-        outlineParent = _tr(),
+		outlineParent = _tr(),
 		fillParent = _tr(),
 		iconParent = _tr(),
 		outlineTitleTds = [],
@@ -1291,28 +1307,28 @@ const createStyleEditor = function(parent, templateStyle, geometryType, isWindLa
 		iconToggle,
 		showIcon,
 		showMarker,
-		hideIcon,
+		// hideIcon,
 		angle,
 		scale,
-        resObject = {};
+		resObject = {};
 
 	_(parent, [_table([_tbody([outlineParent, markerSizeParent, fillParent, iconParent])])]);
 
 	var fillStyleControl = new FillStyleControl(templateStyle, {showSelectors: geometryType !== 'point'});
-    fillStyleControl.setVisibleSelectors(typeof templateStyle.fill != 'undefined');
-    $(fillStyleControl).change(function()
-    {
-        var fillStyle = fillStyleControl.getFillStyle();
-        templateStyle.fill = fillStyle;
-        $(resObject).change();
-    });
+	fillStyleControl.setVisibleSelectors(typeof templateStyle.fill != 'undefined');
+	$(fillStyleControl).change(function()
+	{
+		var fillStyle = fillStyleControl.getFillStyle();
+		templateStyle.fill = fillStyle;
+		$(resObject).change();
+	});
 
 	showIcon = function()
 	{
 		hideStyle(outlineParent);
 		hideStyle(fillParent);
-        fillStyleControl.setVisibleSelectors(false);
-        fillParent.style.display = 'none';
+		fillStyleControl.setVisibleSelectors(false);
+		fillParent.style.display = 'none';
 		showStyle(iconParent);
 
 		templateStyle.marker = {};
@@ -1324,7 +1340,7 @@ const createStyleEditor = function(parent, templateStyle, geometryType, isWindLa
 
 		if (geometryType == "point")
 		{
-            if ( isWindLayer )
+			if ( isWindLayer )
 			{
 				if (angle.value != '')
 					templateStyle.marker.angle = angle.value;
@@ -1334,14 +1350,14 @@ const createStyleEditor = function(parent, templateStyle, geometryType, isWindLa
 
 				templateStyle.marker.color = $(iconParent).find(".colorSelector")[0].hex;
 			}
-            hideStyle(markerSizeParent);
-            markerSizeParent.style.display = 'none';
+			hideStyle(markerSizeParent);
+			markerSizeParent.style.display = 'none';
 		}
 
 		if (geometryType != "linestring")
-        {
+		{
 			fillToggle.disabled = true;
-        }
+		}
 
 		$(resObject).change();
 	}
@@ -1349,18 +1365,18 @@ const createStyleEditor = function(parent, templateStyle, geometryType, isWindLa
 	showMarker = function()
 	{
 		showStyle(outlineParent);
-        showStyle(markerSizeParent);
-        markerSizeParent.style.display = '';
+		showStyle(markerSizeParent);
+		markerSizeParent.style.display = '';
 		hideStyle(iconParent);
 
 		if (geometryType != "linestring")
 		{
-            fillParent.style.display = '';
+			fillParent.style.display = '';
 			if (fillToggle.checked)
-            {
+			{
 				showStyle(fillParent);
-                fillStyleControl.setVisibleSelectors(true);
-            }
+				fillStyleControl.setVisibleSelectors(true);
+			}
 
 			if (geometryType == "point")
 			{
@@ -1368,7 +1384,7 @@ const createStyleEditor = function(parent, templateStyle, geometryType, isWindLa
 				templateStyle.marker.size = Number($(markerSizeParent).find(".inputStyle").val());
 			}
 
-            templateStyle.fill = fillStyleControl.getFillStyle();
+			templateStyle.fill = fillStyleControl.getFillStyle();
 			fillToggle.disabled = false;
 		}
 
@@ -1404,10 +1420,10 @@ const createStyleEditor = function(parent, templateStyle, geometryType, isWindLa
 			$(colpkr).fadeOut(500);
 			return false;
 		},
-		function (hsb, hex, rgb) {
+		function (hsb, hex) {
 			outlineColor.style.backgroundColor = '#' + hex;
 
-            templateStyle.outline = templateStyle.outline || {};
+			templateStyle.outline = templateStyle.outline || {};
 			templateStyle.outline.color = outlineColor.hex = parseInt('0x' + hex);
 
 			$(resObject).change();
@@ -1423,7 +1439,7 @@ const createStyleEditor = function(parent, templateStyle, geometryType, isWindLa
 	var divSlider = nsGmx.Controls.createSlider((templateStyle.outline && typeof templateStyle.outline.opacity != 'undefined') ? templateStyle.outline.opacity : 100,
 			function(event, ui)
 			{
-                templateStyle.outline = templateStyle.outline || {};
+				templateStyle.outline = templateStyle.outline || {};
 				templateStyle.outline.opacity = ui.value;
 
 				$(resObject).change();
@@ -1434,7 +1450,7 @@ const createStyleEditor = function(parent, templateStyle, geometryType, isWindLa
 	var outlineThick = nsGmx.Controls.createInput((templateStyle.outline && typeof templateStyle.outline.thickness != 'undefined') ? templateStyle.outline.thickness : 2,
 			function()
 			{
-                templateStyle.outline = templateStyle.outline || {};
+				templateStyle.outline = templateStyle.outline || {};
 				templateStyle.outline.thickness = Number(this.value);
 
 				$(resObject).change();
@@ -1484,13 +1500,12 @@ const createStyleEditor = function(parent, templateStyle, geometryType, isWindLa
 			else
 				correct = false;
 
-            templateStyle.outline = templateStyle.outline || {};
-			if (correct)
+			templateStyle.outline = templateStyle.outline || {};
+			if (correct) {
 				templateStyle.outline.dashes = arr;
-			else
-			{
-				if (templateStyle.outline.dashes)
-					delete templateStyle.outline.dashes;
+			}
+			else if (templateStyle.outline.dashes) {
+				delete templateStyle.outline.dashes;
 			}
 
 			$(resObject).change();
@@ -1572,10 +1587,10 @@ const createStyleEditor = function(parent, templateStyle, geometryType, isWindLa
 		fillToggle = _checkbox(typeof templateStyle.fill != 'undefined','checkbox');
 		fillToggle.onclick = function()
 		{
-            fillStyleControl.setVisibleSelectors(this.checked);
+			fillStyleControl.setVisibleSelectors(this.checked);
 			if (this.checked)
 			{
-                 templateStyle.fill = fillStyleControl.getFillStyle();
+				 templateStyle.fill = fillStyleControl.getFillStyle();
 				showStyle(fillParent);
 
 				$(resObject).change();
@@ -1608,7 +1623,7 @@ const createStyleEditor = function(parent, templateStyle, geometryType, isWindLa
 					$(colpkr).fadeOut(500);
 					return false;
 				},
-				function (hsb, hex, rgb) {
+				function (hsb, hex) {
 					fillColor.style.backgroundColor = '#' + hex;
 
 					templateStyle.fill.color = fillColor.hex = parseInt('0x' + hex);
@@ -1644,10 +1659,10 @@ const createStyleEditor = function(parent, templateStyle, geometryType, isWindLa
 	iconTitleTds.push(_td([iconToggle],[['css','width','20px'],['css','height','24px'],['attr','vAlign','top'],['css','paddingTop','5px']]));
 	iconTitleTds.push(_td([_t(_gtxt("Маркер URL"))],[['css','width','70px'],['attr','vAlign','top'],['css','paddingTop','5px']]));
 
-    var inputUrl = new mapHelper.ImageInputControl((typeof templateStyle.marker != 'undefined' && templateStyle.marker.image) ? templateStyle.marker.image : '');
-    $(inputUrl).change(function()
-    {
-        if (inputUrl.value() != '')
+	inputUrl = new window.mapHelper.ImageInputControl((typeof templateStyle.marker != 'undefined' && templateStyle.marker.image) ? templateStyle.marker.image : '');
+	$(inputUrl).change(function()
+	{
+		if (inputUrl.value() != '')
 		{
 			showIcon();
 
@@ -1661,14 +1676,14 @@ const createStyleEditor = function(parent, templateStyle, geometryType, isWindLa
 		templateStyle.marker.image = inputUrl.value();
 
 		$(resObject).change();
-    });
+	});
 
 	if (geometryType == "point")
 	{
-        var markerSizeInput = nsGmx.Controls.createInput(templateStyle.marker && templateStyle.marker.size || 3,
+		var markerSizeInput = nsGmx.Controls.createInput(templateStyle.marker && templateStyle.marker.size || 3,
 			function()
 			{
-                templateStyle.marker = templateStyle.marker || {};
+				templateStyle.marker = templateStyle.marker || {};
 
 				templateStyle.marker.size = Number(this.value);
 
@@ -1677,12 +1692,12 @@ const createStyleEditor = function(parent, templateStyle, geometryType, isWindLa
 				return true;
 			})
 
-        _title(markerSizeInput, _gtxt("Размер точек"));
+		_title(markerSizeInput, _gtxt("Размер точек"));
 
-        var markerSizeTds = [_td(), _td([_t(_gtxt("Размер"))]), _td([markerSizeInput], [['attr','fade',true]])];
-        _(markerSizeParent, markerSizeTds, [['attr','fade',true]]);
+		var markerSizeTds = [_td(), _td([_t(_gtxt("Размер"))]), _td([markerSizeInput], [['attr','fade',true]])];
+		_(markerSizeParent, markerSizeTds, [['attr','fade',true]]);
 
-        if ( isWindLayer )
+		if ( isWindLayer )
 		{
 			var markerColor = nsGmx.Controls.createColorPicker((templateStyle.marker && typeof templateStyle.marker.color != 'undefined') ? templateStyle.marker.color : 0xFF00FF,
 				function (colpkr){
@@ -1693,10 +1708,10 @@ const createStyleEditor = function(parent, templateStyle, geometryType, isWindLa
 					$(colpkr).fadeOut(500);
 					return false;
 				},
-				function (hsb, hex, rgb) {
+				function (hsb, hex) {
 					markerColor.style.backgroundColor = '#' + hex;
 
-                    templateStyle.marker = templateStyle.marker || {};
+					templateStyle.marker = templateStyle.marker || {};
 					templateStyle.marker.color = markerColor.hex = parseInt('0x' + hex);
 
 					$(resObject).change();
@@ -1711,7 +1726,7 @@ const createStyleEditor = function(parent, templateStyle, geometryType, isWindLa
 
 			scale.onkeyup = function()
 			{
-                templateStyle.marker = templateStyle.marker || {};
+				templateStyle.marker = templateStyle.marker || {};
 				if (this.value != '')
 					templateStyle.marker.scale = this.value;
 				else
@@ -1726,7 +1741,7 @@ const createStyleEditor = function(parent, templateStyle, geometryType, isWindLa
 
 			angle.onkeyup = function()
 			{
-                templateStyle.marker = templateStyle.marker || {};
+				templateStyle.marker = templateStyle.marker || {};
 				if (this.value != '')
 					templateStyle.marker.angle = this.value;
 				else
@@ -1756,186 +1771,183 @@ const createStyleEditor = function(parent, templateStyle, geometryType, isWindLa
 	_(outlineParent, outlineTitleTds.concat(_td([_div([_table([_tbody([_tr(outlineTds), _tr(dashedTds)])])],[['attr','fade',true]])])));
 
 	//_(fillParent, fillTitleTds.concat(_td([_div([_table([_tbody([_tr(fillTds)])])],[['attr','fade',true]])])));
-    var topPadding = geometryType === "point" ? "0px" : "10px";
+	var topPadding = geometryType === "point" ? "0px" : "10px";
 	 fillTitleTds = fillTitleTds.concat(_td([fillStyleControl.getControls()[0]], [['attr','fade',true], ['css', 'paddingTop', topPadding]]));
 	 _(fillParent, fillTitleTds);
 
 	_(iconParent, iconTitleTds.concat(_td([_div([_table([_tbody([_tr(iconTds)])])],[['attr','fade',true]])])));
 
-    if (templateStyle.marker && typeof templateStyle.marker.image != 'undefined')
-    {
-        $(outlineParent).find("[fade]")[0].style.display = 'none';
-        $(fillParent).find("[fade]")[0].style.display = 'none';
-        $(iconParent).find("[fade]")[0].style.display = '';
-    }
-    else
-    {
-        $(outlineParent).find("[fade]")[0].lastChild.style.display = '';
-        $(fillParent).find("[fade]")[0].style.display = '';
-        $(iconParent).find("[fade]")[0].style.display = 'none';
-    }
+	if (templateStyle.marker && typeof templateStyle.marker.image != 'undefined')
+	{
+		$(outlineParent).find("[fade]")[0].style.display = 'none';
+		$(fillParent).find("[fade]")[0].style.display = 'none';
+		$(iconParent).find("[fade]")[0].style.display = '';
+	}
+	else
+	{
+		$(outlineParent).find("[fade]")[0].lastChild.style.display = '';
+		$(fillParent).find("[fade]")[0].style.display = '';
+		$(iconParent).find("[fade]")[0].style.display = 'none';
+	}
 
 	if (geometryType != "linestring" && typeof templateStyle.fill == 'undefined')
 		$(fillParent).find("[fade]")[0].style.display = 'none';
 
-    return resObject;
+	return resObject;
 }
 
 var LayerStylesEditor = function(div, divStyles, openedStyleIndex) {
-    var elemProperties = div.gmxProperties.content.properties,
-        parentIcon = $(div).children("[styleType]")[0],
-        filtersCanvas = _div(null, [['css', 'marginLeft', '10px']]),
-        filterHeader = createFilterHeader(filtersCanvas, elemProperties, parentIcon),
-        layer = nsGmx.gmxMap.layersByID[elemProperties.name],
-        layerStyles = layer.getStyles();
+	var elemProperties = div.gmxProperties.content.properties,
+		parentIcon = $(div).children("[styleType]")[0],
+		filtersCanvas = _div(null, [['css', 'marginLeft', '10px']]),
+		filterHeader = createFilterHeader(filtersCanvas, elemProperties, parentIcon),
+		layer = nsGmx.gmxMap.layersByID[elemProperties.name],
+		layerStyles = layer.getStyles();
 
-    for (var i = 0; i < layerStyles.length; i++)
-    {
-        var filter = createLoadingFilter(layer, i, elemProperties.styles[i], elemProperties.GeometryType, elemProperties.attributes, parentIcon, (i == openedStyleIndex));
+	for (let i = 0; i < layerStyles.length; i++)
+	{
+		let filter = createLoadingFilter(layer, i, elemProperties.styles[i], elemProperties.GeometryType, elemProperties.attributes, parentIcon, (i == openedStyleIndex));
 
-        _(filtersCanvas, [filter]);
+		_(filtersCanvas, [filter]);
 
-        $(filter.firstChild).treeview();
+		$(filter.firstChild).treeview();
 
-        attachLoadingFilterEvent(filter, layer, i, elemProperties.styles[i], elemProperties.GeometryType, elemProperties.attributes, parentIcon)
-    }
+		attachLoadingFilterEvent(filter, layer, i, elemProperties.styles[i], elemProperties.GeometryType, elemProperties.attributes, parentIcon)
+	}
 
-    for (var i = 0; i < filtersCanvas.childNodes.length; i++)
-        updateFilterMoveButtons(filtersCanvas.childNodes[i])
+	for (let i = 0; i < filtersCanvas.childNodes.length; i++)
+		updateFilterMoveButtons(filtersCanvas.childNodes[i])
 
-    _(divStyles, [filterHeader, filtersCanvas]);
+	_(divStyles, [filterHeader, filtersCanvas]);
 
-    this.getUpdatedStyles = function() {
-        return updateStyles(filtersCanvas);
-    }
+	this.getUpdatedStyles = function() {
+		return updateStyles(filtersCanvas);
+	}
 
-    this.removeColorPickers = function() {
-        for (var i = 0; i < filtersCanvas.childNodes.length; i++)
-            filtersCanvas.childNodes[i].removeColorPickers();
-    }
+	this.removeColorPickers = function() {
+		for (let i = 0; i < filtersCanvas.childNodes.length; i++)
+			filtersCanvas.childNodes[i].removeColorPickers();
+	}
 
-    this.getStyleCount = function() {
-        return filtersCanvas.childNodes.length;
-    }
+	this.getStyleCount = function() {
+		return filtersCanvas.childNodes.length;
+	}
 
-    this.setAllFilters = function() {
-        $(filtersCanvas).find("[filterTable]").each(function()
-        {
-            this.setFilter();
-        })
-    }
+	this.setAllFilters = function() {
+		$(filtersCanvas).find("[filterTable]").each(function()
+		{
+			this.setFilter();
+		})
+	}
 }
 
 const createStylesDialog = function(elem, treeView, openedStyleIndex) {
-    var div = $(_queryMapLayers.buildedTree).find("div[LayerID='" + elem.LayerID + "']")[0],
-        elemProperties = div.gmxProperties.content.properties,
-        mapName = elemProperties.mapName,
-        layerName = elemProperties.name;
+	var div = $(_queryMapLayers.buildedTree).find("div[LayerID='" + elem.LayerID + "']")[0],
+		elemProperties = div.gmxProperties.content.properties,
+		mapName = elemProperties.mapName,
+		layerName = elemProperties.name;
 
-    if (typeof window._mapHelper.layerStylesHash[layerName] !== 'undefined') {
-        return;
-    }
+	if (typeof window._mapHelper.layerStylesHash[layerName] !== 'undefined') {
+		return;
+	}
 
-    window._mapHelper.layerStylesHash[layerName] = true;
+	window._mapHelper.layerStylesHash[layerName] = true;
 
-    var pos = nsGmx.Utils.getDialogPos(div, true, 390);
+	var pos = nsGmx.Utils.getDialogPos(div, true, 390);
 
-    var updateFunc = function()
-    {
-        var _styles = elemProperties.styles;
-        elemProperties.styles = styleEditor.getUpdatedStyles();
+	var updateFunc = function()
+	{
+		var _styles = elemProperties.styles;
+		elemProperties.styles = styleEditor.getUpdatedStyles();
 
-        for (var i = 0; i < elemProperties.styles.length; i++) {
-            if (_styles[i] && _styles[i]._MinZoom) {
-                elemProperties.styles[i]._MinZoom = _styles[i]._MinZoom;
-            }
-        }
-        treeView.findTreeElem(div).elem.content.properties = elemProperties;
-    };
+		for (var i = 0; i < elemProperties.styles.length; i++) {
+			if (_styles[i] && _styles[i]._MinZoom) {
+				elemProperties.styles[i]._MinZoom = _styles[i]._MinZoom;
+			}
+		}
+		treeView.findTreeElem(div).elem.content.properties = elemProperties;
+	};
 
-    var attributesHash = {};
-    for (var i = 0; i < elemProperties.attributes.length; i++) {
-        attributesHash[elemProperties.attributes[i]] = [];
-    }
+	var attributesHash = {};
+	for (var i = 0; i < elemProperties.attributes.length; i++) {
+		attributesHash[elemProperties.attributes[i]] = [];
+	}
 
-    _mapHelper.attrValues[mapName] = _mapHelper.attrValues[mapName] || {};
-    _mapHelper.attrValues[mapName][layerName] = new nsGmx.LazyAttributeValuesProviderFromServer(attributesHash, layerName);
+	_mapHelper.attrValues[mapName] = _mapHelper.attrValues[mapName] || {};
+	_mapHelper.attrValues[mapName][layerName] = new nsGmx.LazyAttributeValuesProviderFromServer(attributesHash, layerName);
 
-    var closeFunc = function()
-    {
-        updateFunc();
+	var closeFunc = function()
+	{
+		updateFunc();
 
-        var newStyles = styleEditor.getUpdatedStyles();
-            multiStyleParent = $(div).children('[multiStyle]')[0],
-            parentIcon = $(div).children("[styleType]")[0];
+		var newStyles = styleEditor.getUpdatedStyles(),
+			multiStyleParent = $(div).children('[multiStyle]')[0],
+			parentIcon = $(div).children("[styleType]")[0];
 
-        delete window._mapHelper.layerStylesHash[layerName];
+		delete window._mapHelper.layerStylesHash[layerName];
 
-        styleEditor.removeColorPickers();
+		styleEditor.removeColorPickers();
 
-        var multiFiltersFlag = (parentIcon.getAttribute('styleType') == 'multi' && styleEditor.getStyleCount() > 1), // было много стилей и осталось
-            colorIconFlag = (parentIcon.getAttribute('styleType') == 'color' && styleEditor.getStyleCount() == 1 &&
-                            (typeof newStyles[0].RenderStyle.marker != 'undefined') && (typeof newStyles[0].RenderStyle.marker.image == 'undefined')); // была не иконка и осталась
+		var multiFiltersFlag = (parentIcon.getAttribute('styleType') == 'multi' && styleEditor.getStyleCount() > 1), // было много стилей и осталось
+			colorIconFlag = (parentIcon.getAttribute('styleType') == 'color' && styleEditor.getStyleCount() == 1 &&
+							(typeof newStyles[0].RenderStyle.marker != 'undefined') && (typeof newStyles[0].RenderStyle.marker.image == 'undefined')); // была не иконка и осталась
 
-        if (multiFiltersFlag) {}
-        else if (colorIconFlag) {}
-        else
-        {
-            var newIcon = _mapHelper.createStylesEditorIcon(newStyles, elemProperties.GeometryType.toLowerCase());
+		if (!multiFiltersFlag && !colorIconFlag) {
+			var newIcon = _mapHelper.createStylesEditorIcon(newStyles, elemProperties.GeometryType.toLowerCase());
 
-            $(parentIcon).empty().append(newIcon).attr('styleType', $(newIcon).attr('styleType'));
-        }
+			$(parentIcon).empty().append(newIcon).attr('styleType', $(newIcon).attr('styleType'));
 
-        $(multiStyleParent).empty();
+		}
 
-        _mapHelper.createMultiStyle(elemProperties, treeView, multiStyleParent);
+		$(multiStyleParent).empty();
 
-        gmxCore.loadModule('TinyMCELoader', 'http://' + window.location.host + window.location.pathname.replace('index.html', '') + 'TinyMCELoader.js', function() {
-            $('.balloonEditor', divDialog).each(function() {
-                tinyMCE.execCommand("mceRemoveControl", true, $(this).attr('id'));
-            })
-        })
+		_mapHelper.createMultiStyle(elemProperties, treeView, multiStyleParent);
 
-        return false;
-    };
+		gmxCore.loadModule('TinyMCELoader', 'http://' + window.location.host + window.location.pathname.replace('index.html', '') + 'TinyMCELoader.js', function() {
+			$('.balloonEditor', divDialog).each(function() {
+				tinyMCE.execCommand("mceRemoveControl", true, $(this).attr('id'));
+			})
+		})
 
-    if (div.gmxProperties.content.properties.styles.length == 1) {
-        openedStyleIndex = 0;
-    } else if (typeof openedStyleIndex === 'undefined') {
-        openedStyleIndex = -1;
-    }
+		return false;
+	};
 
-    var styleContainer = _div();
-    var styleEditor = new LayerStylesEditor(div, styleContainer, openedStyleIndex);
-    styleEditor.setAllFilters();
-    var divDialog = showDialog(_gtxt('Стили слоя [value0]', elem.title), styleContainer, 350, 470, pos.left, pos.top, null, function()
-    {
-        closeFunc();
-        delete styleDialogs[elemProperties.name];
-    });
+	if (div.gmxProperties.content.properties.styles.length == 1) {
+		openedStyleIndex = 0;
+	} else if (typeof openedStyleIndex === 'undefined') {
+		openedStyleIndex = -1;
+	}
 
+	var styleContainer = _div();
+	var styleEditor = new LayerStylesEditor(div, styleContainer, openedStyleIndex);
+	styleEditor.setAllFilters();
+	var divDialog = showDialog(_gtxt('Стили слоя [value0]', elem.title), styleContainer, 350, 470, pos.left, pos.top, null, function()
+	{
+		closeFunc();
+		delete styleDialogs[elemProperties.name];
+	});
 
-    styleDialogs[elemProperties.name] = {updateFunc: updateFunc};
+	styleDialogs[elemProperties.name] = {updateFunc: updateFunc};
 
-    if (openedStyleIndex > 0)
-        styleContainer.parentNode.scrollTop = 58 + openedStyleIndex * 32;
+	if (openedStyleIndex > 0)
+		styleContainer.parentNode.scrollTop = 58 + openedStyleIndex * 32;
 
-    _mapHelper.updateTinyMCE(styleContainer);
+	_mapHelper.updateTinyMCE(styleContainer);
 }
 
 var styleDialogs = {};
 var updateAllStyles = function() {
-    for (var name in styleDialogs) {
-        styleDialogs[name].updateFunc();
-    }
+	for (var name in styleDialogs) {
+		styleDialogs[name].updateFunc();
+	}
 }
 
 gmxCore.addModule('LayerStylesEditor', {
-        LayerStylesEditor: LayerStylesEditor,
-        createStyleEditor: createStyleEditor,
-        createStylesDialog: createStylesDialog,
-        updateAllStyles: updateAllStyles
-    }
+		LayerStylesEditor: LayerStylesEditor,
+		createStyleEditor: createStyleEditor,
+		createStylesDialog: createStylesDialog,
+		updateAllStyles: updateAllStyles
+	}
 )
 
 })(nsGmx.Utils._);

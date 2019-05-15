@@ -733,7 +733,7 @@ import '../CalendarWidget-new/CalendarWidget.js';
                                 if (dateInterval.beginDate && dateInterval.endDate) {
                                     dateBegin = dateInterval.beginDate;
                                     dateEnd = dateInterval.endDate;
-                                    hourBegin = Number(nsGmx.CalendarWidget1.getTime(dateBegin, 'begin')) * 1000 * 3600,
+                                    hourBegin = Number(nsGmx.CalendarWidget1.getTime(dateBegin, 'begin')) * 1000 * 3600;
                                     hourEnd = Number(nsGmx.CalendarWidget1.getTime(dateEnd, 'end')) * 1000 * 3600;
                                 }
                             }

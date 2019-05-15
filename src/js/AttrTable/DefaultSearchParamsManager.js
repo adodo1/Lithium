@@ -1,6 +1,10 @@
 import nsGmx from '../nsGmx.js';
 
-!(function() {
+nsGmx.AttrTable = nsGmx.AttrTable || {};
+
+import {DrawingObjectInfoRow} from '../drawingObjects.js';
+
+(function() {
 
 // events: queryChange, columnsChange
 var DefaultSearchParamsManager = function() {
@@ -19,7 +23,7 @@ var DefaultSearchParamsManager = function() {
 
 DefaultSearchParamsManager.prototype.drawSearchUI = function(container, attributesTable) {
     var info = attributesTable.getLayerInfo(),
-        paramsWidth = 320,
+        // paramsWidth = 320,
         _this = this;
 
     this._container = container;
@@ -74,7 +78,7 @@ DefaultSearchParamsManager.prototype.drawSearchUI = function(container, attribut
 
     $(suggestCanvas).css('margin-right', '9px');
 
-    var suggestionCallback = function () {
+    suggestionCallback = function () {
         $(this.currentTextArea).trigger('input');
     }
 
@@ -344,7 +348,7 @@ DefaultSearchParamsManager.prototype.drawGeomUI = function() {
             'attrTable',
             function(drawingObject) {
                 _this._geometryInfoRow && _this._geometryInfoRow.RemoveRow();
-                var InfoRow = gmxCore.getModule('DrawingObjects').DrawingObjectInfoRow;
+                var InfoRow = DrawingObjectInfoRow;
                 _this._geometryInfoRow = new InfoRow(
                     nsGmx.leafletMap,
                     geomUI.find('.attr-table-geom-placeholder')[0],

@@ -49,7 +49,7 @@ L.Control.GmxLayers2 = L.Control.Layers.extend({
         L.DomUtil.addClass(listContainer, listClassName + '-' + openingDirection);
         if (this.options.title) { this._iconContainer.title = this.options.title; }
 
-		this._prefix = prefix;
+        this._prefix = prefix;
 
         //Makes this work on IE10 Touch devices by stopping it from firing a mouseout event when the touch is released
         container.setAttribute('aria-haspopup', true);
@@ -221,7 +221,7 @@ L.Control.GmxLayers2 = L.Control.Layers.extend({
         this._overlaysList.innerHTML = '';
 
         var baseLayersPresent = false,
-            overlaysPresent = false,                      
+            overlaysPresent = false,
             obj;
 
         for (let i in this._layers) {
@@ -239,7 +239,6 @@ L.Control.GmxLayers2 = L.Control.Layers.extend({
         this._separator.style.display = overlaysPresent && baseLayersPresent ? '' : 'none';
         this._form.style.display = overlaysPresent || baseLayersPresent ? '' : 'none';
         this._placeHolder.style.display = overlaysPresent || baseLayersPresent ? 'none' : '';
-
 
         if (!options.isActive) {
             this._form.style.display = 'none';
@@ -259,7 +258,7 @@ L.Control.GmxLayers2 = L.Control.Layers.extend({
     setActive: function (active) {
         var options = this.options,
             togglable = options.togglable || options.toggle;
-        if (togglable) {            
+        if (togglable) {
             let prefix = this._prefix,
                 className = prefix + '-' + options.id,
                 container = this._iconContainer;
@@ -273,7 +272,7 @@ L.Control.GmxLayers2 = L.Control.Layers.extend({
                 }
                 if (options.styleActive) { this.setStyle(options.styleActive); }
 
-        		L.DomUtil.addClass(this._listContainer, 'leaflet-control-layers-expanded');
+                L.DomUtil.addClass(this._listContainer, 'leaflet-control-layers-expanded');
             } else {
                 L.DomUtil.removeClass(container, prefix + '-active');
                 L.DomUtil.removeClass(container, className + '-active');

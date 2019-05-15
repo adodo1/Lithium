@@ -2,6 +2,7 @@ import nsGmx from './nsGmx.js';
 import {_div, hidden, getOffsetRect, showErrorMessage, getWindowWidth, getWindowHeight, sendCrossDomainJSONRequest, parseResponse, visible} from './utilities.js';
 import './ClipboardController.js';
 import './AsyncTaskManager.js';
+import './AttrTable/AttrTable.js';
 
 (function() {
 //Контроллёр контектных меню и соответствующие пункты всех меню...

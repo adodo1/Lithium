@@ -1,5 +1,6 @@
-﻿(function() {
-    window.nsGmx = window.nsGmx || {};
+﻿import nsGmx from './nsGmx.js';
+
+(function() {    
     window.nsGmx.widgets = window.nsGmx.widgets || {};
     nsGmx.widgets.notifications = {
         _container: null,

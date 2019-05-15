@@ -6,8 +6,6 @@ import {
 }
 from "./utilities.js";
 
-const _ = nsGmx.Utils._;
-
 nsGmx.SuggestWidget = function(attrNames, textarea, textTemplate, func, valuesArr, addValueFlag, attrType) {
     var _this = this;
     this.textArea = textarea;
@@ -242,8 +240,8 @@ nsGmx.AttrSuggestWidget = function(targetTextarea, attrNames, attrValuesProvider
 
     ui.find('.suggest-link-container').click(function(e) {
         var evt = e || window.event,
-            target = evt.srcElement || evt.target,
-            relTarget = evt.relatedTarget || evt.toElement;
+            target = evt.srcElement || evt.target;
+            //var relTarget = evt.relatedTarget || evt.toElement;
 
         if (!$(target).hasClass('suggest-helper-elem-group')) {
             var placeholder = $(this).children('.suggest-helper');

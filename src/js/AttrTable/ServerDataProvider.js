@@ -1,6 +1,9 @@
 import nsGmx from '../nsGmx.js';
+import {sendCrossDomainPostRequest} from '../utilities.js';
 
-!(function() {
+nsGmx.AttrTable = nsGmx.AttrTable || {};
+
+(function() {
 
 /** Провайдер данных для {@link nsGmx.ScrollTable}. Получает данные от сервера в формате ГеоМиксера
 * @alias nsGmx.AttrTable.ServerDataProvider

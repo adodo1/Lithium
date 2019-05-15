@@ -1,4 +1,17 @@
-﻿
+﻿import nsGmx from './nsGmx.js';
+import {
+    attachEffects,
+    _div,
+    _input,    
+    makeImageButton,
+    parseResponse,
+    sendCrossDomainJSONRequest,
+    showDialog,
+    _t,
+    _title,
+    _td,
+    _tr,
+} from './utilities.js';
 window._translationsHash.addtext("rus", {
     "tableBrowser.title" : "Список таблиц",
     "tableBrowser.filterText" : "Фильтр по названию"
@@ -54,7 +67,7 @@ tableBrowser.prototype.close = function(name)
 
 tableBrowser.prototype.loadInfo = function()
 {
-	sendCrossDomainJSONRequest(serverBase + "VectorLayer/GetGeometryTables.ashx?WrapStyle=func", function(response)
+	sendCrossDomainJSONRequest(window.serverBase + "VectorLayer/GetGeometryTables.ashx?WrapStyle=func", function(response)
 	{
 		if (!parseResponse(response))
 			return;

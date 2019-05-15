@@ -223,8 +223,8 @@ var DumpClass = function(){};
 DumpClass.prototype = commonTranslationsManager;
 
 window._translationsHash = new DumpClass();
-window._translationsHash.gettext = commonTranslationsManager.getText.bind(commonTranslationsManager),
-window._translationsHash.addtext = commonTranslationsManager.addText.bind(commonTranslationsManager),
+window._translationsHash.gettext = commonTranslationsManager.getText.bind(commonTranslationsManager);
+window._translationsHash.addtext = commonTranslationsManager.addText.bind(commonTranslationsManager);
 window._translationsHash.showLanguages = function() {
     var langCanvas = _div(null, [['dir','className','floatRight'],['css','margin',' 7px 10px 0px 0px']]);
     
@@ -259,7 +259,7 @@ window._translationsHash.showLanguages = function() {
     }
 
     document.getElementById("headerLinks").appendChild(langCanvas);
-}
+};
 
 window._gtxt = function() {
     return commonTranslationsManager.getText.apply(commonTranslationsManager, arguments);
@@ -273,7 +273,7 @@ window.translationsHash = {
 gmxCore && gmxCore.addModule('translations',
 {
     _translationsHash: window._translationsHash
-})
+});
 
 
 const translationsHash = window.translationsHash;

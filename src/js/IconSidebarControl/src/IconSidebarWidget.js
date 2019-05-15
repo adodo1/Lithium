@@ -24,8 +24,7 @@ class IconSidebarWidget extends EventTarget {
     }
 
     setPane (id, paneOptions) {
-        paneOptions = paneOptions || {};
-        let { createTab, position, enabled } = paneOptions;
+        paneOptions = paneOptions || {};        
         let defaultPaneOptions = { position: 0, enabled: true };
         let activeTabId = this._activeTabId;
 

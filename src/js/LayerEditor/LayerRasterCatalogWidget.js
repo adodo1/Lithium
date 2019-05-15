@@ -96,7 +96,7 @@ nsGmx.LayerRasterCatalogWidget = function(container, rcProperties)
     {
         var realTagsInfo = realTagInfo.getTagArrayExt();
         var fakeTagsInfo = {};
-        for (var iT = 0; iT < realTagsInfo.length; iT++)
+        for (let iT = 0; iT < realTagsInfo.length; iT++)
         {
             var info = realTagsInfo[iT];
             fakeTagsInfo[info.name] = {Type: 'String', Description: info.descr};
@@ -107,13 +107,13 @@ nsGmx.LayerRasterCatalogWidget = function(container, rcProperties)
 
         var columnTagLinks = rcProperties.get('ColumnTagLinks');
 
-        for (var iP in columnTagLinks)
+        for (let iP in columnTagLinks)
             initTags[columnTagLinks[iP]] = {Value: iP};
 
         var layerTags = new nsGmx.LayerTagsWithInfo(fakeTagManager, initTags);
 
         var tagContainer = $('<div/>', {'class': 'RCCreate-tagContainer RCCreate-advanced'}).addClass().appendTo(container);
-        var tagsControl = new nsGmx.LayerTagSearchControl(layerTags, tagContainer, {
+        new nsGmx.LayerTagSearchControl(layerTags, tagContainer, {
             inputWidth: 100,
             tagHeader: _gtxt('LayerRCControl.layerTagTitle'),
             valueHeader: _gtxt('LayerRCControl.attributeTitle')

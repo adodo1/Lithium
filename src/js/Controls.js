@@ -350,9 +350,9 @@ nsGmx.Controls = {
             trs.push(_tr([_td([typeSpan], [['css','width','30%']]), _td([content], [['css','width','70%']])]));
         }
 
-        let title = _span(null, [['dir','className','title'], ['css','cursor','default']]),
-            summary = _span(null, [['dir','className','summary']]),
-            div;
+        // let title = _span(null, [['dir','className','title'], ['css','cursor','default']]),
+        //     summary = _span(null, [['dir','className','summary']]),
+        let div;
 
         if ($('#layerPropertiesInfo').length)
         {

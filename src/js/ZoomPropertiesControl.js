@@ -1,4 +1,15 @@
 ﻿import nsGmx from './nsGmx.js';
+import {
+    _div,
+    _input,
+    _li,
+    _span,
+    _table,
+    _tbody,
+    _tr,
+    _td,    
+    _t,
+} from './utilities.js';
 
 (function()
 {

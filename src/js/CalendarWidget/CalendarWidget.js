@@ -193,7 +193,7 @@ var Calendar = nsGmx.GmxWidget.extend({
 
         if (!dateBegin || !dateEnd) {
             return;
-        };
+        }
 
         var isValid = !(dateBegin % dayms) && !(dateEnd % dayms);
 
@@ -378,7 +378,7 @@ var Calendar = nsGmx.GmxWidget.extend({
 nsGmx.CalendarWidget = Calendar;
 
 })(jQuery);
-;
+
 nsGmx.Translations.addText("rus", { CalendarWidget: {
     ExtendedViewTitle: "Выбор периода",
     MinimalViewTitle:  "Свернуть",
@@ -394,7 +394,7 @@ nsGmx.Translations.addText("eng", { CalendarWidget: {
     forecast:           "forecast",
     tooltip:            "forecast data is available up to"
 }});
-;
+
 /** Контрол для задания диапазона дат с логикой работы, взятой с сайта fires.ru.
  @description Основное отличае в логине формировании интервала на основе выбранных в календариках дат.
               Работает так же, как и обычный виджет ({@link nsGmx.CalendarWidget}) за исключением ситуации, когда dateEnd попадает в текущие UTC сутки.
@@ -430,7 +430,7 @@ function f(n) {
 
 function getStr (hours, minutes) {
     return f(hours) + ":" + f(minutes); /*+ ":" + f(time.seconds)*/
-};
+}
 
 var FireCalendarWidget = nsGmx.CalendarWidget.extend({
     initialize: function(options) {
@@ -477,7 +477,7 @@ var FireCalendarWidget = nsGmx.CalendarWidget.extend({
 
         if (!dateBegin || !dateEnd) {
             return;
-        };
+        }
 
         var currentDayMode = toMidnight(new Date()) < dateEnd;
 
@@ -488,7 +488,7 @@ var FireCalendarWidget = nsGmx.CalendarWidget.extend({
             nsGmx.CalendarWidget1.prototype._updateWidget.call(this);
         } else {
             nsGmx.CalendarWidget.prototype._updateWidget.call(this);
-        };
+        }
     },
 
     _updateInfo: function() {
@@ -536,4 +536,3 @@ var FireCalendarWidget = nsGmx.CalendarWidget.extend({
 nsGmx.FireCalendarWidget = FireCalendarWidget;
 
 })(jQuery);
-;

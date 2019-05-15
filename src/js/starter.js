@@ -74,6 +74,8 @@ import './LayerEditor.js';
 import nsMapCommon from './mapCommon.js';
 import './AttributeValuesProviders.js';
 import {_queryLoadShp} from './queryLoadShp.js';
+import './colorpicker/css/colorpicker.css';
+import './colorpicker/js/colorpicker.js';
 
 //Тут кратко описываются разные внешние классы для системы генерации документации
 
@@ -119,7 +121,7 @@ if (window.mapHostName) {
     _mapHostName = protocol + '//' + curUri.host + curUri.directory;
 }
 
-var _serverBase = window.serverBase || new RegExp('(.*)\/[^\/]*\/').exec(_mapHostName)[1] + '/';
+var _serverBase = window.serverBase || new RegExp('(.*)/[^/]*/').exec(_mapHostName)[1] + '/';
 
 // //подставляет к локальному имени файла хост (window.gmxJSHost) и, опционально, рандомное поле для сброса кэша (window.gmxDropBrowserCache)
 // var _getFileName = function(localName) {
@@ -1655,9 +1657,8 @@ nsGmx.initGeoMixer = function() {
 
                 switch (layerOrder) {
                     case 'VectorOnTop':
-                        if (props.type === 'Vector' && layer.setZIndexOffset) {
-                            let minZoom,
-                                rcMinZoom,
+                        if (props.type === 'Vector' && layer.setZIndexOffset) {                            
+                            let rcMinZoom,
                                 quickLookMinZoom,
                                 defaultMinZoom = 6;
 
@@ -1666,14 +1667,12 @@ nsGmx.initGeoMixer = function() {
                                 quickLookMinZoom = (props.Quicklook && nsGmx.Utils.isJSON(props.Quicklook)) ? JSON.parse(props.Quicklook).minZoom : null;
 
                                 if (props.IsRasterCatalog && !props.Quicklook) {
-                                    minZoom = nsGmx.Utils.checkForNumber(rcMinZoom) ? rcMinZoom : defaultMinZoom;
+                                    let minZoom = nsGmx.Utils.checkForNumber(rcMinZoom) ? rcMinZoom : defaultMinZoom;
                                 } else if (!props.IsRasterCatalog && props.Quicklook) {
-                                    minZoom = nsGmx.Utils.checkForNumber(quickLookMinZoom) ? quickLookMinZoom : defaultMinZoom;
+                                    let minZoom = nsGmx.Utils.checkForNumber(quickLookMinZoom) ? quickLookMinZoom : defaultMinZoom;
                                 } else if (props.IsRasterCatalog && props.Quicklook) {
                                     rcMinZoom = nsGmx.Utils.checkForNumber(rcMinZoom) ? rcMinZoom : defaultMinZoom;
-                                    quickLookMinZoom = nsGmx.Utils.checkForNumber(quickLookMinZoom) ? quickLookMinZoom : defaultMinZoom;
-
-                                    minZoom = Math.min(rcMinZoom, quickLookMinZoom);
+                                    quickLookMinZoom = nsGmx.Utils.checkForNumber(quickLookMinZoom) ? quickLookMinZoom : defaultMinZoom;                                    
                                 }
                                 layer.setZIndexOffset(currentZoom < rcMinZoom ? DEFAULT_VECTOR_LAYER_ZINDEXOFFSET : 0);
                             } else {

@@ -8,7 +8,7 @@
  * ======================================================================== */
 
 
-+function ($) {
+(function ($) {
   'use strict';
 
   // TOOLTIP PUBLIC CLASS DEFINITION
@@ -482,19 +482,18 @@
 
   function Plugin(option) {
     return this.each(function () {
-      var $this    = $(this)
-      var data     = $this.data('bs.tooltip')
-      var options  = typeof option == 'object' && option
-      var selector = options && options.selector
+      var $this    = $(this);
+      var data     = $this.data('bs.tooltip');
+      var options  = typeof option == 'object' && option;
+      var selector = options && options.selector;
 
-      if (!data && option == 'destroy') return
+      if (!data && option == 'destroy') return;
       if (selector) {
-        if (!data) $this.data('bs.tooltip', (data = {}))
-        if (!data[selector]) data[selector] = new Tooltip(this, options)
-      } else {
-        if (!data) $this.data('bs.tooltip', (data = new Tooltip(this, options)))
-      }
-      if (typeof option == 'string') data[option]()
+        if (!data) $this.data('bs.tooltip', (data = {}));
+        if (!data[selector]) data[selector] = new Tooltip(this, options);
+      } else if (!data) $this.data('bs.tooltip', (data = new Tooltip(this, options)));
+      
+      if (typeof option == 'string') data[option]();
     })
   }
 
@@ -512,7 +511,7 @@
     return this
   }
 
-}(jQuery);
+})(jQuery);
 
 /* ========================================================================
  * Bootstrap: popover.js v3.3.1
@@ -523,7 +522,7 @@
  * ======================================================================== */
 
 
-+function ($) {
+(function ($) {
   'use strict';
 
   // POPOVER PUBLIC CLASS DEFINITION
@@ -611,9 +610,8 @@
       if (selector) {
         if (!data) $this.data('bs.popover', (data = {}))
         if (!data[selector]) data[selector] = new Popover(this, options)
-      } else {
-        if (!data) $this.data('bs.popover', (data = new Popover(this, options)))
-      }
+      } else if (!data) $this.data('bs.popover', (data = new Popover(this, options)))
+      
       if (typeof option == 'string') data[option]()
     })
   }
@@ -632,4 +630,4 @@
     return this
   }
 
-}(jQuery);
+})(jQuery);

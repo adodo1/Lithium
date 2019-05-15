@@ -7,14 +7,14 @@ import {
     _div,  _img,
     _title,
     makeImageButton,
-    makeLinkButton,    
-    showDialog,
+    makeLinkButton, parseResponse, 
+    showDialog, showErrorMessage,
     sendCrossDomainJSONRequest,
 } from './utilities.js';
 
 //рисует диалог со списком карт.
 //позволяет загрузить карту, просмотреть слои карты, перетащить слой в текущую карту
-!(function(_){
+(function(_){
 
 nsGmx.MapsManagerControl = function()
 {
@@ -28,7 +28,7 @@ nsGmx.MapsManagerControl = function()
     
     this._dialogDiv = showDialog(_gtxt("Список карт"), this._canvas, 571, 360, 535, 130, this._resize.bind(this));
     
-    sendCrossDomainJSONRequest(serverBase + "Map/GetMaps.ashx?WrapStyle=func", function(response)
+    sendCrossDomainJSONRequest(window.serverBase + "Map/GetMaps.ashx?WrapStyle=func", function(response)
     {
         $(_this._canvas).empty();
         
@@ -222,14 +222,14 @@ nsGmx.MapsManagerControl.prototype._drawMaps = function(map, mapIndex, mapsManag
 	
 	remove.onclick = function()
 	{
-		if (map.Name == defaultMapID)
+		if (map.Name == window.defaultMapID)
 		{
 			showErrorMessage(_gtxt("$$phrase$$_14"), true)
 			
 			return;
 		}
 		
-		if (map.Name == globalMapName)
+		if (map.Name == window.globalMapName)
 		{
 			showErrorMessage(_gtxt("$$phrase$$_15"), true)
 			
@@ -242,7 +242,7 @@ nsGmx.MapsManagerControl.prototype._drawMaps = function(map, mapIndex, mapsManag
 		
 			$(remove.parentNode.parentNode).replaceWith(_tr([_td([loading], [['attr','colSpan', 5]])]))
 			
-			sendCrossDomainJSONRequest(serverBase + "Map/Delete.ashx?WrapStyle=func&MapID=" + map.MapID, function(response){mapsManager._deleteMapHandler(response, map.MapID)});
+			sendCrossDomainJSONRequest(window.serverBase + "Map/Delete.ashx?WrapStyle=func&MapID=" + map.MapID, function(response){mapsManager._deleteMapHandler(response, map.MapID)});
 		}
 	}
 	
@@ -298,7 +298,7 @@ nsGmx.MapsManagerControl.prototype._loadMapJSON = function(host, name, parent)
         apiKey = window.mapsSite ? window.apiKey : null; //передаём apiKey только если не локальная версия ГеоМиксера
     
     L.gmx.gmxMapManager.getMap(hostName, apiKey, name, window.gmxSkipTiles).then(function(mapInfo) {
-        var previewLayersTree = new layersTree({showVisibilityCheckbox: true, allowActive: false, allowDblClick: false}),
+        var previewLayersTree = new window.layersTree({showVisibilityCheckbox: true, allowActive: false, allowDblClick: false}),
             ul = previewLayersTree.drawTree(mapInfo, 2);
 
         $(ul).treeview();

@@ -1,6 +1,13 @@
 import nsGmx from '../nsGmx.js';
+import {
+	sendCrossDomainJSONRequest,	
+} from '../utilities.js';
+import './DefaultSearchParamsManager.js';
+import './ServerDataProvider.js';
+import './SquareCalculation.js';
+import './AttrTable.css';
 
-!(function() {
+(function() {
 
 nsGmx.AttrTable = nsGmx.AttrTable || {};
 
@@ -127,10 +134,10 @@ attrsTable.prototype._updateSearchString = function(query) {
 * columnsList (extracted from searchParamsManager)
 */
 attrsTable.prototype.createColumnsList = function(paramsManager) {
-	var _this = this,
+	var 		
 	 	info = this._layerInfo,
 	 	_activeColumns_ = '_activeColumns_' + info.name,
-		paramsWidth = 300,
+		// paramsWidth = 300,
 		columnsList = nsGmx.Utils._div(null, [['dir', 'className', 'attrsColumnsList'], ['css', 'overflowY', 'auto']]);//
 
 	var attrTitles = this.tableFields.fieldsAsArray;

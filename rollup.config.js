@@ -31,6 +31,7 @@ export default {
             targets: [                    
                 'src/img',
                 'node_modules/leaflet-ext-search/dist/search-input-field.png',
+                'src/colorpicker/images',
             ],            
         }),
         babel({

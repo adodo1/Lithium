@@ -1,4 +1,9 @@
-!(function() {
+import nsGmx from '../nsGmx.js';
+import {sendCrossDomainPostRequest} from '../utilities.js';
+
+nsGmx.AttrTable = nsGmx.AttrTable || {};
+
+(function() {
 
 var template = Handlebars.compile('<div class="attrs-table-square-popover">' +
     '<div class="attrs-table-square-toomuch">Слишком много объектов</div>' +

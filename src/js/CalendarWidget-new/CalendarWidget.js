@@ -230,7 +230,7 @@ var Calendar1 = window.Backbone.View.extend({
             dayms = nsGmx.DateInterval.MS_IN_DAY,
             dateBegin = this._dateInterval.get('dateBegin'),
             dateEnd = this._dateInterval.get('dateEnd'),
-            endMidnight = (dateEnd.valueOf() === toMidnight(dateEnd).valueOf()),
+            // endMidnight = (dateEnd.valueOf() === toMidnight(dateEnd).valueOf()),
             oneDayPeriod, parsed;
 
         try {
@@ -315,9 +315,9 @@ var Calendar1 = window.Backbone.View.extend({
 
         // $(e.target).removeClass('error');
 
-        var isBegin = $(e.target).hasClass('CalendarWidget-timeBegin'),
-            dayms = nsGmx.DateInterval.MS_IN_DAY,
-            dailyFilter = this.model.get('dailyFilter'),
+        // var isBegin = $(e.target).hasClass('CalendarWidget-timeBegin'),
+        //     dayms = nsGmx.DateInterval.MS_IN_DAY,
+        var dailyFilter = this.model.get('dailyFilter'),
             timeBeginValue = this.$('.CalendarWidget-timeBegin').val(),
             timeEndValue = this.$('.CalendarWidget-timeEnd').val(),
             msBeginInputValue = Calendar1.convertTimeValueToMs(timeBeginValue),
@@ -372,10 +372,10 @@ var Calendar1 = window.Backbone.View.extend({
         return match;
     },
 
-    showCalendar: function (e) {
+    showCalendar: function () {
         var _this = this,
-            beginInput = this.$('.CalendarWidget-dateBegin')[0],
-            endInput = this.$('.CalendarWidget-dateEnd')[0],
+            // beginInput = this.$('.CalendarWidget-dateBegin')[0],
+            // endInput = this.$('.CalendarWidget-dateEnd')[0],
             dateBegin = this._dateInterval.get('dateBegin'),
             dateEnd = this._dateInterval.get('dateEnd'),
             dayms = nsGmx.DateInterval.MS_IN_DAY,
@@ -449,8 +449,8 @@ var Calendar1 = window.Backbone.View.extend({
 
         // кнопки в первом календаре
         $(createIntervalButton).on('click', function () {
-            var begin = _this._dateInterval.get('dateBegin'),
-                end = _this._dateInterval.get('dateEnd');
+            // var begin = _this._dateInterval.get('dateBegin'),
+            //     end = _this._dateInterval.get('dateEnd');
 
             _this.setMode(Calendar1.ADVANCED_MODE);
             $(_this.endCalendar).dialog(endDialogOptions);
@@ -487,8 +487,8 @@ var Calendar1 = window.Backbone.View.extend({
     },
 
     _enableCreateIntervalButton: function (e) {
-        var dayms = nsGmx.DateInterval.MS_IN_DAY,
-            selectIntervalButton = $('.selectdateinterval-button'),
+        // var dayms = nsGmx.DateInterval.MS_IN_DAY,
+        var selectIntervalButton = $('.selectdateinterval-button'),
             dateBegin = this._dateInterval.get('dateBegin'),
             dateEnd = this._dateInterval.get('dateEnd'),
             beginTimeValue = Calendar1.convertTimeValueToMs(e && e.target === $('CalendarWidget-timeBegin', this)[0] ? $(e.target).val() : $('.CalendarWidget-timeBegin').val()),
@@ -540,9 +540,9 @@ var Calendar1 = window.Backbone.View.extend({
 
     _selectFunc: function(activeInput) {
         var begin = this.getDateBegin(),
-            end = this.getDateEnd(),
-            dayms = nsGmx.DateInterval.MS_IN_DAY,
-            selectIntervalButton = $('.selectdateinterval-button');
+            end = this.getDateEnd();
+            // dayms = nsGmx.DateInterval.MS_IN_DAY,
+            // selectIntervalButton = $('.selectdateinterval-button');
 
         if (end && begin && begin > end) {
             var dateToFix = activeInput[0] == this._dateEnd[0] ? this._dateBegin : this._dateEnd;
@@ -568,10 +568,10 @@ var Calendar1 = window.Backbone.View.extend({
             dateEnd = this.getDateEnd(),
             // значение часов
             beginTimeValue = Calendar1.convertTimeValueToMs($('.CalendarWidget-timeBegin').val()),
-            endTimeValue = Calendar1.convertTimeValueToMs($('.CalendarWidget-timeEnd').val()),
-            dayms = nsGmx.DateInterval.MS_IN_DAY,
+            endTimeValue = Calendar1.convertTimeValueToMs($('.CalendarWidget-timeEnd').val());
+            //var  dayms = nsGmx.DateInterval.MS_IN_DAY;
             // если второй день захвачен полностью
-            fullDay = endTimeValue === dayms;
+            //var fullDay = endTimeValue === dayms;
 
         // добавим время к часам (в локальном времени)
         dateBegin = new Date(dateBegin.valueOf() + beginTimeValue);
@@ -597,9 +597,9 @@ var Calendar1 = window.Backbone.View.extend({
 
         if (!dateBegin || !dateEnd) {
             return;
-        };
+        }
 
-        var newDateBegin = Calendar1.toUTC(dateBegin),
+        var newDateBegin = Calendar1.toUTC(dateBegin);
             newDateEnd = Calendar1.toUTC(new Date(dateEnd));
 
         // если календарь показывает ровно один день,
@@ -751,11 +751,11 @@ var Calendar1 = window.Backbone.View.extend({
             //     $(titleContainer).hide();
             }
 
-        } else {
-            if (this._dateInputs) {
-                this._dateInputs.datepicker('option', 'maxDate', null);
-            }
         }
+        else if (this._dateInputs) {
+            this._dateInputs.datepicker('option', 'maxDate', null);
+        }
+        
     },
 
     setSwitcherVisibility: function(isVisible) {
@@ -818,13 +818,11 @@ var Calendar1 = window.Backbone.View.extend({
 
         if (position === 'begin') {
             offset = date.valueOf() - toMidnight(date).valueOf();
+        } else if (date.valueOf() === toMidnight(date).valueOf()) {
+            offset = dayms;
         } else {
-            if (date.valueOf() === toMidnight(date).valueOf()) {
-                offset = dayms;
-            } else {
-                offset = date.valueOf() - toMidnight(date).valueOf();
-            }
-        };
+            offset = date.valueOf() - toMidnight(date).valueOf();
+        }        
 
         hours = offset/(3600*1000);
 

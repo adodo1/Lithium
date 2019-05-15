@@ -2,11 +2,24 @@
 import nsGmx from './nsGmx.js';
 import './LayerTagsControl.js';
 import {
-	_table, _tbody, _tr, _td, _t, _input,
-	_div, _span, _img, _title, _option,
+    attachEffects,        
+    _div,    
+    _img,
+    _input,    
     makeImageButton,
-    sendCrossDomainJSONRequest
+    _option,    
+    parseResponse,
+    sendCrossDomainJSONRequest,
+    showErrorMessage,
+    _span,
+    _t,
+    _table,
+    _tbody,
+    _title,
+    _tr,
+    _td,    
 } from './utilities.js';
+import gmxCore from './gmxcore.js';
 
 (function(_){
 
@@ -71,7 +84,7 @@ var LayersListProvider = function(filtersProvider)
     this.getCount = function(callback)
     {
         var query = getQueryText();
-        sendCrossDomainJSONRequest(serverBase + 'Layer/Search2.ashx?count=true' + query, function(response)
+        sendCrossDomainJSONRequest(window.serverBase + 'Layer/Search2.ashx?count=true' + query, function(response)
         {
             if (!parseResponse(response))
             {
@@ -99,7 +112,7 @@ var LayersListProvider = function(filtersProvider)
 
         var query = getQueryText();
 
-        sendCrossDomainJSONRequest(serverBase + 'Layer/Search2.ashx?page=' + page + '&pageSize=' + pageSize + "&orderby=" + sortParams[sortParam] + " " + (sortDec ? "desc" : "") + query, function(response)
+        sendCrossDomainJSONRequest(window.serverBase + 'Layer/Search2.ashx?page=' + page + '&pageSize=' + pageSize + "&orderby=" + sortParams[sortParam] + " " + (sortDec ? "desc" : "") + query, function(response)
         {
             if (!parseResponse(response))
             {
@@ -160,7 +173,7 @@ var drawLayers = function(layer, params)
 
 			$(remove.parentNode.parentNode).replaceWith(_tr([_td([loading], [['attr','colSpan', 5]])]))
 
-            var deleteLayerHandler = function(response, id, flag)
+            var deleteLayerHandler = function(response)
             {
                 if (!parseResponse(response))
                     return;
@@ -172,9 +185,9 @@ var drawLayers = function(layer, params)
             }
 
 			if (newLayerProperties.properties.MultiLayerID)
-				sendCrossDomainJSONRequest(serverBase + "MultiLayer/Delete.ashx?WrapStyle=func&MultiLayerID=" + newLayerProperties.properties.MultiLayerID, deleteLayerHandler);
+				sendCrossDomainJSONRequest(window.serverBase + "MultiLayer/Delete.ashx?WrapStyle=func&MultiLayerID=" + newLayerProperties.properties.MultiLayerID, deleteLayerHandler);
 			else
-				sendCrossDomainJSONRequest(serverBase + "Layer/Delete.ashx?WrapStyle=func&LayerID=" + newLayerProperties.properties.LayerID, deleteLayerHandler);
+				sendCrossDomainJSONRequest(window.serverBase + "Layer/Delete.ashx?WrapStyle=func&LayerID=" + newLayerProperties.properties.LayerID, deleteLayerHandler);
 		}
 	}
 
@@ -244,8 +257,7 @@ var LayerManagerControl = function( parentDiv, name, params )
         _params.fixType = [_params.fixType];
 
 	var canvas = _div(null, [['attr','id','layersList']]),
-		searchCanvas = _div(null, [['dir','className','layersSearchCanvas']]),
-		_this = this;
+		searchCanvas = _div(null, [['dir','className','layersSearchCanvas']]);		
 
 	var layerName = _input(null, [['dir','className','inputStyle'],['css','width','185px']]),
 		layerOwner = _input(null, [['dir','className','inputStyle'],['css','width','185px']]);

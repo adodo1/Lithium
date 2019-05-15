@@ -1,20 +1,21 @@
 ﻿import nsGmx from './nsGmx.js';
 import {
-    inputError,
+    inputError, showDialog,
 } from './utilities.js';
+import gmxCore from './gmxcore.js';
 
 (function($){
 
 "use strict";
 
-_translationsHash.addtext("rus", {
+window._translationsHash.addtext("rus", {
                         "pluginsEditor.selectedTitle" : "Плагины карты",
                         "pluginsEditor.availableTitle" : "Доступные плагины",
                         "pluginsEditor.add" : "Добавить плагин",
                         "pluginsEditor.paramsTitle" : "Параметры плагина"
                      });
 
-_translationsHash.addtext("eng", {
+window._translationsHash.addtext("eng", {
                         "pluginsEditor.selectedTitle" : "Map plugins",
                         "pluginsEditor.availableTitle" : "Available plugins",
                         "pluginsEditor.add" : "Add plugin",
@@ -80,14 +81,14 @@ var MapPlugins = function()
 
     //обновляем используемость и параметры плагинов
     this.updateGeomixerPlugins = function() {
-        for (var p = 0; p < _plugins.length; p++) {
-            var plugin = nsGmx.pluginsManager.getPluginByName(_plugins[p]),
+        for (let p = 0; p < _plugins.length; p++) {
+            let plugin = nsGmx.pluginsManager.getPluginByName(_plugins[p]),
                 lazyLoad = plugin && plugin.lazyLoad;
 
             nsGmx.pluginsManager.setUsePlugin(_plugins[p], !lazyLoad);
         }
 
-        for (var p in _params) {
+        for (let p in _params) {
             nsGmx.pluginsManager.updateParams(p, normalizeParams(_params[p]));
         }
     }
@@ -194,7 +195,7 @@ var GeomixerPluginsWidget = function(container, mapPlugins)
                 groupName: _allPluginGroups[g].groupName,
                 plugins: plugins
             });
-        };
+        }
 
         //сохраняем порядок, как в конфиге, default group - первой
         filteredGroups.sort(function(a, b) {
@@ -214,7 +215,7 @@ var GeomixerPluginsWidget = function(container, mapPlugins)
 
         pluginsTree.find('.pluginEditor-pluginItem').click(function(e) {
             isListActive = true;
-            var pluginName = $(this).data('pluginName');
+            // var pluginName = $(this).data('pluginName');
 
             if (e.ctrlKey) {
                 $(this).toggleClass('pluginEditor-activePluginItem');
@@ -271,13 +272,13 @@ var MapPluginParamsWidget = function(mapPlugins, pluginName) {
 
     if (paramsWidgets[pluginName]) {
         return;
-    };
+    }
 
     var FakeTagMetaInfo = function()
     {
-        this.isTag = function(tag) { return true; }
-        this.getTagType = function(tag) { return 'String'; }
-        this.getTagDescription = function(tag) { return ''; }
+        this.isTag = function() { return true; }
+        this.getTagType = function() { return 'String'; }
+        this.getTagDescription = function() { return ''; }
         this.getTagArray = function() { return []; }
         this.getTagArrayExt = function() { return []; }
     };
@@ -294,7 +295,7 @@ var MapPluginParamsWidget = function(mapPlugins, pluginName) {
 
     var container = $('<div/>');
 
-    var pluginValues = new nsGmx.LayerTagSearchControl(layerTags, container);
+    new nsGmx.LayerTagSearchControl(layerTags, container);
 
     var updateParams = function() {
         var newParams = {};
@@ -394,11 +395,11 @@ var createPluginsEditor = function(container, mapPlugins)
 {
     var widgetContainer = $('<div/>', {'class': 'pluginEditor-widgetContainer'});
     var allPluginsContainer = $('<div/>', {'class': 'pluginEditor-allContainer'});
-    var mapPluginsWidget = new MapPluginsWidget({
+    new MapPluginsWidget({
         el: widgetContainer,
         mapPlugins: mapPlugins
     });
-    var allPluginsWidget = new GeomixerPluginsWidget(allPluginsContainer, mapPlugins);
+    new GeomixerPluginsWidget(allPluginsContainer, mapPlugins);
 
     $(container)
         .append($('<table/>', {'class': 'pluginEditor-table'}).append($('<tr/>')

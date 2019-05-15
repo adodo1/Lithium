@@ -62,7 +62,7 @@ nsGmx.Templates.DropdownMenuWidget["anchor"] = "<a \n" +
     "    {{#if title}}\n" +
     "        <span>{{title}}</span>\n" +
     "    {{/if}}\n" +
-    "</a>";;
+    "</a>";
 
 nsGmx.PlainTextWidget = nsGmx.GmxWidget.extend({
     initialize: function(txt) {
@@ -120,17 +120,17 @@ nsGmx.DropdownWidget = nsGmx.GmxWidget.extend({
 
         if (this.options.trigger === 'hover') {
             this.$dropdownTitle.addClass('ui-state-disabled');
-            this.$titleContainer.on('mouseover', function(je) {
+            this.$titleContainer.on('mouseover', function() {
                 this.expand();
             }.bind(this));
-            this.$dropdownContainer.on('mouseleave', function(je) {
+            this.$dropdownContainer.on('mouseleave', function() {
                 this.collapse();
             }.bind(this));
         } else if (this.options.trigger === 'click') {
-            this.$titleContainer.on('click', function(je) {
+            this.$titleContainer.on('click', function() {
                 this.expand();
             }.bind(this));
-            this.$dropdownTitle.on('click', function(je) {
+            this.$dropdownTitle.on('click', function() {
                 this.collapse();
             }.bind(this));
         }
@@ -219,8 +219,8 @@ nsGmx.DropdownMenuWidget = (function() {
         }));
         this._view.find('.dropdownMenuWidget-itemDropdown').hide();
 
-        var mouseTimeout = options.mouseTimeout || 100;
-        this._view.find('.dropdownMenuWidget-item').each(function(index) {
+        // var mouseTimeout = options.mouseTimeout || 100;
+        this._view.find('.dropdownMenuWidget-item').each(function() {
             var mouseIsOver = false;
             $(this).on('mouseenter', function(je) {
                 mouseIsOver = true;

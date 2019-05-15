@@ -3,6 +3,8 @@ import {
     inputError,
 } from './utilities.js';
 
+import {DrawingObjectInfoRow} from './drawingObjects.js';
+
 //Диалог создания/редактирования мультислоя.
 !(function(_){
 
@@ -206,7 +208,7 @@ var doCreateMultiLayerEditor = function(elemProperties, layers, div, layersTree)
         $(shpContainer).hide();
         
         geometryInfoRow && geometryInfoRow.RemoveRow();
-        var InfoRow = gmxCore.getModule('DrawingObjects').DrawingObjectInfoRow;
+        var InfoRow = DrawingObjectInfoRow;
         geometryInfoRow = new InfoRow(
             nsGmx.leafletMap, 
             borderContainer, 

@@ -1,34 +1,34 @@
 import nsGmx from './nsGmx.js';
 import {leftMenu} from './menu.js';
 import {
-	_checkbox,
-	_div,
-	hide,
-	_img,	
-	_input,
-	inputError,
-	_li,
-	makeButton,
-	makeImageButton,
-	objLength,
-	_option,	
-	parseResponse,
-	parseXML,
-	sendCrossDomainJSONRequest,
-	show,
-	_span,
-	strip,
-	_t,
-	_table,
-	_tbody,
-	_td,
-	_tr,
-	_ul,
+    _checkbox,
+    _div,
+    hide,
+    _img,
+    _input,
+    inputError,
+    _li,
+    makeButton,
+    makeImageButton,
+    objLength,
+    _option,
+    parseResponse,
+    parseXML,
+    sendCrossDomainJSONRequest,
+    show,
+    _span,
+    strip,
+    _t,
+    _table,
+    _tbody,
+    _td,
+    _tr,
+    _ul,
 } from './utilities.js';
 
 const _ = nsGmx.Utils._;
 
-var wmsProjections = ['EPSG:3395', 'EPSG:4326', 'EPSG:41001'];	// типы проекций
+var wmsProjections = ['EPSG:3395', 'EPSG:4326', 'EPSG:41001'];  // типы проекций
 
 var getTextContent = function(node) {
     if (typeof node.textContent != 'undefined')
@@ -207,8 +207,8 @@ var parseWMSCapabilities = function(response)
 
 var loadServerData = window.loadServerData =
 {
-	WFS:{},
-	WMS:{}
+    WFS:{},
+    WMS:{}
 }
 
 /* Порядок координат в WFS зависит от формата SRS (http://geoserver.org/display/GEOSDOC/2.+WFS+-+Web+Feature+Service)
@@ -219,327 +219,327 @@ var loadServerData = window.loadServerData =
 
 var wfsParser = function()
 {
-	this.gmlns = window.location.protocol + '//www.opengis.net/gml';
-	this.kmlns = window.location.protocol + '//earth.google.com/kml/2.0';
+    this.gmlns = window.location.protocol + '//www.opengis.net/gml';
+    this.kmlns = window.location.protocol + '//earth.google.com/kml/2.0';
 
-	this.axisOrder = null;
+    this.axisOrder = null;
 }
 
 wfsParser.prototype.elementsNS = function(node,uri,name)
 {
-	var elements=[];
+    var elements=[];
 
-	if (node.getElementsByTagNameNS)
-		elements = node.getElementsByTagNameNS(uri,name);
-	else
-	{
-		var allNodes = node.getElementsByTagName("*"),
-			potentialNode,
-			fullName;
+    if (node.getElementsByTagNameNS)
+        elements = node.getElementsByTagNameNS(uri,name);
+    else
+    {
+        var allNodes = node.getElementsByTagName("*"),
+            potentialNode,
+            fullName;
 
-		for (var i = 0, len = allNodes.length; i < len ; ++i)
-		{
-			potentialNode = allNodes[i];
-			fullName = (potentialNode.prefix) ? (potentialNode.prefix + ":" + name) : name;
-			if ((name == "*") || (fullName == potentialNode.nodeName))
-			{
-				if ( (uri == "*") || (uri == potentialNode.namespaceURI))
-					elements.push(potentialNode);
-			}
-		}
-	}
+        for (var i = 0, len = allNodes.length; i < len ; ++i)
+        {
+            potentialNode = allNodes[i];
+            fullName = (potentialNode.prefix) ? (potentialNode.prefix + ":" + name) : name;
+            if ((name == "*") || (fullName == potentialNode.nodeName))
+            {
+                if ( (uri == "*") || (uri == potentialNode.namespaceURI))
+                    elements.push(potentialNode);
+            }
+        }
+    }
 
-	return elements;
+    return elements;
 }
 
 wfsParser.prototype.getChildValue = function(node, def)
 {
-	var value = def || "";
-	if (node)
-	{
-		for (var child = node.firstChild; child; child = child.nextSibling)
-		{
-			switch (child.nodeType)
-			{
-				case 3:
-				case 4: value += child.nodeValue;
-			}
-		}
-	}
+    var value = def || "";
+    if (node)
+    {
+        for (var child = node.firstChild; child; child = child.nextSibling)
+        {
+            switch (child.nodeType)
+            {
+                case 3:
+                case 4: value += child.nodeValue;
+            }
+        }
+    }
 
-	return value;
+    return value;
 }
 
 wfsParser.prototype.parse = function(response, srs)
 {
-	var geometries = [];
-	var strResp = response.replace(/[\t\n\r]/g, ' ');
-		strResp = strResp.replace(/\s+/g, ' ');
-	var xml = parseXML(strResp),
-		parsedNS = strResp.indexOf('<kml') > -1 ? this.kmlns : this.gmlns;
+    var geometries = [];
+    var strResp = response.replace(/[\t\n\r]/g, ' ');
+        strResp = strResp.replace(/\s+/g, ' ');
+    var xml = parseXML(strResp),
+        parsedNS = strResp.indexOf('<kml') > -1 ? this.kmlns : this.gmlns;
 
-	this.axisOrder = srs && srs.indexOf("urn:") == 0 ? 'latlong' : 'longlat';
+    this.axisOrder = srs && srs.indexOf("urn:") == 0 ? 'latlong' : 'longlat';
 
-	var order = ["Polygon","LineString","Point"];
+    var order = ["Polygon","LineString","Point"];
 
-	for (var i = 0, len = order.length; i < len; ++i)
-	{
-		var type = order[i],
-			nodeList = this.elementsNS(xml.documentElement,parsedNS,type);
+    for (var i = 0, len = order.length; i < len; ++i)
+    {
+        var type = order[i],
+            nodeList = this.elementsNS(xml.documentElement,parsedNS,type);
 
-		for (var j = 0; j < nodeList.length; ++j)
-		{
-			var geometry = this['parse' + type].apply(this,[nodeList[j]]);
+        for (var j = 0; j < nodeList.length; ++j)
+        {
+            var geometry = this['parse' + type].apply(this,[nodeList[j]]);
 
-			if (geometry)
-				geometries.push(geometry);
-		}
-	}
+            if (geometry)
+                geometries.push(geometry);
+        }
+    }
 
-	return geometries;
+    return geometries;
 }
 
 wfsParser.prototype.parsePoint = function(node)
 {
-	var coordString,
-		coords=[],
-		nodeList = this.elementsNS(node,this.gmlns,"pos");
+    var coordString,
+        coords=[],
+        nodeList = this.elementsNS(node,this.gmlns,"pos");
 
-	if (nodeList.length > 0)
-	{
-		coordString = strip(nodeList[0].firstChild.nodeValue);
-		coords = coordString.split(" ");
-	}
-	if (coords.length == 0)
-	{
-		nodeList = this.elementsNS(node,this.gmlns,"coordinates");
+    if (nodeList.length > 0)
+    {
+        coordString = strip(nodeList[0].firstChild.nodeValue);
+        coords = coordString.split(" ");
+    }
+    if (coords.length == 0)
+    {
+        nodeList = this.elementsNS(node,this.gmlns,"coordinates");
 
-		if (nodeList.length > 0)
-		{
-			coordString = strip(nodeList[0].firstChild.nodeValue);
-			coords = coordString.split(",");
-		}
-	}
-	if (coords.length == 0)
-	{
-		nodeList = this.elementsNS(node,this.gmlns,"coord");
+        if (nodeList.length > 0)
+        {
+            coordString = strip(nodeList[0].firstChild.nodeValue);
+            coords = coordString.split(",");
+        }
+    }
+    if (coords.length == 0)
+    {
+        nodeList = this.elementsNS(node,this.gmlns,"coord");
 
-		if (nodeList.length > 0)
-		{
-			var xList = this.elementsNS(nodeList[0],this.gmlns,"X"),
-				yList = this.elementsNS(nodeList[0],this.gmlns,"Y");
+        if (nodeList.length > 0)
+        {
+            var xList = this.elementsNS(nodeList[0],this.gmlns,"X"),
+                yList = this.elementsNS(nodeList[0],this.gmlns,"Y");
 
-			if (xList.length > 0 && yList.length > 0)
-				coords = [xList[0].firstChild.nodeValue, yList[0].firstChild.nodeValue];
-		}
-	}
+            if (xList.length > 0 && yList.length > 0)
+                coords = [xList[0].firstChild.nodeValue, yList[0].firstChild.nodeValue];
+        }
+    }
 
-	return {feature:{}, geometry:{type: 'Point', coordinates: this.swapCoordinates([Number(coords[0]), Number(coords[1])])}}
+    return {feature:{}, geometry:{type: 'Point', coordinates: this.swapCoordinates([Number(coords[0]), Number(coords[1])])}}
 }
 
 wfsParser.prototype.parseLineString = function(node)
-{	
-	var coordString,
-		coords = [],
-		points = [],
-		nodeList = this.elementsNS(node, this.gmlns, "posList");
+{
+    var coordString,
+        coords = [],
+        points = [],
+        nodeList = this.elementsNS(node, this.gmlns, "posList");
 
-	if (nodeList.length > 0)
-	{
-		coordString = strip(this.getChildValue(nodeList[0]));
-		coords = coordString.split(" ");
+    if (nodeList.length > 0)
+    {
+        coordString = strip(this.getChildValue(nodeList[0]));
+        coords = coordString.split(" ");
 
-		for (let i = 0; i < coords.length / 2; ++i)
-		{
-			let j = i * 2;			
+        for (let i = 0; i < coords.length / 2; ++i)
+        {
+            let j = i * 2;
 
 
 
-			points.push(this.swapCoordinates([Number(coords[j]), Number(coords[j + 1])]));
-		}
-	}
-	if (coords.length == 0)
-	{
-		nodeList = this.elementsNS(node,this.gmlns,"coordinates");
+            points.push(this.swapCoordinates([Number(coords[j]), Number(coords[j + 1])]));
+        }
+    }
+    if (coords.length == 0)
+    {
+        nodeList = this.elementsNS(node,this.gmlns,"coordinates");
 
-		if (nodeList.length > 0)
-		{
-			coordString = strip(this.getChildValue(nodeList[0]));
-			coordString = coordString.replace(/\s*,\s*/g,",");
+        if (nodeList.length > 0)
+        {
+            coordString = strip(this.getChildValue(nodeList[0]));
+            coordString = coordString.replace(/\s*,\s*/g,",");
 
-			var pointList = coordString.split(" ");
+            var pointList = coordString.split(" ");
 
-			for (let i = 0; i < pointList.length; ++i)
-			{
-				coords = pointList[i].split(",");
+            for (let i = 0; i < pointList.length; ++i)
+            {
+                coords = pointList[i].split(",");
 
-				points.push(this.swapCoordinates([Number(coords[0]), Number(coords[1])]));
-			}
-		}
-	}
+                points.push(this.swapCoordinates([Number(coords[0]), Number(coords[1])]));
+            }
+        }
+    }
 
-	if (points.length != 0)
-	{
-		return {feature:{}, geometry:{type: 'LineString', coordinates: points}}
-	}
-	else
-		return false
+    if (points.length != 0)
+    {
+        return {feature:{}, geometry:{type: 'LineString', coordinates: points}}
+    }
+    else
+        return false
 
 }
 
 wfsParser.prototype.parsePolygon = function(node)
 {
-	var nodeList = this.elementsNS(node,this.gmlns,"LinearRing"),
-		components = [];
+    var nodeList = this.elementsNS(node,this.gmlns,"LinearRing"),
+        components = [];
 
-	if (nodeList.length > 0)
-	{
-		var ring;
+    if (nodeList.length > 0)
+    {
+        var ring;
 
-		for (var i = 0; i < nodeList.length; ++i)
-		{
-			ring = this.parseLineString.apply(this,[nodeList[i],true]);
+        for (var i = 0; i < nodeList.length; ++i)
+        {
+            ring = this.parseLineString.apply(this,[nodeList[i],true]);
 
-			if (ring)
-				components.push(ring.geometry.coordinates);
-		}
-	}
+            if (ring)
+                components.push(ring.geometry.coordinates);
+        }
+    }
 
-	return {feature:{}, geometry:{type: 'Polygon', coordinates: components}}
+    return {feature:{}, geometry:{type: 'Polygon', coordinates: components}}
 }
 
 wfsParser.prototype.swapCoordinates = function(arr)
 {
-	if (this.axisOrder == 'latlong')
-		return [arr[1], arr[0]]
-	else
-		return [arr[0], arr[1]];
+    if (this.axisOrder == 'latlong')
+        return [arr[1], arr[0]]
+    else
+        return [arr[0], arr[1]];
 }
 
 var _wfsParser = new wfsParser();
 
 var jsonParser = function()
 {
-	this.axisOrder = null;
+    this.axisOrder = null;
 }
 
 jsonParser.prototype.parse = function(response, srs)
 {
-	var resp = JSON.parse(response),
-		geometries = [];
+    var resp = JSON.parse(response),
+        geometries = [];
 
-	this.axisOrder = srs && srs.indexOf("urn:") == 0 ? 'latlong' : 'longlat';
+    this.axisOrder = srs && srs.indexOf("urn:") == 0 ? 'latlong' : 'longlat';
 
-	for (var i = 0; i < resp.features.length; i++)
-	{
-		if (resp.features[i].geometry.type.toLowerCase().indexOf('point') > -1)
-			this.parsePoint(resp.features[i], geometries);
-		else if (resp.features[i].geometry.type.toLowerCase().indexOf('linestring') > -1)
-			this.parseLineString(resp.features[i], geometries);
-		else if (resp.features[i].geometry.type.toLowerCase().indexOf('polygon') > -1)
-			this.parsePolygon(resp.features[i], geometries);
-	}
+    for (var i = 0; i < resp.features.length; i++)
+    {
+        if (resp.features[i].geometry.type.toLowerCase().indexOf('point') > -1)
+            this.parsePoint(resp.features[i], geometries);
+        else if (resp.features[i].geometry.type.toLowerCase().indexOf('linestring') > -1)
+            this.parseLineString(resp.features[i], geometries);
+        else if (resp.features[i].geometry.type.toLowerCase().indexOf('polygon') > -1)
+            this.parsePolygon(resp.features[i], geometries);
+    }
 
-	return geometries;
+    return geometries;
 }
 
 jsonParser.prototype.parsePoint = function(feature, geometryArr)
 {
-	if (feature.geometry.type.toLowerCase().indexOf('multi') < 0)
-		geometryArr.push({feature: feature, geometry:{type: 'POINT', coordinates: this.swapCoordinates(feature.geometry.coordinates)}});
-	else
-	{
-		for (var i = 0; i < feature.geometry.coordinates.length; i++)
-			geometryArr.push({feature: feature, geometry:{type: 'POINT', coordinates: this.swapCoordinates(feature.geometry.coordinates[i])}})
-	}
+    if (feature.geometry.type.toLowerCase().indexOf('multi') < 0)
+        geometryArr.push({feature: feature, geometry:{type: 'POINT', coordinates: this.swapCoordinates(feature.geometry.coordinates)}});
+    else
+    {
+        for (var i = 0; i < feature.geometry.coordinates.length; i++)
+            geometryArr.push({feature: feature, geometry:{type: 'POINT', coordinates: this.swapCoordinates(feature.geometry.coordinates[i])}})
+    }
 }
 jsonParser.prototype.parseLineString = function(feature, geometryArr)
 {
-	if (feature.geometry.type.toLowerCase().indexOf('multi') < 0)
-	{
-		let newCoords = [];
+    if (feature.geometry.type.toLowerCase().indexOf('multi') < 0)
+    {
+        let newCoords = [];
 
-		for (let j = 0; j < feature.geometry.coordinates.length; j++)
-			newCoords.push(this.swapCoordinates(feature.geometry.coordinates[j]))
+        for (let j = 0; j < feature.geometry.coordinates.length; j++)
+            newCoords.push(this.swapCoordinates(feature.geometry.coordinates[j]))
 
-		geometryArr.push({feature: feature, geometry:{type: 'LINESTRING', coordinates: newCoords}});
-	}
-	else
-	{
-		for (let i = 0; i < feature.geometry.coordinates.length; i++)
-		{
-			let newCoords = [];
+        geometryArr.push({feature: feature, geometry:{type: 'LINESTRING', coordinates: newCoords}});
+    }
+    else
+    {
+        for (let i = 0; i < feature.geometry.coordinates.length; i++)
+        {
+            let newCoords = [];
 
-			for (let j = 0; j < feature.geometry.coordinates[i].length; j++)
-				newCoords.push(this.swapCoordinates(feature.geometry.coordinates[i][j]))
+            for (let j = 0; j < feature.geometry.coordinates[i].length; j++)
+                newCoords.push(this.swapCoordinates(feature.geometry.coordinates[i][j]))
 
-			geometryArr.push({feature: feature, geometry:{type: 'LINESTRING', coordinates: newCoords}});
-		}
-	}
+            geometryArr.push({feature: feature, geometry:{type: 'LINESTRING', coordinates: newCoords}});
+        }
+    }
 }
 jsonParser.prototype.parsePolygon = function(feature, geometryArr)
 {
-	if (feature.geometry.type.toLowerCase().indexOf('multi') < 0)
-	{
-		let newCoords = [];
+    if (feature.geometry.type.toLowerCase().indexOf('multi') < 0)
+    {
+        let newCoords = [];
 
-		let k = 0, j = 0;
+        let k = 0, j = 0;
 
-		for (k = 0; k < feature.geometry.coordinates.length; j++)
-		{
-			let newCoords2 = [];
+        for (k = 0; k < feature.geometry.coordinates.length; j++)
+        {
+            let newCoords2 = [];
 
-			for (j = 0; j < feature.geometry.coordinates[k].length; k++)
-				newCoords2.push(this.swapCoordinates(feature.geometry.coordinates[k][j]))
+            for (j = 0; j < feature.geometry.coordinates[k].length; k++)
+                newCoords2.push(this.swapCoordinates(feature.geometry.coordinates[k][j]))
 
-			newCoords.push(newCoords2)
-		}
+            newCoords.push(newCoords2)
+        }
 
-		geometryArr.push({feature: feature, geometry:{type: 'POLYGON', coordinates: newCoords}});
-	}
-	else
-	{
-		for (let i = 0; i < feature.geometry.coordinates.length; i++)
-		{
-			let newCoords = [];
+        geometryArr.push({feature: feature, geometry:{type: 'POLYGON', coordinates: newCoords}});
+    }
+    else
+    {
+        for (let i = 0; i < feature.geometry.coordinates.length; i++)
+        {
+            let newCoords = [];
 
-			for (let k = 0; k < feature.geometry.coordinates[i].length; k++)
-			{
-				let newCoords2 = [];
+            for (let k = 0; k < feature.geometry.coordinates[i].length; k++)
+            {
+                let newCoords2 = [];
 
-				for (let j = 0; j < feature.geometry.coordinates[i][k].length; j++)
-					newCoords2.push(this.swapCoordinates(feature.geometry.coordinates[i][k][j]))
+                for (let j = 0; j < feature.geometry.coordinates[i][k].length; j++)
+                    newCoords2.push(this.swapCoordinates(feature.geometry.coordinates[i][k][j]))
 
-				newCoords.push(newCoords2)
-			}
+                newCoords.push(newCoords2)
+            }
 
-			geometryArr.push({feature: feature, geometry:{type: 'POLYGON', coordinates: newCoords}});
-		}
-	}
+            geometryArr.push({feature: feature, geometry:{type: 'POLYGON', coordinates: newCoords}});
+        }
+    }
 }
 jsonParser.prototype.swapCoordinates = function(arr)
 {
-	if (this.axisOrder == 'latlong')
-		return [arr[1], arr[0]]
-	else
-		return [arr[0], arr[1]];
+    if (this.axisOrder == 'latlong')
+        return [arr[1], arr[0]]
+    else
+        return [arr[0], arr[1]];
 }
 
 var _jsonParser = new jsonParser();
 
 var queryServerData = function()
 {
-	this.inputField = null;
-	this.parentCanvas = null;
+    this.inputField = null;
+    this.parentCanvas = null;
 
-	this.wfsFormats = {};
+    this.wfsFormats = {};
 
-	this.oldBalloon = false;
-	this.oldBalloonIndex = -1;
+    this.oldBalloon = false;
+    this.oldBalloonIndex = -1;
 
-	this.proj = ['EPSG:4326','EPSG:3395','EPSG:41001'];
+    this.proj = ['EPSG:4326','EPSG:3395','EPSG:41001'];
 
-	this.customParams = undefined;
+    this.customParams = undefined;
 }
 
 queryServerData.prototype = new leftMenu();
@@ -556,98 +556,98 @@ queryServerData.prototype = new leftMenu();
 */
 queryServerData.prototype.load = function(protocol, parseFunc, drawFunc, customParamsManager)
 {
-	window.convertCoords = function(coordsStr)
-	{
-		let res = [],
-			coordsPairs = strip(coordsStr).replace(/\s+/,' ').split(' ');
+    window.convertCoords = function(coordsStr)
+    {
+        let res = [],
+            coordsPairs = strip(coordsStr).replace(/\s+/,' ').split(' ');
 
-		if (coordsStr.indexOf(',') == -1)
-		{
-			for (let j = 0; j < Math.floor(coordsPairs.length / 2); j++)
-				res.push([Number(coordsPairs[2 * j + 1]), Number(coordsPairs[2 * j])])
-		}
-		else
-		{
-			for (let j = 0; j < coordsPairs.length; j++)
-			{
-				let parsedCoords = coordsPairs[j].split(',');
+        if (coordsStr.indexOf(',') == -1)
+        {
+            for (let j = 0; j < Math.floor(coordsPairs.length / 2); j++)
+                res.push([Number(coordsPairs[2 * j + 1]), Number(coordsPairs[2 * j])])
+        }
+        else
+        {
+            for (let j = 0; j < coordsPairs.length; j++)
+            {
+                let parsedCoords = coordsPairs[j].split(',');
 
-				res.push([Number(parsedCoords[1]), Number(parsedCoords[0])])
-			}
-		}
+                res.push([Number(parsedCoords[1]), Number(parsedCoords[0])])
+            }
+        }
 
-		return res;
-	}
+        return res;
+    }
 
-	window.parseGML = function(response, format, srs)
-	{
-		if (format == 'gml')
-			return _wfsParser.parse(response, srs);
-		else if (format == 'json')
-			return _jsonParser.parse(response, srs);
-		else
-			return [];
-	}
+    window.parseGML = function(response, format, srs)
+    {
+        if (format == 'gml')
+            return _wfsParser.parse(response, srs);
+        else if (format == 'json')
+            return _jsonParser.parse(response, srs);
+        else
+            return [];
+    }
 
-	var inputField = _input(null, [['dir','className','inputStyle'],['css','width','200px']]);
+    var inputField = _input(null, [['dir','className','inputStyle'],['css','width','200px']]);
 
-	this.parentCanvas = _div(null, [['dir','className','serverDataCanvas']]);
+    this.parentCanvas = _div(null, [['dir','className','serverDataCanvas']]);
 
-	var goButton = makeButton(_gtxt("Загрузить")),
-		_this = this;
+    var goButton = makeButton(_gtxt("Загрузить")),
+        _this = this;
 
-	var doGetCapabilities = function()
-	{
-		if (inputField.value != '')
-		{
-			if ( customParamsManager )
-				_this.customParams = customParamsManager.collect();
+    var doGetCapabilities = function()
+    {
+        if (inputField.value != '')
+        {
+            if ( customParamsManager )
+                _this.customParams = customParamsManager.collect();
 
-			_this.getCapabilities(protocol, strip(inputField.value), parseFunc, drawFunc);
+            _this.getCapabilities(protocol, strip(inputField.value), parseFunc, drawFunc);
 
-			inputField.value = '';
-		}
-		else
-			inputError(inputField);
-	}
+            inputField.value = '';
+        }
+        else
+            inputError(inputField);
+    }
 
-	goButton.onclick = doGetCapabilities;
+    goButton.onclick = doGetCapabilities;
 
-	$(inputField).on('keydown', function(e)
-	{
-		if (e.keyCode === 13)
-	  	{
-			doGetCapabilities();
-	  		return false;
-	  	}
-	});
+    $(inputField).on('keydown', function(e)
+    {
+        if (e.keyCode === 13)
+        {
+            doGetCapabilities();
+            return false;
+        }
+    });
 
-	var canvas = _div([_div([_span([_t(_gtxt("URL сервера"))])], [['css','marginBottom','3px']]),_table([_tbody([_tr([_td([inputField]),_td([goButton])])])], [['css','marginBottom','5px']])],[['css','margin','3px 0px 0px 10px']])
+    var canvas = _div([_div([_span([_t(_gtxt("URL сервера"))])], [['css','marginBottom','3px']]),_table([_tbody([_tr([_td([inputField]),_td([goButton])])])], [['css','marginBottom','5px']])],[['css','margin','3px 0px 0px 10px']])
 
-	if (customParamsManager)
-	{
-		var customParamsDiv = _div();
-		$(canvas).append(customParamsDiv);
-		_this.customParams = customParamsManager.init(customParamsDiv);
-	}
+    if (customParamsManager)
+    {
+        var customParamsDiv = _div();
+        $(canvas).append(customParamsDiv);
+        _this.customParams = customParamsManager.init(customParamsDiv);
+    }
 
-	_(this.workCanvas, [canvas, this.parentCanvas])
+    _(this.workCanvas, [canvas, this.parentCanvas])
 }
 
 queryServerData.prototype.getCapabilities = function(protocol, url, parseFunc, drawFunc, version)
 {
-	var loading = _div([_img(null, [['attr','src','img/progress.gif'],['css','marginRight','10px']]), _t(_gtxt('загрузка...'))], [['css','margin','3px 0px 3px 20px']]),
-		_this = this;
+    var loading = _div([_img(null, [['attr','src','img/progress.gif'],['css','marginRight','10px']]), _t(_gtxt('загрузка...'))], [['css','margin','3px 0px 3px 20px']]),
+        _this = this;
 
-	if (this.parentCanvas.childNodes.length == 0)
-		_(this.parentCanvas, [loading]);
-	else
-		this.parentCanvas.insertBefore(loading, this.parentCanvas.firstChild);
+    if (this.parentCanvas.childNodes.length == 0)
+        _(this.parentCanvas, [loading]);
+    else
+        this.parentCanvas.insertBefore(loading, this.parentCanvas.firstChild);
 
     var capabilitiesUrl =
-            url.replace(/REQUEST=GetCapabilities[\&]*/i, '')
-               .replace(new RegExp('SERVICE=' + protocol + '[\&]', 'i'), '')
-               .replace(/\&$/, '');
+            url.replace(/REQUEST=GetCapabilities[&]*/i, '')
+               .replace(new RegExp('SERVICE=' + protocol + '[&]', 'i'), '')
+               .replace(/&$/, '');
 
     capabilitiesUrl += capabilitiesUrl.indexOf('?') !== -1 ? '&' : '?';
     capabilitiesUrl += 'REQUEST=GetCapabilities&SERVICE=' + protocol;
@@ -656,277 +656,277 @@ queryServerData.prototype.getCapabilities = function(protocol, url, parseFunc, d
         capabilitiesUrl += '&VERSION=' + version;
     }
 
-	sendCrossDomainJSONRequest(window.serverBase + "ApiSave.ashx?get=" + encodeURIComponent(capabilitiesUrl), function(response) {
-		if (!parseResponse(response)) return;
+    sendCrossDomainJSONRequest(window.serverBase + "ApiSave.ashx?get=" + encodeURIComponent(capabilitiesUrl), function(response) {
+        if (!parseResponse(response)) return;
 
-		var servicelayers = parseFunc.call(_this, response.Result);
+        var servicelayers = parseFunc.call(_this, response.Result);
 
-		drawFunc.call(_this, servicelayers, url, loading, undefined, _this.customParams);
-	})
+        drawFunc.call(_this, servicelayers, url, loading, undefined, _this.customParams);
+    })
 }
 
 queryServerData.prototype.parseWFSCapabilities = function(response)
 {
-	var serviceLayers = [],
-		// strResp = response.replace(/[\t\n\r]/g, ' '),
-		// strResp = strResp.replace(/\s+/g, ' '),
-		featuresXML = parseXML(response).getElementsByTagName('FeatureType');
+    var serviceLayers = [],
+        // strResp = response.replace(/[\t\n\r]/g, ' '),
+        // strResp = strResp.replace(/\s+/g, ' '),
+        featuresXML = parseXML(response).getElementsByTagName('FeatureType');
 
-	for (var i = 0; i < featuresXML.length; i++)
-	{
-		var layer = {},
-			name = featuresXML[i].getElementsByTagName('Name'),
-			title = featuresXML[i].getElementsByTagName('Title'),
-			srs = featuresXML[i].getElementsByTagName('DefaultSRS');
+    for (var i = 0; i < featuresXML.length; i++)
+    {
+        var layer = {},
+            name = featuresXML[i].getElementsByTagName('Name'),
+            title = featuresXML[i].getElementsByTagName('Title'),
+            srs = featuresXML[i].getElementsByTagName('DefaultSRS');
 
-		if (name.length)
-			layer.name = getTextContent(name[0]);
+        if (name.length)
+            layer.name = getTextContent(name[0]);
 
-		if (title.length)
-			layer.title = getTextContent(title[0]);
+        if (title.length)
+            layer.title = getTextContent(title[0]);
 
-		if (srs.length)
-			layer.srs = getTextContent(srs[0]);
+        if (srs.length)
+            layer.srs = getTextContent(srs[0]);
 
-		if (layer.name)
-			serviceLayers.push(layer);
-	}
+        if (layer.name)
+            serviceLayers.push(layer);
+    }
 
-	return serviceLayers;
+    return serviceLayers;
 }
 
 queryServerData.prototype.loadGML = function(url, parentTreeCanvas, box, header, format, loadLayerParams, srs)
 {
-	var _this = this;
+    var _this = this;
 
-	sendCrossDomainJSONRequest(window.serverBase + "ApiSave.ashx?get=" + encodeURIComponent(url), function(response)
-	{
-		if (!parseResponse(response)) return;
-		var geometries = window.parseGML(response.Result, format, srs);
-		_this.drawGML(geometries, url, parentTreeCanvas, box, header, loadLayerParams);
-	})
+    sendCrossDomainJSONRequest(window.serverBase + "ApiSave.ashx?get=" + encodeURIComponent(url), function(response)
+    {
+        if (!parseResponse(response)) return;
+        var geometries = window.parseGML(response.Result, format, srs);
+        _this.drawGML(geometries, url, parentTreeCanvas, box, header, loadLayerParams);
+    })
 }
 
 queryServerData.prototype.saveGML = function(geometries)
 {
-	if (typeof geometries == 'undefined' || geometries == null)
-	{
-		geometries = [];
+    if (typeof geometries == 'undefined' || geometries == null)
+    {
+        geometries = [];
 
-		window.globalFlashMap.drawing.forEachObject(function(ret)
-		{
-			geometries.push(ret.geometry);
-		})
-	}
+        window.globalFlashMap.drawing.forEachObject(function(ret)
+        {
+            geometries.push(ret.geometry);
+        })
+    }
 
-	window.promptFunction(_gtxt('Введите имя gml-файла для скачивания:'), 'objects.gml', function(fileName)
-	{
-		window.globalFlashMap.saveObjects(geometries, nsGmx.Utils.translit(fileName));
-	});
+    window.promptFunction(_gtxt('Введите имя gml-файла для скачивания:'), 'objects.gml', function(fileName)
+    {
+        window.globalFlashMap.saveObjects(geometries, nsGmx.Utils.translit(fileName));
+    });
 
-	return false;
+    return false;
 }
 
 queryServerData.prototype.drawGML = function(geometries, url, parentTreeCanvas, box)
 {
-	var parent = {
-					'Point': L.gmx.createLayer({properties: {}}).addTo(nsGmx.leafletMap),
-					'LineString': L.gmx.createLayer({properties: {}}).addTo(nsGmx.leafletMap),
-					'Polygon': L.gmx.createLayer({properties: {}}).addTo(nsGmx.leafletMap)
-				};
-		// var styles = {
-		// 			'Point': typeof loadLayerParams != 'undefined' && loadLayerParams['point'] ? loadLayerParams['point'].RenderStyle : { marker: { size: 2 }, outline: { color: 0x0000ff, thickness: 1 } },
-		// 			'LineString': typeof loadLayerParams != 'undefined' && loadLayerParams['linestring'] ? loadLayerParams['linestring'].RenderStyle : { outline: { color: 0x0000ff, thickness: 2 } },
-		// 			'Polygon': typeof loadLayerParams != 'undefined' && loadLayerParams['polygon'] ? loadLayerParams['polygon'].RenderStyle : { outline: { color: 0x0000ff, thickness: 2, opacity: 100 }, fill: {color: 0xffffff, opacity: 20} }
-		// 		};
-	// parent['POINT'].setStyle(styles['POINT']);
-	// parent['LINESTRING'].setStyle(styles['LINESTRING']);
-	// parent['POLYGON'].setStyle(styles['POLYGON']);
+    var parent = {
+                    'Point': L.gmx.createLayer({properties: {}}).addTo(nsGmx.leafletMap),
+                    'LineString': L.gmx.createLayer({properties: {}}).addTo(nsGmx.leafletMap),
+                    'Polygon': L.gmx.createLayer({properties: {}}).addTo(nsGmx.leafletMap)
+                };
+        // var styles = {
+        //          'Point': typeof loadLayerParams != 'undefined' && loadLayerParams['point'] ? loadLayerParams['point'].RenderStyle : { marker: { size: 2 }, outline: { color: 0x0000ff, thickness: 1 } },
+        //          'LineString': typeof loadLayerParams != 'undefined' && loadLayerParams['linestring'] ? loadLayerParams['linestring'].RenderStyle : { outline: { color: 0x0000ff, thickness: 2 } },
+        //          'Polygon': typeof loadLayerParams != 'undefined' && loadLayerParams['polygon'] ? loadLayerParams['polygon'].RenderStyle : { outline: { color: 0x0000ff, thickness: 2, opacity: 100 }, fill: {color: 0xffffff, opacity: 20} }
+        //      };
+    // parent['POINT'].setStyle(styles['POINT']);
+    // parent['LINESTRING'].setStyle(styles['LINESTRING']);
+    // parent['POLYGON'].setStyle(styles['POLYGON']);
 
-	var geomsPresent = {},
-		bounds = L.gmxUtil.bounds(),
+    var geomsPresent = {},
+        bounds = L.gmxUtil.bounds(),
         items = {'Point': [], 'LineString': [], 'Polygon': []};
 
-	for (var i = 0; i < geometries.length; i++)
-	{
-		//var elem = parent[geometries[i].geometry.type].addObject(geometries[i].geometry);
+    for (var i = 0; i < geometries.length; i++)
+    {
+        //var elem = parent[geometries[i].geometry.type].addObject(geometries[i].geometry);
         items[geometries[i].geometry.type].push([L.gmxUtil.geoJSONtoGeometry(geometries[i].geometry, true)]);
         //parent[geometries[i].geometry.type].addItems();
 
-		/*if (objLength(geometries[i].feature) > 0)
-		{
-			(function(i)
-			{
-				elem.setHandler("onClick", function(obj)
-				{
-					var elemCanvas = $(divCanvas).find("[geometryType='" + geometries[i].geometry.type + "']")[0];
+        /*if (objLength(geometries[i].feature) > 0)
+        {
+            (function(i)
+            {
+                elem.setHandler("onClick", function(obj)
+                {
+                    var elemCanvas = $(divCanvas).find("[geometryType='" + geometries[i].geometry.type + "']")[0];
 
-					if (!elemCanvas.graphDataProperties ||
-						!geometries[i].feature.properties)
-						return;
+                    if (!elemCanvas.graphDataProperties ||
+                        !geometries[i].feature.properties)
+                        return;
 
-					var balloonCanvas = _div();
+                    var balloonCanvas = _div();
 
-					if (!_diagram.createBalloon(obj, balloonCanvas))
-						return;
+                    if (!_diagram.createBalloon(obj, balloonCanvas))
+                        return;
 
-					if (_diagram.createDateTimeDiagramByAttrs(balloonCanvas, 500, 300, geometries[i].feature.properties, elemCanvas.graphDataProperties))
-						_diagram.oldBalloon.resize();
-				})
-			})(i);
-		}*/
+                    if (_diagram.createDateTimeDiagramByAttrs(balloonCanvas, 500, 300, geometries[i].feature.properties, elemCanvas.graphDataProperties))
+                        _diagram.oldBalloon.resize();
+                })
+            })(i);
+        }*/
 
-		geomsPresent[geometries[i].geometry.type] = true;
+        geomsPresent[geometries[i].geometry.type] = true;
 
-		bounds.extendArray(geometries[i].geometry.coordinates[0]);
-	}
+        bounds.extendArray(geometries[i].geometry.coordinates[0]);
+    }
 
     parent['Point'].addData(items['Point']);
     parent['LineString'].addData(items['LineString']);
     parent['Polygon'].addData(items['Polygon']);
 
-	var divCanvas = _div(),
-		divChilds = _div(),
-		// spanHeader = _span([_t(url.length < 45 ? url : url.substr(0, 45) + '...')]),
-		_this = this;
+    var divCanvas = _div(),
+        divChilds = _div(),
+        // spanHeader = _span([_t(url.length < 45 ? url : url.substr(0, 45) + '...')]),
+        _this = this;
 
-	var clickFunc = function(flag)
-	{
+    var clickFunc = function(flag)
+    {
         var lmap = nsGmx.leafletMap,
             method = flag ? 'addLayer' : 'removeLayer';
         lmap[method](parent['Point']);
         lmap[method](parent['LineString']);
         lmap[method](parent['Polygon']);
 
-		if (flag)
-			show(divChilds);
-		else
-			hide(divChilds);
-	}
+        if (flag)
+            show(divChilds);
+        else
+            hide(divChilds);
+    }
 
-	parentTreeCanvas.loaded = function() // переопределим функцию загрузки слоя на центрирование
-	{
-		if (!box.checked)
-		{
-			clickFunc.call(_this, true);
+    parentTreeCanvas.loaded = function() // переопределим функцию загрузки слоя на центрирование
+    {
+        if (!box.checked)
+        {
+            clickFunc.call(_this, true);
 
-			box.checked = true;
-		}
+            box.checked = true;
+        }
 
-		//globalFlashMap.zoomToExtent(bounds.minX, bounds.minY, bounds.maxX, bounds.maxY);
+        //globalFlashMap.zoomToExtent(bounds.minX, bounds.minY, bounds.maxX, bounds.maxY);
         nsGmx.leafletMap.fitBounds([[bounds.min.y, bounds.min.x], [bounds.max.y, bounds.max.x]]);
-	}
+    }
 
-	parentTreeCanvas.clear = function()
-	{
+    parentTreeCanvas.clear = function()
+    {
         var lmap = nsGmx.leafletMap;
-		lmap.removeLayer(parent['Point']);
-		lmap.removeLayer(parent['LineString']);
-		lmap.removeLayer(parent['Polygon']);
+        lmap.removeLayer(parent['Point']);
+        lmap.removeLayer(parent['LineString']);
+        lmap.removeLayer(parent['Polygon']);
 
-		divCanvas.removeNode(true);
-	}
+        divCanvas.removeNode(true);
+    }
 
-	box.onclick = function()
-	{
-		clickFunc.call(_this, this.checked);
-	}
+    box.onclick = function()
+    {
+        clickFunc.call(_this, this.checked);
+    }
 
-	$(parentTreeCanvas).empty();
+    $(parentTreeCanvas).empty();
 
-	if (parentTreeCanvas.childNodes.length == 0)
-		_(parentTreeCanvas, [divCanvas]);
-	else
-		parentTreeCanvas.insertBefore(divCanvas, parentTreeCanvas.firstChild);
+    if (parentTreeCanvas.childNodes.length == 0)
+        _(parentTreeCanvas, [divCanvas]);
+    else
+        parentTreeCanvas.insertBefore(divCanvas, parentTreeCanvas.firstChild);
 
-	_(divCanvas, [divChilds]);
+    _(divCanvas, [divChilds]);
 
-	// for (var type in geomsPresent)
-	// {
-		// var elemCanvas = _div(null, [['css','padding','2px'],['attr','geometryType', type]]),
-			// //icon = _mapHelper.createStylesEditorIcon([{MinZoom:1,MaxZoom:20,RenderStyle:styles[type]}], type.toLowerCase()),
-			// spanElem = _span(null, [['dir','className','layerfeature']]);
+    // for (var type in geomsPresent)
+    // {
+        // var elemCanvas = _div(null, [['css','padding','2px'],['attr','geometryType', type]]),
+            // //icon = _mapHelper.createStylesEditorIcon([{MinZoom:1,MaxZoom:20,RenderStyle:styles[type]}], type.toLowerCase()),
+            // spanElem = _span(null, [['dir','className','layerfeature']]);
 
-		// if (type == 'Point')
-			// _(spanElem, [_t(_gtxt('точки'))]);
-		// else if (type == 'LineString')
-			// _(spanElem, [_t(_gtxt('линии'))]);
-		// else if (type == 'Polygon')
-			// _(spanElem, [_t(_gtxt('полигоны'))]);
+        // if (type == 'Point')
+            // _(spanElem, [_t(_gtxt('точки'))]);
+        // else if (type == 'LineString')
+            // _(spanElem, [_t(_gtxt('линии'))]);
+        // else if (type == 'Polygon')
+            // _(spanElem, [_t(_gtxt('полигоны'))]);
 
         // var icon;
-		// (function(type){
-			// icon = _mapHelper.createWFSStylesEditor(parent[type], styles[type], type.toLowerCase(), divCanvas)
-		// })(type);
+        // (function(type){
+            // icon = _mapHelper.createWFSStylesEditor(parent[type], styles[type], type.toLowerCase(), divCanvas)
+        // })(type);
 
-		// if (typeof loadLayerParams != 'undefined' && loadLayerParams[type.toLowerCase()])
-		// {
-			// var info = loadLayerParams[type.toLowerCase()];
+        // if (typeof loadLayerParams != 'undefined' && loadLayerParams[type.toLowerCase()])
+        // {
+            // var info = loadLayerParams[type.toLowerCase()];
 
-			// elemCanvas.graphDataType = info.graphDataType;
-			// elemCanvas.graphDataProperties = info.graphDataProperties;
-		// }
-		// else
-		// {
-			// elemCanvas.graphDataType = "func";
-			// elemCanvas.graphDataProperties = "";
-		// }
+            // elemCanvas.graphDataType = info.graphDataType;
+            // elemCanvas.graphDataProperties = info.graphDataProperties;
+        // }
+        // else
+        // {
+            // elemCanvas.graphDataType = "func";
+            // elemCanvas.graphDataProperties = "";
+        // }
 
-		// _(elemCanvas, [icon, spanElem])
-		// _(divChilds, [elemCanvas]);
+        // _(elemCanvas, [icon, spanElem])
+        // _(divChilds, [elemCanvas]);
 
-	// }
+    // }
 
-	//globalFlashMap.zoomToExtent(bounds.minX, bounds.minY, bounds.maxX, bounds.maxY);
+    //globalFlashMap.zoomToExtent(bounds.minX, bounds.minY, bounds.maxX, bounds.maxY);
     nsGmx.leafletMap.fitBounds([[bounds.min.y, bounds.min.x], [bounds.max.y, bounds.max.x]]);
 
-	box.checked = true;
+    box.checked = true;
 }
 
 //loadParams - параметры для отдельных слоёв
 //serverParams - параметры сервера, которые были указаны пользователем.
 queryServerData.prototype.drawWMS = function(serviceLayers, url, replaceElem, loadParams, serverParams)
 {
-	var ulCanvas = _ul(null, [['css','paddingBottom','5px'], ['attr','url',url]]),
-		ulChilds = _ul(),
-		remove = makeImageButton('img/closemin.png','img/close_orange.png'),
-		
+    var ulCanvas = _ul(null, [['css','paddingBottom','5px'], ['attr','url',url]]),
+        ulChilds = _ul(),
+        remove = makeImageButton('img/closemin.png','img/close_orange.png'),
+
         lmap = nsGmx.leafletMap;
 
-	$(replaceElem).replaceWith(ulCanvas)
+    $(replaceElem).replaceWith(ulCanvas)
 
     $(ulCanvas).data('serverParams', serverParams);
 
-	remove.onclick = function()
-	{
-		for (var i = 0; i < ulChilds.childNodes.length; i++)
+    remove.onclick = function()
+    {
+        for (var i = 0; i < ulChilds.childNodes.length; i++)
         {
-			ulChilds.childNodes[i].firstChild.lastChild.clear && ulChilds.childNodes[i].firstChild.lastChild.clear();
+            ulChilds.childNodes[i].firstChild.lastChild.clear && ulChilds.childNodes[i].firstChild.lastChild.clear();
             lmap.removeLayer(ulChilds.childNodes[i].firstChild.lastChild.gmxObject);
-		}
+        }
 
-		this.parentNode.parentNode.parentNode.removeNode(true);
-	}
+        this.parentNode.parentNode.parentNode.removeNode(true);
+    }
 
-	remove.className = 'remove';
-	remove.style.right = '0px';
+    remove.className = 'remove';
+    remove.style.right = '0px';
 
-	_(ulCanvas, [_li([_div([_span([_t(url.length < 45 ? url : url.substr(0, 45) + '...')],[['dir','className','urlHeader']]), remove],[['css','position','relative']]), ulChilds])])
+    _(ulCanvas, [_li([_div([_span([_t(url.length < 45 ? url : url.substr(0, 45) + '...')],[['dir','className','urlHeader']]), remove],[['css','position','relative']]), ulChilds])])
 
-	var clickFunc = function(layer, parent, flag)
-	{
-		if (!flag) {
-			lmap.removeLayer(parent);
+    var clickFunc = function(layer, parent, flag)
+    {
+        if (!flag) {
+            lmap.removeLayer(parent);
         } else {
-			updateFunc(layer, parent);
-			lmap.addLayer(parent);
-		}
-	}
+            updateFunc(layer, parent);
+            lmap.addLayer(parent);
+        }
+    }
 
-	var updateFunc = function(layer, parent)
-	{
+    var updateFunc = function(layer, parent)
+    {
         var requestParams = {}
-		if (serverParams && serverParams.format)
+        if (serverParams && serverParams.format)
         {
             requestParams.format = "image/" + serverParams.format;
             requestParams.transparent = serverParams.format === 'png';
@@ -940,18 +940,18 @@ queryServerData.prototype.drawWMS = function(serviceLayers, url, replaceElem, lo
             parent.clearLayers();
             parent.addLayer(L.imageOverlay(window.serverBase + "ImgSave.ashx?now=true&get=" + encodeURIComponent(res.url), L.latLngBounds([[b.minY, b.minX], [b.maxY, b.maxX]])));
         }
-	}
+    }
 
-	serviceLayers.forEach(function(layer)
-	{
-		var elemCanvas = _div(null, [['css','padding','2px']]),
-			box = _checkbox(false, 'checkbox'),
-			spanElem = _span([_t(layer.title)], [['css','cursor','pointer'],['dir','className','layerfeature']]),
-			parent = L.layerGroup().addTo(nsGmx.leafletMap);
+    serviceLayers.forEach(function(layer)
+    {
+        var elemCanvas = _div(null, [['css','padding','2px']]),
+            box = _checkbox(false, 'checkbox'),
+            spanElem = _span([_t(layer.title)], [['css','cursor','pointer'],['dir','className','layerfeature']]),
+            parent = L.layerGroup().addTo(nsGmx.leafletMap);
 
         spanElem.gmxObject = parent;
 
-		box.className = 'floatLeft';
+        box.className = 'floatLeft';
 
         spanElem.onclick = function()
         {
@@ -969,19 +969,19 @@ queryServerData.prototype.drawWMS = function(serviceLayers, url, replaceElem, lo
             updateFunc(layer, parent);
         }
 
-		box.setAttribute('layerName', layer.name);
+        box.setAttribute('layerName', layer.name);
 
-		_(elemCanvas, [box, spanElem]);
-		_(ulChilds, [_li([elemCanvas])]);
+        _(elemCanvas, [box, spanElem]);
+        _(ulChilds, [_li([elemCanvas])]);
 
-		if (typeof loadParams != 'undefined' && loadParams[layer.name])
-			$(spanElem).trigger("click");
-	});
+        if (typeof loadParams != 'undefined' && loadParams[layer.name])
+            $(spanElem).trigger("click");
+    });
 
-	$(ulCanvas).treeview();
+    $(ulCanvas).treeview();
 
-	nsGmx.leafletMap.on('moveend', function()
-	{
+    nsGmx.leafletMap.on('moveend', function()
+    {
         var boxes = ulChilds.getElementsByTagName('input');
 
         for (var i = 0; i < boxes.length; i++)
@@ -989,154 +989,154 @@ queryServerData.prototype.drawWMS = function(serviceLayers, url, replaceElem, lo
             if (boxes[i].checked)
                 boxes[i].update();
         }
-	})
+    })
 }
 
 //Добавляет контрол выбора формата запроса к WMS и возвращает его в параметре format (пример: "png", "jpg")
 queryServerData.prototype.customWMSParamsManager = (function()
 {
-	var _targetDiv = null;
-	return {
-		init: function(targetDiv)
-		{
-			var select = nsGmx.Utils._select([_option([_t('png')]), _option([_t('jpeg')])], [['dir','className','selectStyle'], ['css', 'width', '60px']]);
-			_targetDiv = targetDiv;
-			_(_targetDiv, [_t(_gtxt('Формат изображения') + ': '), select]);
-			_targetDiv.style.marginBottom = '5px';
-		},
-		collect: function() {
-			return { format: $("option:selected", _targetDiv).text() };
-		}
-	}
+    var _targetDiv = null;
+    return {
+        init: function(targetDiv)
+        {
+            var select = nsGmx.Utils._select([_option([_t('png')]), _option([_t('jpeg')])], [['dir','className','selectStyle'], ['css', 'width', '60px']]);
+            _targetDiv = targetDiv;
+            _(_targetDiv, [_t(_gtxt('Формат изображения') + ': '), select]);
+            _targetDiv.style.marginBottom = '5px';
+        },
+        collect: function() {
+            return { format: $("option:selected", _targetDiv).text() };
+        }
+    }
 })();
 
 queryServerData.prototype.drawWFS = function(serviceLayers, url, replaceElem, loadParams)
 {
-	var ulCanvas = _ul(null, [['css','paddingBottom','5px'], ['attr','url',url]]),
-		ulChilds = _ul(),
-		divFormat = _div(),
-		remove = makeImageButton('img/closemin.png','img/close_orange.png'),
-		_this = this;
+    var ulCanvas = _ul(null, [['css','paddingBottom','5px'], ['attr','url',url]]),
+        ulChilds = _ul(),
+        divFormat = _div(),
+        remove = makeImageButton('img/closemin.png','img/close_orange.png'),
+        _this = this;
 
-	$(replaceElem).replaceWith(ulCanvas)
+    $(replaceElem).replaceWith(ulCanvas)
 
-	remove.onclick = function()
-	{
-		for (var i = 0; i < ulChilds.childNodes.length; i++)
-			ulChilds.childNodes[i].firstChild.lastChild.clear && ulChilds.childNodes[i].firstChild.lastChild.clear();
+    remove.onclick = function()
+    {
+        for (var i = 0; i < ulChilds.childNodes.length; i++)
+            ulChilds.childNodes[i].firstChild.lastChild.clear && ulChilds.childNodes[i].firstChild.lastChild.clear();
 
-		this.parentNode.parentNode.parentNode.removeNode(true);
-	}
+        this.parentNode.parentNode.parentNode.removeNode(true);
+    }
 
-	remove.className = 'remove';
-	remove.style.right = '0px';
+    remove.className = 'remove';
+    remove.style.right = '0px';
 
-	_(ulCanvas, [_li([_div([_span([_t(url.length < 45 ? url : url.substr(0, 45) + '...')],[['dir','className','urlHeader']]), divFormat, remove],[['css','position','relative']]), ulChilds])]);
+    _(ulCanvas, [_li([_div([_span([_t(url.length < 45 ? url : url.substr(0, 45) + '...')],[['dir','className','urlHeader']]), divFormat, remove],[['css','position','relative']]), ulChilds])]);
 
-	var formatSelect = nsGmx.Utils._select([_option([_t("JSON")], [['attr','value','json']]),
-								_option([_t("GML / KML")], [['attr','value','gml']])], [['dir','className','selectStyle'],['css','width','100px']]);
+    var formatSelect = nsGmx.Utils._select([_option([_t("JSON")], [['attr','value','json']]),
+                                _option([_t("GML / KML")], [['attr','value','gml']])], [['dir','className','selectStyle'],['css','width','100px']]);
 
-	_(divFormat, [formatSelect]);
+    _(divFormat, [formatSelect]);
 
-	var clickFunc = function(layer, flag, elemCanvas, box, header, loadLayerParams)
-	{
-		if (flag) {
-			var newFormat = formatSelect.value;
+    var clickFunc = function(layer, flag, elemCanvas, box, header, loadLayerParams)
+    {
+        if (flag) {
+            var newFormat = formatSelect.value;
 
-			// загружаем данные только один раз
-			if (!elemCanvas.loaded || elemCanvas.format != newFormat)
-			{
-				elemCanvas.clear && elemCanvas.clear();
+            // загружаем данные только один раз
+            if (!elemCanvas.loaded || elemCanvas.format != newFormat)
+            {
+                elemCanvas.clear && elemCanvas.clear();
 
                 var separator = url.indexOf('?') !== -1 ? '&' : '?';
 
-				var objUrl = url + separator + "request=GetFeature&version=1.0.0&typeName=" + layer.name;
+                var objUrl = url + separator + "request=GetFeature&version=1.0.0&typeName=" + layer.name;
 
-				if (formatSelect.value == 'json')
-					objUrl += '&outputFormat=json'
+                if (formatSelect.value == 'json')
+                    objUrl += '&outputFormat=json'
 
-				_this.loadGML(objUrl, elemCanvas, box, header, newFormat, loadLayerParams, layer.srs);
+                _this.loadGML(objUrl, elemCanvas, box, header, newFormat, loadLayerParams, layer.srs);
 
-				elemCanvas.loaded = true;
-				elemCanvas.format = newFormat;
+                elemCanvas.loaded = true;
+                elemCanvas.format = newFormat;
 
-				var loading = _div([_img(null, [['attr','src','img/progress.gif'],['css','marginRight','10px']]), _t(_gtxt('загрузка...'))], [['css','margin','3px 0px']]);
+                var loading = _div([_img(null, [['attr','src','img/progress.gif'],['css','marginRight','10px']]), _t(_gtxt('загрузка...'))], [['css','margin','3px 0px']]);
 
-				_(elemCanvas, [loading]);
-			}
-			else if (typeof elemCanvas.loaded == 'function') {
-				elemCanvas.loaded();
-			}
-		}
-	}
+                _(elemCanvas, [loading]);
+            }
+            else if (typeof elemCanvas.loaded == 'function') {
+                elemCanvas.loaded();
+            }
+        }
+    }
 
-	for (var i = 0; i < serviceLayers.length; i++)
-	{
-		var elemCanvas = _div(null, [['css','padding','2px']]),
-			box = _checkbox(false, 'checkbox'),
-			spanElem = _span([_t(serviceLayers[i].title != '' ? serviceLayers[i].title : serviceLayers[i].name)],[['css','cursor','pointer'],['dir','className','layerfeature']]),
-			elemChilds = _div(null, [['css','marginLeft','20px']]);
+    for (var i = 0; i < serviceLayers.length; i++)
+    {
+        var elemCanvas = _div(null, [['css','padding','2px']]),
+            box = _checkbox(false, 'checkbox'),
+            spanElem = _span([_t(serviceLayers[i].title != '' ? serviceLayers[i].title : serviceLayers[i].name)],[['css','cursor','pointer'],['dir','className','layerfeature']]),
+            elemChilds = _div(null, [['css','marginLeft','20px']]);
 
-		box.className = 'floatLeft';
+        box.className = 'floatLeft';
 
-		box.setAttribute('layerName', serviceLayers[i].name);
+        box.setAttribute('layerName', serviceLayers[i].name);
 
-		(function(layer, parentTreeCanvas, box, header){
-			spanElem.onclick = function()
-			{
-				if (!box.checked)
-					box.checked = true;
+        (function(layer, parentTreeCanvas, box, header){
+            spanElem.onclick = function()
+            {
+                if (!box.checked)
+                    box.checked = true;
 
-				clickFunc.call(_this, layer, true, parentTreeCanvas, box, header);
-			}
-			box.onclick = function()
-			{
-				clickFunc.call(_this, layer, this.checked, parentTreeCanvas, box, header);
-			}
-		})(serviceLayers[i], elemChilds, box, spanElem);
+                clickFunc.call(_this, layer, true, parentTreeCanvas, box, header);
+            }
+            box.onclick = function()
+            {
+                clickFunc.call(_this, layer, this.checked, parentTreeCanvas, box, header);
+            }
+        })(serviceLayers[i], elemChilds, box, spanElem);
 
-		_(elemCanvas, [box, _div([spanElem],[['css','display','inline']]), elemChilds])
-		_(ulChilds, [_li([elemCanvas])])
+        _(elemCanvas, [box, _div([spanElem],[['css','display','inline']]), elemChilds])
+        _(ulChilds, [_li([elemCanvas])])
 
-		if (typeof loadParams != 'undefined' && loadParams[serviceLayers[i].name])
-		{
-			if (!box.checked)
-				box.checked = true;
+        if (typeof loadParams != 'undefined' && loadParams[serviceLayers[i].name])
+        {
+            if (!box.checked)
+                box.checked = true;
 
-			formatSelect.value = loadParams[serviceLayers[i].name].format;
-			clickFunc.call(_this, serviceLayers[i], true, elemChilds, box, spanElem, loadParams[serviceLayers[i].name].info);
-		}
-	}
+            formatSelect.value = loadParams[serviceLayers[i].name].format;
+            clickFunc.call(_this, serviceLayers[i], true, elemChilds, box, spanElem, loadParams[serviceLayers[i].name].info);
+        }
+    }
 
-	$(ulCanvas).treeview();
+    $(ulCanvas).treeview();
 }
 
 
 var _queryServerDataWFS = new queryServerData(),
-	_queryServerDataWMS = new queryServerData();
+    _queryServerDataWMS = new queryServerData();
 
 loadServerData.WFS.load = function()
 {
-	var alreadyLoaded = _queryServerDataWFS.createWorkCanvas(arguments[0]);
+    var alreadyLoaded = _queryServerDataWFS.createWorkCanvas(arguments[0]);
 
-	if (!alreadyLoaded)
-		_queryServerDataWFS.load('WFS', _queryServerDataWFS.parseWFSCapabilities, _queryServerDataWFS.drawWFS, null, '1.0.0');
+    if (!alreadyLoaded)
+        _queryServerDataWFS.load('WFS', _queryServerDataWFS.parseWFSCapabilities, _queryServerDataWFS.drawWFS, null, '1.0.0');
 }
 loadServerData.WFS.unload = function()
 {
-//	removeChilds($$('leftContent'))
+//  removeChilds($$('leftContent'))
 }
 
 loadServerData.WMS.load = function()
 {
-	var alreadyLoaded = _queryServerDataWMS.createWorkCanvas(arguments[0]);
+    var alreadyLoaded = _queryServerDataWMS.createWorkCanvas(arguments[0]);
 
-	if (!alreadyLoaded)
-		_queryServerDataWMS.load('WMS', parseWMSCapabilities, _queryServerDataWMS.drawWMS, _queryServerDataWMS.customWMSParamsManager);
+    if (!alreadyLoaded)
+        _queryServerDataWMS.load('WMS', parseWMSCapabilities, _queryServerDataWMS.drawWMS, _queryServerDataWMS.customWMSParamsManager);
 }
 loadServerData.WMS.unload = function()
 {
-//	removeChilds($$('leftContent'))
+//  removeChilds($$('leftContent'))
 }
 
 nsGmx.userObjectsManager.addDataCollector('wms', {

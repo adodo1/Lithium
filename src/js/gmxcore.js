@@ -180,14 +180,14 @@ var gmxCore = function()
                 var path;
                 if (typeof moduleSource != 'undefined')
                 {
-                    path = moduleSource.match(/^https?:\/\//i) ? moduleSource : (window.gmxJSHost || "") + moduleSource;
+                    path = moduleSource.match(new RegExp('^https?://', 'i')) ? moduleSource : (window.gmxJSHost || "") + moduleSource;
                 }
                 else
                 {
                     path = (moduleName in _moduleFiles) ? _moduleFiles[moduleName] : (_modulesDefaultHost || window.gmxJSHost || "") + moduleName + '.js';
                 }
 
-                var pathRegexp = /(.*)\/[^\/]+/;
+                var pathRegexp = new RegExp('(.*)/[^/]+');
                 if ( typeof _modulePathes[moduleName] === 'undefined' )
                     _modulePathes[moduleName] = pathRegexp.test(path) ? path.match(pathRegexp)[1] + "/" : "";
 

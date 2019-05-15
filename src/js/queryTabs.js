@@ -2,7 +2,7 @@
 import nsGmx from './nsGmx.js';
 import { leftMenu } from './menu.js';
 import {
-    _div,    
+    _div,
     getOwnChildNumber,
     removeDialog,
     showDialog,
@@ -48,47 +48,47 @@ nsGmx.Controls.LanguageSelector = function(container) {
 
 var queryTabs = function()
 {
-	this.builded = false;
+    this.builded = false;
 
-	this.tabsCanvas = null;
+    this.tabsCanvas = null;
 
-	this.tabs = [];
+    this.tabs = [];
 }
 
 queryTabs.prototype = new leftMenu();
 
 queryTabs.prototype.load = function()
 {
-	if (!this.builded)
-	{
-		var _this = this;
-		this.tabsCanvas = _div(null, [['dir','className','tabsCanvas']])
+    if (!this.builded)
+    {
+        var _this = this;
+        this.tabsCanvas = _div(null, [['dir','className','tabsCanvas']])
 
-		this.workCanvas.appendChild(this.tabsCanvas);
+        this.workCanvas.appendChild(this.tabsCanvas);
 
-		for (var i = 0; i < this.tabs.length; i++)
-			this.draw(this.tabs[i]);
+        for (var i = 0; i < this.tabs.length; i++)
+            this.draw(this.tabs[i]);
 
-		this.builded = true;
+        this.builded = true;
 
-		$(this.tabsCanvas).sortable({
-			axis: 'y',
-			tolerance: 'pointer',
-			containment: 'parent'
-		});
-		$(this.tabsCanvas).bind('sortupdate', function()
-		{
-			var orderedTabs = [];
-			$(_this.tabsCanvas).children().each(function()
-			{
-				orderedTabs.push(this.tabInfo);
-			})
+        $(this.tabsCanvas).sortable({
+            axis: 'y',
+            tolerance: 'pointer',
+            containment: 'parent'
+        });
+        $(this.tabsCanvas).bind('sortupdate', function()
+        {
+            var orderedTabs = [];
+            $(_this.tabsCanvas).children().each(function()
+            {
+                orderedTabs.push(this.tabInfo);
+            })
 
-			_this.tabs = orderedTabs;
-		});
+            _this.tabs = orderedTabs;
+        });
 
         this.leftPanelItem.hide();
-	}
+    }
 }
 
 queryTabs.prototype.add = function(tabInfo, tabIndex)
@@ -119,7 +119,6 @@ queryTabs.prototype.add = function(tabInfo, tabIndex)
             '<div class = "addtabs-lang-placeholder"></div>' +
         '</div>');
 
-
     var titleLoc = {rus: tabInfo.name_rus, eng: tabInfo.name_eng};
     var descrLoc = {rus: tabInfo.description_rus, eng: tabInfo.description_eng};
     var ui = $(uiTemplate({
@@ -146,16 +145,16 @@ queryTabs.prototype.add = function(tabInfo, tabIndex)
 
         if (e.keyCode == 13)
         {
-			createTab();
-	  		return false;
-	  	}
+            createTab();
+            return false;
+        }
 
-		return true;
+        return true;
     });
 
     titleInput.focus();
 
-	var createTab = function() {
+    var createTab = function() {
             updateDataLoc(langControl.getLang());
             var mapState = window._mapHelper.getMapState(),
                 tab = {
@@ -183,7 +182,7 @@ queryTabs.prototype.add = function(tabInfo, tabIndex)
 
     $('.addtabs-create', ui).click(createTab);
 
-	var dialogDiv = showDialog(_gtxt("Имя закладки"), ui[0], 280, 230, false, false);
+    var dialogDiv = showDialog(_gtxt("Имя закладки"), ui[0], 280, 230, false, false);
 }
 
 queryTabs.prototype.draw = function (tabInfo, tabIndex)
@@ -199,24 +198,23 @@ queryTabs.prototype.draw = function (tabInfo, tabIndex)
         '<div class="gmx-icon-close"></div>' +
     '</div>');
 
-
     var canvas = $(tmpl({
             name: selectValLoc('name'),
             description: selectValLoc('description')
         }))[0];
     var _this = this;
 
-	canvas.tabInfo = tabInfo;
+    canvas.tabInfo = tabInfo;
 
     $('.tabName', canvas).click(this.show.bind(this, tabInfo.state));
 
     $('.gmx-icon-close', canvas).click(function() {
-		var index = getOwnChildNumber(canvas);
+        var index = getOwnChildNumber(canvas);
 
-		_this.tabs.splice(index, 1);
+        _this.tabs.splice(index, 1);
 
-		canvas.removeNode(true);
-	})
+        canvas.removeNode(true);
+    })
 
     $('.gmx-icon-edit', canvas).click(function() {
         var index = getOwnChildNumber(canvas);
@@ -232,11 +230,11 @@ queryTabs.prototype.draw = function (tabInfo, tabIndex)
 
 queryTabs.prototype.show = function(state)
 {
-	var parsedState = {},
+    var parsedState = {},
         lmap = nsGmx.leafletMap,
         gmxDrawing = lmap.gmxDrawing;
 
-	$.extend(true, parsedState, state);
+    $.extend(true, parsedState, state);
     var pos = parsedState.position;
 
     lmap.setView(L.Projection.Mercator.unproject(L.point(pos.x, pos.y)), 17 - pos.z);
@@ -251,13 +249,13 @@ queryTabs.prototype.show = function(state)
     //удаляем все фичи
     gmxDrawing.getFeatures().slice(0).forEach(gmxDrawing.remove.bind(gmxDrawing));
 
-	for (let i = 0; i < parsedState.drawnObjects.length; i++)
-	{
+    for (let i = 0; i < parsedState.drawnObjects.length; i++)
+    {
         //старый формат - число, новый - строка
-		var rawColor = parsedState.drawnObjects[i].color,
+        var rawColor = parsedState.drawnObjects[i].color,
             color = (typeof rawColor === 'number' ? '#' + L.gmxUtil.dec2hex(rawColor) : rawColor) || '#0000FF',
-			thickness = parsedState.drawnObjects[i].thickness || 2,
-			opacity = parsedState.drawnObjects[i].opacity || 80;
+            thickness = parsedState.drawnObjects[i].thickness || 2,
+            opacity = parsedState.drawnObjects[i].opacity || 80;
 
         gmxDrawing.addGeoJSON(parsedState.drawnObjects[i].geometry, {
             lineStyle: {
@@ -266,9 +264,9 @@ queryTabs.prototype.show = function(state)
                 opacity: opacity/100
             }
         });
-	}
+    }
 
-	_queryMapLayers.applyState(parsedState.condition, parsedState.mapStyles);
+    _queryMapLayers.applyState(parsedState.condition, parsedState.mapStyles);
 
     if (typeof parsedState.customParamsCollection !== 'undefined')
         window._mapHelper.customParamsManager.loadParams(parsedState.customParamsCollection);

@@ -121,57 +121,57 @@ nsGmx.Utils._ = _;
 
 if (window.Node && window.Node.prototype)
 {
-	Node.prototype.removeNode = function()
-	{
-		var parent = this.parentNode;
-		parent && parent.removeChild(this);
-	}
+    Node.prototype.removeNode = function()
+    {
+        var parent = this.parentNode;
+        parent && parent.removeChild(this);
+    }
 }
 
 function getkey(e)
 {
-	if (window.event)
-		return window.event.keyCode;
-	else if (e)
-		return e.which;
-	else
-		return null;
+    if (window.event)
+        return window.event.keyCode;
+    else if (e)
+        return e.which;
+    else
+        return null;
 }
 
 function show(elem)
 {
-	elem.style.display = '';
+    elem.style.display = '';
 }
 function hide(elem)
 {
-	elem.style.display = 'none';
+    elem.style.display = 'none';
 }
 function hidden(elem)
 {
-	elem.style.visibility = 'hidden';
+    elem.style.visibility = 'hidden';
 }
 function visible(elem)
 {
-	elem.style.visibility = 'visible';
+    elem.style.visibility = 'visible';
 }
 function switchSelect(sel, value)
 {
-	if (!sel.options || !sel.options.length)
-		return sel;
+    if (!sel.options || !sel.options.length)
+        return sel;
 
-	for (var i = 0; i < sel.options.length; i++)
-	{
-		if (value == sel.options[i].value)
-		{
-			sel.options[i].selected = true;
+    for (var i = 0; i < sel.options.length; i++)
+    {
+        if (value == sel.options[i].value)
+        {
+            sel.options[i].selected = true;
 
-			sel.selectedIndex = i;
+            sel.selectedIndex = i;
 
-			break;
-		}
-	}
+            break;
+        }
+    }
 
-	return sel;
+    return sel;
 }
 function parseColor(str) {
     var res = 0xffffff;
@@ -191,18 +191,18 @@ function parseColor(str) {
 
 function objLength(obj)
 {
-	var cnt = 0;
-	for (var field in obj) cnt++;
+    var cnt = 0;
+    for (var field in obj) cnt++;
 
-	return cnt;
+    return cnt;
 }
 function valueInArray(arr, value)
 {
-	for (var i = 0; i < arr.length; i++)
-		if (arr[i] == value)
-			return true;
+    for (var i = 0; i < arr.length; i++)
+        if (arr[i] == value)
+            return true;
 
-	return false;
+    return false;
 }
 function getOffsetRect(elem)
 {
@@ -220,103 +220,103 @@ function getOffsetRect(elem)
 }
 function attachEffects(elem, className)
 {
-	elem.onmouseover = function()
-	{
-		jQuery(this).addClass(className)
-	}
-	elem.onmouseout = function(e)
-	{
-		var evt = e || window.event,
-			// target = evt.srcElement || evt.target,
-			relTarget = evt.relatedTarget || evt.toElement;
+    elem.onmouseover = function()
+    {
+        jQuery(this).addClass(className)
+    }
+    elem.onmouseout = function(e)
+    {
+        var evt = e || window.event,
+            // target = evt.srcElement || evt.target,
+            relTarget = evt.relatedTarget || evt.toElement;
 
-		try
-		{
-			while (relTarget)
-			{
-				if (relTarget == elem)
-					return;
-				relTarget = relTarget.parentNode;
-			}
+        try
+        {
+            while (relTarget)
+            {
+                if (relTarget == elem)
+                    return;
+                relTarget = relTarget.parentNode;
+            }
 
-			jQuery(elem).removeClass(className)
-		}
-		catch (e)
-		{
-			jQuery(elem).removeClass(className)
-		}
-	}
+            jQuery(elem).removeClass(className)
+        }
+        catch (e)
+        {
+            jQuery(elem).removeClass(className)
+        }
+    }
 }
 function makeButton(value, id)
 {
-	var inp = _input(null, [['dir','className','btn'],['attr','type','submit'],['attr','value',value]]);
-	if (typeof id != 'undefined' && id != null)
-		inp.id = id;
+    var inp = _input(null, [['dir','className','btn'],['attr','type','submit'],['attr','value',value]]);
+    if (typeof id != 'undefined' && id != null)
+        inp.id = id;
 
-	inp.style.padding = '0px 5px';
+    inp.style.padding = '0px 5px';
 
-	return inp;
+    return inp;
 }
 function makeImageButton(url, urlHover)
 {
-	var btn = _img();
-	btn.setAttribute('src',url)
-	btn.style.cursor = 'pointer';
-	btn.style.border = 'none';
+    var btn = _img();
+    btn.setAttribute('src',url)
+    btn.style.cursor = 'pointer';
+    btn.style.border = 'none';
 
-	if (urlHover)
-	{
-		btn.onmouseover = function()
-		{
-			this.setAttribute('src', urlHover);
-		}
-		btn.onmouseout = function()
-		{
-			this.setAttribute('src', url);
-		}
-	}
+    if (urlHover)
+    {
+        btn.onmouseover = function()
+        {
+            this.setAttribute('src', urlHover);
+        }
+        btn.onmouseout = function()
+        {
+            this.setAttribute('src', url);
+        }
+    }
 
-	return btn;
+    return btn;
 }
 function makeLinkButton(text)
 {
-	var span = _span([_t(String(text))],[['dir','className','buttonLink']]);
+    var span = _span([_t(String(text))],[['dir','className','buttonLink']]);
 
-	attachEffects(span, 'buttonLinkHover')
+    attachEffects(span, 'buttonLinkHover')
 
-	return span;
+    return span;
 }
 
 // function makeHelpButton(helpText){
-// 	var btn = makeImageButton(window.gmxAPI.getAPIHostRoot() + 'api/img/help.gif');
-// 	btn.setAttribute('title', helpText)
-// 	btn.onclick = function(){
-// 		showDialog('', _t(helpText), 300, 150);
-// 	}
-// 	return btn;
+//  var btn = makeImageButton(window.gmxAPI.getAPIHostRoot() + 'api/img/help.gif');
+//  btn.setAttribute('title', helpText)
+//  btn.onclick = function(){
+//      showDialog('', _t(helpText), 300, 150);
+//  }
+//  return btn;
 // }
 
 function getOwnChildNumber(elem)
 {
-	for (var i = 0; i < elem.parentNode.childNodes.length; i++)
-		if (elem == elem.parentNode.childNodes[i])
-			return i;
+    for (var i = 0; i < elem.parentNode.childNodes.length; i++)
+        if (elem == elem.parentNode.childNodes[i])
+            return i;
 }
 function stopEvent(e)
 {
-	if (!e) e = window.event;
+    if (!e) e = window.event;
 
-	//e.cancelBubble is supported by IE - this will kill the bubbling process.
-	e.cancelBubble = true;
-	e.returnValue = false;
+    //e.cancelBubble is supported by IE - this will kill the bubbling process.
+    e.cancelBubble = true;
+    e.returnValue = false;
 
-	//e.stopPropagation works only in Firefox.
-	if (e.stopPropagation)
-	{
-		e.stopPropagation();
-		e.preventDefault();
-	}
-	return false;
+    //e.stopPropagation works only in Firefox.
+    if (e.stopPropagation)
+    {
+        e.stopPropagation();
+        e.preventDefault();
+    }
+    return false;
 }
 
 //Показывает диалог (на основе jQuery UI dialog)
@@ -354,11 +354,11 @@ function showDialog(title, content, width, height, posX, posY, resizeFunc, close
             setMinSize: true
         }
     }
-	var canvas = _div([content]);
+    var canvas = _div([content]);
 
-	document.body.appendChild(canvas);
+    document.body.appendChild(canvas);
 
-	var dialogParams = {
+    var dialogParams = {
         width: params.width,
         height: params.height,
         title: title,
@@ -388,8 +388,8 @@ function showDialog(title, content, width, height, posX, posY, resizeFunc, close
 
     jQuery(canvas).dialog(dialogParams);
 
-	var dialog = canvas.parentNode;
-	dialog.style.overflow = '';
+    var dialog = canvas.parentNode;
+    dialog.style.overflow = '';
 
     $(dialog).focusout(function (event) {
 
@@ -413,21 +413,21 @@ function showDialog(title, content, width, height, posX, posY, resizeFunc, close
     });
 
 
-	jQuery(dialog).children("div.ui-resizable-se").removeClass("ui-icon")
-				.removeClass("ui-icon-gripsmall-diagonal-se")
-				.removeClass("ui-icon-grip-diagonal-se");
+    jQuery(dialog).children("div.ui-resizable-se").removeClass("ui-icon")
+                .removeClass("ui-icon-gripsmall-diagonal-se")
+                .removeClass("ui-icon-grip-diagonal-se");
 
-	return canvas;
+    return canvas;
 }
 
 function removeDialog(canvas)
 {
-	jQuery(canvas).dialog('destroy').remove();
+    jQuery(canvas).dialog('destroy').remove();
 }
 
 function showErrorMessage(message, removeFlag, title)
 {
-	var canvas = _div([_t(message)],[['dir','className','errorDialog']]);
+    var canvas = _div([_t(message)],[['dir','className','errorDialog']]);
     var jQueryDiv = showDialog(title || "Ошибка!", canvas, {
             width: 250,
             height: 150,
@@ -436,28 +436,28 @@ function showErrorMessage(message, removeFlag, title)
             }
         });
 
-	if (removeFlag)
-	{
-		setTimeout(function()
-		{
-			if (canvas)
-			{
+    if (removeFlag)
+    {
+        setTimeout(function()
+        {
+            if (canvas)
+            {
                 jQuery(jQueryDiv).dialog("destroy");
-				jQuery(canvas.parentNode).remove();
-			}
-		}, 2500)
-	}
+                jQuery(canvas.parentNode).remove();
+            }
+        }, 2500)
+    }
 }
 
 function _checkbox(flag, type, name)
 {
-	var box = _input(null, [['attr','type',type]]);
+    var box = _input(null, [['attr','type',type]]);
     box.checked = flag;
 
     if (name)
         box.setAttribute('name', name);
 
-	return box;
+    return box;
 }
 
 function insertAtCursor(myField, myValue, sel)
@@ -467,55 +467,55 @@ function insertAtCursor(myField, myValue, sel)
         return;
     }
 
-	if (document.selection)
-	{
-		if (typeof sel != 'undefined')
-			sel.text = myValue;
-		else
-		{
-			myField.focus();
-			sel = document.selection.createRange();
-			sel.text = myValue;
-		}
-	}
-	else if (myField.selectionStart || myField.selectionStart == '0')
-	{
-		var startPos = myField.selectionStart,
-			endPos = myField.selectionEnd;
+    if (document.selection)
+    {
+        if (typeof sel != 'undefined')
+            sel.text = myValue;
+        else
+        {
+            myField.focus();
+            sel = document.selection.createRange();
+            sel.text = myValue;
+        }
+    }
+    else if (myField.selectionStart || myField.selectionStart == '0')
+    {
+        var startPos = myField.selectionStart,
+            endPos = myField.selectionEnd;
 
-		myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
-	}
-	else
-		myField.value += myValue;
+        myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
+    }
+    else
+        myField.value += myValue;
 }
 
 /* ----------------------------- */
 // function sendRequest(url, callback, body)
 // {
-// 	var xmlhttp;
-// 	if (typeof XMLHttpRequest != 'undefined')
-// 		xmlhttp = new XMLHttpRequest();
-// 	else
-// 		try { xmlhttp = new ActiveXObject("Msxml2.XMLHTTP"); }
-// 		catch (E) { try {xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); } catch (e) { console.log(e); }}
+//  var xmlhttp;
+//  if (typeof XMLHttpRequest != 'undefined')
+//      xmlhttp = new XMLHttpRequest();
+//  else
+//      try { xmlhttp = new ActiveXObject("Msxml2.XMLHTTP"); }
+//      catch (E) { try {xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); } catch (e) { console.log(e); }}
 
-// 	xmlhttp.open(body ? "POST" : "GET", url, true);
-// 	if (body)
-// 	{
-// 		xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-// 		xmlhttp.setRequestHeader('Content-length', body.length);
-// 	}
-// 	xmlhttp.onreadystatechange = function() { if (xmlhttp.readyState == 4) callback(xmlhttp); }
-// 	xmlhttp.send(body || "");
+//  xmlhttp.open(body ? "POST" : "GET", url, true);
+//  if (body)
+//  {
+//      xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+//      xmlhttp.setRequestHeader('Content-length', body.length);
+//  }
+//  xmlhttp.onreadystatechange = function() { if (xmlhttp.readyState == 4) callback(xmlhttp); }
+//  xmlhttp.send(body || "");
 // }
 
 // function sendJSONRequest(url, callback)
 // {
-// 	sendRequest(url, function(xmlhttp)
-// 	{
-// 		var text = xmlhttp.responseText;
-// 		callback(JSON.parse(text));
-// 	});
+//  sendRequest(url, function(xmlhttp)
+//  {
+//      var text = xmlhttp.responseText;
+//      callback(JSON.parse(text));
+//  });
 // }
 
 nsGmx.Utils.uniqueGlobalName = (function()
@@ -539,16 +539,16 @@ nsGmx.Utils.uniqueGlobalName = (function()
  */
 function sendCrossDomainJSONRequest(url, callback, callbackParamName, errorCallback)
 {
-	callbackParamName = callbackParamName || 'CallbackName';
+    callbackParamName = callbackParamName || 'CallbackName';
 
     var script = document.createElement("script");
-	script.setAttribute("charset", "UTF-8");
-	var callbackName = nsGmx.Utils.uniqueGlobalName(function(obj)
-	{
-		callback && callback(obj);
-		window[callbackName] = false;
-		document.getElementsByTagName("head").item(0).removeChild(script);
-	});
+    script.setAttribute("charset", "UTF-8");
+    var callbackName = nsGmx.Utils.uniqueGlobalName(function(obj)
+    {
+        callback && callback(obj);
+        window[callbackName] = false;
+        document.getElementsByTagName("head").item(0).removeChild(script);
+    });
 
     var sepSym = url.indexOf('?') == -1 ? '?' : '&';
 
@@ -556,76 +556,76 @@ function sendCrossDomainJSONRequest(url, callback, callbackParamName, errorCallb
         script.onerror = errorCallback;
     }
 
-	script.setAttribute("src", url + sepSym + callbackParamName + "=" + callbackName + "&" + Math.random());
-	document.getElementsByTagName("head").item(0).appendChild(script);
+    script.setAttribute("src", url + sepSym + callbackParamName + "=" + callbackName + "&" + Math.random());
+    document.getElementsByTagName("head").item(0).appendChild(script);
 }
 nsGmx.Utils.sendCrossDomainJSONRequest = sendCrossDomainJSONRequest;
 
 function createCookie(name, value, days)
 {
     var expires = '';
-	if (days)
-	{
-		var date = new Date();
-		date.setTime(date.getTime() + (days*24*60*60*1000));
-		expires = "; expires=" + date.toGMTString();
-	}
-	document.cookie = name + "=" + value + expires + "; path=/";
+    if (days)
+    {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toGMTString();
+    }
+    document.cookie = name + "=" + value + expires + "; path=/";
 }
 
 function readCookie(name)
 {
-	var nameEQ = name + "=";
-	var ca = document.cookie.split(';');
-	for (var i = 0; i < ca.length; i++)
-	{
-		var c = ca[i];
-		while (c.charAt(0)==' ')
-			c = c.substring(1, c.length);
-		if (c.indexOf(nameEQ) == 0)
-			return c.substring(nameEQ.length, c.length);
-	}
-	return null;
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++)
+    {
+        var c = ca[i];
+        while (c.charAt(0)==' ')
+            c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0)
+            return c.substring(nameEQ.length, c.length);
+    }
+    return null;
 }
 
 function eraseCookie(name)
 {
-	createCookie(name, "", -1);
+    createCookie(name, "", -1);
 }
 
 function getWindowWidth()
 {
-	var myWidth = 0;
+    var myWidth = 0;
 
-	if (typeof (window.innerWidth) == 'number')
-		myWidth = window.innerWidth;
-	else if (document.documentElement && (document.documentElement.clientWidth || document.documentElement.clientHeight))
-		myWidth = document.documentElement.clientWidth;
-	else if (document.body && (document.body.clientWidth || document.body.clientHeight))
-	{
-		myWidth = document.body.clientWidth;
-	}
+    if (typeof (window.innerWidth) == 'number')
+        myWidth = window.innerWidth;
+    else if (document.documentElement && (document.documentElement.clientWidth || document.documentElement.clientHeight))
+        myWidth = document.documentElement.clientWidth;
+    else if (document.body && (document.body.clientWidth || document.body.clientHeight))
+    {
+        myWidth = document.body.clientWidth;
+    }
 
-	return myWidth;
+    return myWidth;
 }
 
 function getWindowHeight()
 {
-	var myHeight = 0;
+    var myHeight = 0;
 
-	if (typeof (window.innerWidth) == 'number' )
-		myHeight = window.innerHeight;
-	else if (document.documentElement && (document.documentElement.clientWidth || document.documentElement.clientHeight))
-		myHeight = document.documentElement.clientHeight;
-	else if (document.body && (document.body.clientWidth || document.body.clientHeight))
-		myHeight = document.body.clientHeight;
+    if (typeof (window.innerWidth) == 'number' )
+        myHeight = window.innerHeight;
+    else if (document.documentElement && (document.documentElement.clientWidth || document.documentElement.clientHeight))
+        myHeight = document.documentElement.clientHeight;
+    else if (document.body && (document.body.clientWidth || document.body.clientHeight))
+        myHeight = document.body.clientHeight;
 
-	return myHeight;
+    return myHeight;
 }
 
 function strip(s)
 {
-	return s.replace(/^\s*/, "").replace(/\s*$/, "");
+    return s.replace(/^\s*/, "").replace(/\s*$/, "");
 }
 
 (function() {
@@ -667,7 +667,7 @@ function strip(s)
 
 function loadFunc(iframe, callback)
 {
-	var win = iframe.contentWindow;
+    var win = iframe.contentWindow;
 
     //skip first onload in safari
     if ( jQuery.browser.safari && !iframe.safariSkipped)
@@ -676,54 +676,54 @@ function loadFunc(iframe, callback)
         return;
     }
 
-	if (iframe.loaded)
-	{
-		var data = decodeURIComponent(win.name.replace(/\n/g,'\n\\'));
+    if (iframe.loaded)
+    {
+        var data = decodeURIComponent(win.name.replace(/\n/g,'\n\\'));
         jQuery(iframe).remove();
 
-		var parsedData;
-		try
-		{
-			parsedData = JSON.parse(data)
-		}
-		catch (e)
-		{
-			parsedData = {Status:"error",ErrorInfo: {ErrorMessage: "JSON.parse exeption", ExceptionType:"JSON.parse", StackTrace: data}}
-		}
+        var parsedData;
+        try
+        {
+            parsedData = JSON.parse(data)
+        }
+        catch (e)
+        {
+            parsedData = {Status:"error",ErrorInfo: {ErrorMessage: "JSON.parse exeption", ExceptionType:"JSON.parse", StackTrace: data}}
+        }
 
-		callback && callback(parsedData);
-	}
-	else
-	{
-		win.location = 'about:blank';
+        callback && callback(parsedData);
+    }
+    else
+    {
+        win.location = 'about:blank';
         iframe.loaded = true;
-	}
+    }
 
 }
 
 function createPostIframe(id, callback)
 {
-	// var userAgent = navigator.userAgent.toLowerCase(),
+    // var userAgent = navigator.userAgent.toLowerCase(),
     var callbackName = nsGmx.Utils.uniqueGlobalName(function()
     {
         loadFunc(iframe, callback);
     }),
     iframe;
 
-	try {
-		iframe = document.createElement('<iframe style="display:none" onload="' + callbackName + '()" src="javascript:true" id="' + id + '" name="' + id + '"></iframe>');
+    try {
+        iframe = document.createElement('<iframe style="display:none" onload="' + callbackName + '()" src="javascript:true" id="' + id + '" name="' + id + '"></iframe>');
     }
-	catch (e)
-	{
-		iframe = document.createElement("iframe");
-		iframe.style.display = 'none';
-		iframe.setAttribute('id', id);
-		iframe.setAttribute('name', id);
-		iframe.src = 'javascript:true';
-		iframe.onload = window[callbackName];
-	}
+    catch (e)
+    {
+        iframe = document.createElement("iframe");
+        iframe.style.display = 'none';
+        iframe.setAttribute('id', id);
+        iframe.setAttribute('name', id);
+        iframe.src = 'javascript:true';
+        iframe.onload = window[callbackName];
+    }
 
-	return iframe;
+    return iframe;
 }
 
 (function() {
@@ -763,7 +763,7 @@ function createPostIframe(id, callback)
 
     //скопирована из API для обеспечения независимости от него
     var parseUri = function (str) {
-        var	o   = parseUri.options,
+        var o   = parseUri.options,
             m   = o.parser[o.strictMode ? 'strict' : 'loose'].exec(str),
             uri = {},
             i   = 14;
@@ -832,37 +832,37 @@ function createPostIframe(id, callback)
 */
 function sendCrossDomainPostRequest(url, params, callback, baseForm)
 {
-	var form,
-		rnd = String(Math.random()),
-		id = '$$iframe_' + url + rnd;
+    var form,
+        rnd = String(Math.random()),
+        id = '$$iframe_' + url + rnd;
 
-	var iframe = window.createPostIframe2(id, callback, url),
+    var iframe = window.createPostIframe2(id, callback, url),
         originalFormAction;
 
-	if (baseForm)
-	{
-		form = baseForm;
+    if (baseForm)
+    {
+        form = baseForm;
         originalFormAction = form.getAttribute('action');
-		form.setAttribute('action', url);
-		form.target = id;
+        form.setAttribute('action', url);
+        form.target = id;
 
-	}
-	else
-	{
-		try {
-			form = document.createElement('<form id=' + id + '" enctype="multipart/form-data" style="display:none" target="' + id + '" action="' + url + '" method="post"></form>');
+    }
+    else
+    {
+        try {
+            form = document.createElement('<form id=' + id + '" enctype="multipart/form-data" style="display:none" target="' + id + '" action="' + url + '" method="post"></form>');
         }
-		catch (e)
-		{
-			form = document.createElement("form");
-			form.style.display = 'none';
-			form.setAttribute('enctype', 'multipart/form-data');
-			form.target = id;
-			form.setAttribute('method', 'POST');
-			form.setAttribute('action', url);
-			form.id = id;
-		}
-	}
+        catch (e)
+        {
+            form = document.createElement("form");
+            form.style.display = 'none';
+            form.setAttribute('enctype', 'multipart/form-data');
+            form.target = id;
+            form.setAttribute('method', 'POST');
+            form.setAttribute('action', url);
+            form.id = id;
+        }
+    }
 
     var hiddenParamsDiv = document.createElement("div");
     hiddenParamsDiv.style.display = 'none';
@@ -875,27 +875,27 @@ function sendCrossDomainPostRequest(url, params, callback, baseForm)
         params.CallbackName = iframe.callbackName;
     }
 
-	for (var paramName in params)
-	{
-		var input = document.createElement("input");
+    for (var paramName in params)
+    {
+        var input = document.createElement("input");
 
         var value = typeof params[paramName] !== 'undefined' ? params[paramName] : '';
 
-		input.setAttribute('type', 'hidden');
-		input.setAttribute('name', paramName);
-		input.setAttribute('value', value);
+        input.setAttribute('type', 'hidden');
+        input.setAttribute('name', paramName);
+        input.setAttribute('value', value);
 
-		hiddenParamsDiv.appendChild(input)
-	}
+        hiddenParamsDiv.appendChild(input)
+    }
 
     form.appendChild(hiddenParamsDiv);
 
-	if (!baseForm)
-		document.body.appendChild(form);
+    if (!baseForm)
+        document.body.appendChild(form);
 
-	document.body.appendChild(iframe);
+    document.body.appendChild(iframe);
 
-	form.submit();
+    form.submit();
 
     if (baseForm)
     {
@@ -941,81 +941,81 @@ function parseResponse (response, customErrorDescriptions)
 
 function _title(elem, title)
 {
-	elem.setAttribute('title', title);
+    elem.setAttribute('title', title);
 }
 
 function parseXML(str)
 {
-	var xmlDoc;
-	try
-	{
-		if (window.DOMParser)
-		{
-			var parser = new DOMParser();
-			xmlDoc = parser.parseFromString(str,"text/xml");
-		}
-		else // Internet Explorer
-		{
-			xmlDoc = new ActiveXObject("MSXML2.DOMDocument.3.0");
-			xmlDoc.validateOnParse = false;
-			xmlDoc.async = false;
-			xmlDoc.loadXML(str);
-		}
-	}
-	catch (e)
-	{
-		alert(e)
-	}
+    var xmlDoc;
+    try
+    {
+        if (window.DOMParser)
+        {
+            var parser = new DOMParser();
+            xmlDoc = parser.parseFromString(str,"text/xml");
+        }
+        else // Internet Explorer
+        {
+            xmlDoc = new ActiveXObject("MSXML2.DOMDocument.3.0");
+            xmlDoc.validateOnParse = false;
+            xmlDoc.async = false;
+            xmlDoc.loadXML(str);
+        }
+    }
+    catch (e)
+    {
+        alert(e)
+    }
 
-	return xmlDoc;
+    return xmlDoc;
 }
 
 function disableSelection(target)
 {
-	if (typeof target.onselectstart != "undefined")
-	    target.onselectstart = function(){return false}
-	else if (typeof target.style.MozUserSelect != "undefined")
-	    target.style.MozUserSelect = "none"
-	else
-	    target.onmousedown = function(){return false}
+    if (typeof target.onselectstart != "undefined")
+        target.onselectstart = function(){return false}
+    else if (typeof target.style.MozUserSelect != "undefined")
+        target.style.MozUserSelect = "none"
+    else
+        target.onmousedown = function(){return false}
 }
 
 // function parsePropertiesDate(str)
 // {
-// 	if (str == null || str == "")
-// 		return 0;
+//  if (str == null || str == "")
+//      return 0;
 
-// 	var dateParts = str.split('.');
+//  var dateParts = str.split('.');
 
-// 	if (dateParts.length != 3)
-// 		return 0;
+//  if (dateParts.length != 3)
+//      return 0;
 
-// 	return new Date(dateParts[2], dateParts[1] - 1, dateParts[0]).valueOf();
+//  return new Date(dateParts[2], dateParts[1] - 1, dateParts[0]).valueOf();
 // }
 
 function stringDate(msec, isUtc)
 {
-	var date = new Date(msec),
-		excDate = isUtc ? date.getUTCDate() : date.getDate(),
-		excMonth = (isUtc ? date.getUTCMonth() : date.getMonth()) + 1,
-		excYear = isUtc ? date.getUTCFullYear() : date.getFullYear();
+    var date = new Date(msec),
+        excDate = isUtc ? date.getUTCDate() : date.getDate(),
+        excMonth = (isUtc ? date.getUTCMonth() : date.getMonth()) + 1,
+        excYear = isUtc ? date.getUTCFullYear() : date.getFullYear();
 
-	return (excDate < 10 ? '0' + excDate : excDate) + '.' + (excMonth < 10 ? '0' + excMonth : excMonth) + '.' + excYear;
+    return (excDate < 10 ? '0' + excDate : excDate) + '.' + (excMonth < 10 ? '0' + excMonth : excMonth) + '.' + excYear;
 }
 
 function stringTime(msec, isUtc)
 {
-	var date = new Date(msec),
-		excHour = isUtc ? date.getUTCHours() : date.getHours(),
-		excMin = isUtc ? date.getUTCMinutes() : date.getMinutes(),
-		excSec = isUtc ? date.getUTCSeconds() : date.getSeconds();
+    var date = new Date(msec),
+        excHour = isUtc ? date.getUTCHours() : date.getHours(),
+        excMin = isUtc ? date.getUTCMinutes() : date.getMinutes(),
+        excSec = isUtc ? date.getUTCSeconds() : date.getSeconds();
 
-	return (excHour < 10 ? '0' + excHour : excHour) + ':' + (excMin < 10 ? '0' + excMin : excMin) + ':' + (excSec < 10 ? '0' + excSec : excSec);
+    return (excHour < 10 ? '0' + excHour : excHour) + ':' + (excMin < 10 ? '0' + excMin : excMin) + ':' + (excSec < 10 ? '0' + excSec : excSec);
 }
 
 function stringDateTime(msec, isUtc)
 {
-	return stringDate(msec, isUtc) + ' ' + stringTime(msec, isUtc);
+    return stringDate(msec, isUtc) + ' ' + stringTime(msec, isUtc);
 }
 
 /** Подсвечивает красным input, убирает подсветку через некоторое время
@@ -1032,50 +1032,43 @@ function inputError(input, delay)
     for (var k = 0; k < input.length; k++)
         jQuery(input[k]).addClass('error');
 
-	setTimeout(function()
-	{
+    setTimeout(function()
+    {
         for (var k = 0; k < input.length; k++)
             if (input[k])
                 jQuery(input[k]).removeClass('error');
-	}, delay)
+    }, delay)
 }
 
 function equals(x, y)
 {
-	for (let p in y)
-	{
-	    if (typeof(x[p])=='undefined') { return false; }
-	}
+    for (let p in y)
+    {
+        if (typeof(x[p])=='undefined') { return false; }
+    }
 
-	for (let p in y)
-	{
-	    if (y[p])
-	    {
-	        switch (typeof(y[p]))
-	        {
-	                case 'object':
-	                        if (!equals(x[p], y[p])) { return false; } break;
-	                case 'function':
-	                        if (typeof(x[p])=='undefined' || (p != 'equals' && y[p].toString() != x[p].toString())) { return false; } break;
-	                default:
-	                        if (y[p] != x[p]) { return false; }
-	        }
-	    }
-	    else
-	    {
-	        if (x[p])
-	        {
-	            return false;
-	        }
-	    }
-	}
+    for (let p in y) {
+        if (y[p]) {
+            switch (typeof(y[p]))
+            {
+                case 'object':
+                    if (!equals(x[p], y[p])) { return false; } break;
+                case 'function':
+                    if (typeof(x[p]) == 'undefined' || (p != 'equals' && y[p].toString() != x[p].toString())) { return false; } break;
+                default:
+                    if (y[p] != x[p]) { return false; }
+            }
+        }
+        else if (x[p]) {
+            return false;
+        }
+    }
 
-	for (let p in x)
-	{
-	    if (typeof(y[p])=='undefined') { return false; }
-	}
+    for (let p in x) {
+        if (typeof(y[p]) == 'undefined') { return false; }
+    }
 
-	return true;
+    return true;
 }
 
 /**
@@ -1164,38 +1157,38 @@ $.extend(nsGmx.Utils, {
         }
     },
 
-	/** Возвращает позицию окна такую, чтобы окно не мешало текущему элементу
+    /** Возвращает позицию окна такую, чтобы окно не мешало текущему элементу
         @memberOf nsGmx.Utils
     */
-	getDialogPos: function(div, offsetFlag, height)
-	{
-		var pos = getOffsetRect(div),
-			left = pos.left + 30,
-			top = pos.top - 10,
-			windowHeight = getWindowHeight();
+    getDialogPos: function(div, offsetFlag, height)
+    {
+        var pos = getOffsetRect(div),
+            left = pos.left + 30,
+            top = pos.top - 10,
+            windowHeight = getWindowHeight();
 
-		if (offsetFlag)
-		{
-			$(div).children('div,img').each(function()
-			{
-				if (!this.getAttribute('multiStyle'))
-					left += this.offsetWidth;
-			})
-		}
+        if (offsetFlag)
+        {
+            $(div).children('div,img').each(function()
+            {
+                if (!this.getAttribute('multiStyle'))
+                    left += this.offsetWidth;
+            })
+        }
 
-		if (top + 15 + height > windowHeight)
-			top -= (top + 15 + height - windowHeight);
+        if (top + 15 + height > windowHeight)
+            top -= (top + 15 + height - windowHeight);
 
-		return {left: left, top: top}
-	},
+        return {left: left, top: top}
+    },
 
-	/** Устанавливает обычный стиль и генерит похожий стиль при наведении мышки
+    /** Устанавливает обычный стиль и генерит похожий стиль при наведении мышки
     @memberOf nsGmx.Utils
-	@param layer {L.gmxVectorLayer} Слой
-	@param styleIndex {Number} Номер стиля слоя
-	@param templateStyle {Style} Стиль, похожий на который надо установить*/
-	setMapObjectStyle: function(layer, styleIndex, templateStyle)
-	{
+    @param layer {L.gmxVectorLayer} Слой
+    @param styleIndex {Number} Номер стиля слоя
+    @param templateStyle {Style} Стиль, похожий на который надо установить*/
+    setMapObjectStyle: function(layer, styleIndex, templateStyle)
+    {
         var hoverStyle = $.extend(true, {}, templateStyle);
         var style = layer.getStyle(styleIndex);
 
@@ -1223,12 +1216,12 @@ $.extend(nsGmx.Utils, {
           newStyle.HoverStyle.labelAnchor = hoverStyle.labelAnchor;
         }
         layer.setStyle(newStyle, styleIndex);
-	},
+    },
 
     // берёт стиль в формате сервера, добавляет в него hover-подсветку
     // и возвращает этот стиль в новом формате Leafelt-Geomixer
     prepareGmxLayerStyle: function(style)
-	{
+    {
         var templateStyle = style.RenderStyle,
             newStyle = $.extend(true, {}, style),
             hoverStyle = $.extend(true, {}, templateStyle);
@@ -1244,7 +1237,7 @@ $.extend(nsGmx.Utils, {
         newStyle.HoverStyle = L.gmxUtil.fromServerStyle(hoverStyle);
 
         return newStyle;
-	},
+    },
     /** Конвертация данных между форматами сервера и клиента. Используется в тегах слоёв и в атрибутах объектов векторных слоёв.
     *
     * Форматы сервера:
@@ -1353,35 +1346,35 @@ $.extend(nsGmx.Utils, {
     },
 
 
-	login: function(redirect_uri, authServerBase, callback, authServer, isHidden){
-		var oAuthServer = authServer || 'MyKosmosnimki';
-		window.gmxGetServerBase = function(){
-			return authServerBase
-		}
-		var redirectUri = redirect_uri + (redirect_uri.indexOf('?')>0 ? '&' : '?') + 'authServer=' + oAuthServer;
-		window.gmxProcessAuthentication = function(userInfo){
-			callback && callback(userInfo);
-		}
-		var features, w = 600, h = 350;
-		var handlerName = 'LoginDialog';
-		if (oAuthServer != 'MyKosmosnimki') {
-			handlerName += oAuthServer;
-			h = 400;
-		}
-		var url = authServerBase + handlerName + '.ashx?redirect_uri=' + escape(redirectUri);
+    login: function(redirect_uri, authServerBase, callback, authServer, isHidden){
+        var oAuthServer = authServer || 'MyKosmosnimki';
+        window.gmxGetServerBase = function(){
+            return authServerBase
+        }
+        var redirectUri = redirect_uri + (redirect_uri.indexOf('?')>0 ? '&' : '?') + 'authServer=' + oAuthServer;
+        window.gmxProcessAuthentication = function(userInfo){
+            callback && callback(userInfo);
+        }
+        var features, w = 600, h = 350;
+        var handlerName = 'LoginDialog';
+        if (oAuthServer != 'MyKosmosnimki') {
+            handlerName += oAuthServer;
+            h = 400;
+        }
+        var url = authServerBase + handlerName + '.ashx?redirect_uri=' + escape(redirectUri);
 
-		if (!isHidden) {
-			var top = (screen.height - h)/2, left = (screen.width - w)/2;
-			features = 'location=0,menubar=0,resizable=0,status=0,toolbar=0,width='+w+',height='+h+',left='+left+',top='+top ;
+        if (!isHidden) {
+            var top = (screen.height - h)/2, left = (screen.width - w)/2;
+            features = 'location=0,menubar=0,resizable=0,status=0,toolbar=0,width='+w+',height='+h+',left='+left+',top='+top ;
 
-			window.open(url, '_blank', features);
+            window.open(url, '_blank', features);
         }
         else {
-			$('<iframe />', {
+            $('<iframe />', {
                 'src': url,
                 'style': 'display: block !important; position: absolute; left: -99999px;'
-			}).appendTo('body'); //стиль такой кривой иначе будет бага в FF
-		}
+            }).appendTo('body'); //стиль такой кривой иначе будет бага в FF
+        }
     },
 
     /** Загружает пользовательский shp файл.
@@ -1564,7 +1557,7 @@ $.extend(nsGmx.Utils, {
             }
         }
 
-        var parseRing = function(origRing) {            
+        var parseRing = function(origRing) {
             var ring = origRing.coords,
                 len = ring.length;
 
@@ -1811,12 +1804,12 @@ $.extend(nsGmx.Utils, {
     },
 
     showDialog: showDialog,
-	removeDialog: removeDialog,
+    removeDialog: removeDialog,
     makeImageButton: makeImageButton,
-	makeLinkButton: makeLinkButton,
-	makeButton: makeButton,
-	_title: _title,
-	_checkbox: _checkbox
+    makeLinkButton: makeLinkButton,
+    makeButton: makeButton,
+    _title: _title,
+    _checkbox: _checkbox
 });
 
 window.gmxCore && window.gmxCore.addModule('utilities', nsGmx.Utils);
@@ -1831,15 +1824,15 @@ const {
     _li,
     _option,
     _span,
-	_a,
+    _a,
     _t,
- 	_table,
+    _table,
     _tbody,
     _textarea,
-	_thead,
-	_tr,
-	_th,
-	_td,
+    _thead,
+    _tr,
+    _th,
+    _td,
     _ul
 } = domManipulation;
 
@@ -1848,14 +1841,14 @@ window.parseResponse = parseResponse;
 
 export {
     addParseResponseHook,
-    attachEffects,    
-    _br, 
-    _checkbox,    
+    attachEffects,
+    _br,
+    _checkbox,
     createPostIframe,
     disableSelection,
     _div,
-    _iframe,    
-	_img,
+    _iframe,
+    _img,
     createCookie,
     eraseCookie,
     equals,
@@ -1864,23 +1857,23 @@ export {
     getOffsetRect,
     getOwnChildNumber,
     getWindowHeight,
-    getWindowWidth,    
-	show,
+    getWindowWidth,
+    show,
     hide,
     hidden,
     _input,
     inputError,
     insertAtCursor,
-    _li,    
+    _li,
     makeButton,
-    makeImageButton,    
+    makeImageButton,
     makeLinkButton,
     objLength,
-    _option,    
+    _option,
     parseColor,
     parseResponse,
     parseXML,
-    readCookie,    
+    readCookie,
     removeDialog,
     sendCrossDomainJSONRequest,
     sendCrossDomainPostRequest,
@@ -1890,16 +1883,16 @@ export {
     strip,
     switchSelect,
     _span,
-	_a,
+    _a,
     _t,
     _title,
-	_table,
+    _table,
     _tbody,
     _textarea,
-	_thead,
+    _thead,
     _tr,
-	_th,
-	_td,
+    _th,
+    _td,
     _ul,
     valueInArray,
     visible,

@@ -3,7 +3,7 @@
     "rules": {
       "no-console": 0,
       "no-constant-condition": 0,
-      "camelcase": 2,      
+      "camelcase": 0,
       "no-mixed-spaces-and-tabs": [2, "smart-tabs"],      
       "keyword-spacing": ["error"],
       "no-lonely-if": 2,

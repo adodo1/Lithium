@@ -1,6 +1,6 @@
 ﻿import nsGmx from './nsGmx.js';
 import {
-    makeImageButton,    
+    makeImageButton, parseResponse,
     sendCrossDomainJSONRequest
 } from './utilities.js';
 
@@ -65,7 +65,7 @@ import {
             if (!def)
             {
                 def = $.Deferred();
-                sendCrossDomainJSONRequest(serverBase + 'Layer/MetaKeys.ashx', function(response)
+                sendCrossDomainJSONRequest(window.serverBase + 'Layer/MetaKeys.ashx', function(response)
                 {
                     if (!parseResponse(response))
                     {
@@ -116,7 +116,7 @@ import {
             {
                 return value.length && !isNaN(Number(value));
             },
-            'String': function(value)
+            'String': function()
             {
                 return true;
             },
@@ -126,7 +126,7 @@ import {
                     $.datepicker.parseDate('dd.mm.yy', value);
                     return true;
                 }
-                catch(err) {
+                catch (e) {
                     return false;
                 }
             }
@@ -177,7 +177,7 @@ import {
         {
             if (typeof value === 'undefined' || value === null) {
                 value = '';
-            };
+            }
 
             var newId = 'id' + (++this._uniqueID);
             this._tags[newId] = {tag: tag || '', value: value, type: type};
@@ -299,7 +299,7 @@ import {
 
                 $(valueInput).datepicker(
                 {
-                    onSelect: function(dateText, inst) {
+                    onSelect: function() {
                         $(this).change();
                     },
                     changeMonth: true,
