@@ -1,0 +1,60 @@
+/* nsGmx.SuggestWidget */
+
+.suggest-container {
+    margin-top: 2px;
+}
+
+.suggest-container .ui-icon {
+    display: inline-block;
+    float: right;
+    line-height: 20px;
+    text-align: center;
+    vertical-align: baseline;
+    margin: 2px 0 0 0;
+}
+
+.suggest-helper {
+    overflow-y: auto;
+    width: 92px;
+    height: 160px;
+    position: absolute;
+    left: -1px;
+    border: 1px solid #AFC0D5;
+    background-color: #FFFFFF;
+    z-index: 1000;
+}
+
+.suggest-helper-elem {
+    height: 14px;
+    line-height: 14px;
+    padding: 2px 0px 1px 3px;
+    overflow-x: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    text-align: left;
+}
+
+.suggest-helper-hover {
+    background-color: #91C1D2;
+}
+
+.suggest-link-container {
+    line-height: 20px;
+    width: 86px;
+    cursor: default;
+    color: #000000;
+    position: relative;
+    padding: 0 2px 0 4px;
+    text-align: left;
+    margin: 0;
+}
+
+/* nsGmx.AttrSuggestWidget */
+.suggest-op {
+    margin: 0px 10px;
+}
+
+.suggest-helper-elem-group {
+    font-weight: bold;
+    font-style: italic;
+}

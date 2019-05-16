@@ -6,7 +6,6 @@ import '../css/search.css';
 import '../css/menu.css';
 import '../css/buttons.css';
 import '../css/treeview.css';
-import '../css/security.css';
 import '../css/drawing.css';
 import '../css/layerstylesmenu.css';
 import '../css/swich-slider.css';
@@ -41,10 +40,8 @@ import './userObjects.js';
 import './HeaderWidget/HeaderWidget.js'
 import './LanguageWidget/languageWidget.js';
 import './GmxIconLayers/gmxIconLayers.js';
-import './CommonCalendarWidget/CommonCalendarWidget.css';
 import './CommonCalendarWidget/CommonCalendarWidget.js';
 import './mapLayers.js';
-import './AuthWidget/AuthWidget.css';
 import './AuthWidget/AuthWidget.js';
 import './AuthWidget.js';
 import './version.js';
@@ -67,15 +64,19 @@ import './gmxLayers2/gmxLayers2.js';
 import 'gmx-plugin-media';
 import './EditObjectControl/EditObjectControl.js';
 import _queryTabs from './queryTabs.js';
-import './ProfilePlugin/ProfilePlugin.css';
 import './ProfilePlugin/ProfilePlugin.js';
 import './LayerProperties.js';
 import './LayerEditor.js';
 import nsMapCommon from './mapCommon.js';
 import './AttributeValuesProviders.js';
 import {_queryLoadShp} from './queryLoadShp.js';
-import './colorpicker/css/colorpicker.css';
 import './colorpicker/js/colorpicker.js';
+import './GridPlugin/GridPlugin.js';
+import './MapExport/MapExport.js';
+import './BufferZones/BufferZones.js';
+import './IndexGrid/IndexGrid.js';
+import './PhotoLayer/PhotoLayer.js';
+import './UserGroupWidget/UserGroupWidget.js';
 
 //Тут кратко описываются разные внешние классы для системы генерации документации
 
@@ -182,7 +183,9 @@ nsGmx.initGeoMixer = function() {
 
         configureGrid: function() {
             var _this = this;
-            gmxCore.loadModule('GridPlugin', 'src/GridPlugin.js').then(function(def) {
+            gmxCore.loadModule('GridPlugin'
+            // , 'src/GridPlugin.js'
+            ).then(function(def) {
                 _this.menu = new def.ConfigureGridMenu(nsGmx.gridManager);
                 _this.menu.Load();
             });
@@ -2408,28 +2411,36 @@ nsGmx.initGeoMixer = function() {
     }
 
     function mapExportMenu() {
-        gmxCore.loadModule('MapExport', 'src/MapExport/MapExport.js').then(function(def) {
+        gmxCore.loadModule('MapExport'
+        // , 'src/MapExport/MapExport.js'
+        ).then(function(def) {
             var menu = new def.MapExportMenu();
             menu.Load();
         });
     }
 
     function BufferZonesMenu() {
-        gmxCore.loadModule('BufferZones', 'src/BufferZones/BufferZones.js').then(function(def) {
+        gmxCore.loadModule('BufferZones'
+        // , 'src/BufferZones/BufferZones.js'
+        ).then(function(def) {
             var menu = new def.BufferZonesMenu();
             menu.Load();
         });
     }
 
     function indexGridMenu() {
-        gmxCore.loadModule('IndexGrid', 'src/IndexGrid/IndexGrid.js').then(function(def) {
+        gmxCore.loadModule('IndexGrid'
+        // , 'src/IndexGrid/IndexGrid.js'
+        ).then(function(def) {
             var menu = new def.IndexGridMenu();
             menu.Load();
         });
     }
 
     function PhotoLayerDialog() {
-        gmxCore.loadModule('PhotoLayer', 'src/PhotoLayer/PhotoLayer.js').then(function(def) {
+        gmxCore.loadModule('PhotoLayer'
+        // , 'src/PhotoLayer/PhotoLayer.js'
+        ).then(function(def) {
             var dialog = new def.PhotoLayer();
             dialog.Load();
         });

@@ -1,10 +1,12 @@
-import nsGmx from './nsGmx.js';
+import nsGmx from '../nsGmx.js';
 import {
     insertAtCursor,        
     stopEvent,
     _title,
 }
-from "./utilities.js";
+from "../utilities.js";
+
+import './SuggestWidget.css';
 
 nsGmx.SuggestWidget = function(attrNames, textarea, textTemplate, func, valuesArr, addValueFlag, attrType) {
     var _this = this;

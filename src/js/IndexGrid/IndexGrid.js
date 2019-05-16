@@ -1,5 +1,6 @@
-import nsGmx from './nsGmx.js';
-import './AsyncTaskManager.js';
+import nsGmx from '../nsGmx.js';
+import '../AsyncTaskManager.js';
+import './IndexGrid.css';
 
     var MAX_INDEX_COUNT = 10000;
     var KM_PER_DEGREE = 111.31949;
@@ -50,8 +51,7 @@ import './AsyncTaskManager.js';
             count: 'index count',
             name: 'layer name',
             create: 'Create index grid layer',
-            valueWarn: 'incorrect value',
-            valueWarn: 'incorrect value',
+            valueWarn: 'incorrect value',            
             indexCountWarn: 'max ceils number exceeded (10 000)',
             nameWarn: 'layer name cannot be empty'
         }
@@ -296,7 +296,8 @@ import './AsyncTaskManager.js';
             },
 
             updateLatLngInput: function (latLng) {
-                var attrs = this.model.toJSON(),
+                var
+                    // attrs = this.model.toJSON(),
                     input = this.$('.' + latLng),
                     value = this.model.get(latLng);
 
@@ -312,7 +313,8 @@ import './AsyncTaskManager.js';
             },
 
             updateStepInput: function (inputName) {
-                var attrs = this.model.toJSON(),
+                var
+                    // attrs = this.model.toJSON(),
                     input = this.$('.' + inputName),
                     value = this.model.get(inputName);
 
@@ -432,12 +434,12 @@ import './AsyncTaskManager.js';
                         mapBounds.getNorthEast(),
                         mapBounds.getSouthEast()
                     ],
-                    n = mapBounds.getNorth(),
-                    e = mapBounds.getEast(),
-                    s = mapBounds.getSouth(),
-                    w = mapBounds.getWest(),
-                    mapHeight = n - s,
-                    mapWidth = e - w,
+                    // n = mapBounds.getNorth(),
+                    // e = mapBounds.getEast(),
+                    // s = mapBounds.getSouth(),
+                    // w = mapBounds.getWest(),
+                    // mapHeight = n - s,
+                    // mapWidth = e - w,
 
                     // какую часть экрана отсекать с краев первоначальной рамки
                     scale = 4,
@@ -519,11 +521,11 @@ import './AsyncTaskManager.js';
                     indexes = this.generatePolygons(),
                     spinHolder = this.$('.spinHolder'),
                     def = nsGmx.asyncTaskManager.sendGmxPostRequest(window.serverBase + "VectorLayer/CreateVectorLayer.ashx", layerParams),
-                    promise,
+                    // promise,
                     _this = this;
 
                 def.done(function(response) {
-                    var layerName = response.Result.properties.name;
+                    var layerName = response.Result.properties.name,
                         mapProperties = _layersTree.treeModel.getMapProperties(),
                         targetDiv = $(_queryMapLayers.buildedTree.firstChild).children("div[MapID]")[0],
                         gmxProperties = {type: 'layer', content: response.Result},
@@ -541,7 +543,7 @@ import './AsyncTaskManager.js';
 
                     $(spinHolder).show();
 
-                    def2.always(function(res) {
+                    def2.always(function() {
                         _layersTree.copyHandler(gmxProperties, targetDiv, false, true);
                         $(spinHolder).hide();
                         _this.unselectArea();
@@ -556,11 +558,11 @@ import './AsyncTaskManager.js';
                     yStep = this._convertYStep(attrs.yStep),
                     xCount = attrs.xCount,
                     yCount = attrs.yCount,
-                    proj = L.Projection.Mercator,
+                    // proj = L.Projection.Mercator,
                     north = attrs.maxLat,
-                    south = attrs.minLat,
+                    // south = attrs.minLat,
                     west = attrs.minLng,
-                    east = attrs.maxLng,
+                    // east = attrs.maxLng,
                     indexes = [],
                     index,
                     letterIndexes = this._getLetterIndexes(xCount),
@@ -631,10 +633,10 @@ import './AsyncTaskManager.js';
                 var attrs = this.model.toJSON(),
                     initialCoords,
                     coords,
-                    bounds,
+                    // bounds,
                     scale,
-                    screenCoords,
-                    newBounds,
+                    // screenCoords,
+                    // newBounds,
                     value, valueErr;
 
                 if (!attrs.lmap || !attrs.selArea) {
@@ -814,15 +816,15 @@ import './AsyncTaskManager.js';
             },
 
             _countIndex: function () {
-                var attrs = this.model.toJSON();
-                    initialCoords = attrs.selArea.rings[0].ring.points._latlngs;
-                    coords = attrs.coords ? attrs.coords : initialCoords;
+                var attrs = this.model.toJSON(),
+                    initialCoords = attrs.selArea.rings[0].ring.points._latlngs,
+                    coords = attrs.coords ? attrs.coords : initialCoords,
                     dims = this._getLatLngDimensions(coords);
 
                 if (attrs.xStep && attrs.yStep) {
-                    xCount = Math.ceil(dims.width / this._convertXStep(attrs.xStep));
-                    yCount = Math.ceil(dims.height / this._convertYStep(attrs.yStep));
-                    indexCount = xCount * yCount;
+                    var xCount = Math.ceil(dims.width / this._convertXStep(attrs.xStep));
+                    var yCount = Math.ceil(dims.height / this._convertYStep(attrs.yStep));
+                    var indexCount = xCount * yCount;
 
                     if (!attrs.xStepErr && !attrs.yStepErr) {
                         if (indexCount > MAX_INDEX_COUNT) {
@@ -871,11 +873,11 @@ import './AsyncTaskManager.js';
             },
 
             _updateCoords: function () {
-                var attrs = this.model.toJSON(),
-                    initialCoords,
-                    screenCoords,
-                    dimensions,
-                    bounds;
+                var attrs = this.model.toJSON(),                    
+                    // screenCoords,
+                    // dimensions,
+                    // bounds,
+                    initialCoords;
 
                 if (!attrs.selArea) {
                     return;
@@ -1032,10 +1034,11 @@ import './AsyncTaskManager.js';
             },
 
             _getDimensions: function(points) {
-                var attrs = this.model.toJSON(),
+                var
+                    // attrs = this.model.toJSON(),
+                    // x, y,
                     bottomLeft, topRight,
-                    width, height,
-                    x, y;
+                    width, height;
 
                 points = this._revertCoords(points);
                 bottomLeft = points[0];
@@ -1058,7 +1061,7 @@ import './AsyncTaskManager.js';
             },
 
             _roundInputNumber: function (value) {
-                value = (typeof(value) === 'String') ? value : String(value);
+                value = (typeof(value) === 'string') ? value : String(value);
                 if (value.indexOf(".") != '-1') {
                     value = value.substring(0,value.indexOf(".") + 5);
                 }

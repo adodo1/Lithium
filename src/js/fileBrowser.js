@@ -759,7 +759,7 @@ fileBrowser.prototype.getCurrentSortFunc = function()
 fileBrowser.prototype.formatDate = function(sec)
 {
 	var sysDate = new Date(sec * 1000),
-		date = [];
+		date = [6];
 
 	date[0] = sysDate.getDate(),
 	date[1] = sysDate.getMonth() + 1,
@@ -780,7 +780,7 @@ fileBrowser.prototype.drawFolders = function(arr)
 {
 	var folders = [],
 		trs = [],
-		_this = this;;
+		_this = this;
 
 	for (let i = 0; i < arr.length; i++) {
 		if (arr[i].Directory)
@@ -803,7 +803,7 @@ fileBrowser.prototype.drawFolders = function(arr)
 			_title(returnButton, _gtxt("Выбрать"));
 
 			(function(i){
-				returnButton.onclick = function(e)
+				returnButton.onclick = function()
 				{
 					_this.close(_this._path.get() + folders[i].Name + _this.slash);
 				}
@@ -873,7 +873,7 @@ fileBrowser.prototype.drawFiles = function(arr)
 			_title(returnButton, _gtxt("Выбрать"));
 
 			(function(i){
-				returnButton.onclick = function(e)
+				returnButton.onclick = function()
 				{
 					_this.close(_this._path.get() + files[i].Name);
 				}

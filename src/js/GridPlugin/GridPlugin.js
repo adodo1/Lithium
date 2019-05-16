@@ -1,4 +1,5 @@
 import nsGmx from '../nsGmx.js';
+import './GridPlugin.css';
 
 (function() {
     window._translationsHash.addtext('rus', {

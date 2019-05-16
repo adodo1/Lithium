@@ -1,9 +1,13 @@
 import nsGmx from '../nsGmx.js';
-import './MapExport.css';
 import '../drawingObjectsCustomControllers.js';
-import {leftMenu, _menuUp} from '../menu.js';
-import { _div } from '../utilities.js';
-import './AsyncTaskManager.js';
+import {leftMenu} from '../menu.js';
+import {
+    _div,
+    parseResponse,
+    sendCrossDomainJSONRequest,
+} from '../utilities.js';
+import '../AsyncTaskManager.js';
+import './MapExport.css';
 
     var MAX_SIZE = 10000;
     var EPS = 1E-9;
@@ -273,7 +277,7 @@ import './AsyncTaskManager.js';
 				this.listenTo(this.model, 'change:format', this.handleFormat);
 				this.listenTo(this.model, 'change:fileType', this.handleFormat);
 
-                for (var i = attrs.lmap.getMinZoom(); i < zoomLevels.length; i++) {
+                for (let i = attrs.lmap.getMinZoom(); i < zoomLevels.length; i++) {
                     zoomLevels[i].current = false;
 
                     if (i === currentZoom) {
@@ -281,13 +285,13 @@ import './AsyncTaskManager.js';
                     }
                 }
 
-                for (var j = 0; j < formatTypes.length; j++) {
+                for (let j = 0; j < formatTypes.length; j++) {
                     if (formatTypes[j].current === true) {
                         this.model.set('format', formatTypes[j].type);
                     }
                 }
 
-                for (var j = 0; j < updatedFileTypes.length; j++) {
+                for (let j = 0; j < updatedFileTypes.length; j++) {
                     if (updatedFileTypes[j].current === true) {
                         this.model.set('fileType', updatedFileTypes[j].type);
                     }
@@ -337,7 +341,7 @@ import './AsyncTaskManager.js';
 
             updateArea: function () {
                 var attrs = this.model.toJSON(),
-					format = attrs.format,
+					// format = attrs.format,
                     areaButton = this.$('.areaButton'),
                     zoomToBoxButton = this.$('.zoomToBoxButton'),
                     zoomToLevelButton = this.$('.zoomToLevelButtonWrap'),
@@ -414,18 +418,16 @@ import './AsyncTaskManager.js';
 
                 if (attrs.widthValueErr) {
                     $(widthInput).addClass('error');
-                } else {
-                    if (!attrs.widthSizeErr) {
-                        $(widthInput).removeClass('error');
-                    }
                 }
+                else if (!attrs.widthSizeErr) {
+                    $(widthInput).removeClass('error');
+                }                
 
                 if (attrs.heightValueErr) {
                     $(heightInput).addClass('error');
-                } else {
-                    if (!attrs.heightSizeErr) {
-                        $(heightInput).removeClass('error');
-                    }
+                }
+                else if (!attrs.heightSizeErr) {
+                    $(heightInput).removeClass('error');                    
                 }
 
                 if (attrs.widthValueErr || attrs.heightValueErr) {
@@ -452,33 +454,31 @@ import './AsyncTaskManager.js';
 
                 if (attrs.widthSizeErr) {
                     $(widthInput).addClass('error');
-                } else {
-                    if (!attrs.widthValueErr) {
-                        $(widthInput).removeClass('error');
-                    }
                 }
+                else if (!attrs.widthValueErr) {
+                    $(widthInput).removeClass('error');
+                }
+                
 
                 if (attrs.heightSizeErr) {
                     $(heightInput).addClass('error');
-                } else {
-                    if (!attrs.heightValueErr) {
-                        $(heightInput).removeClass('error');
-                    }
                 }
+                else if (!attrs.heightValueErr) {
+                    $(heightInput).removeClass('error');
+                }                
 
                 if (attrs.widthSizeErr || attrs.heightSizeErr) {
                     $(exportButton).addClass('gmx-disabled');
                     if (!attrs.widthValueErr && !attrs.heightValueErr) {
                         $(warn).html(window._gtxt('mapExport.sizeWarn'));
                     }
-                } else {
-                    if (!attrs.widthValueErr && !attrs.heightValueErr) {
-                        if (attrs.selArea && attrs.name) {
-                            $(exportButton).removeClass('gmx-disabled');
-                        }
-                        $(warn).html('');
-                    }
                 }
+                else if (!attrs.widthValueErr && !attrs.heightValueErr) {
+                    if (attrs.selArea && attrs.name) {
+                        $(exportButton).removeClass('gmx-disabled');
+                    }
+                    $(warn).html('');
+                }                
             },
 
             handleExportError: function () {
@@ -652,12 +652,12 @@ import './AsyncTaskManager.js';
                         mapBounds.getNorthEast(),
                         mapBounds.getSouthEast()
                     ],
-                    n = mapBounds.getNorth(),
-                    e = mapBounds.getEast(),
-                    s = mapBounds.getSouth(),
-                    w = mapBounds.getWest(),
-                    mapHeight = n - s,
-                    mapWidth = e - w,
+                    // n = mapBounds.getNorth(),
+                    // e = mapBounds.getEast(),
+                    // s = mapBounds.getSouth(),
+                    // w = mapBounds.getWest(),
+                    // mapHeight = n - s,
+                    // mapWidth = e - w,
 
                     // какую часть экрана отсекать с краев первоначальной рамки
                     scale = 4,
@@ -867,7 +867,7 @@ import './AsyncTaskManager.js';
                     if (response.Result) {
                         if (attrs.selArea) {
                             $(exportButton).removeClass('gmx-disabled');
-                        };
+                        }
 
                         $(exportButton).toggle();
                         $(cancelButton).toggle();
@@ -964,8 +964,8 @@ import './AsyncTaskManager.js';
                 bottomRight.x = (topLeft.x + width);
                 bottomRight.y = (topLeft.y + height);
 
-                topLeft.x = topLeft.x;
-                topLeft.y = topLeft.y;
+                // topLeft.x = topLeft.x;
+                // topLeft.y = topLeft.y;
 
                 newBounds.push(
                     [attrs.lmap.unproject([bottomLeft.x / scale, bottomLeft.y / scale])],
@@ -1013,7 +1013,7 @@ import './AsyncTaskManager.js';
 
                 frame.on('edit', _this._resizeFrame.bind(_this));
                 frame.on('remove', function () {
-                    var attrs = _this.model.toJSON();
+                    // var attrs = _this.model.toJSON();
 
                     _this.model.set({
                         width: 0,

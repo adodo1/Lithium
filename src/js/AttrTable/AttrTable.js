@@ -1,5 +1,6 @@
 import nsGmx from '../nsGmx.js';
 import {
+	parseResponse,
 	sendCrossDomainJSONRequest,	
 } from '../utilities.js';
 import './DefaultSearchParamsManager.js';
@@ -198,7 +199,7 @@ attrsTable.prototype.createColumnsList = function(paramsManager) {
 			   if (paramsManager._activeColumns.hasOwnProperty(key)) {
 				   paramsManager._activeColumns[key] = checked;
 				   $(paramsManager).trigger('columnsChange');
-				   $('input', columnsList).each(function (elem) {
+				   $('input', columnsList).each(function () {
 					   $(this).prop('checked', checked);
 				   });
 			   }
@@ -228,13 +229,12 @@ attrsTable.prototype.drawDialog = function(info, canvas, outerSizeProvider, para
 
 	var paramsWidth = 300,
 		tdParams = nsGmx.Utils._td(null, [['css', 'width', paramsWidth + 'px'], ['attr', 'vAlign', 'top']]),
-		tdTable = nsGmx.Utils._td(null, [['attr', 'vAlign', 'top']]),
+		// tdTable = nsGmx.Utils._td(null, [['attr', 'vAlign', 'top']]),
 		findObjectsButton = nsGmx.Utils.makeLinkButton(_gtxt('Найти объекты')),
 		updateObjectsButton = nsGmx.Utils.makeLinkButton(_gtxt('Обновить объекты')),
 		addObjectButton = nsGmx.Utils.makeLinkButton(_gtxt('Добавить объекты')),
 		changeFieldsListButton = nsGmx.Utils.makeLinkButton(_gtxt('Изменить колонки')),
-		oldCanvasWidth = false,
-		_this = this;
+		oldCanvasWidth = false;
 
     var downloadSection = $(Handlebars.compile('<div>' +
         '<span class="buttonLink attrsDownloadLink" data-format="Shape">{{i "Скачать shp"}}</span>' +

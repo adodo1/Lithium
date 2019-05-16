@@ -24,7 +24,7 @@ import {
 import './ShpEncodingWidget.js';
 import './LayerEditor/TemporalLayerParamsWidget.js';
 import './LayerEditor/LayerQuicklookWidget.js';
-import './AttrSuggestWidget.js';
+import './SuggestWidget/AttrSuggestWidget.js';
 import './LayerEditor/ManualAttrModel.js';
 import './LayerEditor/ManualAttrView.js';
 import {mapHelper} from './mapHelper.js';
@@ -33,8 +33,6 @@ import './fileBrowser.js';
 import _tableBrowser from './tableBrowser.js';
 import _fileBrowser from './fileBrowser.js';
 import './LayerProperties.js';
-
-const _ = nsGmx.Utils._;
 
 //Создание интерфейса редактирования свойств слоя
 
@@ -73,7 +71,7 @@ var SelectLatLngColumnsWidget = function(parent, columns, sourceColumns)
 				_(selectLon, [opt.cloneNode(true)]);
             }
 
-            _(parent, [_table([_tbody([
+           nsGmx.Utils._(parent, [_table([_tbody([
                 _tr([
                     _td([_span([_t(_gtxt("Y (широта)"))],[['css','margin','0px 3px']])], [['css','width','73px'],['css','border','none']]),
                     _td([selectLat], [['css','width','150px'],['css','border','none']])
@@ -252,7 +250,7 @@ var LayerEditor = function(div, type, parent, properties, params) {
         }
 
         for (var i in _params.additionalUI) {
-            var tab = _.findWhere(_this._originalTabs, {name: i});
+            var tab = nsGmx.Utils._.findWhere(_this._originalTabs, {name: i});
             if (tab) {
                 var container = tab.container.firstChild;
                 _params.additionalUI[i].forEach(function(ui) {
@@ -268,7 +266,7 @@ var LayerEditor = function(div, type, parent, properties, params) {
 
                     var span = $(div).find(".layer")[0];
                     $(span).empty();
-                    _(span, [_t(title)]);
+                   nsGmx.Utils._(span, [_t(title)]);
 
                     divProperties.title = title;
                 },
@@ -511,7 +509,7 @@ LayerEditor.prototype._createPageMain = function(parent, layerProperties, isRead
     }
 
     var trs = _mapHelper.createPropertiesTable(shownProperties, layerProperties.attributes, {leftWidth: 70});
-    _(parent, [_table([_tbody(trs)],[['dir','className','propertiesTable']])]);
+   nsGmx.Utils._(parent, [_table([_tbody(trs)],[['dir','className','propertiesTable']])]);
 
     if (isReadonly) {
         $(parent).find('input, textarea').prop('disabled', true);
@@ -592,7 +590,7 @@ LayerEditor.prototype._createPageVectorSource = function(layerProperties, params
     }
 
     var sourceFile = _div(null, [['dir', 'id', 'fileSource' + layerName]]);
-    _(sourceFile, [shapePathInput, shapeFileLink, encodingParent, xlsColumnsParent/*, fileAddAttribute, fileColumnsContainer*/]);
+   nsGmx.Utils._(sourceFile, [shapePathInput, shapeFileLink, encodingParent, xlsColumnsParent/*, fileAddAttribute, fileColumnsContainer*/]);
 
     /*------------ Источник: таблица ------------*/
     var tableLink = makeImageButton("img/choose2.png", "img/choose2_a.png"),
@@ -753,7 +751,7 @@ LayerEditor.prototype._createPageVectorSource = function(layerProperties, params
     ], [['css', 'display', 'none']])]);
 
     var selectedSource = {'file': 0, 'table': 1, 'manual': 2}[sourceType];
-    _(sourceTab, sourceContainers);
+   nsGmx.Utils._(sourceTab, sourceContainers);
 
     $(sourceTab).tabs({
         active: selectedSource,
@@ -853,7 +851,7 @@ LayerEditor.prototype._createPageRasterSource = function(layerProperties) {
 
     if (name)
     {
-        _(trShape.firstChild, [_br(), _t(_gtxt("Контур")), drawingBorderLink]);
+       nsGmx.Utils._(trShape.firstChild, [_br(), _t(_gtxt("Контур")), drawingBorderLink]);
 
         if (shapePath.Path)
             shapeVisible(true);
@@ -1031,7 +1029,7 @@ LayerEditor.prototype._createPageAttributes = function(parent, props, isReadonly
         props.set('Columns', fileAttrModel.toServerFormat());
     });
 
-    _(parent, [fileColumnsContainer]);
+   nsGmx.Utils._(parent, [fileColumnsContainer]);
 
     props.on('change:SourceType', function() {
         var type = props.get('SourceType');

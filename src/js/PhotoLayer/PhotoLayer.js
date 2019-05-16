@@ -1,5 +1,10 @@
-import nsGmx from './nsGmx.js'
-import './AsyncTaskManager.js';    
+import nsGmx from '../nsGmx.js'
+import '../AsyncTaskManager.js';
+import {
+    parseResponse,
+    sendCrossDomainJSONRequest,
+} from '../utilities.js';
+import './PhotoLayer.css';
 
     window._translationsHash.addtext('rus', {
         photoLayer: {
@@ -143,14 +148,14 @@ import './AsyncTaskManager.js';
         },
 
         getPhotoLayers: function (layers) {
-            var layers = layers || nsGmx.gmxMap.layers,
-                attrs = this.model.toJSON(),
+            layers = layers || nsGmx.gmxMap.layers;
+            var attrs = this.model.toJSON(),
                 photoLayersFlag = attrs.photoLayersFlag,
                 currentPhotoLayer,
                 photoLayers = [];
 
-            for (var i = 0; i < layers.length; i++) {
-                var layer = layers[i],
+            for (let i = 0; i < layers.length; i++) {
+                let layer = layers[i],
                     props = layer.getGmxProperties(),
                     isPhotoLayer;
 
@@ -164,7 +169,7 @@ import './AsyncTaskManager.js';
                     }
                 }
 
-                for (var j = 0; j < photoLayers.length; j++) {
+                for (let j = 0; j < photoLayers.length; j++) {
                     photoLayers[j].current = j === 0;
 
                     if (j === 0) {
@@ -225,7 +230,7 @@ import './AsyncTaskManager.js';
 
         setName: function (e) {
             var layers = layers || nsGmx.gmxMap.layers,
-                attrs = this.model.toJSON(),
+                // attrs = this.model.toJSON(),
                 start = e.target.selectionStart,
                 end = e.target.selectionEnd,
                 matchingLayer;
@@ -323,10 +328,10 @@ import './AsyncTaskManager.js';
             $(uploadResSuccess).hide();
             $(uploadResError).hide();
 
+            files = e.target.files;
             var attrs = this.model.toJSON(),
-                _this = this,
-                files = e.target.files,
-                sandbox,
+                _this = this,                
+                // sandbox,
                 uploadParams = {
                     sandbox: attrs.sandbox
                 },
@@ -348,7 +353,7 @@ import './AsyncTaskManager.js';
                         IsPhotoLayer: true,
                         PhotoSource: JSON.stringify({sandbox: attrs.sandbox})
                     }
-                };
+                }
 
                 $(form).prop('action', window.serverBase + 'Sandbox/Upload' + '?' + $.param(uploadParams));
 
@@ -458,7 +463,7 @@ import './AsyncTaskManager.js';
                                     modifyMapParams = {
                                         MapName: mapProperties.MapID,
                                         Objects: JSON.stringify(modifyMapObjects)
-                                    }
+                                    },
                                     modifyMapUrl = window.serverBase + 'Map/ModifyMap.ashx' + '?' + $.param(modifyMapParams);
 
                                 // вставляем фотографии в пустой слой
@@ -468,7 +473,7 @@ import './AsyncTaskManager.js';
                                     },
                                     photoAppendUrl = window.serverBase + 'Photo/AppendPhoto' + '?' + $.param(photoAppendParams);
 
-                                window.sendCrossDomainJSONRequest(modifyMapUrl, function (res) {
+                                sendCrossDomainJSONRequest(modifyMapUrl, function () {
                                     var def = nsGmx.asyncTaskManager.sendGmxPostRequest(photoAppendUrl);
 
                                     def.done(function(taskInfo) {
@@ -511,14 +516,13 @@ import './AsyncTaskManager.js';
                                         $(errorMessage).html(message in _mapHelper.customErrorsHash  ? _gtxt(_mapHelper.customErrorsHash[message]) : _gtxt('photoLayer.error'));
                                         $(errorMessage).show();
                                         afterLoad(taskInfo);
-                                    }).progress(function(taskInfo){
-                                    });
+                                    }).progress(function(){});
                                 });
 
                             $(newLayerInput).focus();
 
                             } else {
-                                var curName = attrs.currentPhotoLayer.getGmxProperties().name;
+                                // var curName = attrs.currentPhotoLayer.getGmxProperties().name;
                                 // parseGeometry(taskInfo, gmxProperties);
                                 // window.sendCrossDomainJSONRequest(window.serverBase + "Layer/GetLayerJson.ashx?WrapStyle=func&LayerName=" + curName, function(response) {
                                 //     if (!parseResponse(response)) {
@@ -542,9 +546,8 @@ import './AsyncTaskManager.js';
                             $(errorMessage).show();
                             afterLoad(taskInfo);
 
-                        }).progress(function(taskInfo){
-                        });
-                    };
+                        }).progress(function(){});
+                    }
 
                     function parseGeometry(info, properties) {
                         var coords = [],
@@ -598,14 +601,12 @@ import './AsyncTaskManager.js';
 
     this.Load = function () {
         var view = new PhotoLayerView(),
-            resizeFunc = function () {
-            },
+            resizeFunc = function () {},
             closeFunc = function () {
                 view.model.set({
                     photoLayersFlag: false,
                     photoLayers: [],
-                    currentPhotoLayer: null,
-                    photoLayers: []
+                    currentPhotoLayer: null,                    
                 });
             };
 

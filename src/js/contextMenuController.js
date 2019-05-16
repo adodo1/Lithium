@@ -3,6 +3,7 @@ import {_div, hidden, getOffsetRect, showErrorMessage, getWindowWidth, getWindow
 import './ClipboardController.js';
 import './AsyncTaskManager.js';
 import './AttrTable/AttrTable.js';
+import './Security/security.js';
 
 (function() {
 //Контроллёр контектных меню и соответствующие пункты всех меню...

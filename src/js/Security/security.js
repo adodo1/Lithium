@@ -1,13 +1,20 @@
-import nsGmx from './nsGmx.js';
+import nsGmx from '../nsGmx.js';
 import {
+    attachEffects,
     inputError,
-} from './utilities.js';
+    parseResponse,
+    sendCrossDomainJSONRequest,
+    sendCrossDomainPostRequest,
+    showDialog,
+} from '../utilities.js';
+import '../translations.js';
+import './security.css';
 
 (function() {
 
 'use strict';
 
-var SHARE_TYPES = ['public', 'private'];
+// var SHARE_TYPES = ['public', 'private'];
 
 nsGmx.Translations.addText('rus', {security: {
     ownerName: 'Владелец',
@@ -92,8 +99,8 @@ var wrapUserListInput = function(input, options) {
     });
 
     $(input).data("ui-autocomplete")._renderItem = function(ul, item) {
-        var isGroup = item.isGroup,
-            userInfo = usersHash[item.value],
+        // var isGroup = item.isGroup,
+        var userInfo = usersHash[item.value],
             templateParams = $.extend({showIcon: options && options.showIcon}, userInfo);
         return $('<li></li>')
             .append($(autocompleteLabelTemplate(templateParams)))
@@ -249,13 +256,11 @@ var SecurityUserListWidget = function(securityInfo, container, options) {
                         } else {
                             inputError(input[0]);
                         }
+                    } else if (userInfos[0] && userInfos[0].Nickname.toLowerCase() === name.toLowerCase()) {
+                        doAddUser(userInfos[0]);
                     } else {
-                        if (userInfos[0] && userInfos[0].Nickname.toLowerCase() === name.toLowerCase()) {
-                            doAddUser(userInfos[0]);
-                        } else {
                         inputError(input[0]);
-                        }
-                    }
+                    }                    
                 }
 
             }, inputError.bind(null, input[0]));
@@ -437,7 +442,7 @@ layersGroupSecurity.prototype.constructor = layersGroupSecurity;
 security.prototype.getSecurityFromServer = function(id) {
     var def = $.Deferred();
 
-    sendCrossDomainJSONRequest(serverBase + this.getSecurityName + '?WrapStyle=func&IncludeAdmin=true&' + this.propertyName + '=' + id, function(response)
+    sendCrossDomainJSONRequest(window.serverBase + this.getSecurityName + '?WrapStyle=func&IncludeAdmin=true&' + this.propertyName + '=' + id, function(response)
     {
         if (!parseResponse(response)) {
             def.reject(response);
@@ -453,7 +458,7 @@ security.prototype.getSecurityFromServer = function(id) {
 security.prototype.getGroupSecurityFromServer = function(postParams) {
     var def = $.Deferred();
 
-    sendCrossDomainPostRequest(serverBase + this.getGroupSecurityName, postParams, function(response) {
+    sendCrossDomainPostRequest(window.serverBase + this.getGroupSecurityName, postParams, function(response) {
         if (!parseResponse(response)) {
             def.reject(response);
             return;
@@ -466,7 +471,7 @@ security.prototype.getGroupSecurityFromServer = function(postParams) {
 
 security.prototype.getRights = function(value, title)
 {
-    var _this = this;
+    // var _this = this;
 
     this.propertyValue = value;
     this.title = title;
@@ -516,7 +521,7 @@ security.prototype._save = function() {
     postParams.SecurityInfo = JSON.stringify(si.SecurityInfo);
 
     postParams[this.propertyName] = this.propertyValue;
-    sendCrossDomainPostRequest(serverBase + this.updateSecurityName, postParams, function(response) {
+    sendCrossDomainPostRequest(window.serverBase + this.updateSecurityName, postParams, function(response) {
         if (!parseResponse(response)) {
             nsGmx.widgets.notifications.stopAction('securitySave');
             return;
@@ -565,7 +570,7 @@ security.prototype.createSecurityDialog = function(securityInfo, options)
     var resize = function()
     {
         var mapTableHeight;
-        var dialogWidth = canvas[0].parentNode.parentNode.offsetWidth;
+        // var dialogWidth = canvas[0].parentNode.parentNode.offsetWidth;
 
         var nonTableHeight =
             $('.security-header', canvas).height() +
@@ -588,7 +593,7 @@ security.findUsers = function(query, options) {
     var def = new L.gmx.Deferred();
     var maxRecordsParamStr = options && options.maxRecords ? '&maxRecords=' + options.maxRecords : '';
     var typeParamStr = '&type=' + (options && options.type || 'All');
-    sendCrossDomainJSONRequest(serverBase + 'User/FindUser?query=' + encodeURIComponent(query) + maxRecordsParamStr + typeParamStr, function(response) {
+    sendCrossDomainJSONRequest(window.serverBase + 'User/FindUser?query=' + encodeURIComponent(query) + maxRecordsParamStr + typeParamStr, function(response) {
         if (!parseResponse(response)) {
             def.reject(response);
             return;
@@ -628,7 +633,7 @@ layersGroupSecurity.prototype._save = function(originalItems) {
 
     postParams[this.groupPropertyName] = this.propertyValue;                    // Layers: {}
 
-    sendCrossDomainPostRequest(serverBase + this.updateSecurityName, postParams, function(response) {
+    sendCrossDomainPostRequest(window.serverBase + this.updateSecurityName, postParams, function(response) {
         if (!parseResponse(response)) {
             nsGmx.widgets.notifications.stopAction('securitySave');
             return;
@@ -682,7 +687,7 @@ layersGroupSecurity.prototype._save = function(originalItems) {
                 }
             }
         }
-    };
+    }
 
     // возвращает массив удаленных пользователей
     function findRemovedUsers(original, changed) {
@@ -833,7 +838,7 @@ layersGroupSecurity.prototype.addCustomUI = function(ui, resizeFunc) {
     });
 
     // создание дерева слоев
-    tree = new layersTree({
+    tree = new window.layersTree({
         showVisibilityCheckbox: true,
         allowActive: true,
         allowDblClick: false,

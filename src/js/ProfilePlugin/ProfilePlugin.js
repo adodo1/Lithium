@@ -6,6 +6,7 @@ import {
     sendCrossDomainJSONRequest,
     sendCrossDomainPostRequest,    
 } from '../utilities.js';
+import './ProfilePlugin.css';
 
 (function ($) {
     var mykosmosnimki = location.protocol + "//my.kosmosnimki.ru"; //"http://localhost:56319"; //

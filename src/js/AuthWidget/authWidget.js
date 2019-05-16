@@ -1,5 +1,6 @@
 import nsGmx from '../nsGmx.js';
 import '../translations.js';
+import './authWidget.css';
 
 nsGmx.Templates = nsGmx.Templates || {};
 nsGmx.Templates.AuthWidget = {};

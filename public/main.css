@@ -1,3 +1,14 @@
+::-webkit-scrollbar {
+    width: 4px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.5);
+}
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
 *
 {
 	font-family: tahoma;
@@ -1991,17 +2002,6 @@ leaflet-control-layers-toggle {
     overflow: auto;
 }
 
-::-webkit-scrollbar {
-    width: 4px;
-    height: 12px;
-}
-
-::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.5);
-}
-::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.1);
-}
 .pluginEditor-pluginList
 {
     height: 190px;
@@ -2811,6 +2811,41 @@ div.singleHitarea
 	cursor: pointer;
 }
 
+/*style settings menu*/
+
+.style-settings-icon {
+    vertical-align: middle;
+    /*float: right;*/
+    margin-left: 5px;
+    margin-right: 22px;
+}
+
+.layer-styles-settings-dialog .ui-dialog-titlebar.ui-widget-header {
+	display: none;
+}
+
+.layer-styles-settings-dialog .ui-dialog-content {
+	margin: 0;
+}
+
+.style-settings-menu-element {
+    padding-left: 8px;
+	height: 25px;
+	line-height: 25px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.style-settings-menu-element.active {
+	background-color: #eaeaea;
+}
+
+.style-settings-menu-element.disabled {
+    color: #999999;
+    pointer-events: none;
+    cursor: default;
+}
+
 .DrawingObjectsLeftMenu
 {
 	padding: 3px 0px 3px 7px;
@@ -2938,315 +2973,6 @@ div.singleHitarea
 {
 	margin-right: 2px;
 }
-.security-header-table {
-    width: 100%;
-    height: 22px;
-    margin-bottom: 7px;
-}
-
-.security-owner {
-    line-height: 22px;
-    height: 22px;
-}
-
-.security-header {
-    margin: 2px 0px 5px 0px;
-}
-
-.security-header * {
-    font-size: 12px;
-}
-
-.security-save {
-    float: right;
-    padding: 0px 5px;
-}
-
-.security-access-header > * {
-    vertical-align: middle;
-}
-
-.security-canvas {
-    overflow: hidden;
-}
-
-.access-table-placeholder table {
-    table-layout: fixed;
-}
-.security-access-label {
-    padding-right: 5px;
-}
-
-.security-policy-control {
-    margin-top: 5px;
-}
-
-.policy-checkbox {
-    margin-right: 5px;
-}
-
-.security-policy-label {
-    padding-right: 15px;
-}
-
-.security-add-icon {
-    width: 24px;
-    height: 24px;
-    background: url(img/add_user.png);
-    cursor: pointer;
-    display: inline-block;
-}
-
-.security-group-icon {
-    width: 16px;
-    height: 16px;
-    background: url(img/usergroup.png);
-    cursor: pointer;
-    display: inline-block;
-}
-
-.security-user-icon {
-    width: 16px;
-    height: 16px;
-    /* background: url(img/user.png); */
-    cursor: pointer;
-    display: inline-block;
-}
-
-.security-add-container {
-    font-size: 12px;
-    margin-bottom: 5px;
-    position: relative;
-    z-index: 0;
-}
-
-.security-add-container > button, .security-owner-container > button {
-    margin-left: 10px;
-    padding: 0px 5px;
-}
-
-.security-canvas .ui-autocomplete {
-    border: 1px solid #AAA;
-    padding: 0px;
-}
-
-.security-owner-container {
-    display: inline-block;
-}
-
-.security-owner-cell {
-    width: 100%;
-    padding-left: 5px;
-}
-
-.security-add-input {
-    width: 170px;
-}
-
-.security-owner-placeholder {
-    margin-bottom: 6px;
-}
-
-.security-userlist-placeholder {
-    margin-top: 5px;
-}
-
-.security-row-nickname, .security-row-fullname {
-    overflow-x: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    padding: 1px 0px 1px 3px;
-}
-
-.security-row-nickname > * {
-    vertical-align: middle;
-}
-
-.security-row-nickname  > .security-group-icon, .security-row-nickname > .security-user-icon{
-    margin-right: 3px;
-}
-
-.security-row-access {
-    width: 130px;
-}
-
-.security-row-remove-cell {
-    text-align: center;
-}
-
-.security-autocomplete-item  {
-    white-space: nowrap;
-}
-
-.security-autocomplete-item  > *{
-    vertical-align: middle;
-}
-
-.security-autocomplete-item  > .security-group-icon, .security-autocomplete-item  > .security-user-icon{
-    margin-right: 3px;
-}
-
-.security-count-table td {
-    padding-right: 5px;
-}
-.security-counter {
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
-
-.security-custom-ui {
-    max-height: 130px;
-    overflow: auto;
-    padding-left: 5px;
-}
-
-.security-dialog {
-    overflow: hidden;
-}
-
-/*style settings menu*/
-
-.style-settings-icon {
-    vertical-align: middle;
-    /*float: right;*/
-    margin-left: 5px;
-    margin-right: 22px;
-}
-
-.layer-styles-settings-dialog .ui-dialog-titlebar.ui-widget-header {
-	display: none;
-}
-
-.layer-styles-settings-dialog .ui-dialog-content {
-	margin: 0;
-}
-
-.style-settings-menu-element {
-    padding-left: 8px;
-	height: 25px;
-	line-height: 25px;
-    cursor: pointer;
-    vertical-align: middle;
-}
-
-.style-settings-menu-element.active {
-	background-color: #eaeaea;
-}
-
-.style-settings-menu-element.disabled {
-    color: #999999;
-    pointer-events: none;
-    cursor: default;
-}
-
-﻿/** временный файл для интеграции общих стилей Common Components в ГеоМиксер*/
-
-.table {
-    display: table;
-}
-.table-row {
-    display: table-row;
-}
-.table-cell {
-    display: table-cell;
-}
-
-/* Geo-search */
-.searchBeginOnTD
-{
-	border: none;
-	width: 21px;
-	text-align: right;
-}
-
-.searchBeginOn, .searchBeginOff {
-	height: 24px;
-	width: 24px;
-    border: 1px solid #E2E2E2;
-    margin-right: -1px;
-    display: none;
-}
-
-.searchBeginOn
-{
-	background: transparent url(img/searchBeginOn_2.png) no-repeat scroll 0 0;
-	cursor: pointer;
-}
-.active .searchBeginOn
-{
-	background: transparent url(img/searchBeginOn_2a.png) no-repeat scroll 0 0;
-}
-.searchBeginOff
-{
-	background: transparent url(img/searchBeginOff_2.png) no-repeat scroll 0 0;
-	cursor: pointer;
-}
-.active .searchBeginOff
-{
-	background: transparent url(img/searchBeginOff_2a.png) no-repeat scroll 0 0;
-}
-
-/* Auth widget */
-.authWidget {
-    float: right;
-}
-
-.languageWidget {
-    float: right;
-}
-
-.auth-user-name, .auth-login {
-    font-size: 12px;
-}
-
-.auth-user-menu .dropdown-link{
-    font-size: 12px;
-}
-
-.auth-user-menu {
-    padding-left: 0px;
-}
-
-.dropdown-item {
-    border-bottom: 1px solid #DDDDDD;
-}
-
-.dropdown{
-    border: 1px solid #DDDDDD;
-    border-bottom: none;
-}
-
-/* Header widget */
-#HeaderLinkGeoMixer {
-    color: #2372B9;
-    background-image: url("../common_components/dist/HeaderWidget/build/assets/dot_on.png");
-    cursor: default;
-    font-weight: bold;
-}
-
-.dropdownMenuWidget-item {
-    cursor: auto;
-}
-
-.headerWidget-logoContainer {
-    width: 150px;
-    height: 40px;
-    padding: 0;
-}
-
-.dropdownMenuWidget-item a {
-    /*color: #6F6F6F;*/
-}
-
-.dropdownMenuWidget-item a:hover {
-    color: #2372B9;
-}
-
-/* Base layers widget */
-.baseLayersControl-layer {
-    border-color: #777;
-}
-
 /* The switch - the box around the slider */
 
 .switch-container {
@@ -3422,6 +3148,114 @@ input:checked + .switch-slider:before {
 
 .gmx-sidebar-tab {
     color: #70cbe0;
+}
+
+﻿/** временный файл для интеграции общих стилей Common Components в ГеоМиксер*/
+
+.table {
+    display: table;
+}
+.table-row {
+    display: table-row;
+}
+.table-cell {
+    display: table-cell;
+}
+
+/* Geo-search */
+.searchBeginOnTD
+{
+	border: none;
+	width: 21px;
+	text-align: right;
+}
+
+.searchBeginOn, .searchBeginOff {
+	height: 24px;
+	width: 24px;
+    border: 1px solid #E2E2E2;
+    margin-right: -1px;
+    display: none;
+}
+
+.searchBeginOn
+{
+	background: transparent url(img/searchBeginOn_2.png) no-repeat scroll 0 0;
+	cursor: pointer;
+}
+.active .searchBeginOn
+{
+	background: transparent url(img/searchBeginOn_2a.png) no-repeat scroll 0 0;
+}
+.searchBeginOff
+{
+	background: transparent url(img/searchBeginOff_2.png) no-repeat scroll 0 0;
+	cursor: pointer;
+}
+.active .searchBeginOff
+{
+	background: transparent url(img/searchBeginOff_2a.png) no-repeat scroll 0 0;
+}
+
+/* Auth widget */
+.authWidget {
+    float: right;
+}
+
+.languageWidget {
+    float: right;
+}
+
+.auth-user-name, .auth-login {
+    font-size: 12px;
+}
+
+.auth-user-menu .dropdown-link{
+    font-size: 12px;
+}
+
+.auth-user-menu {
+    padding-left: 0px;
+}
+
+.dropdown-item {
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.dropdown{
+    border: 1px solid #DDDDDD;
+    border-bottom: none;
+}
+
+/* Header widget */
+#HeaderLinkGeoMixer {
+    color: #2372B9;
+    background-image: url("../common_components/dist/HeaderWidget/build/assets/dot_on.png");
+    cursor: default;
+    font-weight: bold;
+}
+
+.dropdownMenuWidget-item {
+    cursor: auto;
+}
+
+.headerWidget-logoContainer {
+    width: 150px;
+    height: 40px;
+    padding: 0;
+}
+
+.dropdownMenuWidget-item a {
+    /*color: #6F6F6F;*/
+}
+
+.dropdownMenuWidget-item a:hover {
+    color: #2372B9;
+}
+
+/* Base layers widget */
+.baseLayersControl-layer {
+    border-color: #777;
 }
 
 /* added css for Geomixer */
@@ -4423,6 +4257,514 @@ input:checked + .switch-slider:before {
 	margin-right: auto;
     font-weight: normal;
 }
+ /*Grid panel*/
+
+
+ #gridStepUnitsDegrees,
+ #gridStepUnitsKilometers,
+ #gridFormatDD,
+ #gridFormatDM,
+ #gridFormatDMS {
+     margin: 0px 2px 0px 0px;
+ }
+
+.gridConfigTable .bigEmptyTableRow {
+    height: 8px;
+}
+
+.gridConfigTable .smallEmptyTableRow {
+    height: 4px;
+}
+
+.gridConfigLeftMenu {
+    position: relative;
+    padding: 3px 0px 3px 7px;
+}
+
+.gridSettingsTitle {
+    margin: 0px 4px;
+}
+
+.gridUnitsLabel,
+.gridFormatLabel {
+  margin: 0px 9px 0px 0px;
+  vertical-align: middle;
+}
+
+.gridStepInput {
+    width: 55px;
+    border-width: 2px;
+    margin: 2px  7px 2px 2px;
+}
+
+.gridStepButton {
+    margin: 2px;
+}
+
+.disabledLabel {
+    color: grey;
+}
+
+.mapExportConfigLeftMenu {
+    position: relative;
+    padding: 3px 0px 3px 7px;
+}
+
+.settings,
+.export-progress-container {
+    width: 90%;
+    margin: 4px 4px 10px 4px;
+}
+
+.areaButton,
+.mapExportButton {
+    margin: 4px 0px 4px 0px;
+    cursor: pointer;
+}
+
+.zoomToBoxButton {
+    margin: 0px 0px 0px 8px;
+}
+
+.selectButtons {
+    margin: 4px 4px 4px 0px;
+}
+
+.zoomSelect,
+.dims,
+.formatSelect,
+.typeSelect,
+.nameSelect {
+    padding: 4px;
+    margin: 4px 0px 4px 0px;
+    clear:both;
+}
+
+.zoomLevel,
+.formatTypes,
+.fileTypes,
+.mapExportWidth,
+.mapExportHeight,
+.mapExportName {
+    clear:both;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+.zoomLevel,
+.formatTypes,
+.fileTypes {
+    width: 80px;
+    vertical-align:top;
+    height:20px;
+}
+
+.zoomToLevel {
+    text-align: left;
+}
+
+.mapExportWidth,
+.mapExportHeight {
+    width: 80px;
+}
+
+.mapExportName {
+    width: 120px;
+}
+
+.eLabel, .eInput, .mapExportWarn {
+    height: 25px;
+    width: 33%;
+}
+
+.eLabel {
+    text-align:left;
+}
+
+.eInput {
+    text-align:right;
+}
+
+.exportWrap {
+    height: 52px;
+}
+
+.export {
+    padding: 0px;
+    vertical-align: top;
+    clear: both;
+    line-height: 30px;
+}
+
+.exportErrorMessage,
+.spinHolder {
+    margin: 0px 0px 0px 8px;
+}
+
+.spinMessage {
+    margin: 0px 0px 0px 4px;
+}
+
+.exportErrorMessage {
+    color: red;
+}
+
+.zoomToLevel, .mapExportWarn {
+    padding-left: 8px;
+}
+
+.error {
+	background-color: #FFABAB;
+}
+
+.export-progressbar.ui-progressbar{
+    height: 1em;
+}
+
+.export-progressbar .ui-progressbar-value {
+    background: grey;
+}
+
+.bufferZonesConfigLeftMenu {
+    position: relative;
+    padding: 3px 0px 3px 7px;
+}
+
+.buffer-row {
+    margin: 4px 0 4px 0;
+}
+
+.buffer-layer-name {
+    font-weight: bold;
+}
+
+.buffer-select-title {
+    margin-bottom: 8px;
+}
+
+.buffer-layer-name {
+    height: 18px;
+}
+
+.buffer-layer-name-error {
+    color: red;
+}
+
+.buffer-size {
+    width: 50px;
+}
+
+.buffer-button-container {
+    margin-top: 8px;
+}
+
+.indexGridConfigLeftMenu {
+    position: relative;
+    padding: 3px 0px 3px 7px;
+}
+
+.indexGridConfigLeftMenu > table {
+    border-collapse: separate;
+    border-spacing: 5px 5px;
+}
+
+.settings {
+    width: 90%;
+    margin: 4px 4px 10px 4px;
+}
+
+.dims {
+    padding: 4px;
+    margin: 4px 0px 4px 0px;
+    clear:both;
+}
+
+.name {
+    clear:both;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+.maxLat,
+.maxLng,
+.minLat,
+.minLng,
+.xStep,
+.yStep,
+.indexCount {
+    clear:both;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    width: 100%;
+    padding-right: 20px;
+    vertical-align:top;
+    height:20px;
+}
+
+.name {
+    width: 100%;
+    padding-right: 20px;
+    vertical-align:top;
+    height:20px;
+}
+
+.eLabel, .eInput, {
+    height: 25px;
+    width: 33%;
+    text-align:left;
+}
+
+.indexCount {
+    vertical-align: middle;
+    text-align:left;
+}
+
+.createWrap {
+    height: 52px;
+}
+
+.create {
+    padding: 0px;
+    vertical-align: top;
+    clear: both;
+    line-height: 30px;
+}
+
+.spinHolder {
+    margin: 0px 0px 0px 8px;
+}
+
+.spinMessage {
+    margin: 0px 0px 0px 4px;
+}
+
+.errorMessage {
+    color: red;
+}
+
+.photolayer-ui-container {
+    height: 25px;
+    margin-bottom: 4px;
+    margin-left: 6px;
+}
+.photolayer-catalog-selector-container {
+    height: 35px;
+    line-height: 35px;
+    margin-bottom: 10px;
+}
+
+.photolayer-catalog-label input {
+    margin-right: 4px;
+}
+
+.photolayer-loader-container {
+    height: 44px;
+}
+
+.photolayer-title {
+    display: block;
+}
+
+.photolayer-name-title {
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.photolayer-newlayer-input-container,
+.photolayer-existinglayer-input-container {
+    margin-bottom: 40px;
+}
+
+.photolayer-existinglayer-input {
+    border: 1px solid #808080;
+    min-width: 139px;
+}
+
+.photolayer-title,
+.photolayer-catalog-label {
+    margin-right: 8px;
+}
+
+.select-catalog-button {
+    cursor: pointer;
+    width: 150px;
+    height: 25px;
+    text-align: center;
+    padding: 6px;
+    margin-right: 8px;
+    border-radius: 2px;
+    background-color: #ddd;
+    color: #a2a2a2;
+    box-shadow: 0px 3px 4.7px 0.3px rgba(0, 0, 0, 0.24);
+}
+
+.select-catalog-button.active {
+    color: #FFF;
+    background-color: #1471bb;
+}
+
+.photolayer-loader-block {
+    display: inline-block;
+    bottom: 4px;
+    height: 25px;
+    line-height: 25px;
+}
+
+.photo-uploader-label {
+    display: inline-block;
+}
+
+label.photo-uploader-label input {
+    display: none;
+}
+
+.photo-uploader-label.gmx-disabled {
+    pointer-events: none;
+    cursor: default;
+}
+
+.photo-uploader-button.gmx-disabled {
+    color: #999999;
+    pointer-events: none;
+    cursor: default;
+}
+
+.photo-uploader-button {
+    cursor: pointer;
+    width: 150px;
+    height: 25px;
+    text-align: center;
+    font-weight: bold;
+    padding: 6px;
+    margin-right: 8px;
+    border-radius: 2px;
+    background-color: #FFF;
+    color: #1471bb;
+}
+
+.photolayer-progress-container {
+    display: inline-block;
+    width: 120px;
+    height: 25px;
+    line-height: 25px;
+}
+
+.progressbar {
+    display: inline-block;
+    width: 120px;
+}
+
+.progressbar.ui-progressbar{
+    height: 0.5em;
+    background: #ddd;
+}
+
+.progressbar .ui-progressbar-value {
+    background: #1471bb;
+}
+
+.photolayer-ok-button-container {
+    width: 25px;
+}
+
+.spin-message {
+    margin-left: 8px;
+}
+
+.ok-button {
+    color: #a2a2a2;
+}
+
+.photolayer-error-message,
+ .photo-upload-result-error {
+    color: red;
+}
+
+.popupImage {
+    margin: 0 auto;
+}
+
+.photo-upload-result {
+    margin-left: 6px;
+}
+
+.photo-upload-result-uploaded {
+    color: green;
+}
+
+.photo-div-icon {
+    background: rgba(255, 255, 255, 0);
+    border: 0px;
+}
+
+.marker-cluster-photo {
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(148, 147, 147, 0.67);
+  width: 14px;
+  color: rgba(19, 19, 19, 0.9);
+  text-align: center;
+  border-radius: 10px;
+  padding: 1px;
+  height: 14px;
+  font-size: 10px;
+  position: relative;
+  top: -29px;
+  left: 12px;
+  font-weight: bold;
+}
+
+.uglw-list-placeholder {
+    margin-top: 5px;
+}
+
+.uglw-table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.uglw-row:hover {
+    background-color: #DEDEDE;
+    cursor: default;
+}
+
+.uglw-table-title {
+    width: 45%;
+}
+
+.uglw-table-descr {
+    width: 50%;
+}
+
+.uglw-group-name {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.uglw-add-icon {
+    width: 24px;
+    height: 24px;
+    background: url(../img/add_usergroup.png);
+    cursor: pointer;
+    display: inline-block;
+    float: right;
+}
+
+.security-props-title, .security-props-description {
+    margin-left: 10px;
+    width: 200px;
+}
+
+.uglw-popover-buttons {
+    text-align: center;
+}
+
+.uglw-popover-buttons > button {
+    padding: 3px;
+    margin: 0px 5px;
+}
 .leaflet-iconLayers-layerShutter {
     position: absolute;
     width: 100%;
@@ -4698,6 +5040,172 @@ input:checked + .switch-slider:before {
 }
 .colorpicker_slider {
 	background-position: bottom;
+}
+
+.security-header-table {
+    width: 100%;
+    height: 22px;
+    margin-bottom: 7px;
+}
+
+.security-owner {
+    line-height: 22px;
+    height: 22px;
+}
+
+.security-header {
+    margin: 2px 0px 5px 0px;
+}
+
+.security-header * {
+    font-size: 12px;
+}
+
+.security-save {
+    float: right;
+    padding: 0px 5px;
+}
+
+.security-access-header > * {
+    vertical-align: middle;
+}
+
+.security-canvas {
+    overflow: hidden;
+}
+
+.access-table-placeholder table {
+    table-layout: fixed;
+}
+.security-access-label {
+    padding-right: 5px;
+}
+
+.security-policy-control {
+    margin-top: 5px;
+}
+
+.policy-checkbox {
+    margin-right: 5px;
+}
+
+.security-policy-label {
+    padding-right: 15px;
+}
+
+.security-add-icon {
+    width: 24px;
+    height: 24px;
+    background: url(../img/add_user.png);
+    cursor: pointer;
+    display: inline-block;
+}
+
+.security-group-icon {
+    width: 16px;
+    height: 16px;
+    background: url(../img/usergroup.png);
+    cursor: pointer;
+    display: inline-block;
+}
+
+.security-user-icon {
+    width: 16px;
+    height: 16px;
+    /* background: url(../img/user.png); */
+    cursor: pointer;
+    display: inline-block;
+}
+
+.security-add-container {
+    font-size: 12px;
+    margin-bottom: 5px;
+    position: relative;
+    z-index: 0;
+}
+
+.security-add-container > button, .security-owner-container > button {
+    margin-left: 10px;
+    padding: 0px 5px;
+}
+
+.security-canvas .ui-autocomplete {
+    border: 1px solid #AAA;
+    padding: 0px;
+}
+
+.security-owner-container {
+    display: inline-block;
+}
+
+.security-owner-cell {
+    width: 100%;
+    padding-left: 5px;
+}
+
+.security-add-input {
+    width: 170px;
+}
+
+.security-owner-placeholder {
+    margin-bottom: 6px;
+}
+
+.security-userlist-placeholder {
+    margin-top: 5px;
+}
+
+.security-row-nickname, .security-row-fullname {
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 1px 0px 1px 3px;
+}
+
+.security-row-nickname > * {
+    vertical-align: middle;
+}
+
+.security-row-nickname  > .security-group-icon, .security-row-nickname > .security-user-icon{
+    margin-right: 3px;
+}
+
+.security-row-access {
+    width: 130px;
+}
+
+.security-row-remove-cell {
+    text-align: center;
+}
+
+.security-autocomplete-item  {
+    white-space: nowrap;
+}
+
+.security-autocomplete-item  > *{
+    vertical-align: middle;
+}
+
+.security-autocomplete-item  > .security-group-icon, .security-autocomplete-item  > .security-user-icon{
+    margin-right: 3px;
+}
+
+.security-count-table td {
+    padding-right: 5px;
+}
+.security-counter {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.security-custom-ui {
+    max-height: 130px;
+    overflow: auto;
+    padding-left: 5px;
+}
+
+.security-dialog {
+    overflow: hidden;
 }
 
 .headerWidget {
@@ -5263,35 +5771,286 @@ div.tableBody tr.rowSelected td
     font-size: 12px;
     margin-left: 8px;
 }
-.CalendarWidget-inputCell {
-    padding: 0px 1px;
+.attrsSelectedCont {
+    padding-bottom: 6px;
+}
+.attrsSelectedCont span {
+    margin-left: 10px;
+}
+.attrsSelectedCont .selectedCount {
+    margin-left: 2px;
+	font-weight: bold;
+}
+.attrsSelectedCont .hiddenCommands {
+    display: none;
+}
+
+.attrsHelperBounding {
+    width: 140px;
+    height: 80px;
+    position: absolute;
+    left: -8px;
+    top: -75px;
+}
+
+.attrsDownloadLink,
+.createLayerLink {
+    margin-right: 10px;
+}
+
+.attrs-table-active-row {
+    display: block;
+    overflow-x: hidden;
+    white-space: nowrap;
+    margin: 4px 5px 2px 3px;
+    font-size: 12px;
+}
+
+.attrs-table-show-columns-header {
+    margin-top: 4px;
+}
+
+.attrs-table-show-columns-checkbox {
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.attrs-table-active-checkbox {
+    margin-left: 12px;
+    margin-right: 3px;
+}
+
+.attrs-table-square-link {
+    float: right;
+}
+
+.attrs-table-square-popover {
+    width: 160px;
+    text-align: right;
+}
+
+.attr-table-query-title {
+    font-size: 12px;
+    margin: 7px 0px 3px 1px;
+}
+
+.attr-table-query {
+    overflow: auto;
+    height: 80px;
+}
+
+.attr-table-query-area {
+    width: 300px;
+    height: 100px;
+    margin: 9px 6px 0 0;
+    resize: none;
+}
+
+.attr-table-query-suggest {
+    margin: 0px 3px;
+}
+
+.attr-table-fields-header {
+    font-size: 12px;
+    margin: 7px 0px 3px 1px;
+}
+
+.attr-table-columns-container {
+    overflow-y: auto;
+    height: 220px;
+}
+
+.attr-table-params-buttons {
+    text-align: right;
+    margin: 5px 0px 0px;
+    width: 300px;
+}
+
+.attr-table-params-clear {
+    padding: 0px 5px;
+    margin-right: 3px;
+}
+
+.attr-table-params-find {
+    padding: 0px 5px;
+    margin-right: 17px;
+}
+
+.attr-table-geometry-container {
+    position: relative;
+    margin-top: 60px;
+}
+
+.attr-table-geomtitle {
+    margin-right: 3px;
+}
+
+.attr-table-geom-placeholder .drawingObjectsItemTitle {
+    margin-left: 0px;
+}
+
+.attr-table-geom-placeholder {
+    color: #215570;
+}
+
+.attrsColumnsList {
+    z-index: 1000;
+    padding: 5px;
+    padding-top: 2px;
+    position: absolute;
+    max-height: 310px;
+    overflow: auto;
+    right: 8px;
+    margin: 4px 7px 0 0;
+    background-color: white;
+    min-width: 115px;
+    box-shadow: rgba(100, 100, 100, 0.7) 0px 0px 3px;
+}
+
+.show-columns-list-button {
+    padding-top: 1px;
+    float: right;
+}
+
+.attr-table-hide-button-container {
+    margin-top: 10px;
+    margin-bottom: 8px;
+}
+
+.search-button {
+    margin-left: 5px;
+}
+
+.clean-button {
+    float: right;
+    margin: 0 6px 0px 0;
+}
+
+.clean-search-buttons-container {
+    /* position: absolute; */
+    /* top: 200px; */
+}
+
+.apply-button-container {
+    /* position: absolute; */
+    /* top: 200px; */
+}
+
+.attr-table-middle-container {
+    height: 415px;
+}
+
+#attrsTableParent table {
+  border-spacing: 0;
+  border-collapse: separate;
+}
+
+.attrs-select {
+    width: 94px;
+    margin-left: 8px;
+}
+
+.column-update-spinholder {
+    margin-top: 8px;
+}
+
+.spinErrorMessage {
+    color: red;
+}
+
+.attr-table-hide-button-container {
+    margin-top: 0;
+}
+
+div[data-custom-tooltip] {
+    background-color: red;
+}
+
+div[data-custom-tooltip]:hover:after {
+  content: attr(title);
+  position: absolute;
+}
+
+.suggest-helper-elem-custom-tooltip span { /* Внешний вид нашего тултипа */
+	background-color: rgba(0,0,0, 0.8);
+	border-radius: 15px 15px 15px 0px;
+	box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+	color: #fff;
+	margin-left: 2px;
+	margin-top: -75px;
+	opacity: 0; /* Делаем его прозрачным */
+	padding: 10px 10px 10px 40px;
+	position: absolute;
+	text-decoration: none;
+	visibility: hidden; /* И прячем */
+	width: 350px;
+	z-index: 10;
+}
+
+.suggest-helper-elem-custom-tooltip:hover span { /* По hover отображаем тултип */
+	opacity: 1;
+	visibility: visible;
+}
+
+/* nsGmx.SuggestWidget */
+
+.suggest-container {
+    margin-top: 2px;
+}
+
+.suggest-container .ui-icon {
+    display: inline-block;
+    float: right;
+    line-height: 20px;
     text-align: center;
+    vertical-align: baseline;
+    margin: 2px 0 0 0;
 }
 
-.CalendarWidget table, .CalendarWidget tr, .CalendarWidget td
-{
-    border: 0px;
-    border-collapse: collapse;
-    padding: 0px;
+.suggest-helper {
+    overflow-y: auto;
+    width: 92px;
+    height: 160px;
+    position: absolute;
+    left: -1px;
+    border: 1px solid #AFC0D5;
+    background-color: #FFFFFF;
+    z-index: 1000;
 }
 
-.CalendarWidget-dateBeginInfo, .CalendarWidget-dateEndInfo {
-    text-align: center;
-}
-
-.CalendarWidget-iconScrollLeft, .CalendarWidget-iconScrollRight, .CalendarWidget-iconMore {
-    color: #404040;
-    font-size: 14px;
+.suggest-helper-elem {
+    height: 14px;
+    line-height: 14px;
+    padding: 2px 0px 1px 3px;
+    overflow-x: hidden;
+    white-space: nowrap;
     cursor: pointer;
+    text-align: left;
 }
 
-.CalendarWidget-dateBegin, .CalendarWidget-dateEnd {
-    width: 6em;
-    text-align: center;
+.suggest-helper-hover {
+    background-color: #91C1D2;
 }
 
-.CalendarWidget-forecast {
-    margin: 0px 0px 0px 4px;
+.suggest-link-container {
+    line-height: 20px;
+    width: 86px;
+    cursor: default;
+    color: #000000;
+    position: relative;
+    padding: 0 2px 0 4px;
+    text-align: left;
+    margin: 0;
+}
+
+/* nsGmx.AttrSuggestWidget */
+.suggest-op {
+    margin: 0px 10px;
+}
+
+.suggest-helper-elem-group {
+    font-weight: bold;
+    font-style: italic;
 }
 
 
@@ -5517,6 +6276,37 @@ div.tableBody tr.rowSelected td
   cursor: default;
 }
 
+.CalendarWidget-inputCell {
+    padding: 0px 1px;
+    text-align: center;
+}
+
+.CalendarWidget table, .CalendarWidget tr, .CalendarWidget td
+{
+    border: 0px;
+    border-collapse: collapse;
+    padding: 0px;
+}
+
+.CalendarWidget-dateBeginInfo, .CalendarWidget-dateEndInfo {
+    text-align: center;
+}
+
+.CalendarWidget-iconScrollLeft, .CalendarWidget-iconScrollRight, .CalendarWidget-iconMore {
+    color: #404040;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.CalendarWidget-dateBegin, .CalendarWidget-dateEnd {
+    width: 6em;
+    text-align: center;
+}
+
+.CalendarWidget-forecast {
+    margin: 0px 0px 0px 4px;
+}
+
 .iconSidebarControl-controlCorner_noie { padding: 10px; background-color: hsla(0, 0%, 100%, 0); transition: background-color .5s ease; }
 .iconSidebarControl-controlCorner_locked { pointer-events: auto; }
 .iconSidebarControl-controlCorner_ie9 { padding: 10px; } /* в IE9 background не даёт кликнуть по слоям */
@@ -5670,223 +6460,23 @@ div.tableBody tr.rowSelected td
 }
 
 
-.attrsSelectedCont {
-    padding-bottom: 6px;
-}
-.attrsSelectedCont span {
-    margin-left: 10px;
-}
-.attrsSelectedCont .selectedCount {
-    margin-left: 2px;
-	font-weight: bold;
-}
-.attrsSelectedCont .hiddenCommands {
-    display: none;
+.authWidget { font-size: 12px; }
+.authWidget-userPanel { display: table; }
+.authWidget-userPanel-iconCell { display: table-cell; vertical-align: middle; }
+.authWidget-userPanel-userMenuCell { display: table-cell; vertical-align: middle; }
+
+.authWidget-userPanel-userIcon { width: 18px; height: 17px; background-image: url('img/user.png'); }
+
+.authWidget-loginButton {
+  display: table-cell;
+  vertical-align: bottom;
+  padding-left: 10px;
+  cursor: pointer;
 }
 
-.attrsHelperBounding {
-    width: 140px;
-    height: 80px;
-    position: absolute;
-    left: -8px;
-    top: -75px;
-}
+.authWidget .dropdownMenuWidget { position:relative; }
+.authWidget .dropdownMenuWidget-item { padding-right: 0; }
+.authWidget .dropdownMenuWidget-itemDropdown { right: 0; min-width: 150px; }
 
-.attrsDownloadLink,
-.createLayerLink {
-    margin-right: 10px;
-}
-
-.attrs-table-active-row {
-    display: block;
-    overflow-x: hidden;
-    white-space: nowrap;
-    margin: 4px 5px 2px 3px;
-    font-size: 12px;
-}
-
-.attrs-table-show-columns-header {
-    margin-top: 4px;
-}
-
-.attrs-table-show-columns-checkbox {
-    margin-left: 3px;
-    margin-right: 3px;
-}
-
-.attrs-table-active-checkbox {
-    margin-left: 12px;
-    margin-right: 3px;
-}
-
-.attrs-table-square-link {
-    float: right;
-}
-
-.attrs-table-square-popover {
-    width: 160px;
-    text-align: right;
-}
-
-.attr-table-query-title {
-    font-size: 12px;
-    margin: 7px 0px 3px 1px;
-}
-
-.attr-table-query {
-    overflow: auto;
-    height: 80px;
-}
-
-.attr-table-query-area {
-    width: 300px;
-    height: 100px;
-    margin: 9px 6px 0 0;
-    resize: none;
-}
-
-.attr-table-query-suggest {
-    margin: 0px 3px;
-}
-
-.attr-table-fields-header {
-    font-size: 12px;
-    margin: 7px 0px 3px 1px;
-}
-
-.attr-table-columns-container {
-    overflow-y: auto;
-    height: 220px;
-}
-
-.attr-table-params-buttons {
-    text-align: right;
-    margin: 5px 0px 0px;
-    width: 300px;
-}
-
-.attr-table-params-clear {
-    padding: 0px 5px;
-    margin-right: 3px;
-}
-
-.attr-table-params-find {
-    padding: 0px 5px;
-    margin-right: 17px;
-}
-
-.attr-table-geometry-container {
-    position: relative;
-    margin-top: 60px;
-}
-
-.attr-table-geomtitle {
-    margin-right: 3px;
-}
-
-.attr-table-geom-placeholder .drawingObjectsItemTitle {
-    margin-left: 0px;
-}
-
-.attr-table-geom-placeholder {
-    color: #215570;
-}
-
-.attrsColumnsList {
-    z-index: 1000;
-    padding: 5px;
-    padding-top: 2px;
-    position: absolute;
-    max-height: 310px;
-    overflow: auto;
-    right: 8px;
-    margin: 4px 7px 0 0;
-    background-color: white;
-    min-width: 115px;
-    box-shadow: rgba(100, 100, 100, 0.7) 0px 0px 3px;
-}
-
-.show-columns-list-button {
-    padding-top: 1px;
-    float: right;
-}
-
-.attr-table-hide-button-container {
-    margin-top: 10px;
-    margin-bottom: 8px;
-}
-
-.search-button {
-    margin-left: 5px;
-}
-
-.clean-button {
-    float: right;
-    margin: 0 6px 0px 0;
-}
-
-.clean-search-buttons-container {
-    /* position: absolute; */
-    /* top: 200px; */
-}
-
-.apply-button-container {
-    /* position: absolute; */
-    /* top: 200px; */
-}
-
-.attr-table-middle-container {
-    height: 415px;
-}
-
-#attrsTableParent table {
-  border-spacing: 0;
-  border-collapse: separate;
-}
-
-.attrs-select {
-    width: 94px;
-    margin-left: 8px;
-}
-
-.column-update-spinholder {
-    margin-top: 8px;
-}
-
-.spinErrorMessage {
-    color: red;
-}
-
-.attr-table-hide-button-container {
-    margin-top: 0;
-}
-
-div[data-custom-tooltip] {
-    background-color: red;
-}
-
-div[data-custom-tooltip]:hover:after {
-  content: attr(title);
-  position: absolute;
-}
-
-.suggest-helper-elem-custom-tooltip span { /* Внешний вид нашего тултипа */
-	background-color: rgba(0,0,0, 0.8);
-	border-radius: 15px 15px 15px 0px;
-	box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
-	color: #fff;
-	margin-left: 2px;
-	margin-top: -75px;
-	opacity: 0; /* Делаем его прозрачным */
-	padding: 10px 10px 10px 40px;
-	position: absolute;
-	text-decoration: none;
-	visibility: hidden; /* И прячем */
-	width: 350px;
-	z-index: 10;
-}
-
-.suggest-helper-elem-custom-tooltip:hover span { /* По hover отображаем тултип */
-	opacity: 1;
-	visibility: visible;
-}
+.authWidget-iframeContainer.ui-dialog-content.ui-widget-content { box-sizing: border-box; overflow: hidden; }
+.authWidget-iframeContainer .authorizationIframe { width: 100%; height: 100%; border: none; }

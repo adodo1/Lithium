@@ -1,3 +1,5 @@
+import './eye.js';
+
 /**
  *
  * Utilities

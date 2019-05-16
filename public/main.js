@@ -1220,7 +1220,7 @@
     */
 
 
-    function parseResponse$1(response, customErrorDescriptions) {
+    function parseResponse(response, customErrorDescriptions) {
       var responseHooks = (hooks[response.Status] || []).concat(hooks['*'] || []);
 
       for (var h = 0; h < responseHooks.length; h++) {
@@ -1677,7 +1677,7 @@
               if (xhr.status === 200) {
                 response = JSON.parse(xhr.responseText.substr(1, xhr.responseText.length - 2));
 
-                if (parseResponse$1(response, errorMessages)) {
+                if (parseResponse(response, errorMessages)) {
                   def.resolve(response.Result);
                 } else {
                   def.reject(response);
@@ -1690,7 +1690,7 @@
             sendCrossDomainPostRequest(window.serverBase + "ShapeLoader", {
               WrapStyle: "window"
             }, function (response) {
-              if (parseResponse$1(response, errorMessages)) {
+              if (parseResponse(response, errorMessages)) {
                 def.resolve(response.Result);
               } else {
                 def.reject(response);
@@ -1982,7 +1982,7 @@
             content: JSON.stringify(data),
             temp: tempFlag
           }, function (response) {
-            if (parseResponse$1(response)) {
+            if (parseResponse(response)) {
               def.resolve(response.Result);
             } else {
               def.reject();
@@ -1999,7 +1999,7 @@
           var def = $.Deferred();
           sendCrossDomainJSONRequest(window.serverBase + "TinyReference/Get.ashx?id=" + id, function (response) {
             //если пермалинк не найден, сервер не возвращает ошибку, а просто пустой результат
-            if (parseResponse$1(response) && response.Result) {
+            if (parseResponse(response) && response.Result) {
               def.resolve(JSON.parse(response.Result));
             } else {
               def.reject();
@@ -2015,7 +2015,7 @@
         remove: function remove(id) {
           var def = $.Deferred();
           sendCrossDomainJSONRequest(window.serverBase + "TinyReference/Delete.ashx?id=" + id, function (response) {
-            if (parseResponse$1(response)) {
+            if (parseResponse(response)) {
               def.resolve();
             } else {
               def.reject();
@@ -2073,7 +2073,7 @@
         _td = domManipulation._td,
         _ul = domManipulation._ul;
     window.addParseResponseHook = addParseResponseHook;
-    window.parseResponse = parseResponse$1;
+    window.parseResponse = parseResponse;
 
     // {
     // 	this.hash = {};
@@ -8366,7 +8366,7 @@
               _this = this;
 
           sendCrossDomainJSONRequest(window.serverBase + 'FileBrowser/CreateFolder.ashx?WrapStyle=func&FullName=' + encodeURIComponent(imagesDir), function (response) {
-            if (!parseResponse$1(response)) return;
+            if (!parseResponse(response)) return;
 
             window._fileBrowser.createBrowser(_gtxt("Изображение"), ['jpg', 'jpeg', 'png', 'gif', 'swf'], function (path) {
               var relativePath = path.substring(imagesDir.length);
@@ -8489,7 +8489,7 @@
         _$2(parent, [loading]);
 
         sendCrossDomainJSONRequest(window.serverBase + "Layer/GetLayerInfo.ashx?WrapStyle=func&LayerName=" + elemProperties.name, function (response) {
-          if (!parseResponse$1(response)) return;
+          if (!parseResponse(response)) return;
           loading.removeNode(true);
           nsGmx$1.createLayerEditor(div, type, parent, response.Result, params);
         });
@@ -8640,7 +8640,7 @@
 
         if (!this.attrValues[mapName]) this.attrValues[mapName] = {};
         sendCrossDomainJSONRequest(window.serverBase + "Layer/GetLayerInfo.ashx?WrapStyle=func&NeedAttrValues=false&LayerName=" + layerName, function (response) {
-          if (!parseResponse$1(response)) return;
+          if (!parseResponse(response)) return;
           var columns = response.Result.Columns;
           var attributesHash = {};
 
@@ -9084,7 +9084,7 @@
       }
 
       sendCrossDomainPostRequest(window.serverBase + "VectorLayer/ModifyVectorObjects.ashx", params, function (addResponse) {
-        if (!parseResponse$1(addResponse)) {
+        if (!parseResponse(addResponse)) {
           def.reject();
           return;
         }
@@ -9137,7 +9137,7 @@
       requestParams.page = options.page || 0;
       requestParams.pagesize = options.pagesize || 100000;
       sendCrossDomainPostRequest(window.serverBase + "VectorLayer/Search.ashx", requestParams, function (response) {
-        if (!parseResponse$1(response)) {
+        if (!parseResponse(response)) {
           def.reject(response);
           return;
         }
@@ -9441,7 +9441,7 @@
         this.checkUserInfo = function (callback, errorCallback) {
           //var isTokenUsed = false;
           var _processResponse = function _processResponse(response) {
-            var resOk = parseResponse$1(response);
+            var resOk = parseResponse(response);
             !resOk && errorCallback && errorCallback();
 
             if (response.Result == null || !resOk) {
@@ -9508,7 +9508,7 @@
 
         this.logout = function (callback) {
           sendCrossDomainJSONRequest(window.serverBase + "Logout.ashx?WrapStyle=func&WithoutRedirection=1", function (response) {
-            if (!parseResponse$1(response)) return;
+            if (!parseResponse(response)) return;
 
             if (_this.isAccounts() && window.gmxAuthServer) {
               sendCrossDomainJSONRequest(window.gmxAuthServer + "Handler/Logout", function () {
@@ -13002,7 +13002,7 @@
           if (response.Status === 'ok' && !response.ErrorInfo) {
             def.resolve(response);
           } else {
-            parseResponse$1(response);
+            parseResponse(response);
             def.reject(response);
           }
 
@@ -13017,7 +13017,7 @@
 
             if (response.Status !== 'ok' || res.ErrorInfo) {
               res.Status = 'error';
-              parseResponse$1(res);
+              parseResponse(res);
               clearInterval(interval);
               def.reject(res);
             } else if (res.Completed) {
@@ -14625,7 +14625,7 @@
             if (paramsManager._activeColumns.hasOwnProperty(key)) {
               paramsManager._activeColumns[key] = checked;
               $(paramsManager).trigger('columnsChange');
-              $('input', columnsList).each(function (elem) {
+              $('input', columnsList).each(function () {
                 $(this).prop('checked', checked);
               });
             }
@@ -14655,13 +14655,12 @@
 
         var paramsWidth = 300,
             tdParams = nsGmx$1.Utils._td(null, [['css', 'width', paramsWidth + 'px'], ['attr', 'vAlign', 'top']]),
-            tdTable = nsGmx$1.Utils._td(null, [['attr', 'vAlign', 'top']]),
-            findObjectsButton = nsGmx$1.Utils.makeLinkButton(_gtxt('Найти объекты')),
+            // tdTable = nsGmx.Utils._td(null, [['attr', 'vAlign', 'top']]),
+        findObjectsButton = nsGmx$1.Utils.makeLinkButton(_gtxt('Найти объекты')),
             updateObjectsButton = nsGmx$1.Utils.makeLinkButton(_gtxt('Обновить объекты')),
             addObjectButton = nsGmx$1.Utils.makeLinkButton(_gtxt('Добавить объекты')),
             changeFieldsListButton = nsGmx$1.Utils.makeLinkButton(_gtxt('Изменить колонки')),
-            oldCanvasWidth = false,
-            _this = this;
+            oldCanvasWidth = false;
 
         var downloadSection = $(Handlebars.compile('<div>' + '<span class="buttonLink attrsDownloadLink" data-format="Shape">{{i "Скачать shp"}}</span>' + '{{#unless isPolygon}}' + '<span class="buttonLink attrsDownloadLink" data-format="gpx">{{i "Скачать gpx"}}</span>' + '{{/unless}}' + '<span class="buttonLink attrsDownloadLink" data-format="csv">{{i "Скачать csv"}}</span>' + '<span class="buttonLink attrsDownloadLink" data-format="geojson">{{i "Скачать geojson"}}</span>' + '<span class="buttonLink createLayerLink">{{i "Создать слой"}}</span>' + '<span class="buttonLink copyObjectsLink">{{i "Копировать объекты"}}</span>' + '{{#if isPolygon}}<span class="buttonLink attrs-table-square-link">{{i "Рассчитать площадь"}}</span>{{/if}}' + '</div>')({
           isPolygon: info.GeometryType === 'polygon'
@@ -15294,6 +15293,936 @@
     })();
 
     (function () {
+
+      nsGmx$1.Translations.addText('rus', {
+        security: {
+          ownerName: 'Владелец',
+          defAccess: 'Доступ для всех',
+          access: {
+            empty: ' ',
+            no: 'нет доступа',
+            view: 'просмотр',
+            linkview: 'просмотр по ссылке',
+            edit: 'редактирование',
+            editrows: 'редактирование объектов',
+            preview: 'предпросмотр'
+          },
+          share: {
+            'public': 'публичный',
+            'private': 'частный'
+          },
+          addHeaderLabel: 'Введите пользователя или группу',
+          addOkText: 'Добавить',
+          select: {
+            'selectedLayers': 'Выделено слоев для назначения прав: '
+          }
+        }
+      });
+      nsGmx$1.Translations.addText('eng', {
+        security: {
+          ownerName: 'Owner',
+          defAccess: 'Public access',
+          access: {
+            empty: ' ',
+            no: 'no access',
+            view: 'view only',
+            linkview: 'direct link view only',
+            edit: 'edit',
+            editrows: 'edit objects',
+            preview: 'preview'
+          },
+          share: {
+            'public': 'public',
+            'private': 'private'
+          },
+          addHeaderLabel: 'Enter user or group',
+          addOkText: 'Add',
+          select: {
+            'selectedLayers': 'Selected'
+          }
+        }
+      });
+      var usersHash = {};
+      var currentSelectedItem = null;
+      var autocompleteLabelTemplate = Handlebars.compile('<a class="security-autocomplete-item">' + '{{#if showIcon}}<span class="{{#if IsGroup}}security-group-icon{{else}}security-user-icon{{/if}}"></span>{{/if}}' + "<span>{{Nickname}}{{#if Login}}\xA0({{Login}}){{/if}}</span>" + '</a>'); //на input вешается autocomplete со списком пользователей.
+      //кроме того, по нажатию enter происходит генерация события enterpress
+
+      var wrapUserListInput = function wrapUserListInput(input, options) {
+        input.on('keydown', function (event) {
+          if (event.keyCode === 13) {
+            //setTimeout нужен чтобы autocomplete не дописывал выбранное значение в input после того, как мы его очистим
+            setTimeout(function () {
+              $(this).trigger('enterpress');
+            }.bind(this), 0);
+          }
+        });
+        input.autocomplete({
+          source: function source(request, cbResponse) {
+            security.findUsers(request.term, {
+              maxRecords: 7,
+              type: options && options.type
+            }).then(function (userInfos) {
+              cbResponse(userInfos.map(function (userInfo) {
+                usersHash[userInfo.Nickname] = userInfo;
+                return {
+                  login: userInfo.Login,
+                  value: userInfo.Nickname,
+                  label: '',
+                  isGroup: userInfo.IsGroup
+                };
+              }));
+            }, cbResponse.bind(null, []));
+          },
+          select: function select(event, ui) {
+            currentSelectedItem = ui.item;
+          }
+        });
+
+        $(input).data("ui-autocomplete")._renderItem = function (ul, item) {
+          // var isGroup = item.isGroup,
+          var userInfo = usersHash[item.value],
+              templateParams = $.extend({
+            showIcon: options && options.showIcon
+          }, userInfo);
+          return $('<li></li>').append($(autocompleteLabelTemplate(templateParams))).appendTo(ul);
+        };
+      };
+
+      var SecurityOwnerWidget = function SecurityOwnerWidget(securityInfo, container) {
+        var ui = $(SecurityOwnerWidget._template({
+          ownerName: securityInfo.Owner
+        })).appendTo(container);
+        $('.security-owner-cancel', ui).click(function () {
+          $('.changeOwnerLink', ui).click();
+        });
+        $('.changeOwnerLink', ui).click(function () {
+          $(this).toggle();
+          $('.security-owner-container', ui).toggle();
+          $('.security-owner-input', ui).val('').focus();
+        });
+        var ownerAddInput = $('.security-owner-input', ui);
+        ownerAddInput.on('enterpress', function () {
+          $('.security-owner-ok', ui).click();
+        });
+        wrapUserListInput(ownerAddInput, {
+          type: 'User'
+        });
+        $('.security-owner-ok', ui).click(function () {
+          var input = $('.security-owner-input', ui),
+              name = input.val();
+
+          var doChangeUser = function doChangeUser(user) {
+            $('.changeOwnerLink', ui).text(user.Nickname);
+            securityInfo.NewOwnerID = user.UserID;
+            $('.changeOwnerLink', ui).click();
+          };
+
+          if (name in usersHash) {
+            doChangeUser(usersHash[name]);
+          } else {
+            security.findUsers(name, {
+              maxRecords: 1
+            }).then(function (userInfos) {
+              if (userInfos[0] && userInfos[0].Nickname.toLowerCase() === name.toLowerCase()) {
+                doChangeUser(userInfos[0]);
+              } else {
+                inputError(input[0]);
+              }
+            }, inputError.bind(null, input[0]));
+          }
+        });
+      };
+
+      SecurityOwnerWidget._template = Handlebars.compile('<div class = security-owner>' + '<span>{{i "security.ownerName"}}: </span>' + '<span class="buttonLink changeOwnerLink security-owner-change">{{ownerName}}</span>' + '<div class="security-owner-container ui-front" style="display:none">' + '<input class="security-owner-input inputStyle">' + '<button class="security-owner-ok">Сменить</button>' + '<button class="security-owner-cancel">Отмена</button>' + '</div>' + '</div>'); // @param {String[]} options.accessTypes массив прав доступа
+
+      var SecurityUserListWidget = function SecurityUserListWidget(securityInfo, container, options) {
+        var _this = this;
+
+        this.options = options;
+        var ui = $(SecurityUserListWidget._template()).appendTo(container);
+        var sortFuncs = {};
+
+        var genSortFunction = function genSortFunction(field) {
+          return [function (a, b) {
+            if (a[field] > b[field]) return 1;else if (a[field] < b[field]) return -1;else return 0;
+          }, function (a, b) {
+            if (a[field] < b[field]) return 1;else if (a[field] > b[field]) return -1;else return 0;
+          }];
+        };
+
+        sortFuncs[_gtxt('Псевдоним')] = genSortFunction('Nickname');
+        sortFuncs[_gtxt('Полное имя')] = genSortFunction('FullName');
+        sortFuncs[_gtxt('Доступ')] = genSortFunction('Access');
+        var fieldNames = [_gtxt("Псевдоним"), _gtxt("Полное имя"),
+        /*_gtxt("Роль"),*/
+        _gtxt("Доступ"), ""];
+        var fieldWidthes = ['35%', '35%', '25%', '5%'];
+        this._securityTable = new nsGmx$1.ScrollTable({
+          limit: 500,
+          showFooter: false
+        });
+        this.securityUsersProvider = new nsGmx$1.ScrollTable.StaticDataProvider();
+        this.securityUsersProvider.setSortFunctions(sortFuncs);
+
+        this._securityTable.setDataProvider(this.securityUsersProvider);
+
+        this._securityTable.createTable($('.access-table-placeholder', ui)[0], 'securityTable', 0, fieldNames, fieldWidthes, function (arg) {
+          return SecurityUserListWidget._drawMapUsers.call(this, arg, _this);
+        }, sortFuncs);
+
+        var addInput = $('.security-add-input', ui);
+        addInput.on('enterpress', function () {
+          $('.security-add-ok', ui).click();
+        });
+        wrapUserListInput(addInput, {
+          showIcon: true
+        });
+        $('.security-add-ok', ui).click(function () {
+          var input = $('.security-add-input', ui),
+              name = input.val();
+          var isEmail = name.indexOf('@') !== -1,
+              searchObj = isEmail ? {
+            Login: name
+          } : {
+            Nickname: name
+          };
+
+          var addedUsers = _this.securityUsersProvider.getOriginalItems();
+
+          if (currentSelectedItem) {
+            if (currentSelectedItem.isGroup) {
+              searchObj = {
+                Nickname: currentSelectedItem.value
+              };
+            } else {
+              searchObj = {
+                Login: currentSelectedItem.login,
+                Nickname: currentSelectedItem.value
+              };
+            }
+          }
+
+          if (_.findWhere(addedUsers, searchObj)) {
+            inputError(input[0]);
+            return;
+          }
+
+          var doAddUser = function doAddUser(user) {
+            _this._addMapUser(user);
+
+            input.val('').focus();
+            currentSelectedItem = null;
+          };
+
+          if (name in usersHash) {
+            doAddUser(usersHash[name]);
+          } else {
+            security.findUsers(name).then(function (userInfos) {
+              var curUserInfo;
+
+              if (currentSelectedItem) {
+                curUserInfo = userInfos.filter(function (ui) {
+                  return ui.Login === searchObj.Login;
+                });
+                if (curUserInfo[0]) doAddUser(curUserInfo[0]);
+              } else {
+                var isEmail = name.indexOf('@') !== -1;
+
+                if (isEmail) {
+                  if (userInfos[0] && userInfos[0].Login.toLowerCase() === name.toLowerCase()) {
+                    doAddUser(userInfos[0]);
+                  } else {
+                    inputError(input[0]);
+                  }
+                } else if (userInfos[0] && userInfos[0].Nickname.toLowerCase() === name.toLowerCase()) {
+                  doAddUser(userInfos[0]);
+                } else {
+                  inputError(input[0]);
+                }
+              }
+            }, inputError.bind(null, input[0]));
+          }
+        });
+        this.securityUsersProvider.setOriginalItems(securityInfo.Users);
+      };
+
+      SecurityUserListWidget.DEFAULT_ACCESS = 'view';
+
+      SecurityUserListWidget.prototype._addMapUser = function (user) {
+        var existedUser = $.extend({
+          Access: SecurityUserListWidget.DEFAULT_ACCESS
+        }, user);
+        this.securityUsersProvider.addOriginalItem(existedUser);
+      };
+
+      SecurityUserListWidget.prototype.updateHeight = function (height) {
+        this._securityTable.updateHeight(height);
+      };
+
+      SecurityUserListWidget._userRowTemplate = Handlebars.compile('<tr>' + '<td class="security-row-nickname">' + '<span class="{{#if IsGroup}}security-group-icon{{else}}security-user-icon{{/if}}"></span>' + '<span title="{{Nickname}}">{{Nickname}}</span>' + '</td>' + '<td><div class="security-row-fullname" title="{{Fullname}}">{{Fullname}}</div></td>' + '<td><select class="selectStyle security-row-access">{{#access}}' + '<option value = "{{value}}"{{#if selected}} selected{{/if}}>{{title}}</option>' + '{{/access}}</select></td>' + '<td class="security-row-remove-cell"><div class="gmx-icon-recycle"></div></td>' + '</tr>');
+
+      SecurityUserListWidget._drawMapUsers = function (user, securityScope) {
+        var ui = $(SecurityUserListWidget._userRowTemplate({
+          Nickname: user.Nickname,
+          Fullname: user[user.IsGroup ? 'Description' : 'FullName'],
+          IsGroup: user.IsGroup,
+          access: securityScope.options.accessTypes.filter(function (type) {
+            return type !== 'no';
+          }).map(function (type) {
+            return {
+              title: _gtxt('security.access.' + type),
+              value: type,
+              selected: type === user.Access
+            };
+          })
+        }));
+        var tr = ui[0];
+        ui.find('.gmx-icon-recycle').click(function () {
+          // уберем пользователя из списка
+          securityScope.securityUsersProvider.filterOriginalItems(function (elem) {
+            return elem.UserID !== user.UserID;
+          });
+        });
+        ui.find('.security-row-access').change(function () {
+          user.Access = this.value;
+        });
+
+        for (var i = 0; i < tr.childNodes.length; i++) {
+          tr.childNodes[i].style.width = this._fields[i].width;
+        }
+
+        attachEffects(tr, 'hover');
+        return tr;
+      };
+
+      SecurityUserListWidget._template = Handlebars.compile('<div class = "security-userlist">' + '<div class="security-add-container ui-front">' + '<span class="security-access-label">{{i "security.addHeaderLabel"}}: </span>' + '<input class="security-add-input inputStyle">' + '<button class="security-add-ok">{{i "security.addOkText"}}</button>' + '</div>' + '<div class="access-table-placeholder"></div>' + '</div>');
+
+      var security = function security() {
+        this.mapTypeSel = null;
+        this.mapAccessSel = null;
+        this.defaultAccess = null;
+        this.getSecurityName = null;
+        this.updateSecurityName = null;
+        this.propertyValue = null;
+        this.title = null;
+      };
+
+      var mapSecurity = function mapSecurity() {
+        this.getSecurityName = "Map/GetSecurity.ashx";
+        this.updateSecurityName = "Map/UpdateSecurity.ashx";
+        this.propertyName = "MapID";
+        this.dialogTitle = "Редактирование прав доступа карты [value0]";
+        this.accessTypes = ['no', 'view', 'linkview', 'edit'];
+      };
+
+      mapSecurity.prototype = new security();
+      mapSecurity.prototype.constructor = mapSecurity;
+
+      var layerSecurity = function layerSecurity(layerName) {
+        var layer = nsGmx$1.gmxMap.layersByID[layerName],
+            props = layer.getGmxProperties && layer.getGmxProperties();
+
+        if (!props) {
+          return;
+        }
+
+        this.getSecurityName = "Layer/GetSecurity.ashx";
+        this.updateSecurityName = "Layer/UpdateSecurity.ashx";
+        this.propertyName = "LayerID";
+        this.dialogTitle = "Редактирование прав доступа слоя [value0]";
+        var layerType = props.type;
+
+        if (layerType === 'Raster') {
+          this.accessTypes = ['no', 'preview', 'view', 'edit'];
+        } else if (layerType === 'Vector') {
+          if (props.IsRasterCatalog) {
+            this.accessTypes = ['no', 'preview', 'view', 'editrows', 'edit'];
+          } else {
+            this.accessTypes = ['no', 'view', 'editrows', 'edit'];
+          }
+        }
+      };
+
+      layerSecurity.prototype = new security();
+      layerSecurity.prototype.constructor = layerSecurity;
+
+      var multiLayerSecurity = function multiLayerSecurity() {
+        this.getSecurityName = 'MultiLayer/GetSecurity.ashx';
+        this.updateSecurityName = 'MultiLayer/UpdateSecurity.ashx';
+        this.propertyName = 'MultiLayerID';
+        this.dialogTitle = 'Редактирование прав доступа слоя [value0]';
+        this.accessTypes = ['no', 'view', 'edit'];
+      };
+
+      multiLayerSecurity.prototype = new security();
+      multiLayerSecurity.prototype.constructor = multiLayerSecurity;
+
+      var layersGroupSecurity = function layersGroupSecurity() {
+        this.getSecurityName = 'Map/GetSecurity.ashx';
+        this.getGroupSecurityName = 'Layer/GetSecurity.ashx';
+        this.updateSecurityName = 'Layer/LayersGroupUpdateSecurity';
+        this.propertyName = 'MapID';
+        this.groupPropertyName = 'Layers';
+        this.mapLayers = [];
+        this.mapLayersSecurityArray = [];
+        this.selectedLayersSecurityArray = [];
+        this.originalItems = [];
+        this.dialogTitle = 'Редактирование прав доступа слоев карты [value0]';
+        this.accessTypes = ['no', 'view', 'edit'];
+      };
+
+      layersGroupSecurity.prototype = new security();
+      layersGroupSecurity.prototype.constructor = layersGroupSecurity;
+
+      security.prototype.getSecurityFromServer = function (id) {
+        var def = $.Deferred();
+        sendCrossDomainJSONRequest(window.serverBase + this.getSecurityName + '?WrapStyle=func&IncludeAdmin=true&' + this.propertyName + '=' + id, function (response) {
+          if (!parseResponse(response)) {
+            def.reject(response);
+            return;
+          }
+
+          def.resolve(response.Result);
+        });
+        return def;
+      }; // запрос security группы слоев
+
+
+      security.prototype.getGroupSecurityFromServer = function (postParams) {
+        var def = $.Deferred();
+        sendCrossDomainPostRequest(window.serverBase + this.getGroupSecurityName, postParams, function (response) {
+          if (!parseResponse(response)) {
+            def.reject(response);
+            return;
+          }
+
+          def.resolve(response.Result);
+        });
+        return def;
+      };
+
+      security.prototype.getRights = function (value, title) {
+        // var _this = this;
+        this.propertyValue = value;
+        this.title = title;
+        this.getSecurityFromServer(value).then(this.createSecurityDialog.bind(this));
+      }; //ф-ция выделена из-за различий между диалогами прав слоёв и диалога состава группы
+
+
+      security.prototype.addCustomUI = function (ui, securityInfo) {
+        var defAccessTemplate = Handlebars.compile('<div class="security-def-access">{{i "security.defAccess"}}: ' + '<select class="security-defaccess-select selectStyle">' + '{{#defAccessTypes}}' + '<option value="{{value}}"{{#isSelected}} selected{{/isSelected}}>{{title}}</option>' + '{{/defAccessTypes}}' + '</select>' + '</div>');
+        $(defAccessTemplate({
+          defAccessTypes: this.accessTypes.map(function (type) {
+            return {
+              value: type,
+              title: _gtxt('security.access.' + type),
+              isSelected: type === securityInfo.SecurityInfo.DefAccess
+            };
+          })
+        })).appendTo(ui.find('.security-custom-ui'));
+      }; //ф-ция выделена из-за различий между диалогами прав слоёв и диалога состава группы
+
+
+      security.prototype.saveCustomParams = function () {
+        this._securityInfo.SecurityInfo.DefAccess = this._ui.find('.security-defaccess-select').val();
+      };
+
+      security.prototype._save = function () {
+        var si = this._securityInfo;
+        si.SecurityInfo.Users = this.securityUserListWidget.securityUsersProvider.getOriginalItems();
+        nsGmx$1.widgets.notifications.startAction('securitySave');
+        var postParams = {
+          WrapStyle: 'window'
+        };
+
+        if (this.saveCustomParams()) {
+          return;
+        }
+
+        postParams.SecurityInfo = JSON.stringify(si.SecurityInfo);
+        postParams[this.propertyName] = this.propertyValue;
+        sendCrossDomainPostRequest(window.serverBase + this.updateSecurityName, postParams, function (response) {
+          if (!parseResponse(response)) {
+            nsGmx$1.widgets.notifications.stopAction('securitySave');
+            return;
+          }
+
+          nsGmx$1.widgets.notifications.stopAction('securitySave', 'success', _gtxt('Сохранено'));
+          $(this).trigger('savedone', si);
+        });
+      };
+
+      security.prototype.createSecurityDialog = function (securityInfo, options) {
+        options = $.extend({
+          showOwner: true
+        }, options);
+
+        var _this = this;
+
+        this._securityInfo = securityInfo;
+        var uiTemplate = '<div id="securityDialog" class="security-canvas">' + '<div class="security-header">' + '<button class="security-save">{{i "Сохранить"}}</button>' + '{{#if showOwner}}<div class="security-owner-placeholder"></div>{{/if}}' + '</div>' + '<div class="security-custom-ui"></div>' + '<div class="security-userlist-placeholder"></div>' + '</div>';
+        var canvas = this._ui = $(Handlebars.compile(uiTemplate)({
+          showOwner: options.showOwner
+        }));
+        this.addCustomUI(canvas, securityInfo);
+        $('.security-save', canvas).click(function () {
+          _this._save();
+        });
+
+        if (options.showOwner) {
+          new SecurityOwnerWidget(securityInfo.SecurityInfo, $('.security-owner-placeholder', canvas));
+        }
+
+        this.securityUserListWidget = new SecurityUserListWidget(securityInfo.SecurityInfo, $('.security-userlist-placeholder', canvas), {
+          accessTypes: this.accessTypes
+        });
+
+        var resize = function resize() {
+          var mapTableHeight; // var dialogWidth = canvas[0].parentNode.parentNode.offsetWidth;
+
+          var nonTableHeight = $('.security-header', canvas).height() + $('.security-custom-ui', canvas).height() + $('.security-add-container', canvas).height() + 15;
+          mapTableHeight = canvas[0].parentNode.offsetHeight - nonTableHeight - 10;
+
+          _this.securityUserListWidget.updateHeight(mapTableHeight);
+        };
+
+        this._dialogDiv = showDialog(_gtxt(this.dialogTitle, this.title), canvas[0], 571, 370, false, false, resize);
+        resize();
+      }; //делает запрос на сервер и возвращает список пользователей по запросу query
+      //options = {maxRecords, type}; type: All / User / Group
+
+
+      security.findUsers = function (query, options) {
+        var def = new L.gmx.Deferred();
+        var maxRecordsParamStr = options && options.maxRecords ? '&maxRecords=' + options.maxRecords : '';
+        var typeParamStr = '&type=' + (options && options.type || 'All');
+        sendCrossDomainJSONRequest(window.serverBase + 'User/FindUser?query=' + encodeURIComponent(query) + maxRecordsParamStr + typeParamStr, function (response) {
+          if (!parseResponse(response)) {
+            def.reject(response);
+            return;
+          }
+
+          def.resolve(response.Result);
+        });
+        return def;
+      };
+
+      layersGroupSecurity.prototype._save = function (originalItems) {
+        var _this = this;
+
+        if (!_this.selectedLayersSecurityArray.length) {
+          return;
+        }
+
+        var si = _this._securityInfo,
+            addedUsers = _this.securityUserListWidget.securityUsersProvider.getOriginalItems();
+
+        si.SecurityInfo = {
+          // Users: [],
+          UsersAdd: addedUsers,
+          UsersRemove: findRemovedUsers(originalItems, addedUsers)
+        };
+        nsGmx$1.widgets.notifications.startAction('securitySave');
+        var postParams = {
+          WrapStyle: 'window'
+        };
+
+        if (this.saveCustomParams()) {
+          // DefAccess: ''
+          return;
+        }
+
+        postParams.SecurityInfo = JSON.stringify(si.SecurityInfo);
+        postParams[this.groupPropertyName] = this.propertyValue; // Layers: {}
+
+        sendCrossDomainPostRequest(window.serverBase + this.updateSecurityName, postParams, function (response) {
+          if (!parseResponse(response)) {
+            nsGmx$1.widgets.notifications.stopAction('securitySave');
+            return;
+          }
+
+          originalItems = [];
+
+          for (var i = 0; i < addedUsers.length; i++) {
+            originalItems[i] = addedUsers[i];
+          } // обновляем перечень общих пользователей
+
+
+          _this.originalItems = originalItems; // обновляем права всех выделенных слоев
+
+          updateselectedLayersSecurity(_this.selectedLayersSecurityArray);
+          nsGmx$1.widgets.notifications.stopAction('securitySave', 'success', _gtxt('Сохранено'));
+          $(this).trigger('savedone', si);
+        }); // обновляет массив выделенных слоев с правами после нажатия кнопки "сохранить",
+        // затем обновляет массив всех слоев
+
+        function updateselectedLayersSecurity(array) {
+          var postParams = {
+            WrapStyle: 'window',
+            Layers: array.map(function (obj) {
+              return obj.ID;
+            })
+          };
+
+          _this.getGroupSecurityFromServer(postParams).then(updateSecurity);
+        } // обновляет права на слои
+
+
+        function updateSecurity(res) {
+          var array = _this.selectedLayersSecurityArray;
+
+          for (var i = 0; i < array.length; i++) {
+            for (var j = 0; j < res.length; j++) {
+              if (array[i].ID === res[j].ID) {
+                var options = {
+                  type: array[i].type,
+                  multiLayer: !!array[i].MultiLayerID
+                };
+                array.splice(i, 1, $.extend(res[j], options));
+              }
+            }
+          }
+
+          for (var k = 0; k < array.length; k++) {
+            for (var l = 0; l < _this.mapLayersSecurityArray.length; l++) {
+              if (array[k].ID === _this.mapLayersSecurityArray[l].ID) {
+                _this.mapLayersSecurityArray.splice(l, 1, array[k]);
+              }
+            }
+          }
+        } // возвращает массив удаленных пользователей
+
+
+        function findRemovedUsers(original, changed) {
+          return _.difference(original, changed);
+        }
+      }; // кастомный интерфейс - виджет группового редактирования слоев карты
+
+
+      layersGroupSecurity.prototype.createSecurityDialog = function (securityInfo, options) {
+        var _this = this,
+            selectedLayersSecurityArray = this.selectedLayersSecurityArray;
+
+        options = $.extend({
+          showOwner: true
+        }, options);
+        this._securityInfo = securityInfo;
+        var uiTemplate = '<div id="securityDialog" class="security-canvas">' + '<div class="security-header">' + '<button class="security-save">{{i "Сохранить"}}</button>' + '{{#if showOwner}}<div class="security-owner-placeholder"></div>{{/if}}' + '</div>' + '<div class="security-custom-ui"></div>' + '<div class="security-counter"></div>' + '<div class="security-default-access"></div>' + '<div class="security-userlist-placeholder"></div>' + '</div>';
+        var canvas = this._ui = $(Handlebars.compile(uiTemplate)({
+          showOwner: options.showOwner
+        }));
+        this.addCustomUI(canvas, resize);
+        $('.security-save', canvas).click(function () {
+          if (_this.groupPropertyName) {
+            _this.propertyValue = selectedLayersSecurityArray.map(function (item) {
+              return item.ID;
+            });
+          }
+
+          _this._save(_this.originalItems);
+        });
+
+        if (options.showOwner) {
+          new SecurityOwnerWidget(securityInfo.SecurityInfo, $('.security-owner-placeholder', canvas));
+        }
+
+        this._dialogDiv = showDialog(_gtxt(this.dialogTitle, this.title), canvas[0], 571, 455, false, false, resize);
+
+        function resize() {
+          var mapTableHeight,
+              nonTableHeight = $('.security-header', canvas).height() + $('.security-custom-ui', canvas).height() + $('.security-counter', canvas).height() + $('.security-default-access', canvas).height() + $('.security-add-container', canvas).height() + 25;
+          mapTableHeight = canvas[0].parentNode.offsetHeight - nonTableHeight - 10;
+
+          if (_this.securityUserListWidget) {
+            _this.securityUserListWidget.updateHeight(mapTableHeight);
+          }
+        }
+
+        resize();
+      }; // кастомный интерфейс - отдельная функция - дерево слоев для виджета группового редактирования слоев
+
+
+      layersGroupSecurity.prototype.addCustomUI = function (ui, resizeFunc) {
+        var _this = this,
+            mapLayers = _this.mapLayers,
+            mapLayersSecurityArray = _this.mapLayersSecurityArray,
+            selectedLayersSecurityArray = _this.selectedLayersSecurityArray,
+            counter = 0,
+            actualCounter = {
+          counter: counter
+        },
+            countDiv = $('.security-counter', ui),
+            countTemplate = Handlebars.compile('<table class="security-count-table">' + '<tbody>' + '<tr>' + '<td>{{i "security.select.selectedLayers"}}</td>' + '<td>{{counter}}</td>' + '</tr>' + '</tbody>' + '</table>'),
+            templateSecurityInfo = {
+          Users: []
+        },
+            tree,
+            rawTree,
+            drawnTree,
+            defAccessDiv = $('.security-default-access', ui),
+            defAccessTemplate = Handlebars.compile('<div class="security-def-access">{{i "security.defAccess"}}: ' + '<select class="security-defaccess-select selectStyle">' + '{{#defAccessTypes}}' + '<option value="{{value}}"{{#isSelected}} selected{{/isSelected}}>{{title}}</option>' + '{{/defAccessTypes}}' + '</select>' + '</div>'),
+            userList = $('.security-userlist-placeholder', ui),
+            getMapLayersRights = function getMapLayersRights(callback) {
+          var postParams = {
+            WrapStyle: 'window',
+            Layers: mapLayers.map(function (layer) {
+              return layer.LayerID || layer.MultiLayerID;
+            })
+          };
+
+          _this.getGroupSecurityFromServer(postParams).then(callback);
+        },
+            // сохраняем права слоев карты
+        saveMapLayersRights = function saveMapLayersRights(res) {
+          for (var i = 0; i < res.length; i++) {
+            for (var j = 0; j < mapLayers.length; j++) {
+              if (res[i].ID === mapLayers[j].LayerID || res[i].ID === mapLayers[j].MultiLayerID) {
+                var options = {
+                  type: mapLayers[j].type,
+                  multiLayer: !!mapLayers[j].MultiLayerID
+                };
+                mapLayersSecurityArray.push($.extend(res[i], options));
+              }
+            }
+          }
+        }; // модификация исходного дерева - остаются только слои с правами на редактирование
+
+
+        rawTree = window._layersTree.treeModel.cloneRawTree(function (node) {
+          var props = node.content.properties;
+          props.visible = false;
+
+          if (node.type === 'layer') {
+            if (props.Access !== 'edit') {
+              return null;
+            }
+
+            mapLayers.push(props);
+            return node;
+          }
+
+          if (node.type === 'group') {
+            var children = node.content.children;
+
+            if (!children.length) {
+              return null;
+            }
+
+            return node;
+          }
+        }); // создание дерева слоев
+
+        tree = new window.layersTree({
+          showVisibilityCheckbox: true,
+          allowActive: true,
+          allowDblClick: false,
+          showStyle: false,
+          // обработка различных вариаций прав в группе слоев
+          // если выделен один слой, рисуются его права
+          // если у выделенных слоев есть юзеры с одинаковыми правами, то рисуются только эти юзеры
+          // если у выделенных слоев разные права, рисуется пустой диалог
+          // если у выделенных слоев разные дефолтные права, в выпадающий список выбора дефолтных прав проставляется пустое поле
+          visibilityFunc: function visibilityFunc(props, isVisible) {
+            if (isVisible) {
+              counter++;
+
+              for (var i = 0; i < mapLayersSecurityArray.length; i++) {
+                if (mapLayersSecurityArray[i].ID === props.LayerID || mapLayersSecurityArray[i].ID === props.MultiLayerID) {
+                  selectedLayersSecurityArray.push(mapLayersSecurityArray[i]);
+                }
+              }
+
+              addLayer();
+            }
+
+            if (!isVisible) {
+              counter--;
+
+              for (var i = 0; i < selectedLayersSecurityArray.length; i++) {
+                if (selectedLayersSecurityArray[i].ID === props.LayerID || selectedLayersSecurityArray[i].ID === props.MultiLayerID) {
+                  selectedLayersSecurityArray.splice(i, 1);
+                }
+              }
+
+              removeLayer();
+            } // показываем счетчик выделенных слоев под деревом
+
+
+            actualCounter.counter = counter;
+            $(countDiv).html(countTemplate(actualCounter)); // добавляет слой в дерево слоев
+
+            function addLayer() {
+              drawAccess();
+              resizeFunc();
+            } // убирает слой из дерева слоев
+
+
+            function removeLayer() {
+              if (counter > 0 && selectedLayersSecurityArray.length) {
+                drawAccess();
+              } else {
+                $(defAccessDiv).empty();
+                userList.empty();
+              }
+
+              resizeFunc();
+            } // рисует оба виджета - доступа по умолчанию и списка пользователей для каждого слоя
+
+
+            function drawAccess() {
+              drawDefaultAccess(selectedLayersSecurityArray, defAccessDiv);
+              drawUsersList(selectedLayersSecurityArray, userList);
+            } // рисует доступ по умолчанию
+
+
+            function drawDefaultAccess(array, container) {
+              var accessTypes, defTemplateJSON;
+
+              if (checkSameLayersType(array)) {
+                accessTypes = getAccessTypes(array[0].type);
+              } else {
+                accessTypes = ['no', 'preview', 'view', 'edit'];
+              }
+
+              defTemplateJSON = {
+                defAccessTypes: accessTypes.map(function (type) {
+                  return {
+                    value: type,
+                    title: _gtxt('security.access.' + type),
+                    isSelected: undefined
+                  };
+                })
+              };
+              $(container).empty(); // протавляем значение в выпадающем списке прав по умолчанию
+
+              if (checkSameDefaultAccess(array)) {
+                var types = defTemplateJSON.defAccessTypes;
+
+                for (var i = 0; i < types.length; i++) {
+                  if (types[i].value === array[0].SecurityInfo.DefAccess) {
+                    types[i].isSelected = true;
+                  }
+                }
+
+                $(defAccessTemplate(defTemplateJSON)).appendTo(ui.find('.security-default-access'));
+              } else {
+                accessTypes.unshift('empty');
+                defTemplateJSON = {
+                  defAccessTypes: accessTypes.map(function (type) {
+                    return {
+                      value: type,
+                      title: _gtxt('security.access.' + type),
+                      isSelected: type === 'empty'
+                    };
+                  })
+                };
+                $(defAccessTemplate(defTemplateJSON)).appendTo(ui.find('.security-default-access'));
+              }
+            } // рисует список пользователей для каждого слоя
+
+
+            function drawUsersList(array, container) {
+              checkSameUsersAccess(array);
+              var accessTypes; // запомним пересечения пользовательских прав для слоев,
+              // в случае удаления / добавления пользователей, последующее состояние будет сравниваться с этим
+
+              _this.originalItems = [];
+
+              if (templateSecurityInfo.Users.length) {
+                accessTypes = getAccessTypes(array[0].type);
+
+                for (var i = 0; i < templateSecurityInfo.Users.length; i++) {
+                  _this.originalItems.push(templateSecurityInfo.Users[i]);
+                }
+              } else {
+                accessTypes = ['no', 'preview', 'view', 'edit'];
+              }
+
+              container.empty();
+              _this.securityUserListWidget = new SecurityUserListWidget(templateSecurityInfo, container, {
+                accessTypes: accessTypes
+              });
+            } // проверяет, совпадают ли дефолтные права для всех выделенных слоев
+
+
+            function checkSameDefaultAccess(array) {
+              var first = array[0].SecurityInfo.DefAccess;
+              return array.every(function (element) {
+                return element.SecurityInfo.DefAccess === first;
+              });
+            } // проверяет, совпадают ли отдельные права для всех выделенных слоев и создает массив пересечений
+
+
+            function checkSameUsersAccess(array) {
+              var userArray = array.map(function (obj) {
+                return obj.SecurityInfo.Users;
+              });
+              templateSecurityInfo.Users = findCommonUsers(userArray); // нахождение одинаковых значений {пользователь: права} во всех слоях
+
+              function findCommonUsers(array) {
+                var a = array.sort(sortArraysByLength),
+                    first = a[0];
+
+                if (first.length) {
+                  for (var i = 1; i < a.length; i++) {
+                    first = first.filter(function (obj) {
+                      return a[i].find(function (obj2) {
+                        return _.isEqual(obj, obj2);
+                      });
+                    });
+                  }
+                } else {
+                  first = [];
+                }
+
+                return first;
+              } // сортировка массивов пользователей по длине для оптимизации времени
+
+
+              function sortArraysByLength(a, b) {
+                return a.length - b.length;
+              }
+            } // проверяет, совпадают ли типы для всех выделенных слоев (вектор/растр)
+
+
+            function checkSameLayersType(array) {
+              var first = array[0].type;
+              return array.every(function (element) {
+                return element.type === first;
+              });
+            }
+
+            function getAccessTypes(layerType) {
+              var accessTypes;
+
+              if (layerType === 'Raster') {
+                accessTypes = ['no', 'preview', 'view', 'edit'];
+              } else if (layerType === 'Vector') {
+                if (props.IsRasterCatalog) {
+                  accessTypes = ['no', 'preview', 'view', 'editrows', 'edit'];
+                } else {
+                  accessTypes = ['no', 'view', 'editrows', 'edit'];
+                }
+              }
+
+              return accessTypes;
+            }
+          }
+        });
+        drawnTree = tree.drawTree(rawTree, 2);
+        getMapLayersRights(saveMapLayersRights);
+        $(drawnTree).treeview().appendTo(ui.find('.security-custom-ui'));
+        $(countDiv).html(countTemplate(actualCounter));
+      };
+
+      nsGmx$1.mapSecurity = mapSecurity;
+      nsGmx$1.security = security;
+      nsGmx$1.layerSecurity = layerSecurity;
+      nsGmx$1.multiLayerSecurity = multiLayerSecurity;
+      nsGmx$1.layersGroupSecurity = layersGroupSecurity;
+    })();
+
+    (function () {
       //Контроллёр контектных меню и соответствующие пункты всех меню...
 
       /**
@@ -15628,7 +16557,7 @@
         },
         clickCallback: function clickCallback(context) {
           sendCrossDomainJSONRequest(window.serverBase + "Layer/GetLayerInfo.ashx?WrapStyle=func&NeedAttrValues=false&LayerName=" + context.elem.name, function (response) {
-            if (!parseResponse$1(response)) {
+            if (!parseResponse(response)) {
               return;
             }
 
@@ -16694,7 +17623,7 @@
         this._dialogDiv = showDialog(_gtxt("Список карт"), this._canvas, 571, 360, 535, 130, this._resize.bind(this));
         sendCrossDomainJSONRequest(window.serverBase + "Map/GetMaps.ashx?WrapStyle=func", function (response) {
           $(_this._canvas).empty();
-          if (!parseResponse$1(response)) return;
+          if (!parseResponse(response)) return;
 
           _this._drawMapsDialog(response.Result);
         });
@@ -16914,7 +17843,7 @@
       };
 
       nsGmx$1.MapsManagerControl.prototype._deleteMapHandler = function (response, id) {
-        if (!parseResponse$1(response)) return;
+        if (!parseResponse(response)) return;
         var mapsTable = this._mapsTable;
 
         if (response.Result == 'deleted') {
@@ -17538,7 +18467,7 @@
           if (!def) {
             def = $.Deferred();
             sendCrossDomainJSONRequest(window.serverBase + 'Layer/MetaKeys.ashx', function (response) {
-              if (!parseResponse$1(response)) {
+              if (!parseResponse(response)) {
                 def.resolve();
                 return;
               }
@@ -17940,7 +18869,7 @@
         this.getCount = function (callback) {
           var query = getQueryText();
           sendCrossDomainJSONRequest(window.serverBase + 'Layer/Search2.ashx?count=true' + query, function (response) {
-            if (!parseResponse$1(response)) {
+            if (!parseResponse(response)) {
               callback();
               return;
             }
@@ -17962,7 +18891,7 @@
           sortParams[_gtxt("Владелец")] = "ownernickname";
           var query = getQueryText();
           sendCrossDomainJSONRequest(window.serverBase + 'Layer/Search2.ashx?page=' + page + '&pageSize=' + pageSize + "&orderby=" + sortParams[sortParam] + " " + (sortDec ? "desc" : "") + query, function (response) {
-            if (!parseResponse$1(response)) {
+            if (!parseResponse(response)) {
               callback();
               return;
             }
@@ -18033,7 +18962,7 @@
             $(remove.parentNode.parentNode).replaceWith(_tr([_td([loading], [['attr', 'colSpan', 5]])]));
 
             var deleteLayerHandler = function deleteLayerHandler(response) {
-              if (!parseResponse$1(response)) return;
+              if (!parseResponse(response)) return;
               if (response.Result == 'deleted') $(_this.getDataProvider()).change();else showErrorMessage(_gtxt("Ошибка!"), true, _gtxt("Слоя нет в базе"));
             };
 
@@ -19329,7 +20258,7 @@
         if (!layerProperties) {
           if (gmxProperties.content.properties.LayerID) {
             sendCrossDomainJSONRequest(window.serverBase + "Layer/GetLayerJson.ashx?WrapStyle=func&LayerName=" + gmxProperties.content.properties.name + "&srs=" + (nsGmx$1.leafletMap.options.srs || "3395"), function (response) {
-              if (!parseResponse$1(response)) return;
+              if (!parseResponse(response)) return;
               layerProperties = {
                 type: 'layer',
                 content: response.Result
@@ -19349,7 +20278,7 @@
             });
           } else {
             sendCrossDomainJSONRequest(window.serverBase + "MultiLayer/GetMultiLayerJson.ashx?WrapStyle=func&MultiLayerID=" + gmxProperties.content.properties.MultiLayerID, function (response) {
-              if (!parseResponse$1(response)) return;
+              if (!parseResponse(response)) return;
               layerProperties = {
                 type: 'layer',
                 content: response.Result
@@ -20197,7 +21126,7 @@
 
       queryMapLayers.prototype.createMap = function (name) {
         sendCrossDomainJSONRequest(window.serverBase + 'Map/Insert.ashx?WrapStyle=func&Title=' + encodeURIComponent(name), function (response) {
-          if (!parseResponse$1(response)) return;
+          if (!parseResponse(response)) return;
           window.location.replace(window.location.href.split(/\?|#/)[0] + "?" + response.Result);
         });
       };
@@ -20274,7 +21203,7 @@
           };
           if (mapTitle) params.Title = mapTitle;
           sendCrossDomainPostRequest(window.serverBase + scriptName, params, function (response) {
-            if (!parseResponse$1(response)) return;
+            if (!parseResponse(response)) return;
             callback && callback(response.Result);
 
             _mapHelper.updateUnloadEvent(false);
@@ -24623,7 +25552,7 @@
       }
 
       sendCrossDomainJSONRequest(window.serverBase + "ApiSave.ashx?get=" + encodeURIComponent(capabilitiesUrl), function (response) {
-        if (!parseResponse$1(response)) return;
+        if (!parseResponse(response)) return;
         var servicelayers = parseFunc.call(_this, response.Result);
         drawFunc.call(_this, servicelayers, url, loading, undefined, _this.customParams);
       });
@@ -24653,7 +25582,7 @@
       var _this = this;
 
       sendCrossDomainJSONRequest(window.serverBase + "ApiSave.ashx?get=" + encodeURIComponent(url), function (response) {
-        if (!parseResponse$1(response)) return;
+        if (!parseResponse(response)) return;
         var geometries = window.parseGML(response.Result, format, srs);
 
         _this.drawGML(geometries, url, parentTreeCanvas, box, header, loadLayerParams);
@@ -27007,7 +27936,7 @@
 
 
           sendCrossDomainJSONRequest(window.serverBase + "VectorLayer/Search.ashx?WrapStyle=func&layer=" + layerName + "&page=0&pagesize=1&orderby=" + identityField + "&geometry=true&query=[" + identityField + "]=" + objectId, function (response) {
-            if (!parseResponse$1(response)) return;
+            if (!parseResponse(response)) return;
             $(canvas).children("[loading]").remove();
             var columnNames = response.Result.fields;
             var geometryRow = response.Result.values.length > 0 ? response.Result.values[0] : [];
@@ -27655,7 +28584,7 @@
                 startH = ui.size.height;
               });
               sendCrossDomainJSONRequest(mykosmosnimki + "/handler/apikeys?wrapstyle=func", function (response) {
-                if (parseResponse$1(response) || response.Status == 'OK') {
+                if (parseResponse(response) || response.Status == 'OK') {
                   wait.remove();
 
                   if (response.Result && response.Result.length > 0) {
@@ -27974,7 +28903,7 @@
 
       var fillProfile = function fillProfile(onsuccess, onerror) {
         sendCrossDomainJSONRequest(mykosmosnimki + "/currentuser.ashx", function (response) {
-          if (parseResponse$1(response) && response.Result) {
+          if (parseResponse(response) && response.Result) {
             var content = $('.profilePanel-content');
             content.find('.Email').text(response.Result[0].Email);
             content.find('.PasswordState').text(_gtxt('ProfilePlugin.passwordSaved'));
@@ -29911,7 +30840,7 @@
       var _this = this;
 
       sendCrossDomainJSONRequest(window.serverBase + "FileBrowser/GetDrives.ashx?WrapStyle=func", function (response) {
-        if (!parseResponse$1(response)) return;
+        if (!parseResponse(response)) return;
         _this._discs = response.Result;
 
         _this.loadInfoHandler();
@@ -29942,7 +30871,7 @@
 
         if (xhr.status === 200) {
           var response = JSON.parse(xhr.responseText);
-          if (!parseResponse$1(response)) return;
+          if (!parseResponse(response)) return;
 
           if (typeof response.Result == 'string') {
             var indexSlash = String(response.Result).lastIndexOf(_this.slash),
@@ -30072,7 +31001,7 @@
         sendCrossDomainJSONRequest(window.serverBase + 'FileBrowser/CreateFolder.ashx?WrapStyle=func&FullName=' + encodeURIComponent(_this._path.get() + newFolderName.value), function (response) {
           _this._status.stop();
 
-          if (!parseResponse$1(response)) return;
+          if (!parseResponse(response)) return;
           _this.shownPath = newFolderName.value;
           newFolderName.value = '';
 
@@ -30143,7 +31072,7 @@
           WrapStyle: 'message',
           ParentDir: _this._path.get()
         }, function (response) {
-          if (!parseResponse$1(response)) return;
+          if (!parseResponse(response)) return;
           var indexSlash = String(response.Result).lastIndexOf(_this.slash),
               fileName = String(response.Result).substring(indexSlash + 1, response.Result.length);
           _this.shownPath = fileName;
@@ -30175,7 +31104,7 @@
       var doProcessResponce = function doProcessResponce(response) {
         _this._status.stop();
 
-        if (!parseResponse$1(response)) return;
+        if (!parseResponse(response)) return;
 
         _this.getFilesHandler(response.Result, path);
       };
@@ -30366,7 +31295,7 @@
 
     fileBrowser.prototype.formatDate = function (sec) {
       var sysDate = new Date(sec * 1000),
-          date = [];
+          date = [6];
       date[0] = sysDate.getDate(), date[1] = sysDate.getMonth() + 1, date[2] = sysDate.getFullYear(), date[3] = sysDate.getHours(), date[4] = sysDate.getMinutes(), date[5] = sysDate.getSeconds();
 
       for (var i = 0; i < 6; i++) {
@@ -30398,7 +31327,7 @@
           _title(returnButton, _gtxt("Выбрать"));
 
           (function (i) {
-            returnButton.onclick = function (e) {
+            returnButton.onclick = function () {
               _this.close(_this._path.get() + folders[i].Name + _this.slash);
             };
           })(_i);
@@ -30454,7 +31383,7 @@
           _title(returnButton, _gtxt("Выбрать"));
 
           (function (i) {
-            returnButton.onclick = function (e) {
+            returnButton.onclick = function () {
               _this.close(_this._path.get() + files[i].Name);
             };
           })(_i2);
@@ -30531,7 +31460,7 @@
           sendCrossDomainJSONRequest(window.serverBase + (context.enableUnzip ? 'FileBrowser/Unzip.ashx' : 'FileBrowser/Zip.ashx') + '?WrapStyle=func&FullName=' + encodeURIComponent(context.fullPath), function (response) {
             context.fileBrowser._status.stop();
 
-            if (!parseResponse$1(response)) return;
+            if (!parseResponse(response)) return;
             var indexSlash = String(response.Result).lastIndexOf('\\'),
                 fileName = String(response.Result).substring(indexSlash + 1, response.Result.length);
             context.fileBrowser.shownPath = fileName;
@@ -30567,7 +31496,7 @@
         sendCrossDomainJSONRequest(window.serverBase + 'FileBrowser/Delete.ashx?WrapStyle=func&FullName=' + encodeURIComponent(context.fullPath), function (response) {
           context.fileBrowser._status.stop();
 
-          if (!parseResponse$1(response)) return;
+          if (!parseResponse(response)) return;
           context.fileBrowser.getFiles();
         });
       }
@@ -30582,7 +31511,7 @@
         sendCrossDomainJSONRequest(window.serverBase + 'FileBrowser/CleanFolder.ashx?WrapStyle=func&FullName=' + encodeURIComponent(context.fullPath), function (response) {
           context.fileBrowser._status.stop();
 
-          if (!parseResponse$1(response)) return;
+          if (!parseResponse(response)) return;
           context.fileBrowser.getFiles();
         });
       }
@@ -30639,7 +31568,7 @@
 
     tableBrowser.prototype.loadInfo = function () {
       sendCrossDomainJSONRequest(window.serverBase + "VectorLayer/GetGeometryTables.ashx?WrapStyle=func", function (response) {
-        if (!parseResponse$1(response)) return;
+        if (!parseResponse(response)) return;
 
         _tableBrowser.loadInfoHandler(response.Result);
       });
@@ -30717,8 +31646,6 @@
 
     var _tableBrowser = new tableBrowser();
 
-    var _$7 = nsGmx$1.Utils._; //Создание интерфейса редактирования свойств слоя
-
     /** Виджет для выбора полей для X и Y координат из списка полей
     * @function
     * @param parent {DOMElement} - контейнер для размещения виджета
@@ -30748,12 +31675,12 @@
           for (var i = 0; i < fields.length; i++) {
             var opt = _option([_t(fields[i])], [['attr', 'value', fields[i]]]);
 
-            _$7(selectLat, [opt.cloneNode(true)]);
+            _(selectLat, [opt.cloneNode(true)]);
 
-            _$7(selectLon, [opt.cloneNode(true)]);
+            _(selectLon, [opt.cloneNode(true)]);
           }
 
-          _$7(parent, [_table([_tbody([_tr([_td([_span([_t(_gtxt("Y (широта)"))], [['css', 'margin', '0px 3px']])], [['css', 'width', '73px'], ['css', 'border', 'none']]), _td([selectLat], [['css', 'width', '150px'], ['css', 'border', 'none']])]), _tr([_td([_span([_t(_gtxt("X (долгота)"))], [['css', 'margin', '0px 3px']])], [['css', 'width', '73px'], ['css', 'border', 'none']]), _td([selectLon], [['css', 'width', '150px'], ['css', 'border', 'none']])])])])]);
+          nsGmx$1.Utils._(parent, [_table([_tbody([_tr([_td([_span([_t(_gtxt("Y (широта)"))], [['css', 'margin', '0px 3px']])], [['css', 'width', '73px'], ['css', 'border', 'none']]), _td([selectLat], [['css', 'width', '150px'], ['css', 'border', 'none']])]), _tr([_td([_span([_t(_gtxt("X (долгота)"))], [['css', 'margin', '0px 3px']])], [['css', 'width', '73px'], ['css', 'border', 'none']]), _td([selectLon], [['css', 'width', '150px'], ['css', 'border', 'none']])])])])]);
 
           if (columns.get('XCol')) {
             selectLon = switchSelect(selectLon, columns.get('XCol'));
@@ -30781,7 +31708,7 @@
     var getSourceColumns = function getSourceColumns(name) {
       var deferred = $.Deferred();
       sendCrossDomainJSONRequest(window.serverBase + "VectorLayer/GetSourceColumns.ashx?SourceName=" + encodeURIComponent(name), function (response) {
-        if (!parseResponse$1(response)) {
+        if (!parseResponse(response)) {
           deferred.reject();
           return;
         }
@@ -30921,7 +31848,7 @@
         }
 
         for (var i in _params.additionalUI) {
-          var tab = _$7.findWhere(_this._originalTabs, {
+          var tab = nsGmx$1.Utils._.findWhere(_this._originalTabs, {
             name: i
           });
 
@@ -30941,7 +31868,7 @@
               var span = $(div).find(".layer")[0];
               $(span).empty();
 
-              _$7(span, [_t(title)]);
+              nsGmx$1.Utils._(span, [_t(title)]);
 
               divProperties.title = title;
             },
@@ -30986,11 +31913,11 @@
           var def = layerProperties.save(needRetiling, null, _params),
               layerTitle = layerProperties.get('Title'); //doneCallback вызываем при первом progress notification - признаке того, что вызов непосредственно скрипта модификации слоя прошёл успешно
 
-          var onceCallback = _$7.once(function () {
+          var onceCallback = _.once(function () {
             _params.doneCallback && _params.doneCallback(def, layerTitle);
           });
 
-          def.always(parseResponse$1);
+          def.always(parseResponse);
           def.then(onceCallback, null, onceCallback);
 
           if (isVector && !name && layerProperties.get('SourceType') === 'manual') {
@@ -31192,7 +32119,7 @@
         leftWidth: 70
       });
 
-      _$7(parent, [_table([_tbody(trs)], [['dir', 'className', 'propertiesTable']])]);
+      nsGmx$1.Utils._(parent, [_table([_tbody(trs)], [['dir', 'className', 'propertiesTable']])]);
 
       if (isReadonly) {
         $(parent).find('input, textarea').prop('disabled', true);
@@ -31269,7 +32196,7 @@
 
       var sourceFile = _div(null, [['dir', 'id', 'fileSource' + layerName]]);
 
-      _$7(sourceFile, [shapePathInput, shapeFileLink, encodingParent, xlsColumnsParent
+      nsGmx$1.Utils._(sourceFile, [shapePathInput, shapeFileLink, encodingParent, xlsColumnsParent
       /*, fileAddAttribute, fileColumnsContainer*/
       ]);
       /*------------ Источник: таблица ------------*/
@@ -31424,7 +32351,7 @@
         'manual': 2
       }[sourceType];
 
-      _$7(sourceTab, sourceContainers);
+      nsGmx$1.Utils._(sourceTab, sourceContainers);
 
       $(sourceTab).tabs({
         active: selectedSource,
@@ -31527,7 +32454,7 @@
       };
 
       if (name) {
-        _$7(trShape.firstChild, [_br(), _t(_gtxt("Контур")), drawingBorderLink]);
+        nsGmx$1.Utils._(trShape.firstChild, [_br(), _t(_gtxt("Контур")), drawingBorderLink]);
 
         if (shapePath.Path) shapeVisible(true);else {
           shapeVisible(false);
@@ -31599,7 +32526,7 @@
             Path: path
           });
           sendCrossDomainJSONRequest(window.serverBase + 'Layer/GetMetadata.ashx?basepath=' + encodeURIComponent(path), function (response) {
-            if (!parseResponse$1(response)) return;
+            if (!parseResponse(response)) return;
             appendMetadata(response.Result.MetaProperties);
 
             if (!layerProperties.get('Title')) {
@@ -31623,7 +32550,7 @@
 
           shapeVisible(true);
           sendCrossDomainJSONRequest(window.serverBase + 'Layer/GetMetadata.ashx?geometryfile=' + encodeURIComponent(path), function (response) {
-            if (!parseResponse$1(response)) return;
+            if (!parseResponse(response)) return;
             appendMetadata(response.Result.MetaProperties);
           });
         });
@@ -31681,7 +32608,7 @@
         props.set('Columns', fileAttrModel.toServerFormat());
       });
 
-      _$7(parent, [fileColumnsContainer]);
+      nsGmx$1.Utils._(parent, [fileColumnsContainer]);
 
       props.on('change:SourceType', function () {
         var type = props.get('SourceType');
@@ -32003,7 +32930,7 @@
               _isInited = true;
               _isProcessing = false;
 
-              if (!parseResponse$1(response)) {
+              if (!parseResponse(response)) {
                 for (var n in _callbacks) {
                   for (var k = 0; k < _callbacks[n].length; k++) {
                     _callbacks[n][k]();
@@ -32053,12 +32980,334 @@
 
     /**
      *
+     * Zoomimage
+     * Author: Stefan Petre www.eyecon.ro
+     * 
+     */
+    (function ($) {
+      var EYE = window.EYE = function () {
+        var _registered = {
+          init: []
+        };
+        return {
+          init: function init() {
+            $.each(_registered.init, function (nr, fn) {
+              fn.call();
+            });
+          },
+          extend: function extend(prop) {
+            for (var i in prop) {
+              if (prop[i] != undefined) {
+                this[i] = prop[i];
+              }
+            }
+          },
+          register: function register(fn, type) {
+            if (!_registered[type]) {
+              _registered[type] = [];
+            }
+
+            _registered[type].push(fn);
+          }
+        };
+      }();
+
+      $(EYE.init);
+    })(jQuery);
+
+    /**
+     *
+     * Utilities
+     * Author: Stefan Petre www.eyecon.ro
+     * 
+     */
+
+    (function ($) {
+      EYE.extend({
+        getPosition: function getPosition(e, forceIt) {
+          var x = 0;
+          var y = 0;
+          var es = e.style;
+          var restoreStyles = false;
+
+          if (forceIt && jQuery.curCSS(e, 'display') == 'none') {
+            var oldVisibility = es.visibility;
+            var oldPosition = es.position;
+            restoreStyles = true;
+            es.visibility = 'hidden';
+            es.display = 'block';
+            es.position = 'absolute';
+          }
+
+          var el = e;
+
+          if (el.getBoundingClientRect) {
+            // IE
+            var box = el.getBoundingClientRect();
+            x = box.left + Math.max(document.documentElement.scrollLeft, document.body.scrollLeft) - 2;
+            y = box.top + Math.max(document.documentElement.scrollTop, document.body.scrollTop) - 2;
+          } else {
+            x = el.offsetLeft;
+            y = el.offsetTop;
+            el = el.offsetParent;
+
+            if (e != el) {
+              while (el) {
+                x += el.offsetLeft;
+                y += el.offsetTop;
+                el = el.offsetParent;
+              }
+            }
+
+            if (jQuery.browser.safari && jQuery.curCSS(e, 'position') == 'absolute') {
+              x -= document.body.offsetLeft;
+              y -= document.body.offsetTop;
+            }
+
+            el = e.parentNode;
+
+            while (el && el.tagName.toUpperCase() != 'BODY' && el.tagName.toUpperCase() != 'HTML') {
+              if (jQuery.curCSS(el, 'display') != 'inline') {
+                x -= el.scrollLeft;
+                y -= el.scrollTop;
+              }
+
+              el = el.parentNode;
+            }
+          }
+
+          if (restoreStyles == true) {
+            es.display = 'none';
+            es.position = oldPosition;
+            es.visibility = oldVisibility;
+          }
+
+          return {
+            x: x,
+            y: y
+          };
+        },
+        getSize: function getSize(e) {
+          var w = parseInt(jQuery.curCSS(e, 'width'), 10);
+          var h = parseInt(jQuery.curCSS(e, 'height'), 10);
+          var wb = 0;
+          var hb = 0;
+
+          if (jQuery.curCSS(e, 'display') != 'none') {
+            wb = e.offsetWidth;
+            hb = e.offsetHeight;
+          } else {
+            var es = e.style;
+            var oldVisibility = es.visibility;
+            var oldPosition = es.position;
+            es.visibility = 'hidden';
+            es.display = 'block';
+            es.position = 'absolute';
+            wb = e.offsetWidth;
+            hb = e.offsetHeight;
+            es.display = 'none';
+            es.position = oldPosition;
+            es.visibility = oldVisibility;
+          }
+
+          return {
+            w: w,
+            h: h,
+            wb: wb,
+            hb: hb
+          };
+        },
+        getClient: function getClient(e) {
+          var h, w;
+
+          if (e) {
+            w = e.clientWidth;
+            h = e.clientHeight;
+          } else {
+            var de = document.documentElement;
+            w = window.innerWidth || self.innerWidth || de && de.clientWidth || document.body.clientWidth;
+            h = window.innerHeight || self.innerHeight || de && de.clientHeight || document.body.clientHeight;
+          }
+
+          return {
+            w: w,
+            h: h
+          };
+        },
+        getScroll: function getScroll(e) {
+          var t = 0,
+              l = 0,
+              w = 0,
+              h = 0,
+              iw = 0,
+              ih = 0;
+
+          if (e && e.nodeName.toLowerCase() != 'body') {
+            t = e.scrollTop;
+            l = e.scrollLeft;
+            w = e.scrollWidth;
+            h = e.scrollHeight;
+          } else {
+            if (document.documentElement) {
+              t = document.documentElement.scrollTop;
+              l = document.documentElement.scrollLeft;
+              w = document.documentElement.scrollWidth;
+              h = document.documentElement.scrollHeight;
+            } else if (document.body) {
+              t = document.body.scrollTop;
+              l = document.body.scrollLeft;
+              w = document.body.scrollWidth;
+              h = document.body.scrollHeight;
+            }
+
+            if (typeof pageYOffset != 'undefined') {
+              t = pageYOffset;
+              l = pageXOffset;
+            }
+
+            iw = self.innerWidth || document.documentElement.clientWidth || document.body.clientWidth || 0;
+            ih = self.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
+          }
+
+          return {
+            t: t,
+            l: l,
+            w: w,
+            h: h,
+            iw: iw,
+            ih: ih
+          };
+        },
+        getMargins: function getMargins(e, toInteger) {
+          var t = jQuery.curCSS(e, 'marginTop') || '';
+          var r = jQuery.curCSS(e, 'marginRight') || '';
+          var b = jQuery.curCSS(e, 'marginBottom') || '';
+          var l = jQuery.curCSS(e, 'marginLeft') || '';
+          if (toInteger) return {
+            t: parseInt(t, 10) || 0,
+            r: parseInt(r, 10) || 0,
+            b: parseInt(b, 10) || 0,
+            l: parseInt(l, 10)
+          };else return {
+            t: t,
+            r: r,
+            b: b,
+            l: l
+          };
+        },
+        getPadding: function getPadding(e, toInteger) {
+          var t = jQuery.curCSS(e, 'paddingTop') || '';
+          var r = jQuery.curCSS(e, 'paddingRight') || '';
+          var b = jQuery.curCSS(e, 'paddingBottom') || '';
+          var l = jQuery.curCSS(e, 'paddingLeft') || '';
+          if (toInteger) return {
+            t: parseInt(t, 10) || 0,
+            r: parseInt(r, 10) || 0,
+            b: parseInt(b, 10) || 0,
+            l: parseInt(l, 10)
+          };else return {
+            t: t,
+            r: r,
+            b: b,
+            l: l
+          };
+        },
+        getBorder: function getBorder(e, toInteger) {
+          var t = jQuery.curCSS(e, 'borderTopWidth') || '';
+          var r = jQuery.curCSS(e, 'borderRightWidth') || '';
+          var b = jQuery.curCSS(e, 'borderBottomWidth') || '';
+          var l = jQuery.curCSS(e, 'borderLeftWidth') || '';
+          if (toInteger) return {
+            t: parseInt(t, 10) || 0,
+            r: parseInt(r, 10) || 0,
+            b: parseInt(b, 10) || 0,
+            l: parseInt(l, 10) || 0
+          };else return {
+            t: t,
+            r: r,
+            b: b,
+            l: l
+          };
+        },
+        traverseDOM: function traverseDOM(nodeEl, func) {
+          func(nodeEl);
+          nodeEl = nodeEl.firstChild;
+
+          while (nodeEl) {
+            EYE.traverseDOM(nodeEl, func);
+            nodeEl = nodeEl.nextSibling;
+          }
+        },
+        getInnerWidth: function getInnerWidth(el, scroll) {
+          var offsetW = el.offsetWidth;
+          return scroll ? Math.max(el.scrollWidth, offsetW) - offsetW + el.clientWidth : el.clientWidth;
+        },
+        getInnerHeight: function getInnerHeight(el, scroll) {
+          var offsetH = el.offsetHeight;
+          return scroll ? Math.max(el.scrollHeight, offsetH) - offsetH + el.clientHeight : el.clientHeight;
+        },
+        getExtraWidth: function getExtraWidth(el) {
+          if ($.boxModel) return (parseInt($.curCSS(el, 'paddingLeft')) || 0) + (parseInt($.curCSS(el, 'paddingRight')) || 0) + (parseInt($.curCSS(el, 'borderLeftWidth')) || 0) + (parseInt($.curCSS(el, 'borderRightWidth')) || 0);
+          return 0;
+        },
+        getExtraHeight: function getExtraHeight(el) {
+          if ($.boxModel) return (parseInt($.curCSS(el, 'paddingTop')) || 0) + (parseInt($.curCSS(el, 'paddingBottom')) || 0) + (parseInt($.curCSS(el, 'borderTopWidth')) || 0) + (parseInt($.curCSS(el, 'borderBottomWidth')) || 0);
+          return 0;
+        },
+        isChildOf: function isChildOf(parentEl, el, container) {
+          if (parentEl == el) {
+            return true;
+          }
+
+          if (!el || !el.nodeType || el.nodeType != 1) {
+            return false;
+          }
+
+          if (parentEl.contains) {
+            return parentEl.contains(el);
+          }
+
+          if (parentEl.compareDocumentPosition) {
+            return !!(parentEl.compareDocumentPosition(el) & 16);
+          }
+
+          var prEl = el.parentNode;
+
+          while (prEl && prEl != container) {
+            if (prEl == parentEl) return true;
+            prEl = prEl.parentNode;
+          }
+
+          return false;
+        },
+        centerEl: function centerEl(el, axis) {
+          var clientScroll = EYE.getScroll();
+          var size = EYE.getSize(el);
+          if (!axis || axis == 'vertically') $(el).css({
+            top: clientScroll.t + (Math.min(clientScroll.h, clientScroll.ih) - size.hb) / 2 + 'px'
+          });
+          if (!axis || axis == 'horizontally') $(el).css({
+            left: clientScroll.l + (Math.min(clientScroll.w, clientScroll.iw) - size.wb) / 2 + 'px'
+          });
+        }
+      });
+
+      if (!$.easing.easeout) {
+        $.easing.easeout = function (p, n, firstNum, delta, duration) {
+          return -delta * ((n = n / duration - 1) * n * n * n - 1) + firstNum;
+        };
+      }
+    })(jQuery);
+
+    /**
+     *
      * Color picker
      * Author: Stefan Petre www.eyecon.ro
      * 
      * Dual licensed under the MIT and GPL licenses
      * 
      */
+
     (function ($) {
       var ColorPicker = function () {
         var // ids = {},
@@ -32571,6 +33820,3156 @@
       });
     })(jQuery);
 
+    (function () {
+      window._translationsHash.addtext('rus', {
+        gridPlugin: {
+          gridSettings: 'Настройка координатной сетки',
+          gridColorSettings: 'цвет',
+          gridStepSettings: 'шаг',
+          gridUnitsSettings: 'единицы',
+          gridFormatSettings: 'формат вывода',
+          set: 'установить',
+          reset: 'сбросить',
+          unitsKilometers: 'км',
+          unitsDegrees: 'градусы',
+          formatDecimal: 'десятичные градусы',
+          formatDM: 'градусы, минуты',
+          formatDMS: 'градусы, минуты, секунды',
+          latitude: 'по широте',
+          longitude: 'по долготе'
+        }
+      });
+
+      window._translationsHash.addtext('eng', {
+        gridPlugin: {
+          gridSettings: 'Coordinate grid settings',
+          gridColorSettings: 'color',
+          gridStepSettings: 'step',
+          gridUnitsSettings: 'units',
+          gridFormatSettings: 'format',
+          set: 'set',
+          reset: 'reset',
+          unitsKilometers: 'km',
+          unitsDegrees: 'degrees',
+          formatDecimal: 'decimal degrees',
+          formatDM: 'degrees minutes',
+          formatDMS: 'degrees minutes seconds',
+          latitude: 'latitude',
+          longitude: 'longitude'
+        }
+      }); // создает левое меню с параметрами координатной сетки
+
+
+      var ConfigureGridMenu = function ConfigureGridMenu(manager) {
+        var control = manager.gridControl,
+            tempStyle = {
+          outline: {
+            color: control.options.color
+          }
+        },
+            lm = new window.leftMenu(); // заполняем левое меню
+
+        function createGridLeftMenu() {
+          var gridConfigLeftMenu = nsGmx$1.Utils._div(null, [['dir', 'className', 'gridConfigLeftMenu']]);
+
+          createGridConfig(gridConfigLeftMenu);
+          return gridConfigLeftMenu;
+        } // создание элементов отображения настроек сетки
+
+
+        function createGridConfig(menu) {
+          var gridConfigCanvas = nsGmx$1.Utils._div(null, [['dir', 'className', 'gridSettings']]),
+              gridConfigTitle = nsGmx$1.Utils._span(null, [['dir', 'className', 'gridSettingsTitle']]),
+              gridConfigIcon = CreateGridConfigIcon(tempStyle, 'linestring');
+
+          $(gridConfigIcon).find('.borderIcon')[0].style.borderColor = tempStyle.outline.color;
+          $(gridConfigTitle).append(window._gtxt('gridPlugin.gridSettings'));
+          $(gridConfigCanvas).append(gridConfigIcon, gridConfigTitle);
+          $(menu).append(gridConfigCanvas);
+
+          gridConfigIcon.onclick = function () {
+            createConfigDialog(this);
+          };
+        } // диалоговое окно для редактирования координатной сетки
+
+
+        function createConfigDialog(elem) {
+          if (manager.configDialog) {
+            return;
+          }
+
+          var map = nsGmx$1.leafletMap,
+              gridConfigEditor = nsGmx$1.Utils._div(null, [['dir', 'className', 'gridConfigEditor']]); // редактирование цвета сетки - колорпикер
+
+
+          var fcp = nsGmx$1.Controls.createColorPicker(tempStyle.outline.color, function (colpkr) {
+            $(colpkr).fadeIn(500);
+            return false;
+          }, function (colpkr) {
+            $(colpkr).fadeOut(500);
+            $(this).change();
+            return false;
+          }, function (hsb, hex) {
+            tempStyle.outline.color = '#' + hex;
+            fcp.style.backgroundColor = tempStyle.outline.color;
+            control.setColor(tempStyle.outline.color);
+            $(elem).find('.borderIcon')[0].style.borderColor = tempStyle.outline.color;
+            manager.saveOptions();
+            $(this).ColorPickerSetColor(tempStyle.outline.color);
+            $(this).change();
+          });
+          $(fcp).ColorPickerSetColor(tempStyle.outline.color);
+          $(fcp).css('background-color', tempStyle.outline.color); // редактирования шага сетки
+
+          var gridStepYInputPanel = nsGmx$1.Utils._span(null, [['dir', 'className', 'gridStepConfig']]),
+              gridStepXInputPanel = nsGmx$1.Utils._span(null, [['dir', 'className', 'gridStepConfig']]),
+              gridStepYInput = nsGmx$1.Utils._input(null, [['dir', 'className', 'gridStepInput']]),
+              gridStepXInput = nsGmx$1.Utils._input(null, [['dir', 'className', 'gridStepInput']]),
+              gridUnitsConfig = nsGmx$1.Utils._span(null, [['dir', 'className', 'gridStepConfig']]),
+              gridStepConfig = nsGmx$1.Utils._span(null, [['dir', 'className', 'gridStepConfig']]),
+              gridFormatConfig = nsGmx$1.Utils._span(null, [['dir', 'className', 'gridFormatConfig']]),
+              gridStepUnitsDegrees = nsGmx$1.Utils._input(null, [['dir', 'id', 'gridStepUnitsDegrees'], ['attr', 'type', 'radio'], ['attr', 'id', 'gridStepUnitsDegrees'], ['attr', 'name', 'gridStepUnits'], ['attr', 'value', 'degrees']]),
+              gridStepUnitsKilometers = nsGmx$1.Utils._input(null, [['dir', 'id', 'gridStepUnitsKilometers'], ['attr', 'type', 'radio'], ['attr', 'name', 'gridStepUnits'], ['attr', 'value', 'kilometers']]),
+              gridFormatDD = nsGmx$1.Utils._input(null, [['dir', 'id', 'gridFormatDD'], ['attr', 'type', 'radio'], ['attr', 'name', 'gridFormat'], ['attr', 'value', 0], control.options.units === 'kilometers' ? ['attr', 'disabled', true] : []]),
+              gridFormatDM = nsGmx$1.Utils._input(null, [['dir', 'id', 'gridFormatDM'], ['attr', 'type', 'radio'], ['attr', 'name', 'gridFormat'], ['attr', 'value', 1], control.options.units === 'kilometers' ? ['attr', 'disabled', true] : []]),
+              gridFormatDMS = nsGmx$1.Utils._input(null, [['dir', 'id', 'gridFormatDMS'], ['attr', 'type', 'radio'], ['attr', 'name', 'gridFormat'], ['attr', 'value', 2], control.options.units === 'kilometers' ? ['attr', 'disabled', true] : []]),
+              gridSetStepButton = nsGmx$1.Utils._button([nsGmx$1.Utils._t(window._gtxt('gridPlugin.set'))], [['dir', 'className', 'gridStepButton']]),
+              gridResetStepButton = nsGmx$1.Utils._button([nsGmx$1.Utils._t(window._gtxt('gridPlugin.reset'))], [['dir', 'className', 'gridStepButton']]);
+
+          $(gridStepYInputPanel).append(gridStepYInput, nsGmx$1.Utils._t(window._gtxt('gridPlugin.latitude')));
+          $(gridStepXInputPanel).append(gridStepXInput, nsGmx$1.Utils._t(window._gtxt('gridPlugin.longitude')));
+          $(gridUnitsConfig).append(nsGmx$1.Utils._label([gridStepUnitsDegrees, nsGmx$1.Utils._t(window._gtxt('gridPlugin.unitsDegrees'))], [['dir', 'className', 'gridUnitsLabel'], ['attr', 'for', 'gridStepUnitsDegrees']]), nsGmx$1.Utils._label([gridStepUnitsKilometers, nsGmx$1.Utils._t(window._gtxt('gridPlugin.unitsKilometers'))], [['dir', 'className', 'gridUnitsLabel'], ['attr', 'for', 'gridStepUnitsKilometers']]));
+          $(gridFormatConfig).append(nsGmx$1.Utils._label([gridFormatDD, nsGmx$1.Utils._t(window._gtxt('gridPlugin.formatDecimal'))], [['dir', 'className', control.options.units === 'kilometers' ? 'gridFormatLabel disabledLabel' : 'gridFormatLabel'], ['attr', 'for', 'gridFormatDD']]), $('<br></br>'), nsGmx$1.Utils._label([gridFormatDM, nsGmx$1.Utils._t(window._gtxt('gridPlugin.formatDM'))], [['dir', 'className', control.options.units === 'kilometers' ? 'gridFormatLabel disabledLabel' : 'gridFormatLabel'], ['attr', 'for', 'gridFormatDM']]), $('<br></br>'), nsGmx$1.Utils._label([gridFormatDMS, nsGmx$1.Utils._t(window._gtxt('gridPlugin.formatDMS'))], [['dir', 'className', control.options.units === 'kilometers' ? 'gridFormatLabel disabledLabel' : 'gridFormatLabel'], ['attr', 'for', 'gridFormatDMS']]));
+          $(gridStepConfig).append(gridSetStepButton, gridResetStepButton);
+          $(gridConfigEditor).append(nsGmx$1.Utils._table([nsGmx$1.Utils._tbody([nsGmx$1.Utils._tr([nsGmx$1.Utils._td([nsGmx$1.Utils._t(window._gtxt('gridPlugin.gridColorSettings'))], [['css', 'width', '70px']]), nsGmx$1.Utils._td([fcp])]), nsGmx$1.Utils._tr(null, [['dir', 'className', 'bigEmptyTableRow']]), nsGmx$1.Utils._tr([nsGmx$1.Utils._td([nsGmx$1.Utils._t(window._gtxt('gridPlugin.gridStepSettings'))], [['attr', 'rowspan', '2'], ['css', 'width', '70px']]), nsGmx$1.Utils._td([gridStepYInputPanel])]), nsGmx$1.Utils._tr([nsGmx$1.Utils._td([gridStepXInputPanel])]), nsGmx$1.Utils._tr(null, [['dir', 'className', 'bigEmptyTableRow']]), nsGmx$1.Utils._tr([nsGmx$1.Utils._td([nsGmx$1.Utils._t(window._gtxt('gridPlugin.gridUnitsSettings'))], [['css', 'width', '70px']]), nsGmx$1.Utils._td([gridUnitsConfig])]), nsGmx$1.Utils._tr(null, [['dir', 'className', 'bigEmptyTableRow']]), nsGmx$1.Utils._tr([nsGmx$1.Utils._td([nsGmx$1.Utils._t(window._gtxt('gridPlugin.gridFormatSettings'))], [['css', 'width', '70px'], ['css', 'vertical-align', 'middle']]), nsGmx$1.Utils._td([gridFormatConfig])]), nsGmx$1.Utils._tr(null, [['dir', 'className', 'bigEmptyTableRow']]), nsGmx$1.Utils._tr([nsGmx$1.Utils._td(null, [['css', 'width', '70px']]), nsGmx$1.Utils._td([gridStepConfig])])])], [['dir', 'className', 'gridConfigTable']]));
+
+          if (control.options.units === 'degrees') {
+            gridStepUnitsDegrees.checked = true;
+            enableFormats();
+          } else if (control.options.units === 'kilometers') {
+            gridStepUnitsKilometers.checked = true;
+            disableFormats();
+          }
+
+          gridStepUnitsDegrees.onclick = handleUnits;
+          gridStepUnitsKilometers.onclick = handleUnits;
+          gridFormatDD.onclick = handleFormats;
+          gridFormatDM.onclick = handleFormats;
+          gridFormatDMS.onclick = handleFormats;
+
+          gridSetStepButton.onclick = function () {
+            control.setStep(gridStepXInput.value, gridStepYInput.value);
+            updateInputsValues();
+          };
+
+          gridResetStepButton.onclick = function () {
+            control.setTitleFormat(0);
+            control.clearStep();
+            enableFormats();
+            gridStepUnitsDegrees.checked = true;
+            gridFormatDD.checked = true;
+            updateInputsValues();
+          };
+
+          gridStepUnitsDegrees.checked = true;
+          gridFormatDD.checked = true;
+          updateInputsValues();
+          handleFormats();
+          map.on('zoomend', function () {
+            control.repaint();
+            updateInputsValues();
+          });
+          var pos = nsGmx$1.Utils.getDialogPos(elem, false, 0);
+
+          var closeFunc = function closeFunc() {
+            $(gridConfigEditor).find('.colorSelector').each(function () {
+              $('#' + $(this).data('colorpickerId')).remove();
+            });
+            manager.configDialog = null;
+            control.options.units === 'degrees' ? enableFormats() : disableFormats(); // control.clearStep();
+          };
+
+          var params = {
+            width: 280,
+            height: 280,
+            posX: pos.left,
+            posY: pos.top,
+            resizeFunc: false,
+            closeFunc: closeFunc
+          };
+          manager.configDialog = nsGmx$1.Utils.showDialog(window._gtxt('gridPlugin.gridSettings'), gridConfigEditor, params);
+
+          function updateInputsValues() {
+            gridStepXInput.value = control.options.customStep.x ? Math.round(control.options.customStep.x * 100) / 100 : control.options.defaultStep.x;
+            gridStepYInput.value = control.options.customStep.y ? Math.round(control.options.customStep.y * 100) / 100 : control.options.defaultStep.y;
+          }
+
+          function handleUnits() {
+            var value = this.value;
+
+            if (control.options.units !== value) {
+              control.setUnits(value);
+            }
+
+            value === 'degrees' ? enableFormats() : disableFormats();
+            updateInputsValues();
+          }
+
+          function handleFormats() {
+            var value = this.value;
+
+            if (control.options.titleFormat !== value) {
+              control.setTitleFormat(value);
+            }
+          }
+
+          function disableFormats() {
+            $('#gridFormatDD').prop('disabled', true);
+            $('#gridFormatDM').prop('disabled', true);
+            $('#gridFormatDMS').prop('disabled', true);
+            $('.gridFormatLabel').addClass('disabledLabel');
+          }
+
+          function enableFormats() {
+            $('#gridFormatDD').prop('disabled', false);
+            $('#gridFormatDM').prop('disabled', false);
+            $('#gridFormatDMS').prop('disabled', false);
+            $('.gridFormatLabel').removeClass('disabledLabel');
+          }
+        } // создание иконки редактирования стиля
+
+
+        function CreateGridConfigIcon(style, type) {
+          var icon = nsGmx$1.Controls.createGeometryIcon(style, type);
+
+          nsGmx$1.Utils._title(icon, window._gtxt('gridPlugin.gridSettings'));
+
+          return icon;
+        }
+
+        this.Load = function () {
+          if (lm != null) {
+            var alreadyLoaded = lm.createWorkCanvas('mapGrid', function () {
+              if (manager.state) {
+                manager.setState({
+                  isActive: false
+                });
+              } else {
+                this.Unload();
+              }
+            });
+
+            if (!alreadyLoaded) {
+              $(lm.workCanvas).append(createGridLeftMenu());
+              control.setColor(tempStyle.outline.color);
+              manager.saveOptions();
+            }
+          }
+        };
+
+        this.Unload = function () {
+          $(manager.configDialog).remove();
+          manager.configDialog = null;
+          $(lm.parentWorkCanvas).hide();
+        };
+      };
+
+      var publicInterface = {
+        pluginName: 'GridPlugin',
+        ConfigureGridMenu: ConfigureGridMenu
+      };
+      window.gmxCore.addModule('GridPlugin', publicInterface);
+    })();
+
+    var MAX_SIZE = 10000;
+    var EPS = 1E-9; // мы не хотим, чтобы рамка фигурировала в списке пользовательских объектов
+
+    nsGmx$1.DrawingObjectCustomControllers.addDelegate({
+      isHidden: function isHidden(obj) {
+        if (obj.options.exportRect) {
+          return true;
+        }
+
+        return false;
+      }
+    });
+
+    window._translationsHash.addtext('rus', {
+      mapExport: {
+        settings: {
+          settings: 'Настройки экспорта карты:',
+          zoom: 'масштаб (зум)',
+          size: 'размер',
+          format: 'формат растра',
+          fileType: 'тип файла',
+          width: 'ширина (пк)',
+          height: 'высота (пк)',
+          name: 'имя файла'
+        },
+        formats: {
+          geoTiff: 'GEOTIFF',
+          geoTiffJpeg: 'GEOTIFF-JPEG',
+          jpeg: 'JPEG',
+          png: 'PNG'
+        },
+        filetypes: {
+          raster: 'растр',
+          mbTiles: 'MBTiles',
+          kmz: 'kmz'
+        },
+        select: 'Выделить область карты',
+        unselect: 'Снять выделение',
+        zoomToBox: 'Перейти к выделенному',
+        zoomToLevel: 'Перейти на зум',
+        exportMap: 'Экспорт',
+        cancel: 'Отмена',
+        sizeWarn: 'максимальный размер - 10000 пикселей',
+        valueWarn: 'недопустимое значение',
+        inQueue: 'в очереди',
+        inProcess: 'файл формируется',
+        exportError: 'ошибка экспорта'
+      }
+    });
+
+    window._translationsHash.addtext('eng', {
+      mapExport: {
+        exportTooltip: 'Select area',
+        settings: {
+          settings: 'Map export settings:',
+          zoom: 'zoom',
+          size: 'size',
+          format: 'raster format',
+          fileType: 'file type',
+          width: 'width (px)',
+          height: 'height (px)',
+          name: 'file name'
+        },
+        formats: {
+          geoTiff: 'GEOTIFF',
+          geoTiffJpeg: 'GEOTIFF-JPEG',
+          jpeg: 'JPEG',
+          png: 'PNG'
+        },
+        filetypes: {
+          raster: 'raster',
+          mbTiles: 'MBTiles',
+          kmz: 'kmz'
+        },
+        select: 'Select',
+        unselect: 'Clear selection',
+        zoomToBox: 'Zoom to selected',
+        zoomToLevel: 'Zoom to level',
+        exportMap: 'Export',
+        cancel: 'Cancel',
+        sizeWarn: 'incorrect size',
+        valueWarn: 'incorrect value',
+        inQueue: 'waiting',
+        inProcess: 'processing file',
+        exportError: 'export error'
+      }
+    });
+
+    var formatTypes = ['geoTiff', 'geoTiffJpeg', 'jpeg', 'png'];
+    var view;
+
+    var MapExportMenu = function MapExportMenu() {
+      var canvas = _div(null, [['dir', 'className', 'mapExportConfigLeftMenu']]);
+
+      var ExportModel = Backbone.Model.extend({
+        defaults: {
+          lm: new leftMenu(),
+          lmap: nsGmx$1.leafletMap,
+          selArea: null,
+          exportMode: true,
+          width: 0,
+          height: 0,
+          widthValueErr: false,
+          heightValueErr: false,
+          widthSizeErr: false,
+          heightSizeErr: false,
+          format: null,
+          fileType: null,
+          x: null,
+          y: null,
+          z: null,
+          latLng: null,
+          coords: null,
+          zoomLevels: getZoomLevels(),
+          formatTypes: getTypes(formatTypes),
+          fileTypes: null,
+          name: '',
+          taskInfo: null,
+          exportErr: false
+        }
+      });
+      var model = new ExportModel();
+      var ExportView = Backbone.View.extend({
+        el: $(canvas),
+        model: model,
+        template: Handlebars.compile('<div class="selectButtons">' + '<span class="buttonLink areaButton mapExportSelectButton"> {{i "mapExport.select"}}</span>' + '<span class="zoomToBoxButton" style="display:none">' + '</span>' + '</div>' + '<div class="exportSettings">' + '<span>' + '{{i "mapExport.settings.settings"}}' + '</span>' + '</div>' + '<table class="settings">' + '<tbody>' + '<tr class="zoomSelect">' + '<td class="eLabel">{{i "mapExport.settings.zoom"}}</td>' + '<td class="eInput">' + '<select class="zoomLevel">' + '{{#each this.zoomLevels}}' + '<option value="{{this.zoom}}"' + '{{#if this.current}} selected="selected"{{/if}}>' + '{{this.zoom}}' + '</option>' + '{{/each}}' + '</select>' + '</td>' + '<td class="zoomToLevel">' + '<span class="zoomToLevelButtonWrap" style="display:none">' + '</span>' + '</td>' + '</tr>' + '<tr class="dims">' + '<td class="eLabel">{{i "mapExport.settings.width"}}</td>' + '<td class="eInput">' + '<input type="text" class="mapExportWidth" value="{{width}}"/>' + '</td>' + '<td class="mapExportWarn" rowspan=2></td>' + '</tr>' + '<tr class="dims">' + '<td class="eLabel">{{i "mapExport.settings.height"}}</td>' + '<td class="eInput">' + '<input type="text" class="mapExportHeight" value="{{height}}"/>' + '</td>' + '</tr>' + '<tr class="formatSelect">' + '<td class="eLabel">{{i "mapExport.settings.format"}}</td>' + '<td class="eInput">' + '<select class="formatTypes">' + '{{#each this.formatTypes}}' + '<option value="{{this.type}}"' + '{{#if this.current}} selected="selected" {{/if}}>' + '{{this.type}}' + '</option>' + '{{/each}}' + '</select>' + '</td>' + '</tr>' + '<tr class="typeSelect">' + '<td class="eLabel">{{i "mapExport.settings.fileType"}}</td>' + '<td class="eInput">' + '<select class="fileTypes">' + '{{#each this.fileTypes}}' + '<option value="{{this.type}}"' + '{{#if this.current}} selected="selected" {{/if}}>' + '{{this.type}}' + '</option>' + '{{/each}}' + '</select>' + '</td>' + '</tr>' + '<tr class="nameSelect">' + '<td class="eLabel">{{i "mapExport.settings.name"}}</td>' + '<td class="eInput">' + '<input type="text" class="mapExportName" value=""/>' + '</td>' + '</tr>' + '</tbody>' + '</table>' + '<div class="exportWrap">' + '<div class="export">' + '<span class="buttonLink mapExportButton"> {{i "mapExport.exportMap"}}</span>' + '<span class="buttonLink cancelButton" style="display:none"> {{i "mapExport.cancel"}}</span>' + '<span class="spinHolder" style="display:none">' + // '<img src="img/progress.gif"/>' +
+        '<span class="spinMessage"></span>' + '</span>' + '<span class="exportErrorMessage" style="display:none">{{i "mapExport.exportError"}}</span>' + '</div>' + '<div class="export-progress-container" style="display:none">' + '<div class="export-progressbar"></div>' + '</div>' + '</div>'),
+        events: {
+          'click .mapExportSelectButton': 'selectArea',
+          'click .mapExportUnselectButton': 'unselectArea',
+          'click .zoomToBoxButton': 'zoomToBox',
+          'click .zoomToLevelButtonWrap': 'zoomToLevel',
+          'input .mapExportWidth': 'resize',
+          'input .mapExportHeight': 'resize',
+          'change .zoomLevel': 'setZoom',
+          'change .formatTypes': 'setFormat',
+          'change .fileTypes': 'setFileType',
+          'input .mapExportName': 'setName',
+          'click .mapExportButton': 'exportMap',
+          'click .cancelButton': 'cancelExport'
+        },
+        initialize: function initialize() {
+          var attrs = this.model.toJSON(),
+              currentZoom = attrs.lmap.getZoom(),
+              zoomLevels = attrs.zoomLevels,
+              formatTypes = attrs.formatTypes,
+              // объявление типов файлов происходит здесь, так как необходима обработка смены языка
+          // типы файлов хранятся в текущем языке
+          fileTypes = [window._gtxt('mapExport.filetypes.raster'), window._gtxt('mapExport.filetypes.mbTiles'), window._gtxt('mapExport.filetypes.kmz')],
+              updatedFileTypes = getTypes(fileTypes);
+          this.listenTo(this.model, 'change:selArea', this.updateArea);
+          this.listenTo(this.model, 'change:width', this.updateSize);
+          this.listenTo(this.model, 'change:height', this.updateSize);
+          this.listenTo(this.model, 'change:widthValueErr', this.handleValueError);
+          this.listenTo(this.model, 'change:heightValueErr', this.handleValueError);
+          this.listenTo(this.model, 'change:widthSizeErr', this.handleSizeError);
+          this.listenTo(this.model, 'change:heightSizeErr', this.handleSizeError);
+          this.listenTo(this.model, 'change:name', this.updateName);
+          this.listenTo(this.model, 'change:z', this.updateZoom);
+          this.listenTo(this.model, 'change:exportErr', this.handleExportError);
+          this.listenTo(this.model, 'change:format', this.handleFormat);
+          this.listenTo(this.model, 'change:fileType', this.handleFormat);
+
+          for (var i = attrs.lmap.getMinZoom(); i < zoomLevels.length; i++) {
+            zoomLevels[i].current = false;
+
+            if (i === currentZoom) {
+              zoomLevels[i].current = true;
+            }
+          }
+
+          for (var j = 0; j < formatTypes.length; j++) {
+            if (formatTypes[j].current === true) {
+              this.model.set('format', formatTypes[j].type);
+            }
+          }
+
+          for (var _j = 0; _j < updatedFileTypes.length; _j++) {
+            if (updatedFileTypes[_j].current === true) {
+              this.model.set('fileType', updatedFileTypes[_j].type);
+            }
+          }
+
+          this.model.set({
+            z: currentZoom,
+            zoomLevels: zoomLevels,
+            formatTypes: formatTypes,
+            fileTypes: updatedFileTypes,
+            format: 'jpeg',
+            name: nsGmx$1.gmxMap.properties.title
+          });
+          this.updateArea();
+          this.render();
+        },
+        render: function render() {
+          var zoomToBoxButton, zoomToLevelButton;
+          this.$el.html(this.template(this.model.toJSON()));
+          this.$('.zoomLevel').prop('disabled', true);
+          this.$('.mapExportWidth').prop('disabled', true);
+          this.$('.mapExportHeight').prop('disabled', true);
+          this.$('.formatTypes').prop('disabled', true);
+          this.$('.fileTypes').prop('disabled', true);
+          this.$('.mapExportName').val(this.model.get('name'));
+          this.$('.mapExportName').prop('disabled', true);
+          this.$('.mapExportButton').addClass('gmx-disabled');
+          zoomToBoxButton = nsGmx$1.Utils.makeImageButton('img/zoom_to_box_tool_small.png', 'img/zoom_to_box_tool_small.png');
+
+          nsGmx$1.Utils._title(zoomToBoxButton, window._gtxt('mapExport.zoomToBox'));
+
+          this.$('.zoomToBoxButton').append(zoomToBoxButton);
+          zoomToLevelButton = nsGmx$1.Utils.makeImageButton('img/zoom_to_level_tool_small.png', 'img/zoom_to_level_tool_small.png');
+          $(zoomToLevelButton).addClass('zoomToLevelButton');
+
+          nsGmx$1.Utils._title(zoomToLevelButton, window._gtxt('mapExport.zoomToLevel') + ' ' + this.model.get('z'));
+
+          this.$('.zoomToLevelButtonWrap').append(zoomToLevelButton);
+          return this;
+        },
+        updateArea: function updateArea() {
+          var attrs = this.model.toJSON(),
+              // format = attrs.format,
+          areaButton = this.$('.areaButton'),
+              zoomToBoxButton = this.$('.zoomToBoxButton'),
+              zoomToLevelButton = this.$('.zoomToLevelButtonWrap'),
+              zoomSelect = this.$('.zoomLevel'),
+              widthInput = this.$('.mapExportWidth'),
+              heightInput = this.$('.mapExportHeight'),
+              formatSelect = this.$('.formatTypes'),
+              fileSelect = this.$('.fileTypes'),
+              exportNameInput = this.$('.mapExportName'),
+              exportButton = this.$('.mapExportButton'),
+              inputs = [zoomSelect, widthInput, heightInput, formatSelect, fileSelect, exportNameInput, exportButton];
+
+          for (var i = 0; i < inputs.length; i++) {
+            if (!attrs.selArea) {
+              $(inputs[i]).prop('disabled', true);
+            } else {
+              $(inputs[i]).prop('disabled', false);
+            }
+          }
+
+          if (attrs.selArea) {
+            $(areaButton).removeClass('mapExportSelectButton');
+            $(areaButton).addClass('mapExportUnselectButton');
+            $(areaButton).text(window._gtxt('mapExport.unselect'));
+            $(zoomToBoxButton).show();
+            $(zoomToLevelButton).show();
+
+            if (!attrs.widthValueErr && !attrs.widthSizeErr && !attrs.heightValueErr && !attrs.heightSizeErr && attrs.name !== '') {
+              $(exportButton).removeClass('gmx-disabled');
+            }
+          } else {
+            $(areaButton).removeClass('mapExportUnselectButton');
+            $(areaButton).addClass('mapExportSelectButton');
+            $(areaButton).text(window._gtxt('mapExport.select'));
+            $(zoomToBoxButton).hide();
+            $(zoomToLevelButton).hide();
+            $(exportButton).addClass('gmx-disabled');
+          }
+
+          this.handleFormat();
+        },
+        updateSize: function updateSize() {
+          var attrs = this.model.toJSON(),
+              widthInput = this.$('.mapExportWidth'),
+              width = Number(attrs.width).toFixed(0),
+              heightInput = this.$('.mapExportHeight'),
+              height = Number(attrs.height).toFixed(0);
+
+          if (!attrs.widthValueErr) {
+            $(widthInput).val(width);
+          }
+
+          if (!attrs.heightValueErr) {
+            $(heightInput).val(height);
+          }
+        },
+        handleValueError: function handleValueError() {
+          var attrs = this.model.toJSON(),
+              widthInput = this.$('.mapExportWidth'),
+              heightInput = this.$('.mapExportHeight'),
+              exportButton = this.$('.mapExportButton'),
+              warn = this.$('.mapExportWarn');
+
+          if (attrs.widthValueErr) {
+            $(widthInput).addClass('error');
+          } else if (!attrs.widthSizeErr) {
+            $(widthInput).removeClass('error');
+          }
+
+          if (attrs.heightValueErr) {
+            $(heightInput).addClass('error');
+          } else if (!attrs.heightSizeErr) {
+            $(heightInput).removeClass('error');
+          }
+
+          if (attrs.widthValueErr || attrs.heightValueErr) {
+            $(exportButton).addClass('gmx-disabled');
+            $(warn).html(window._gtxt('mapExport.valueWarn'));
+          } else {
+            if (attrs.selArea && attrs.name) {
+              $(exportButton).removeClass('gmx-disabled');
+            }
+
+            if (attrs.widthSizeErr || attrs.heightSizeErr) {
+              $(warn).html(window._gtxt('mapExport.sizeWarn'));
+            } else {
+              $(warn).html('');
+            }
+          }
+        },
+        handleSizeError: function handleSizeError() {
+          var attrs = this.model.toJSON(),
+              widthInput = this.$('.mapExportWidth'),
+              heightInput = this.$('.mapExportHeight'),
+              exportButton = this.$('.mapExportButton'),
+              warn = this.$('.mapExportWarn');
+
+          if (attrs.widthSizeErr) {
+            $(widthInput).addClass('error');
+          } else if (!attrs.widthValueErr) {
+            $(widthInput).removeClass('error');
+          }
+
+          if (attrs.heightSizeErr) {
+            $(heightInput).addClass('error');
+          } else if (!attrs.heightValueErr) {
+            $(heightInput).removeClass('error');
+          }
+
+          if (attrs.widthSizeErr || attrs.heightSizeErr) {
+            $(exportButton).addClass('gmx-disabled');
+
+            if (!attrs.widthValueErr && !attrs.heightValueErr) {
+              $(warn).html(window._gtxt('mapExport.sizeWarn'));
+            }
+          } else if (!attrs.widthValueErr && !attrs.heightValueErr) {
+            if (attrs.selArea && attrs.name) {
+              $(exportButton).removeClass('gmx-disabled');
+            }
+
+            $(warn).html('');
+          }
+        },
+        handleExportError: function handleExportError() {
+          var attrs = this.model.toJSON(),
+              exportButton = this.$('.mapExportButton'),
+              progressBarContainer = this.$('.export-progress-container'),
+              spinHolder = this.$('.spinHolder'),
+              cancelButton = this.$('.cancelButton'),
+              exportErrorMessage = this.$('.exportErrorMessage');
+
+          if (attrs.selArea) {
+            $(exportButton).removeClass('gmx-disabled');
+          } else {
+            $(exportButton).addClass('gmx-disabled');
+          }
+
+          if (attrs.exportErr) {
+            $(spinHolder).toggle();
+            $(progressBarContainer).toggle();
+            $(exportButton).toggle();
+            $(cancelButton).toggle();
+            $(exportErrorMessage).toggle();
+          } else {
+            $(exportErrorMessage).toggle();
+          }
+        },
+        handleFormat: function handleFormat() {
+          var attrs = this.model.toJSON(),
+              format = attrs.format,
+              fileType = attrs.fileType;
+          var fileSelect = this.$('.fileTypes');
+
+          if (format === 'geoTiff' || format === 'geoTiffJpeg') {
+            fileType = window._gtxt('mapExport.filetypes.raster');
+            fileSelect.prop('disabled', true);
+          } else {
+            fileSelect.prop('disabled', false);
+          }
+
+          this.$('.formatTypes').val(format);
+          fileSelect.val(fileType);
+          this.model.set({
+            fileType: fileType
+          });
+        },
+        updateName: function updateName() {
+          var attrs = this.model.toJSON(),
+              exportNameInput = this.$('.mapExportName'),
+              exportButton = this.$('.mapExportButton');
+
+          if (attrs.name === '') {
+            $(exportNameInput).addClass('error');
+            $(exportButton).addClass('gmx-disabled');
+          } else {
+            if (attrs.selArea && !attrs.widthValueErr && !attrs.widthSizeErr && !attrs.heightValueErr && !attrs.heightSizeErr) {
+              $(exportButton).removeClass('gmx-disabled');
+            }
+
+            $(exportNameInput).removeClass('error');
+          }
+        },
+        updateZoom: function updateZoom() {
+          var attrs = this.model.toJSON(),
+              levels = this.$('.zoomLevel'),
+              list = $(levels).find('option'),
+              zoomToLevelButton = this.$('.zoomToLevelButton')[0];
+
+          for (var i = 0; i < list.length; i++) {
+            var el = list[i];
+
+            if (el.tagName === 'OPTION') {
+              if (Number($(el).val()) === attrs.z) {
+                $(el).prop('selected', true);
+              } else {
+                $(el).prop('selected', false);
+              }
+            }
+          }
+
+          if (zoomToLevelButton) {
+            nsGmx$1.Utils._title(zoomToLevelButton, window._gtxt('mapExport.zoomToLevel') + ' ' + attrs.z);
+          }
+        },
+        setZoom: function setZoom(e) {
+          var attrs = this.model.toJSON(),
+              selectedZoom = Number(e.target.value),
+              zoomLevels = attrs.zoomLevels;
+
+          for (var i = attrs.lmap.getMinZoom(); i < zoomLevels.length; i++) {
+            zoomLevels[i].current = false;
+
+            if (i === selectedZoom) {
+              zoomLevels[i].current = true;
+            }
+          }
+
+          this.model.set({
+            zoomLevels: zoomLevels,
+            z: selectedZoom
+          });
+
+          this._updateCoords();
+        },
+        setFormat: function setFormat(e) {
+          var attrs = this.model.toJSON(),
+              formatTypes = attrs.formatTypes,
+              selectedFormat = e.target.value;
+
+          for (var i = 0; i < formatTypes.length; i++) {
+            formatTypes[i].current = false;
+
+            if (formatTypes[i].type === selectedFormat) {
+              formatTypes[i].current = true;
+            }
+          }
+
+          this.model.set({
+            formatTypes: formatTypes,
+            format: selectedFormat
+          });
+        },
+        setFileType: function setFileType(e) {
+          var attrs = this.model.toJSON(),
+              fileTypes = attrs.fileTypes,
+              selectedFileType = e.target.value;
+
+          for (var i = 0; i < fileTypes.length; i++) {
+            fileTypes[i].current = false;
+
+            if (fileTypes[i].type === selectedFileType) {
+              fileTypes[i].current = true;
+            }
+          }
+
+          this.model.set({
+            fileTypes: fileTypes,
+            fileType: selectedFileType
+          });
+        },
+        setName: function setName(e) {
+          this.model.set('name', e.target.value);
+        },
+        selectArea: function selectArea() {
+          var attrs = this.model.toJSON();
+
+          if (!attrs.lmap || attrs.selArea) {
+            return;
+          }
+
+          var currentZoom = attrs.lmap.getZoom(),
+              zoomLevels = attrs.zoomLevels,
+              mapBounds = attrs.lmap.getBounds(),
+              latLngs = [mapBounds.getSouthWest(), mapBounds.getNorthWest(), mapBounds.getNorthEast(), mapBounds.getSouthEast()],
+              // n = mapBounds.getNorth(),
+          // e = mapBounds.getEast(),
+          // s = mapBounds.getSouth(),
+          // w = mapBounds.getWest(),
+          // mapHeight = n - s,
+          // mapWidth = e - w,
+          // какую часть экрана отсекать с краев первоначальной рамки
+          scale = 4,
+              converted = this._convertFromLatLngs(latLngs, attrs.z),
+              dims = this._getDimensions(converted),
+              xx = [converted[0].x, converted[1].x, converted[2].x, converted[3].x],
+              yy = [converted[0].y, converted[1].y, converted[2].y, converted[3].y],
+              bottomLeft = L.point(this._getMin(xx) + dims.width / scale, this._getMax(yy) - dims.height / scale),
+              topLeft = L.point(this._getMin(xx) + dims.width / scale, this._getMin(yy) + dims.height / scale),
+              topRight = L.point(this._getMax(xx) - dims.width / scale, this._getMin(yy) + dims.height / scale),
+              bottomRight = L.point(this._getMax(xx) - dims.width / scale, this._getMax(yy) - dims.height / scale),
+              initialBounds = this._convertToLantLngs([bottomLeft, topLeft, topRight, bottomRight], attrs.z);
+
+          for (var i = attrs.lmap.getMinZoom(); i < zoomLevels.length; i++) {
+            zoomLevels[i].current = false;
+
+            if (i === currentZoom) {
+              zoomLevels[i].current = true;
+            }
+          } // прямоугольная рамка
+
+
+          var rect = L.rectangle(initialBounds);
+          this.model.set({
+            z: currentZoom,
+            zoomLevels: zoomLevels
+          });
+
+          this._createFrame(rect);
+
+          this._updateCoords();
+        },
+        unselectArea: function unselectArea() {
+          var attrs = this.model.toJSON();
+
+          this._removeFrame();
+
+          this.model.set({
+            width: 0,
+            height: 0,
+            z: attrs.lmap.getZoom(),
+            widthValueErr: false,
+            widthSizeErr: false,
+            heightValueErr: false,
+            heightSizeErr: false,
+            exportErr: false
+          });
+        },
+        zoomToBox: function zoomToBox() {
+          var attrs = this.model.toJSON();
+          attrs.lmap.fitBounds(attrs.selArea.getBounds());
+        },
+        zoomToLevel: function zoomToLevel() {
+          var attrs = this.model.toJSON(),
+              initialCoords = attrs.selArea.rings[0].ring._getLatLngsArr(),
+              converted = this._convertFromLatLngs(initialCoords, attrs.z),
+              dims = this._getDimensions(converted);
+
+          attrs.lmap.setView(dims.latLng, attrs.z);
+        },
+        exportMap: function exportMap() {
+          var _this = this,
+              attrs = this.model.toJSON(),
+              initialCoords = attrs.selArea.rings[0].ring._getLatLngsArr(),
+              screenCoords = !attrs.coords ? this._convertFromLatLngs(initialCoords, attrs.z) : this._convertFromLatLngs(attrs.coords, attrs.z),
+              dimensions = this._getDimensions(screenCoords),
+              mapStateParams = {
+            exportMode: true,
+            isFullScreen: true,
+            width: Math.floor(Number(attrs.width)) + 'px',
+            height: Math.floor(Number(attrs.height)) + 'px',
+            position: {
+              x: dimensions.mercCenter.x,
+              y: dimensions.mercCenter.y,
+              z: attrs.z ? 17 - attrs.z : 17 - attrs.lmap.getZoom()
+            },
+            latLng: dimensions.latLng,
+            exportBounds: attrs.selArea.getBounds(),
+            grid: nsGmx$1.gridManager.state
+          },
+              exportParams = {
+            width: Math.floor(Number(attrs.width)),
+            height: Math.floor(Number(attrs.height)),
+            filename: attrs.name,
+            container: attrs.fileType === window._gtxt('mapExport.filetypes.raster') ? 'grimage' : attrs.fileType,
+            format: attrs.format
+          },
+              exportButton = this.$('.mapExportButton'),
+              cancelButton = this.$('.cancelButton'),
+              progressBarContainer = this.$('.export-progress-container'),
+              progressBar = this.$('.export-progressbar'),
+              spinHolder = this.$('.spinHolder'),
+              spinMessage = this.$('.spinMessage'),
+              def;
+
+          $(exportButton).toggle();
+          $(cancelButton).toggle();
+
+          if (attrs.format === 'png' && nsGmx$1.leafletMap.gmxBaseLayersManager.getCurrentID() === 'empty') {
+            exportParams.transparentColor = 'DDDDDD';
+          }
+
+          window._mapHelper.createExportPermalink(mapStateParams, processLink);
+
+          function processLink(id) {
+            var url = window.serverBase + 'Map/Render?' + $.param(exportParams) + '&uri=' + window.location.protocol + '//' + window.location.host + window.location.pathname + '?permalink=' + id;
+
+            _this.model.set({
+              exportErr: false
+            });
+
+            $(exportButton).addClass('gmx-disabled');
+            $(progressBarContainer).toggle();
+            $(spinHolder).toggle();
+            $(progressBar).progressbar({
+              max: 100,
+              value: 0
+            });
+            def = nsGmx$1.asyncTaskManager.sendGmxPostRequest(url);
+            def.done(function (taskInfo) {
+              var url2 = window.serverBase + taskInfo.Result.downloadFile,
+                  selArea = _this.model.get('selArea');
+
+              if (selArea) {
+                $(exportButton).removeClass('gmx-disabled');
+              } else {
+                $(exportButton).addClass('gmx-disabled');
+              }
+
+              $(exportButton).toggle();
+              $(cancelButton).toggle();
+              $(spinHolder).toggle();
+              $(progressBarContainer).toggle();
+              downloadFile(url2);
+            }).fail(function (taskInfo) {
+              if (taskInfo.ErrorInfo.ErrorMessage !== 'Task is canceled') {
+                $(exportButton).removeClass('gmx-disabled');
+
+                _this.model.set({
+                  exportErr: true
+                });
+              }
+            }).progress(function (taskInfo) {
+              _this.model.set({
+                taskInfo: taskInfo
+              });
+
+              if (taskInfo.Status === 'queue') {
+                $(spinMessage).html(window._gtxt('mapExport.inQueue'));
+              } else if (taskInfo.Status === 'progress') {
+                $(spinMessage).html(window._gtxt('mapExport.inProcess'));
+                $(progressBar).progressbar('value', taskInfo.Progress);
+              }
+            });
+
+            function downloadFile(url) {
+              var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1,
+                  isSafari = navigator.userAgent.toLowerCase().indexOf('safari') > -1;
+
+              if (isChrome || isSafari) {
+                var link = document.createElement('a');
+                link.href = url;
+                link.download = attrs.name;
+
+                if (document.createEvent) {
+                  var e = document.createEvent('MouseEvents');
+                  e.initEvent('click', true, true);
+                  link.dispatchEvent(e);
+                  return true;
+                }
+              } else {
+                window.open(url, '_self');
+              }
+            }
+          }
+        },
+        cancelExport: function cancelExport() {
+          var attrs = this.model.toJSON(),
+              taskInfo = this.model.get('taskInfo'),
+              exportButton = this.$('.mapExportButton'),
+              cancelButton = this.$('.cancelButton'),
+              progressBarContainer = this.$('.export-progress-container'),
+              spinHolder = this.$('.spinHolder'),
+              spinMessage = this.$('.spinMessage'),
+              url;
+          url = window.serverBase + 'AsyncTaskCancel?' + $.param({
+            TaskID: taskInfo.TaskID
+          });
+          sendCrossDomainJSONRequest(url, function (response) {
+            if (!parseResponse(response)) return;
+
+            if (response.Result) {
+              if (attrs.selArea) {
+                $(exportButton).removeClass('gmx-disabled');
+              }
+
+              $(exportButton).toggle();
+              $(cancelButton).toggle();
+              $(spinMessage).empty();
+              $(spinHolder).toggle();
+              $(progressBarContainer).toggle();
+            }
+          });
+        },
+        resize: function resize(e) {
+          var attrs = this.model.toJSON(),
+              start = e.target.selectionStart,
+              end = e.target.selectionEnd,
+              initialCoords,
+              scale,
+              screenCoords,
+              width,
+              height,
+              bottomLeft,
+              bottomRight,
+              topLeft,
+              topRight,
+              newBounds,
+              value,
+              valueErr,
+              sizeErr;
+
+          if (!attrs.lmap || !attrs.selArea) {
+            return;
+          }
+
+          initialCoords = attrs.selArea.rings[0].ring._getLatLngsArr(); // разница между целевым и текущим зумом
+
+          scale = Math.pow(2, attrs.z - attrs.lmap.getZoom());
+          screenCoords = !attrs.coords ? this._revertCoords(this._convertFromLatLngs(initialCoords, attrs.z)) : this._revertCoords(this._convertFromLatLngs(attrs.coords, attrs.z));
+          value = Number(e.target.value);
+          valueErr = value <= 0 || isNaN(value);
+          sizeErr = value - MAX_SIZE > EPS; // обработка инпута ширины
+
+          if (e.target.className === 'mapExportWidth' || e.target.className === 'mapExportWidth error') {
+            if (valueErr) {
+              this.model.set('widthValueErr', true);
+            } else {
+              this.model.set('widthValueErr', false);
+              this.model.set('width', e.target.value);
+
+              if (sizeErr) {
+                this.model.set('widthSizeErr', true);
+              } else {
+                this.model.set('widthSizeErr', false);
+              }
+            }
+          } // обработка инпута высоты
+
+
+          if (e.target.className === 'mapExportHeight' || e.target.className === 'mapExportHeight error') {
+            if (valueErr) {
+              this.model.set('heightValueErr', true);
+            } else {
+              this.model.set('heightValueErr', false);
+              this.model.set('height', e.target.value);
+
+              if (sizeErr) {
+                this.model.set('heightSizeErr', true);
+              } else {
+                this.model.set('heightSizeErr', false);
+              }
+            }
+          }
+
+          attrs = this.model.toJSON();
+          if (attrs.widthValueErr || attrs.heightValueErr) return;
+          width = e.target.className === 'mapExportWidth' || e.target.className === 'mapExportWidth error' ? Number(e.target.value) : Number(attrs.width);
+          height = e.target.className === 'mapExportHeight' || e.target.className === 'mapExportHeight error' ? Number(e.target.value) : Number(attrs.height);
+          newBounds = []; // изменяем координаты объекта, учитывая изменившуюся ширину или высоту
+          // геометрия изменяется в соответствии с введенными значениями
+          // topLeft остается неизменным
+
+          bottomLeft = screenCoords[0];
+          topLeft = screenCoords[1];
+          topRight = screenCoords[2];
+          bottomRight = screenCoords[3];
+          topRight.x = topLeft.x + width;
+          topRight.y = topLeft.y;
+          bottomLeft.x = topLeft.x;
+          bottomLeft.y = topLeft.y + height;
+          bottomRight.x = topLeft.x + width;
+          bottomRight.y = topLeft.y + height; // topLeft.x = topLeft.x;
+          // topLeft.y = topLeft.y;
+
+          newBounds.push([attrs.lmap.unproject([bottomLeft.x / scale, bottomLeft.y / scale])], [attrs.lmap.unproject([topRight.x / scale, topRight.y / scale])]); // измененная прямоугольная рамка
+
+          var newRect = L.rectangle(newBounds);
+          this.model.set('coords', L.version === "0.7.7" ? newRect.getLatLngs() : newRect.getLatLngs()[0]);
+          attrs.lmap.gmxDrawing.remove(attrs.selArea);
+
+          this._createFrame(newRect);
+
+          this._updateCoords(); // восстановим позицию курсора
+
+
+          e.target.setSelectionRange(start, end);
+        },
+        _createFrame: function _createFrame(rectangle) {
+          var attrs = this.model.toJSON(),
+              options = {
+            editable: true,
+            map: true,
+            lineStyle: {
+              dashArray: '5 5',
+              color: '#f57c00',
+              weight: 3.5
+            },
+            pointStyle: {
+              size: L.Browser.mobile ? 40 : 8,
+              color: '#f57c00'
+            }
+          };
+          this.model.set({
+            selArea: attrs.lmap.gmxDrawing.add(rectangle, L.extend(options, {
+              exportRect: true
+            }))
+          }); // навешивает обработчики на рамку выделения
+
+          var frame = this.model.get('selArea'),
+              _this = this;
+
+          frame.on('edit', _this._resizeFrame.bind(_this));
+          frame.on('remove', function () {
+            // var attrs = _this.model.toJSON();
+            _this.model.set({
+              width: 0,
+              height: 0,
+              widthValueErr: false,
+              widthSizeErr: false,
+              heightValueErr: false,
+              heightSizeErr: false,
+              exportErr: false
+            });
+          });
+        },
+        _resizeFrame: function _resizeFrame() {
+          var attrs = this.model.toJSON(),
+              initialCoords,
+              screenCoords,
+              dimensions,
+              w,
+              h;
+          initialCoords = attrs.selArea.rings[0].ring._getLatLngsArr();
+          screenCoords = this._convertFromLatLngs(initialCoords, attrs.z);
+          dimensions = this._getDimensions(screenCoords);
+          w = Math.abs(dimensions.width);
+          h = Math.abs(dimensions.height);
+
+          if (w - MAX_SIZE > EPS) {
+            this.model.set('widthSizeErr', true);
+          } else {
+            this.model.set('widthSizeErr', false);
+          }
+
+          if (h - MAX_SIZE > EPS) {
+            this.model.set('heightSizeErr', true);
+          } else {
+            this.model.set('heightSizeErr', false);
+          }
+
+          this.model.set({
+            coords: initialCoords,
+            width: String(w),
+            height: String(h)
+          });
+        },
+        _removeFrame: function _removeFrame() {
+          var attrs = this.model.toJSON();
+
+          if (!attrs.selArea) {
+            return;
+          }
+
+          attrs.lmap.gmxDrawing.remove(attrs.selArea);
+          this.model.set({
+            selArea: null,
+            coords: null
+          });
+        },
+        _updateCoords: function _updateCoords() {
+          var attrs = this.model.toJSON(),
+              initialCoords,
+              screenCoords,
+              dimensions,
+              w,
+              h;
+
+          if (!attrs.selArea) {
+            return;
+          }
+
+          initialCoords = attrs.selArea.rings[0].ring._getLatLngsArr();
+          screenCoords = !attrs.coords ? this._convertFromLatLngs(initialCoords, attrs.z) : this._convertFromLatLngs(attrs.coords, attrs.z);
+          dimensions = this._getDimensions(screenCoords);
+          w = Math.abs(dimensions.width);
+          h = Math.abs(dimensions.height);
+
+          if (!attrs.coords) {
+            this.model.set('coords', initialCoords);
+          }
+
+          if (w - MAX_SIZE > EPS) {
+            this.model.set('widthSizeErr', true);
+          } else {
+            this.model.set('widthSizeErr', false);
+          }
+
+          if (h - MAX_SIZE > EPS) {
+            this.model.set('heightSizeErr', true);
+          } else {
+            this.model.set('heightSizeErr', false);
+          }
+
+          this.model.set({
+            width: String(w),
+            height: String(h)
+          });
+        },
+        _revertCoords: function _revertCoords(coords) {
+          var xx, yy, bottomLeft, topLeft, topRight, bottomRight;
+          xx = [coords[0].x, coords[1].x, coords[2].x, coords[3].x];
+          yy = [coords[0].y, coords[1].y, coords[2].y, coords[3].y];
+          bottomLeft = L.point(this._getMin(xx), this._getMax(yy));
+          topLeft = L.point(this._getMin(xx), this._getMin(yy));
+          topRight = L.point(this._getMax(xx), this._getMin(yy));
+          bottomRight = L.point(this._getMax(xx), this._getMax(yy));
+          return [bottomLeft, topLeft, topRight, bottomRight];
+        },
+        _convertFromLatLngs: function _convertFromLatLngs(latlngs, zoom) {
+          var attrs = this.model.toJSON(),
+              converted = latlngs.map(function (ll) {
+            return attrs.lmap.project([ll.lat, ll.lng], zoom);
+          });
+          return converted;
+        },
+        _convertToLantLngs: function _convertToLantLngs(points, zoom) {
+          var attrs = this.model.toJSON(),
+              converted = points.map(function (point) {
+            return attrs.lmap.unproject([point.x, point.y], zoom);
+          });
+          return converted;
+        },
+        _getDimensions: function _getDimensions(points) {
+          var attrs = this.model.toJSON(),
+              bottomLeft,
+              topRight,
+              width,
+              height,
+              x,
+              y;
+          points = this._revertCoords(points);
+          bottomLeft = points[0];
+          topRight = points[2];
+          width = Math.abs(topRight.x - bottomLeft.x);
+          height = Math.abs(bottomLeft.y - topRight.y);
+          x = bottomLeft.x + width / 2;
+          y = topRight.y + height / 2;
+          return {
+            bottomLeft: bottomLeft,
+            topRight: topRight,
+            width: width,
+            height: height,
+            mercCenter: L.Projection.Mercator.project(attrs.lmap.unproject([x, y], attrs.z)),
+            latLng: attrs.lmap.unproject([x, y], attrs.z)
+          };
+        },
+        _getMax: function _getMax(arr) {
+          return Math.max.apply(null, arr);
+        },
+        _getMin: function _getMin(arr) {
+          return Math.min.apply(null, arr);
+        }
+      });
+      view = new ExportView();
+
+      function getZoomLevels() {
+        var zoomLevels = [],
+            lmap = nsGmx$1.leafletMap,
+            min = lmap.getMinZoom() || 0,
+            max = lmap.getMaxZoom() !== Infinity ? lmap.getMaxZoom() : 21,
+            currentZoom = lmap.getZoom();
+
+        for (var i = min; i <= max; i++) {
+          zoomLevels[i] = {
+            zoom: i,
+            current: false
+          };
+
+          if (i === currentZoom) {
+            zoomLevels[i].current = true;
+          }
+        }
+
+        return zoomLevels;
+      }
+
+      function getTypes(types) {
+        var arr = [];
+
+        for (var i = 0; i < types.length; i++) {
+          arr[i] = {
+            type: types[i],
+            current: false
+          };
+
+          if (i === 0) {
+            arr[i].current = true;
+          }
+        }
+
+        return arr;
+      }
+
+      this.Load = function () {
+        var lm = model.get('lm');
+
+        if (lm != null) {
+          var alreadyLoaded = lm.createWorkCanvas('export', this.Unload);
+
+          if (!alreadyLoaded) {
+            $(lm.workCanvas).append(view.el);
+          }
+        }
+      };
+
+      this.Unload = function () {
+        var attrs = model.toJSON();
+        attrs.lmap.gmxDrawing.remove(attrs.selArea);
+        model.set({
+          selArea: null,
+          width: 0,
+          height: 0,
+          widthValueErr: false,
+          heightValueErr: false,
+          widthSizeErr: false,
+          heightSizeErr: false,
+          format: null,
+          x: null,
+          z: attrs.lmap.getZoom(),
+          y: null,
+          latLng: null,
+          coords: null,
+          zoomLevels: getZoomLevels(),
+          formatTypes: getTypes(formatTypes),
+          fileTypes: null,
+          exportErr: false
+        });
+      };
+    };
+
+    var publicInterface$2 = {
+      pluginName: 'MapExport',
+      MapExportMenu: MapExportMenu
+    };
+    window.gmxCore.addModule('MapExport', publicInterface$2);
+
+    (function () {
+      window._translationsHash.addtext('rus', {
+        bufferZones: {
+          title: 'Создание буферных зон',
+          selectTooltip: 'Выберите кликом векторный слой',
+          select: 'Кликните на векторный слой в панели слоев',
+          selectedLayer: 'Выбранный слой',
+          layerTypeError: 'Слой не является векторным',
+          bufferSize: 'Размер буфера',
+          createBuffer: 'Создать',
+          units: 'м'
+        }
+      });
+
+      window._translationsHash.addtext('eng', {
+        bufferZones: {
+          title: 'Buffer zones creation',
+          selectTooltip: 'Select vector layer by click',
+          select: 'Select vector layer',
+          selectedLayer: 'Selected layer',
+          layerTypeError: 'Selected layer is not vector type',
+          bufferSize: 'Buffer size',
+          createBuffer: 'Create',
+          units: 'm'
+        }
+      });
+
+      var view;
+
+      var BufferZonesMenu = function BufferZonesMenu() {
+        var canvas = nsGmx$1.Utils._div(null, [['dir', 'className', 'bufferZonesConfigLeftMenu']]);
+
+        var BufferModel = window.Backbone.Model.extend({
+          defaults: {
+            lm: new window.leftMenu(),
+            lmap: nsGmx$1.leafletMap,
+            selectedLayer: null,
+            selectedLayerName: '',
+            bufferSize: 50,
+            error: true
+          }
+        });
+        var model = new BufferModel();
+        var BufferView = window.Backbone.View.extend({
+          el: $(canvas),
+          model: model,
+          template: window.Handlebars.compile('<div class="">' + '<div class="buffer-row buffer-select-title">{{i "bufferZones.select"}}:</div>' + '<div class="buffer-row buffer-layer-name {{#if error}}buffer-layer-name-error{{/if}}">' + '{{selectedLayerName}}' + '</div>' + '<div class="buffer-row">{{i "bufferZones.bufferSize"}}: ' + '<input type="number" class="buffer-size" value={{bufferSize}}></input>' + ' {{i "bufferZones.units"}}' + '</div>' + '<div class="buffer-row buffer-button-container"><span class="buttonLink create-buffer-button {{#if error}}gmx-disabled{{/if}}">{{i "bufferZones.createBuffer"}}</span></div>' + '</div>'),
+          events: {
+            'click .create-buffer-button': 'createBuffer',
+            'change .buffer-size': 'setBufferSize'
+          },
+          initialize: function initialize() {
+            var // attrs = this.model.toJSON(),
+            _this = this;
+
+            $(_layersTree).on('activeNodeChange', function (event, elem) {
+              if (elem) {
+                if (elem.hasAttribute('groupid')) {
+                  _this.model.set({
+                    selectedLayerName: '',
+                    selectedLayer: null,
+                    error: true
+                  });
+
+                  return;
+                }
+
+                var layerID = $(elem).attr('layerid'),
+                    layer = nsGmx$1.gmxMap.layersByID[layerID];
+
+                if (layer && layer.getGmxProperties) {
+                  var type = layer.getGmxProperties().type;
+
+                  if (type === 'Vector') {
+                    _this.model.set({
+                      selectedLayerName: layer.getGmxProperties ? layer.getGmxProperties().title : '',
+                      selectedLayer: layerID,
+                      error: false
+                    });
+                  } else {
+                    _this.model.set({
+                      selectedLayerName: window._gtxt('bufferZones.layerTypeError'),
+                      selectedLayer: null,
+                      error: true
+                    });
+                  }
+                } else {
+                  _this.model.set({
+                    selectedLayerName: window._gtxt('bufferZones.layerTypeError'),
+                    selectedLayer: null,
+                    error: true
+                  });
+                }
+              } else {
+                _this.model.set({
+                  selectedLayerName: '',
+                  selectedLayer: null,
+                  error: true
+                });
+              }
+            });
+            this.listenTo(this.model, 'selectedLayerName: change', this.render);
+            this.listenTo(this.model, 'bufferSize: change', this.render);
+            this.render();
+          },
+          render: function render() {
+            this.$el.html(this.template(this.model.toJSON())); // console.log('----- bs: ', this.model.get('bufferSize'));
+
+            return this;
+          },
+          setBufferSize: function setBufferSize(e) {
+            var value = Number(e.target.value);
+
+            if (isNaN(value)) {
+              this.model.set('error', true);
+              return;
+            } else {
+              this.model.set({
+                error: false,
+                bufferSize: value
+              });
+            }
+          },
+          createBuffer: function createBuffer() {
+            var attrs = this.model.toJSON(),
+                _this = this,
+                selectedLayer = attrs.selectedLayer;
+
+            if (!selectedLayer) {
+              return;
+            }
+
+            sendCrossDomainJSONRequest(window.serverBase + "Layer/GetLayerInfo.ashx?NeedAttrValues=false&LayerName=" + encodeURIComponent(selectedLayer), function (response) {
+              if (!parseResponse(response)) {
+                return;
+              }
+
+              var layerProperties = new nsGmx$1.LayerProperties(),
+                  params = {
+                sourceLayerName: selectedLayer,
+                copy: true,
+                addToMap: true,
+                buffer: true,
+                bufferSize: _this.model.toJSON().bufferSize
+              },
+                  properties = {
+                Columns: response.Result.Columns,
+                Title: response.Result.Title + '_' + window._gtxt('Буфер').toLowerCase(),
+                Copyright: response.Result.Copyright,
+                Description: response.Result.Description,
+                Date: response.Result.Date,
+                MetaProperties: response.Result.MetaProperties,
+                TilePath: {
+                  Path: ''
+                },
+                ShapePath: response.Result.ShapePath,
+                IsRasterCatalog: response.Result.IsRasterCatalog,
+                SourceType: "sql",
+                Quicklook: response.Result.Quicklook
+              },
+                  layerTitle;
+              layerProperties.initFromViewer('Vector', null, properties);
+              var def = layerProperties.save(true, null, params);
+              layerTitle = layerProperties.get('Title');
+
+              if (params.addToMap) {
+                window._queryMapLayers.asyncCreateLayer(def, layerTitle);
+              }
+            });
+          }
+        });
+        view = new BufferView(); // DEBUG:
+
+        window.v = view;
+
+        this.Load = function () {
+          var lm = model.get('lm');
+
+          if (lm != null) {
+            var alreadyLoaded = lm.createWorkCanvas('buffer', this.Unload);
+
+            if (!alreadyLoaded) {
+              $(lm.workCanvas).append(view.el);
+            }
+          }
+        };
+
+        this.Unload = function () {
+          // var attrs = model.toJSON();
+          model.set({});
+        };
+      };
+
+      var publicInterface = {
+        pluginName: 'BufferZones',
+        BufferZonesMenu: BufferZonesMenu
+      };
+      window.gmxCore.addModule('BufferZones', publicInterface);
+    })();
+
+    var MAX_INDEX_COUNT = 10000;
+    var KM_PER_DEGREE = 111.31949;
+    nsGmx$1.DrawingObjectCustomControllers.addDelegate({
+      isHidden: function isHidden(obj) {
+        if (obj.options.exportRect) {
+          return true;
+        }
+
+        return false;
+      }
+    });
+
+    window._translationsHash.addtext('rus', {
+      indexGrid: {
+        settings: 'Настройки индексной сетки',
+        select: 'Выделить область карты',
+        unselect: 'Снять выделение',
+        coordinates: 'координаты',
+        lat: 'широта',
+        lng: 'долгота',
+        min: 'мин',
+        max: 'макс',
+        step: 'шаг (км)',
+        onLat: 'по широте',
+        onLng: 'по долготе',
+        count: 'количество идексов',
+        name: 'имя слоя',
+        create: 'Создать слой индексной сетки',
+        valueWarn: 'недопустимое значение',
+        indexCountWarn: 'превышено допустимое число ячеек (10 000)',
+        nameWarn: 'имя слоя не должно быть пустым'
+      }
+    });
+
+    window._translationsHash.addtext('eng', {
+      indexGrid: {
+        settings: 'Index grid settings',
+        select: 'Select',
+        unselect: 'Clear selection',
+        coordinates: 'coordinates',
+        lat: 'latitude',
+        lng: 'longitude',
+        max: 'max',
+        min: 'min',
+        step: 'Step (km)',
+        onLat: 'on latitude',
+        onLng: 'on longitude',
+        count: 'index count',
+        name: 'layer name',
+        create: 'Create index grid layer',
+        valueWarn: 'incorrect value',
+        indexCountWarn: 'max ceils number exceeded (10 000)',
+        nameWarn: 'layer name cannot be empty'
+      }
+    });
+
+    var view$1;
+
+    var IndexGridMenu = function IndexGridMenu() {
+      var canvas = nsGmx$1.Utils._div(null, [['dir', 'className', 'indexGridConfigLeftMenu']]);
+
+      var IndexGridModel = window.Backbone.Model.extend({
+        defaults: {
+          lm: new window.leftMenu(),
+          lmap: nsGmx$1.leafletMap,
+          selArea: null,
+          xStep: 1,
+          yStep: 1,
+          xCount: null,
+          yCount: null,
+          xStepErr: false,
+          yStepErr: false,
+          indexCount: null,
+          indexCountErr: false,
+          maxLat: null,
+          maxLng: null,
+          minLat: null,
+          minLng: null,
+          maxLatErr: false,
+          maxLngErr: false,
+          minLatErr: false,
+          minLngErr: false,
+          z: null,
+          coords: null,
+          name: '',
+          nameErr: true
+        }
+      });
+      var model = new IndexGridModel();
+      var IndexGridView = window.Backbone.View.extend({
+        el: $(canvas),
+        model: model,
+        template: window.Handlebars.compile('<div class="selectButtons">' + '<span class="buttonLink areaButton indexGridSelectButton"> {{i "indexGrid.select"}}</span>' + '</span>' + '</div>' + '<div class="indexgridsettings">' + '<span>' + '{{i "indexGrid.settings"}}' + '</span>' + '</div>' + '<table class="settings">' + '<tbody>' + // Широта / Долгота
+        '<tr class="dims">' + '<td class="eLabel">{{i "indexGrid.coordinates"}}</td>' + '<td class="eLabel colname">{{i "indexGrid.lat"}}</td>' + '<td class="eLabel colname">{{i "indexGrid.lng"}}</td>' + '</tr>' + // Макс
+        '<tr class="dims">' + '<td class="eLabel">{{i "indexGrid.max"}}</td>' + '<td class="eInput">' + '<input type="text" class="maxLat" value="{{maxLat}}"/>' + '</td>' + '<td class="eInput">' + '<input type="text" class="maxLng" value="{{maxLng}}"/>' + '</td>' + '</tr>' + // Мин
+        '<tr class="dims">' + '<td class="eLabel">{{i "indexGrid.min"}}</td>' + '<td class="eInput">' + '<input type="text" class="minLat" value="{{minLat}}"/>' + '</td>' + '<td class="eInput">' + '<input type="text" class="minLng" value="{{minLng}}"/>' + '</td>' + '</tr>' + // Шаг
+        '<tr class="dims">' + '<td class="eLabel" rowspan=2>{{i "indexGrid.step"}}</td>' + '<td class="eLabel">{{i "indexGrid.onLat"}}</td>' + '<td class="eInput">' + '<input type="text" class="yStep" value="{{yStep}}"/>' + '</td>' + '</tr>' + '<tr class="dims">' + '<td class="eLabel">{{i "indexGrid.onLng"}}</td>' + '<td class="eInput">' + '<input type="text" class="xStep" value="{{xStep}}"/>' + '</td>' + '</tr>' + // Количество индексов
+        '<tr class="dims">' + '<td class="eLabel">{{i "indexGrid.count"}}</td>' + '<td class="eLabel"></td>' + '<td class="eLabel indexCount">{{indexCount}}</td>' + '</tr>' + // Имя
+        '<tr class="nameSelect">' + '<td class="eLabel">{{i "indexGrid.name"}}</td>' + '<td class="eInput" colspan=2>' + '<input type="text" class="name" value=""/>' + '</td>' + '</tr>' + '</tbody>' + '</table>' + '<div class="createWrap">' + '<div class="create">' + '<span class="buttonLink createIndexGridButton"> {{i "indexGrid.create"}}</span>' + '<span class="spinHolder" style="display:none">' + '<img src="img/progress.gif"/>' + '<span class="spinMessage"></span>' + '</span>' + '<br/>' + '<span class="warnMessage errorMessage" style="display:none"></span>' + '</div>' + '</div>'),
+        events: {
+          'click .indexGridSelectButton': 'selectArea',
+          'click .indexGridUnelectButton': 'unselectArea',
+          'input .minLat': 'resize',
+          'input .maxLat': 'resize',
+          'input .minLng': 'resize',
+          'input .maxLng': 'resize',
+          'input .xStep': 'setStep',
+          'input .yStep': 'setStep',
+          'input .name': 'setName',
+          'click .createIndexGridButton': 'createIndexGrid'
+        },
+        initialize: function initialize() {
+          var attrs = this.model.toJSON(),
+              currentZoom = attrs.lmap.getZoom();
+          this.listenTo(this.model, 'change:selArea', this.updateArea);
+          this.listenTo(this.model, 'change:selArea', this.updateStepInput.bind(this, 'xStep'));
+          this.listenTo(this.model, 'change:selArea', this.updateStepInput.bind(this, 'yStep'));
+          this.listenTo(this.model, 'change:minLat', this.updateLatLngInput.bind(this, 'minLat'));
+          this.listenTo(this.model, 'change:maxLat', this.updateLatLngInput.bind(this, 'maxLat'));
+          this.listenTo(this.model, 'change:maxLng', this.updateLatLngInput.bind(this, 'maxLng'));
+          this.listenTo(this.model, 'change:minLng', this.updateLatLngInput.bind(this, 'minLng'));
+          this.listenTo(this.model, 'change:minLatErr', this.handleInputErr.bind(this, 'minLat'));
+          this.listenTo(this.model, 'change:maxLatErr', this.handleInputErr.bind(this, 'maxLat'));
+          this.listenTo(this.model, 'change:maxLngErr', this.handleInputErr.bind(this, 'maxLng'));
+          this.listenTo(this.model, 'change:minLngErr', this.handleInputErr.bind(this, 'minLng'));
+          this.listenTo(this.model, 'change:xStep', this.updateStepInput.bind(this, 'xStep'));
+          this.listenTo(this.model, 'change:yStep', this.updateStepInput.bind(this, 'yStep'));
+          this.listenTo(this.model, 'change:xStepErr', this.handleInputErr.bind(this, 'xStep'));
+          this.listenTo(this.model, 'change:yStepErr', this.handleInputErr.bind(this, 'yStep'));
+          this.listenTo(this.model, 'change:indexCount', this.updateIndexCount);
+          this.listenTo(this.model, 'change:indexCountErr', this.handleIndexCountErr);
+          this.listenTo(this.model, 'change:name', this.updateName);
+          this.listenTo(this.model, 'change:nameErr', this.handleInputErr.bind(this, 'name'));
+          this.model.set({
+            z: currentZoom,
+            name: nsGmx$1.gmxMap.properties.title,
+            nameErr: false
+          });
+          this.updateArea();
+          this.render();
+        },
+        render: function render() {
+          this.$el.html(this.template(this.model.toJSON()));
+          this.$('.minLat').prop('disabled', true);
+          this.$('.maxLat').prop('disabled', true);
+          this.$('.maxLng').prop('disabled', true);
+          this.$('.minLng').prop('disabled', true);
+          this.$('.xStep').prop('disabled', true);
+          this.$('.yStep').prop('disabled', true);
+          this.$('.name').val(this.model.get('name'));
+          this.$('.name').prop('disabled', true);
+          this.$('.createIndexGridButton').addClass('gmx-disabled');
+          return this;
+        },
+        updateArea: function updateArea() {
+          var attrs = this.model.toJSON(),
+              minLatInput = this.$('.minLat'),
+              maxLatInput = this.$('.maxLat'),
+              maxLngInput = this.$('.maxLng'),
+              minLngInput = this.$('.minLng'),
+              xStepInput = this.$('.xStep'),
+              yStepInput = this.$('.yStep'),
+              areaButton = this.$('.areaButton'),
+              nameInput = this.$('.name'),
+              createIndexGridButton = this.$('.createIndexGridButton'),
+              inputs = [minLatInput, maxLatInput, maxLngInput, minLngInput, xStepInput, yStepInput, nameInput, createIndexGridButton];
+
+          for (var i = 0; i < inputs.length; i++) {
+            if (!attrs.selArea) {
+              $(inputs[i]).prop('disabled', true);
+            } else {
+              $(inputs[i]).prop('disabled', false);
+            }
+          }
+
+          if (attrs.selArea) {
+            $(areaButton).removeClass('indexGridSelectButton');
+            $(areaButton).addClass('indexGridUnelectButton');
+            $(areaButton).text(window._gtxt('indexGrid.unselect'));
+
+            if (!attrs.minLatErr && !attrs.maxLatErr && !attrs.maxLngErr && !attrs.minLngErr && !attrs.xStepErr && !attrs.yStepErr && !attrs.indexCountErr && attrs.name !== '') {
+              $(createIndexGridButton).removeClass('gmx-disabled');
+            }
+          } else {
+            $(areaButton).removeClass('indexGridUnelectButton');
+            $(areaButton).addClass('indexGridSelectButton');
+            $(areaButton).text(window._gtxt('indexGrid.select'));
+            $(createIndexGridButton).addClass('gmx-disabled');
+          }
+        },
+        updateLatLngInput: function updateLatLngInput(latLng) {
+          var // attrs = this.model.toJSON(),
+          input = this.$('.' + latLng),
+              value = this.model.get(latLng);
+          $(input).val(value !== null ? this._roundInputNumber(value) : '');
+        },
+        handleInputErr: function handleInputErr(inputName) {
+          var input = this.$('.' + inputName);
+          $(input).toggleClass('error', this.model.get(inputName + 'Err'));
+          this.setCreateButtonStatus();
+          this.setWarnMessage();
+        },
+        updateStepInput: function updateStepInput(inputName) {
+          var // attrs = this.model.toJSON(),
+          input = this.$('.' + inputName),
+              value = this.model.get(inputName);
+          $(input).val(value);
+        },
+        updateXStep: function updateXStep() {
+          var attrs = this.model.toJSON(),
+              xStepInput = this.$('.xStep');
+          $(xStepInput).val(attrs.xStep);
+        },
+        updateYStep: function updateYStep() {
+          var attrs = this.model.toJSON(),
+              yStepInput = this.$('.yStep');
+          $(yStepInput).val(attrs.yStep);
+        },
+        updateIndexCount: function updateIndexCount() {
+          var attrs = this.model.toJSON(),
+              indexCount = this.$('.indexCount');
+          $(indexCount).html(attrs.indexCount ? attrs.indexCount : '');
+        },
+        handleIndexCountErr: function handleIndexCountErr() {
+          var attrs = this.model.toJSON(),
+              indexCount = this.$('.indexCount');
+          $(indexCount).toggleClass('errorMessage', attrs.indexCountErr);
+          this.setCreateButtonStatus();
+          this.setWarnMessage();
+        },
+        updateName: function updateName() {
+          var attrs = this.model.toJSON(),
+              nameInput = this.$('.name');
+          $(nameInput).val(attrs.name);
+        },
+        setCreateButtonStatus: function setCreateButtonStatus() {
+          var attrs = this.model.toJSON(),
+              createIndexGridButton = this.$('.createIndexGridButton'),
+              err = attrs.minLatErr || attrs.maxLatErr || attrs.maxLngErr || attrs.minLngErr || attrs.xStepErr || attrs.yStepErr || attrs.indexCountErr;
+          $(createIndexGridButton).toggleClass('gmx-disabled', err);
+        },
+        setWarnMessage: function setWarnMessage() {
+          var attrs = this.model.toJSON(),
+              warnMessage = this.$('.warnMessage'),
+              err = attrs.minLatErr || attrs.maxLatErr || attrs.maxLngErr || attrs.minLngErr || attrs.xStepErr || attrs.yStepErr || attrs.indexCountErr || attrs.nameErr;
+          $(warnMessage).toggle(err);
+
+          if (attrs.minLatErr || attrs.maxLatErr || attrs.maxLngErr || attrs.minLngErr || attrs.xStepErr || attrs.yStepErr) {
+            $(warnMessage).text(window._gtxt('indexGrid.valueWarn'));
+          } else if (attrs.indexCountErr) {
+            $(warnMessage).text(window._gtxt('indexGrid.indexCountWarn'));
+          } else if (attrs.nameErr) {
+            $(warnMessage).text(window._gtxt('indexGrid.nameWarn'));
+          } else {
+            $(warnMessage).text('');
+          }
+        },
+        setName: function setName(e) {
+          var value, valueErr;
+          value = e.target.value;
+          valueErr = value === '';
+
+          if (valueErr) {
+            this.model.set('nameErr', true);
+          } else {
+            this.model.set('nameErr', false);
+            this.model.set('name', value);
+          }
+        },
+        selectArea: function selectArea() {
+          var attrs = this.model.toJSON();
+
+          if (!attrs.lmap || attrs.selArea) {
+            return;
+          }
+
+          var currentZoom = attrs.lmap.getZoom(),
+              mapBounds = attrs.lmap.getBounds(),
+              latLngs = [mapBounds.getSouthWest(), mapBounds.getNorthWest(), mapBounds.getNorthEast(), mapBounds.getSouthEast()],
+              // n = mapBounds.getNorth(),
+          // e = mapBounds.getEast(),
+          // s = mapBounds.getSouth(),
+          // w = mapBounds.getWest(),
+          // mapHeight = n - s,
+          // mapWidth = e - w,
+          // какую часть экрана отсекать с краев первоначальной рамки
+          scale = 4,
+              converted = this._convertFromLatLngs(latLngs, attrs.z),
+              dims = this._getDimensions(converted),
+              xx = [converted[0].x, converted[1].x, converted[2].x, converted[3].x],
+              yy = [converted[0].y, converted[1].y, converted[2].y, converted[3].y],
+              bottomLeft = L.point(this._getMin(xx) + dims.width / scale, this._getMax(yy) - dims.height / scale),
+              topLeft = L.point(this._getMin(xx) + dims.width / scale, this._getMin(yy) + dims.height / scale),
+              topRight = L.point(this._getMax(xx) - dims.width / scale, this._getMin(yy) + dims.height / scale),
+              bottomRight = L.point(this._getMax(xx) - dims.width / scale, this._getMax(yy) - dims.height / scale),
+              initialBounds = this._convertToLantLngs([bottomLeft, topLeft, topRight, bottomRight], attrs.z); // прямоугольная рамка
+
+
+          var rect = L.rectangle(initialBounds);
+          this.model.set({
+            z: currentZoom
+          });
+
+          this._createFrame(rect);
+
+          this._updateCoords();
+
+          this._updateCorners();
+
+          this._countIndex();
+        },
+        unselectArea: function unselectArea() {
+          var attrs = this.model.toJSON();
+
+          this._removeFrame();
+
+          this.model.set({
+            width: 0,
+            height: 0,
+            z: attrs.lmap.getZoom(),
+            xStep: 1,
+            yStep: 1,
+            xCount: null,
+            yCount: null,
+            xStepErr: false,
+            yStepErr: false,
+            indexCount: null,
+            indexCountErr: false,
+            minLat: null,
+            minLng: null,
+            maxLat: null,
+            maxLng: null,
+            minLatErr: false,
+            maxLatErr: false,
+            maxLngErr: false,
+            minLngErr: false
+          });
+        },
+        createIndexGrid: function createIndexGrid() {
+          var attrs = this.model.toJSON(),
+              name = attrs.name,
+              columns = [{
+            Name: "gmx_id",
+            ColumnSimpleType: "Integer",
+            IsIdentity: true,
+            IsComputed: false,
+            IsPrimary: true
+          }, {
+            Name: "index",
+            ColumnSimpleType: "String",
+            IsIdentity: false,
+            IsComputed: false,
+            IsPrimary: false
+          }],
+              layerParams = {
+            Title: name,
+            geometrytype: 'polygon',
+            Columns: JSON.stringify(columns)
+          },
+              indexes = this.generatePolygons(),
+              spinHolder = this.$('.spinHolder'),
+              def = nsGmx$1.asyncTaskManager.sendGmxPostRequest(window.serverBase + "VectorLayer/CreateVectorLayer.ashx", layerParams),
+              // promise,
+          _this = this;
+
+          def.done(function (response) {
+            var layerName = response.Result.properties.name,
+                mapProperties = _layersTree.treeModel.getMapProperties(),
+                targetDiv = $(_queryMapLayers.buildedTree.firstChild).children("div[MapID]")[0],
+                gmxProperties = {
+              type: 'layer',
+              content: response.Result
+            },
+                def2 = _mapHelper.modifyObjectLayer(layerName, indexes, 'EPSG:4326');
+
+            gmxProperties.content.properties.mapName = mapProperties.name;
+            gmxProperties.content.properties.hostName = mapProperties.hostName;
+            gmxProperties.content.properties.visible = true;
+            gmxProperties.content.properties.styles = [{
+              MinZoom: 1,
+              MaxZoom: 21,
+              RenderStyle: _mapHelper.defaultStyles[gmxProperties.content.properties.GeometryType]
+            }];
+            $(spinHolder).show();
+            def2.always(function () {
+              _layersTree.copyHandler(gmxProperties, targetDiv, false, true);
+
+              $(spinHolder).hide();
+
+              _this.unselectArea();
+            });
+          });
+        },
+        generatePolygons: function generatePolygons() {
+          var attrs = this.model.toJSON(),
+              xStep = this._convertXStep(attrs.xStep),
+              yStep = this._convertYStep(attrs.yStep),
+              xCount = attrs.xCount,
+              yCount = attrs.yCount,
+              // proj = L.Projection.Mercator,
+          north = attrs.maxLat,
+              // south = attrs.minLat,
+          west = attrs.minLng,
+              // east = attrs.maxLng,
+          indexes = [],
+              index,
+              letterIndexes = this._getLetterIndexes(xCount),
+              letter,
+              n,
+              s,
+              e,
+              w;
+
+          for (var i = 0; i < yCount; i++) {
+            n = north - yStep * i;
+            s = north - yStep * (i + 1);
+
+            for (var j = 0; j < xCount; j++) {
+              letter = letterIndexes[j];
+              w = west + xStep * j;
+              e = west + xStep * (j + 1);
+              index = {
+                geometry: L.polygon([L.latLng(s, w), L.latLng(n, w), L.latLng(n, e), L.latLng(s, e)]).toGeoJSON(),
+                properties: {
+                  index: letter + (i + 1)
+                }
+              };
+              indexes.push(index);
+            }
+          }
+
+          return indexes;
+        },
+        setStep: function setStep(e) {
+          var value, valueErr;
+          value = Number(e.target.value);
+          valueErr = value <= 0 || isNaN(value); // обработка xStep
+
+          if (e.target.className === 'xStep' || e.target.className === 'xStep error') {
+            if (valueErr) {
+              this.model.set('xStepErr', true);
+            } else {
+              this.model.set('xStepErr', false);
+              this.model.set('xStep', value);
+            }
+          } // обработка yStep
+
+
+          if (e.target.className === 'yStep' || e.target.className === 'yStep error') {
+            if (valueErr) {
+              this.model.set('yStepErr', true);
+            } else {
+              this.model.set('yStepErr', false);
+              this.model.set('yStep', value);
+            }
+          }
+
+          this._countIndex();
+        },
+        resize: function resize(e) {
+          var attrs = this.model.toJSON(),
+              initialCoords,
+              coords,
+              // bounds,
+          scale,
+              // screenCoords,
+          // newBounds,
+          value,
+              valueErr;
+
+          if (!attrs.lmap || !attrs.selArea) {
+            return;
+          } // разница между целевым и текущим зумом
+
+
+          scale = Math.pow(2, attrs.z - attrs.lmap.getZoom());
+          initialCoords = attrs.selArea.rings[0].ring.points._latlngs;
+          coords = attrs.coords ? attrs.coords : initialCoords;
+          value = Number(e.target.value);
+          valueErr = !value || isNaN(value); // обработка ввода значений с плавающей точкой
+
+          if (e.target.value.indexOf(".") === e.target.value.length - 1) {
+            valueErr = true;
+          } // обработка minLat
+
+
+          if (e.target.className === 'minLat' || e.target.className === 'minLat error') {
+            if (valueErr) {
+              this.model.set('minLatErr', true);
+            } else {
+              var north = this._getBounds(coords).getNorth();
+
+              if (value < north) {
+                this.model.set('minLatErr', false);
+                this.model.set('minLat', value);
+              } else {
+                this.model.set('minLatErr', true);
+              }
+            }
+          } // обработка minLng
+
+
+          if (e.target.className === 'minLng' || e.target.className === 'minLng error') {
+            if (valueErr) {
+              this.model.set('minLngErr', true);
+            } else {
+              var east = this._getBounds(coords).getEast();
+
+              if (value < east) {
+                this.model.set('minLngErr', false);
+                this.model.set('minLng', value);
+              } else {
+                this.model.set('minLngErr', true);
+              }
+            }
+          } // обработка maxLat
+
+
+          if (e.target.className === 'maxLat' || e.target.className === 'maxLat error') {
+            if (valueErr) {
+              this.model.set('maxLatErr', true);
+            } else {
+              var south = this._getBounds(coords).getSouth();
+
+              if (value > south) {
+                this.model.set('maxLatErr', false);
+                this.model.set('maxLat', value);
+              } else {
+                this.model.set('maxLatErr', true);
+              }
+            }
+          } // обработка maxLng
+
+
+          if (e.target.className === 'maxLng' || e.target.className === 'maxLng error') {
+            if (valueErr) {
+              this.model.set('maxLngErr', true);
+            } else {
+              var west = this._getBounds(coords).getWest();
+
+              if (value > west) {
+                this.model.set('maxLngErr', false);
+                this.model.set('maxLng', value);
+              } else {
+                this.model.set('maxLngErr', true);
+              }
+            }
+          }
+
+          attrs = this.model.toJSON();
+          if (attrs.maxLngErr || attrs.minLngErr || attrs.minLatErr || attrs.maxLatErr) return;
+          var newRect = L.rectangle([L.latLng(attrs.minLat, attrs.minLng), L.latLng(attrs.maxLat, attrs.maxLng)]);
+          this.model.set({
+            'coords': newRect._latlngs
+          });
+
+          this._removeFrame();
+
+          this._createFrame(newRect); // restore model attributes
+
+
+          this.model.set({
+            xStep: attrs.xStep,
+            yStep: attrs.yStep,
+            xStepErr: attrs.xStepErr,
+            yStepErr: attrs.yStepErr,
+            minLatErr: attrs.minLatErr,
+            maxLatErr: attrs.maxLatErr,
+            maxLngErr: attrs.maxLngErr,
+            minLngErr: attrs.minLngErr
+          });
+
+          this._updateCoords();
+
+          this._updateCorners();
+
+          this._countIndex();
+        },
+        _createFrame: function _createFrame(rectangle) {
+          var attrs = this.model.toJSON(),
+              options = {
+            editable: true,
+            map: true,
+            lineStyle: {
+              dashArray: '5 5',
+              color: '#f57c00',
+              weight: 3.5
+            },
+            pointStyle: {
+              size: L.Browser.mobile ? 40 : 8,
+              color: '#f57c00'
+            }
+          };
+          this.model.set({
+            selArea: attrs.lmap.gmxDrawing.add(rectangle, L.extend(options, {
+              exportRect: true
+            }))
+          }); // навешивает обработчики на рамку выделения
+
+          var frame = this.model.get('selArea'),
+              _this = this;
+
+          frame.on('edit', _this._resizeFrame.bind(_this));
+          frame.on('remove', _this.unselectArea.bind(_this));
+        },
+        _resizeFrame: function _resizeFrame() {
+          var attrs = this.model.toJSON(),
+              initialCoords = attrs.selArea.rings[0].ring.points._latlngs,
+              bounds = this._getBounds(initialCoords),
+              err = attrs.minLatErr || attrs.maxLatErr || attrs.maxLngErr || attrs.minLngErr;
+
+          if (err) {
+            return;
+          }
+
+          this.model.set({
+            coords: initialCoords,
+            minLat: bounds.getSouth(),
+            minLng: bounds.getWest(),
+            maxLat: bounds.getNorth(),
+            maxLng: bounds.getEast()
+          }); // this.model.set({
+          //     minLatErr: false,
+          //     maxLatErr: false,
+          //     minLngErr: false,
+          //     maxLngErr: false
+          // });
+
+          this._countIndex();
+        },
+        _countIndex: function _countIndex() {
+          var attrs = this.model.toJSON(),
+              initialCoords = attrs.selArea.rings[0].ring.points._latlngs,
+              coords = attrs.coords ? attrs.coords : initialCoords,
+              dims = this._getLatLngDimensions(coords);
+
+          if (attrs.xStep && attrs.yStep) {
+            var xCount = Math.ceil(dims.width / this._convertXStep(attrs.xStep));
+            var yCount = Math.ceil(dims.height / this._convertYStep(attrs.yStep));
+            var indexCount = xCount * yCount;
+
+            if (!attrs.xStepErr && !attrs.yStepErr) {
+              if (indexCount > MAX_INDEX_COUNT) {
+                this.model.set('indexCountErr', true);
+              } else {
+                this.model.set('indexCountErr', false);
+              }
+
+              this.model.set('xCount', xCount);
+              this.model.set('yCount', yCount);
+              this.model.set('indexCount', indexCount);
+            }
+          } else {
+            this.model.set('xCount', null);
+            this.model.set('yCount', null);
+            this.model.set('indexCount', null);
+          }
+        },
+        _getBounds: function _getBounds(latLngs) {
+          var lats, lngs, bottomLeft, topRight;
+          lats = [latLngs[0][0].lat, latLngs[0][1].lat, latLngs[0][2].lat, latLngs[0][3].lat];
+          lngs = [latLngs[0][0].lng, latLngs[0][1].lng, latLngs[0][2].lng, latLngs[0][3].lng];
+          bottomLeft = L.latLng(this._getMin(lats), this._getMin(lngs));
+          topRight = L.latLng(this._getMax(lats), this._getMax(lngs));
+          return L.latLngBounds(bottomLeft, topRight);
+        },
+        _removeFrame: function _removeFrame() {
+          var attrs = this.model.toJSON();
+
+          if (!attrs.selArea) {
+            return;
+          }
+
+          attrs.lmap.gmxDrawing.remove(attrs.selArea);
+          this.model.set({
+            selArea: null,
+            coords: null
+          });
+        },
+        _updateCoords: function _updateCoords() {
+          var attrs = this.model.toJSON(),
+              // screenCoords,
+          // dimensions,
+          // bounds,
+          initialCoords;
+
+          if (!attrs.selArea) {
+            return;
+          }
+
+          initialCoords = attrs.selArea.rings[0].ring.points._latlngs;
+
+          if (!attrs.coords) {
+            this.model.set('coords', initialCoords);
+          }
+        },
+        _updateCorners: function _updateCorners() {
+          var attrs = this.model.toJSON(),
+              initialCoords = attrs.selArea.rings[0].ring.points._latlngs,
+              bounds = this._getBounds(initialCoords);
+
+          this.model.set({
+            minLat: bounds.getSouth(),
+            minLng: bounds.getWest(),
+            maxLat: bounds.getNorth(),
+            maxLng: bounds.getEast()
+          });
+        },
+        _revertCoords: function _revertCoords(coords) {
+          var xx, yy, bottomLeft, topLeft, topRight, bottomRight;
+          xx = [coords[0].x, coords[1].x, coords[2].x, coords[3].x];
+          yy = [coords[0].y, coords[1].y, coords[2].y, coords[3].y];
+          bottomLeft = L.point(this._getMin(xx), this._getMax(yy));
+          topLeft = L.point(this._getMin(xx), this._getMin(yy));
+          topRight = L.point(this._getMax(xx), this._getMin(yy));
+          bottomRight = L.point(this._getMax(xx), this._getMax(yy));
+          return [bottomLeft, topLeft, topRight, bottomRight];
+        },
+        _revertLatLngs: function _revertLatLngs(latlngs) {
+          var lats, lngs, bottomLeft, topLeft, topRight, bottomRight;
+          lats = [latlngs[0][0].lat, latlngs[0][1].lat, latlngs[0][2].lat, latlngs[0][3].lat];
+          lngs = [latlngs[0][0].lng, latlngs[0][1].lng, latlngs[0][2].lng, latlngs[0][3].lng];
+          bottomLeft = L.latLng(this._getMin(lats), this._getMin(lngs));
+          topLeft = L.latLng(this._getMax(lats), this._getMin(lngs));
+          topRight = L.latLng(this._getMax(lats), this._getMax(lngs));
+          bottomRight = L.latLng(this._getMin(lats), this._getMax(lngs));
+          return [bottomLeft, topLeft, topRight, bottomRight];
+        },
+        _convertFromLatLngs: function _convertFromLatLngs(latlngs, zoom) {
+          var attrs = this.model.toJSON(),
+              converted = latlngs.map(function (ll) {
+            return attrs.lmap.project([ll.lat, ll.lng], zoom);
+          });
+          return converted;
+        },
+        _convertToLantLngs: function _convertToLantLngs(points, zoom) {
+          var attrs = this.model.toJSON(),
+              converted = points.map(function (point) {
+            return attrs.lmap.unproject([point.x, point.y], zoom);
+          });
+          return converted;
+        },
+        _convertToMercator: function _convertToMercator(latlngs) {
+          var attrs = this.model.toJSON(),
+              converted = latlngs.map(function (ll) {
+            return attrs.lmap.options.crs.project(ll);
+          });
+          return converted;
+        },
+        _convertYStep: function _convertYStep(value) {
+          return value / KM_PER_DEGREE;
+        },
+        _convertXStep: function _convertXStep(value) {
+          var attrs = this.model.toJSON(),
+              centerLat = attrs.minLat + (attrs.maxLat - attrs.minLat) / 2,
+              centerY = centerLat * Math.PI / 180;
+          return value / KM_PER_DEGREE / Math.cos(centerY);
+        },
+        _getLatLngDimensions: function _getLatLngDimensions(latlngs) {
+          var bottomLeft, topRight, width, height;
+          latlngs = this._revertLatLngs(latlngs);
+          bottomLeft = latlngs[0];
+          topRight = latlngs[2];
+          width = Math.abs(topRight.lng - bottomLeft.lng);
+          height = Math.abs(topRight.lat - bottomLeft.lat);
+          return {
+            width: width,
+            height: height
+          };
+        },
+        // get array of string letters (['A'...'Z', 'AA'...'ZZ'...])
+        _getLetterIndexes: function _getLetterIndexes(number) {
+          var convert = function convert(srcNum, scrDict, targetDict) {
+            var targetNum = "";
+
+            for (var idx = 0; idx < srcNum.length; ++idx) {
+              var srcDictIdx = scrDict.search(srcNum[idx]);
+              targetNum += targetDict[srcDictIdx];
+            }
+
+            return targetNum;
+          };
+
+          var buildLettersArray = function buildLettersArray(num) {
+            var xlsDict = "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                jsDict = "0123456789abcdefghijklmnop",
+                radix = xlsDict.length,
+                numStart = 0,
+                numEnd = num,
+                rnt = [];
+
+            for (var col = numStart; col <= numEnd; col++) {
+              // Unfortunately, the situation is not ideal, we have A...Z and then
+              // AA ... AZ, while A represents the zero digit, so in numbers it is
+              // like having 0..9 and then 00..09 and only then 10...19
+              // so we artificially emulate 00...09 situation here
+              var prefix = "";
+              var numb = col;
+
+              if (col >= radix) {
+                numb = col - radix;
+              }
+
+              if (col >= radix && col < radix * 2) {
+                prefix = "A";
+              }
+
+              var jsNum = Number(numb).toString(radix);
+              rnt.push(prefix + convert(jsNum, jsDict, xlsDict));
+            }
+
+            return rnt;
+          };
+
+          return buildLettersArray(number);
+        },
+        _getDimensions: function _getDimensions(points) {
+          var // attrs = this.model.toJSON(),
+          // x, y,
+          bottomLeft, topRight, width, height;
+          points = this._revertCoords(points);
+          bottomLeft = points[0];
+          topRight = points[2];
+          width = Math.abs(topRight.x - bottomLeft.x);
+          height = Math.abs(bottomLeft.y - topRight.y);
+          return {
+            width: width,
+            height: height
+          };
+        },
+        _getMax: function _getMax(arr) {
+          return Math.max.apply(null, arr);
+        },
+        _getMin: function _getMin(arr) {
+          return Math.min.apply(null, arr);
+        },
+        _roundInputNumber: function _roundInputNumber(value) {
+          value = typeof value === 'string' ? value : String(value);
+
+          if (value.indexOf(".") != '-1') {
+            value = value.substring(0, value.indexOf(".") + 5);
+          }
+
+          return value;
+        }
+      });
+      view$1 = new IndexGridView();
+
+      this.Load = function () {
+        var lm = model.get('lm');
+
+        if (lm != null) {
+          var alreadyLoaded = lm.createWorkCanvas('mapIndexGrid', this.Unload);
+
+          if (!alreadyLoaded) {
+            $(lm.workCanvas).append(view$1.el);
+          }
+        }
+      };
+
+      this.Unload = function () {
+        var attrs = model.toJSON();
+        attrs.lmap.gmxDrawing.remove(attrs.selArea);
+        model.set({
+          selArea: null,
+          xStep: 1,
+          yStep: 1,
+          xCount: null,
+          yCount: null,
+          xStepErr: false,
+          yStepErr: false,
+          indexCount: null,
+          indexCountErr: false,
+          maxLat: null,
+          maxLng: null,
+          minLat: null,
+          minLng: null,
+          maxLatErr: false,
+          minLatErr: false,
+          maxLngErr: false,
+          minLngErr: false,
+          z: attrs.lmap.getZoom(),
+          coords: null
+        });
+      };
+    };
+
+    var publicInterface$3 = {
+      pluginName: 'IndexGrid',
+      IndexGridMenu: IndexGridMenu
+    };
+    window.gmxCore.addModule('IndexGrid', publicInterface$3);
+
+    window._translationsHash.addtext('rus', {
+      photoLayer: {
+        catalog: "Каталог",
+        newCatalog: "в новый каталог",
+        existingCatalog: "в существующий каталог",
+        placeholder: "Введите имя каталога",
+        name: "Имя каталога",
+        available: "доступные каталоги",
+        load: "Загрузить фотографии",
+        loadShort: "ЗАГРУЗИТЬ",
+        processing: "обработка изображений",
+        error: "ошибка",
+        successResult: "загружено фотографий",
+        exifError: "ошибка чтения координат",
+        ok: "готово"
+      }
+    });
+
+    window._translationsHash.addtext('eng', {
+      photoLayer: {
+        catalog: "Catalog",
+        newCatalog: "into new catalog",
+        existingCatalog: "into existing catalog",
+        placeholder: "Type catalog name",
+        name: "name",
+        available: "available catalogs",
+        load: "Load photos",
+        loadShort: "LOAD",
+        processing: "image processing",
+        error: "error",
+        successResult: "images uploaded",
+        exifError: "coordinates error",
+        ok: "done"
+      }
+    });
+
+    var PhotoLayer = function PhotoLayer() {
+      var dialog;
+      var PhotoLayerModel = window.Backbone.Model.extend({
+        defaults: {
+          fileName: null,
+          photoLayersFlag: false,
+          currentPhotoLayer: null,
+          photoLayers: [],
+          sandbox: ''
+        }
+      });
+      var PhotoLayerView = window.Backbone.View.extend({
+        tagName: 'div',
+        model: new PhotoLayerModel(),
+        template: Handlebars.compile('' + '<div class="photolayer-ui-container photolayer-properties-container">' + '<div class="photolayer-ui-container photolayer-catalog-selector-container">' + '{{#if photoLayersFlag}}' + '<span class="select-catalog-button existing-catalog-button">{{i "photoLayer.existingCatalog"}}</span>' + '{{/if}}' + '<span class="select-catalog-button new-catalog-button">{{i "photoLayer.newCatalog"}}</span>' + '</div>' + '<div class="photolayer-ui-container photolayer-newlayer-input-container"' + '{{#if photoLayersFlag}}' + 'style="display:none"' + '{{/if}}' + '>' + '<span class="photolayer-title photolayer-name-title">{{i "photoLayer.name"}}</span>' + '<input type="text" class="photolayer-name-input photolayer-newlayer-input minInputStyle"/>' + '</div>' + '<div class="photolayer-ui-container photolayer-existinglayer-input-container" ' + '{{#unless photoLayersFlag}}' + 'style="display:none"' + '{{/unless}}' + '>' + '<span class="photolayer-title photolayer-name-title">{{i "photoLayer.name"}}</span>' + '<select class="photolayer-name-input photolayer-existinglayer-input">' + '{{#each this.photoLayers}}' + '<option value="{{this.layer}}"' + '{{#if this.current}} selected="selected"{{/if}}>' + '{{this.layer}}' + '</option>' + '{{/each}}' + '</select>' + '</div>' + '<div class="photolayer-ui-block photolayer-loader-block">' + '<label class="photo-uploader-label">' + '<span class="photo-uploader-button">{{i "photoLayer.loadShort"}}</span>' + '<form id="photo-uploader-form" name="photouploader" enctype="multipart/form-data" method="post">' + '<input type="file" name="file" id="photo-uploader" accept="image/*" multiple></input>' + '</form>' + '</label>' + '<span class="photolayer-progress-container">' + '<span class="progressbar"></span>' + '</span>' + '<span class="photolayer-spin-container" style="display:none">' + '<img src="img/progress.gif"/>' + '<span class="spin-message">{{i "photoLayer.processing"}}</span>' + '</span>' + '<span class="photolayer-ui-container photolayer-ok-button-container" style="display:none">' + '<span class="ok-button">{{i "photoLayer.ok"}}</span>' + '</span>' + '<span class="photolayer-error-message" style="display:none"></span>' + '</div>' + '<div class="photo-upload-result photo-upload-result-uploaded" style="display:none">' + '</div>' + '<div class="photo-upload-result photo-upload-result-error" style="display:none">' + '</div>' + '</div>'),
+        events: {
+          'click .select-catalog-button': 'setCatalogType',
+          'keyup .photolayer-newlayer-input': 'setName',
+          'change .photolayer-existinglayer-input': 'setCurrentLayer',
+          'change #photo-uploader': 'selectFile'
+        },
+        initialize: function initialize() {
+          this.getPhotoLayers();
+          this.createSandbox();
+          this.render();
+          this.listenTo(this.model, 'change:fileName', this.updateName);
+          this.listenTo(this.model, 'change:photoLayers', this.updatePhotoLayersList);
+        },
+        render: function render() {
+          var attrs = this.model.toJSON();
+          this.$el.html(this.template(this.model.toJSON()));
+          this.updatePhotoLayersList();
+          var firstButton = this.$('.select-catalog-button')[0],
+              uploadBlock = this.$('.photo-uploader-label').add(this.$('.photo-uploader-button'));
+          $(firstButton).addClass('active');
+          $(uploadBlock).toggleClass('gmx-disabled', !attrs.photoLayersFlag);
+          this.$('.photolayer-newlayer-input').prop('placeholder', _gtxt('photoLayer.placeholder'));
+        },
+        getPhotoLayers: function getPhotoLayers(layers) {
+          layers = layers || nsGmx$1.gmxMap.layers;
+          var attrs = this.model.toJSON(),
+              photoLayersFlag = attrs.photoLayersFlag,
+              currentPhotoLayer,
+              photoLayers = [];
+
+          for (var i = 0; i < layers.length; i++) {
+            var layer = layers[i],
+                props = layer.getGmxProperties(),
+                isPhotoLayer = void 0;
+
+            if (props) {
+              isPhotoLayer = props.IsPhotoLayer;
+
+              if (isPhotoLayer && props.Access === 'edit') {
+                photoLayersFlag = true;
+                photoLayers.push({
+                  layer: props.title,
+                  LayerID: props.LayerID,
+                  current: false
+                });
+              }
+            }
+
+            for (var j = 0; j < photoLayers.length; j++) {
+              photoLayers[j].current = j === 0;
+
+              if (j === 0) {
+                currentPhotoLayer = nsGmx$1.gmxMap.layersByID[photoLayers[j].LayerID];
+              }
+            }
+          }
+
+          this.model.set({
+            photoLayersFlag: photoLayersFlag,
+            photoLayers: photoLayers,
+            currentPhotoLayer: currentPhotoLayer
+          });
+        },
+        setCatalogType: function setCatalogType(e) {
+          var attrs = this.model.toJSON(),
+              newCatalog = $(e.target).hasClass('new-catalog-button'),
+              newContainer = $('.photolayer-newlayer-input-container'),
+              existingContainer = $('.photolayer-existinglayer-input-container'),
+              newLayerInput = this.$('.photolayer-newlayer-input'),
+              uploadBlock = this.$('.photo-uploader-label').add(this.$('.photo-uploader-button'));
+
+          if (newCatalog) {
+            $(uploadBlock).toggleClass('gmx-disabled', !attrs.fileName);
+            $(newContainer).toggle(true);
+            $(existingContainer).toggle(false);
+            $(e.target).toggleClass('active', true);
+            $('.existing-catalog-button').toggleClass('active', false);
+            $(newLayerInput).focus();
+            this.model.set({
+              photoLayers: [],
+              fileName: null,
+              currentPhotoLayer: null
+            });
+            this.createSandbox();
+          } else {
+            this.getPhotoLayers();
+            $(uploadBlock).toggleClass('gmx-disabled', false);
+            $(existingContainer).toggle(true);
+            $(newContainer).toggle(false);
+            $(e.target).toggleClass('active', true);
+            $('.new-catalog-button').toggleClass('active', false);
+          }
+        },
+        createSandbox: function createSandbox() {
+          var _this = this;
+
+          window.sendCrossDomainJSONRequest(window.serverBase + 'Sandbox/CreateSandbox', function (response) {
+            if (parseResponse(response) && response.Result) {
+              _this.model.set('sandbox', response.Result.sandbox);
+            }
+          });
+        },
+        setName: function setName(e) {
+          var layers = layers || nsGmx$1.gmxMap.layers,
+              // attrs = this.model.toJSON(),
+          start = e.target.selectionStart,
+              end = e.target.selectionEnd,
+              matchingLayer;
+
+          for (var i = 0; i < layers.length; i++) {
+            var layer = layers[i],
+                props = layer.getGmxProperties();
+
+            if (props) {
+              if (e.target.value === props.title) {
+                matchingLayer = layer;
+              }
+            }
+          }
+
+          this.model.set('fileName', e.target.value);
+          this.model.set('currentPhotoLayer', matchingLayer ? matchingLayer : null); // восстановим позицию курсора
+
+          e.target.setSelectionRange(start, end);
+        },
+        setCurrentLayer: function setCurrentLayer(e) {
+          var layers = nsGmx$1.gmxMap.layers,
+              currentPhotoLayer;
+
+          for (var i = 0, len = layers.length; i < len; i++) {
+            var layer = layers[i],
+                props = layer.getGmxProperties();
+
+            if (props && props.title === e.target.value) {
+              currentPhotoLayer = layer;
+              break;
+            }
+          }
+
+          this.model.set({
+            currentPhotoLayer: currentPhotoLayer
+          });
+        },
+        updateName: function updateName() {
+          var attrs = this.model.toJSON(),
+              newLayerInput = this.$('.photolayer-newlayer-input'),
+              uploadBlock = this.$('.photo-uploader-label').add(this.$('.photo-uploader-button'));
+          $(newLayerInput).val(attrs.fileName);
+          $(uploadBlock).toggleClass('gmx-disabled', !attrs.fileName);
+        },
+        updatePhotoLayersList: function updatePhotoLayersList() {
+          var attrs = this.model.toJSON(),
+              photoLayers = attrs.photoLayers,
+              currentPhotoLayerName = attrs.currentPhotoLayer && attrs.currentPhotoLayer.getGmxProperties().title,
+              str = '',
+              select = this.$('.photolayer-existinglayer-input');
+
+          if (photoLayers.length) {
+            for (var i = 0; i < photoLayers.length; i++) {
+              str += '<option>' + photoLayers[i].layer + '</option>';
+            }
+          }
+
+          $(select).html(str);
+          $('.photolayer-existinglayer-input option[value="' + currentPhotoLayerName + '"]').prop('selected', true);
+        },
+        selectFile: function selectFile(e) {
+          var files = e.target.files,
+              form = this.$('#photo-uploader-form'),
+              arr = [],
+              newLayerInput = this.$('.photolayer-newlayer-input'),
+              uploadLabel = this.$('.photo-uploader-label'),
+              uploadButton = this.$('.photo-uploader-button'),
+              progressBarContainer = this.$('.photolayer-progress-container'),
+              progressBar = this.$('.progressbar'),
+              spinContainer = this.$('.photolayer-spin-container'),
+              okButton = this.$('.photolayer-ok-button-container'),
+              uploadResSuccess = this.$('.photo-upload-result-uploaded'),
+              uploadResError = this.$('.photo-upload-result-error'),
+              errorMessage = this.$('.photolayer-error-message');
+
+          for (var key in files) {
+            if (files.hasOwnProperty(key)) {
+              arr.push(files[key]);
+            }
+          }
+
+          $(progressBarContainer).hide();
+          $(spinContainer).hide();
+          $(okButton).hide();
+          $(errorMessage).hide();
+          $(uploadResSuccess).hide();
+          $(uploadResError).hide();
+          files = e.target.files;
+
+          var attrs = this.model.toJSON(),
+              _this = this,
+              // sandbox,
+          uploadParams = {
+            sandbox: attrs.sandbox
+          },
+              params,
+              url,
+              def;
+
+          if (attrs.currentPhotoLayer) {
+            params = {
+              LayerID: attrs.currentPhotoLayer.getGmxProperties().LayerID,
+              PhotoSource: JSON.stringify({
+                sandbox: attrs.sandbox
+              })
+            };
+          } else {
+            params = {
+              Columns: "[]",
+              Copyright: "",
+              Description: "",
+              SourceType: "manual",
+              title: attrs.fileName,
+              IsPhotoLayer: true,
+              PhotoSource: JSON.stringify({
+                sandbox: attrs.sandbox
+              })
+            };
+          }
+
+          $(form).prop('action', window.serverBase + 'Sandbox/Upload' + '?' + $.param(uploadParams));
+          var formData = new FormData($(form)[0]);
+          formData.append("sandbox", attrs.sandbox);
+
+          for (var i = 0; i < files.length; i++) {
+            formData.append(i, files[i]);
+          }
+
+          $(progressBar).progressbar({
+            max: 100,
+            value: 0
+          });
+          $(progressBarContainer).show();
+          var xhr = new XMLHttpRequest();
+          xhr.upload.addEventListener("progress", function (e) {
+            $(progressBar).progressbar('option', 'value', e.loaded / e.total * 100);
+          }, false);
+          xhr.open('POST', window.serverBase + 'Sandbox/Upload');
+          $(uploadButton).toggleClass('gmx-disabled', true);
+          $(uploadLabel).toggleClass('gmx-disabled', true);
+          xhr.withCredentials = true;
+
+          xhr.onload = function () {
+            if (xhr.status === 200) {
+              var response = xhr.responseText;
+
+              if (!response) {
+                return;
+              }
+
+              $(progressBarContainer).hide();
+              $(spinContainer).show();
+
+              if (attrs.currentPhotoLayer) {
+                url = window.serverBase + 'Photo/AppendPhoto' + '?' + $.param(params);
+              } else {
+                url = window.serverBase + 'VectorLayer/Insert.ashx' + '?' + $.param(params);
+              }
+
+              def = nsGmx$1.asyncTaskManager.sendGmxPostRequest(url);
+              def.done(function (taskInfo) {
+                if (!attrs.currentPhotoLayer) {
+                  var mapProperties = window._layersTree.treeModel.getMapProperties(),
+                      targetDiv = $(window._queryMapLayers.buildedTree.firstChild).children("div[MapID]")[0],
+                      gmxProperties = {
+                    type: 'layer',
+                    content: taskInfo.Result
+                  },
+                      imageUrlParams = {
+                    LayerID: gmxProperties.content.properties.LayerID,
+                    size: 'M'
+                  },
+                      bigImageUrlParams = {
+                    LayerID: gmxProperties.content.properties.LayerID,
+                    size: 'Native'
+                  },
+                      imageUrl = window.serverBase + 'rest/ver1/photo/getimage.ashx' + '?' + $.param(imageUrlParams) + '&rowId=[gmx_id]',
+                      bigImageUrl = window.serverBase + 'rest/ver1/photo/getimage.ashx' + '?' + $.param(bigImageUrlParams) + '&rowId=[gmx_id]',
+                      balloonString = '' + '<div style="min-width: 300px;">' + '<div style="width: 100%; text-align: center;">' + '<a href="' + bigImageUrl + '" target="_blank">' + '<img class="popupImage" src="' + imageUrl + '" alt=""/>' + '</a>' + '</div>' + '<div>' + '<b>' + window._gtxt("Имя") + ':</b> ' + '[GMX_Filename]' + '</div>' + '<div>' + '<b>' + window._gtxt("Момент съемки") + ':</b> ' + '[GMX_Date]' + '</div>' + '<div>' + '[SUMMARY]' + '</div>' + '<div>' + '<b>' + "Комментарии" + ':</b> ' + '[Comments]' + '</div>' + '</div>';
+
+                  gmxProperties.content.properties.mapName = mapProperties.name;
+                  gmxProperties.content.properties.hostName = mapProperties.hostName;
+                  gmxProperties.content.properties.visible = true;
+                  var renderStyle = {
+                    marker: {
+                      center: _mapHelper.defaultPhotoIconStyles.point.marker.center,
+                      image: window.serverBase ? window.serverBase.replace('http://', '//').replace('https://', '//') + _mapHelper.defaultPhotoIconStyles.point.marker.image : _mapHelper.defaultPhotoIconStyles.point.marker.image
+                    }
+                  };
+                  gmxProperties.content.properties.styles = [{
+                    MinZoom: 1,
+                    MaxZoom: 21,
+                    Balloon: balloonString,
+                    RenderStyle: renderStyle
+                  }]; // вставляем фотослой на карту
+
+                  var modifyMapObjects = [{
+                    Action: 'insert',
+                    index: 'top',
+                    LayerName: gmxProperties.content.properties.LayerID,
+                    Styles: gmxProperties.content.properties.styles
+                  }],
+                      modifyMapParams = {
+                    MapName: mapProperties.MapID,
+                    Objects: JSON.stringify(modifyMapObjects)
+                  },
+                      modifyMapUrl = window.serverBase + 'Map/ModifyMap.ashx' + '?' + $.param(modifyMapParams); // вставляем фотографии в пустой слой
+
+                  var photoAppendParams = {
+                    LayerID: gmxProperties.content.properties.LayerID,
+                    PhotoSource: JSON.stringify({
+                      sandbox: attrs.sandbox
+                    })
+                  },
+                      photoAppendUrl = window.serverBase + 'Photo/AppendPhoto' + '?' + $.param(photoAppendParams);
+                  sendCrossDomainJSONRequest(modifyMapUrl, function () {
+                    var def = nsGmx$1.asyncTaskManager.sendGmxPostRequest(photoAppendUrl);
+                    def.done(function (taskInfo) {
+                      parseGeometry(taskInfo, gmxProperties);
+
+                      window._layersTree.copyHandler(gmxProperties, targetDiv, false, true);
+
+                      var newLayer = nsGmx$1.gmxMap.layersByID[gmxProperties.content.properties.LayerID];
+                      newLayer.bindClusters({
+                        iconCreateFunction: function iconCreateFunction(cluster) {
+                          var photoClusterIcon = L.divIcon({
+                            html: '<img src="' + (window.serverBase ? window.serverBase + _mapHelper.defaultPhotoIconStyles.point.marker.image : _mapHelper.defaultPhotoIconStyles.point.marker.image) + '" class="photo-icon"/><div class="marker-cluster-photo">' + cluster.getChildCount() + '</div>',
+                            className: 'photo-div-icon',
+                            iconSize: [14, 12],
+                            iconAnchor: [0, 0]
+                          });
+                          return photoClusterIcon;
+                        },
+                        maxClusterRadius: 40,
+                        spiderfyOnMaxZoom: true,
+                        spiderfyZoom: 14,
+                        spiderfyDistanceMultiplier: 1.2,
+                        disableClusteringAtZoom: 19,
+                        maxZoom: 19
+                      }); // newLayer.updateVersion(gmxProperties.content);
+
+                      _this.model.set({
+                        currentPhotoLayer: newLayer
+                      });
+
+                      afterLoad(taskInfo);
+                    }).fail(function (taskInfo) {
+                      var message = taskInfo.ErrorInfo && taskInfo.ErrorInfo.ErrorMessage;
+                      $(errorMessage).html(message in _mapHelper.customErrorsHash ? _gtxt(_mapHelper.customErrorsHash[message]) : _gtxt('photoLayer.error'));
+                      $(errorMessage).show();
+                      afterLoad(taskInfo);
+                    }).progress(function () {});
+                  });
+                  $(newLayerInput).focus();
+                } else {
+                  // var curName = attrs.currentPhotoLayer.getGmxProperties().name;
+                  // parseGeometry(taskInfo, gmxProperties);
+                  // window.sendCrossDomainJSONRequest(window.serverBase + "Layer/GetLayerJson.ashx?WrapStyle=func&LayerName=" + curName, function(response) {
+                  //     if (!parseResponse(response)) {
+                  //         return;
+                  //     }
+                  //     debugger;
+                  //     console.log(response);
+                  //     // L.gmx.layersVersion.chkVersion(response.Result, null);
+                  //     attrs.currentPhotoLayer.updateVersion(response.Result);
+                  // });
+                  // L.gmx.layersVersion.chkVersion(gmxProperties.content);
+                  // attrs.currentPhotoLayer.updateVersion(gmxProperties.content);
+                  afterLoad(taskInfo);
+                }
+              }).fail(function (taskInfo) {
+                var message = taskInfo.ErrorInfo && taskInfo.ErrorInfo.ErrorMessage;
+                $(errorMessage).html(message in _mapHelper.customErrorsHash ? _gtxt(_mapHelper.customErrorsHash[message]) : _gtxt('photoLayer.error'));
+                $(errorMessage).show();
+                afterLoad(taskInfo);
+              }).progress(function () {});
+            }
+
+            function parseGeometry(info, properties) {
+              var coords = [],
+                  appended = info.Result.Appended,
+                  updated = info.Result.Updated,
+                  addCoords = function addCoords(objects, coordinates) {
+                for (var a = 0; a < objects.length; a++) {
+                  if (objects[a].longitude && objects[a].latitude) {
+                    var point = nsGmx$1.leafletMap.options.crs.project(L.latLng(objects[a].longitude, objects[a].latitude));
+                    coordinates.push([point.x, point.y]);
+                  }
+                }
+              };
+
+              addCoords(appended, coords);
+              addCoords(updated, coords);
+
+              if (!coords.length) {
+                properties.content.geometry = null;
+              } else {
+                properties.content.geometry.coordinates = coords.length === 1 ? coords[0] : coords;
+                properties.content.geometry.type = coords.length === 1 ? 'POINT' : 'POLYGON';
+              }
+            }
+
+            function afterLoad(taskInfo) {
+              var resObj = taskInfo.Result;
+
+              if (resObj) {
+                if (resObj.Appended.length) {
+                  $(uploadResSuccess).html(_gtxt('photoLayer.successResult') + ": " + resObj.Appended.length);
+                  $(uploadResSuccess).show();
+                }
+
+                if (resObj.NoCoords.length) {
+                  $(uploadResError).html(_gtxt('photoLayer.exifError') + ": " + resObj.NoCoords.length);
+                  $(uploadResError).show();
+                }
+              }
+
+              $(spinContainer).hide();
+              $(uploadButton).toggleClass('gmx-disabled', false);
+              $(uploadLabel).toggleClass('gmx-disabled', false);
+
+              _this.createSandbox();
+            }
+          };
+
+          xhr.send(formData);
+        }
+      });
+
+      this.Load = function () {
+        var view = new PhotoLayerView(),
+            resizeFunc = function resizeFunc() {},
+            closeFunc = function closeFunc() {
+          view.model.set({
+            photoLayersFlag: false,
+            photoLayers: [],
+            currentPhotoLayer: null
+          });
+        };
+
+        dialog = nsGmx$1.Utils.showDialog(_gtxt('photoLayer.load'), view.el, 340, 220, null, null, resizeFunc, closeFunc);
+      };
+
+      this.Unload = function () {
+        $(dialog).remove();
+      };
+    };
+
+    var publicInterface$4 = {
+      pluginName: 'PhotoLayer',
+      PhotoLayer: PhotoLayer
+    };
+    window.gmxCore.addModule('PhotoLayer', publicInterface$4);
+
+    (function () {
+
+      nsGmx$1.Translations.addText('rus', {
+        uglw: {
+          headerTitle: 'Фильтр',
+          listheader: {
+            title: 'Название',
+            description: 'Описание'
+          },
+          groupProps: {
+            title: 'Название',
+            description: 'Описание'
+          },
+          popover: {
+            title: 'Удалить группу',
+            ok: 'Ok',
+            cancel: 'Отмена'
+          },
+          shareLabel: 'Права на ресурсы внутри группы:',
+          share: {
+            'public': 'общие',
+            'private': 'раздельные'
+          }
+        }
+      });
+      nsGmx$1.Translations.addText('eng', {
+        uglw: {
+          headerTitle: 'Filter',
+          listheader: {
+            title: 'Title',
+            description: 'Description'
+          },
+          groupProps: {
+            title: 'Title',
+            description: 'Description'
+          },
+          popover: {
+            title: 'Delete group',
+            ok: 'Ok',
+            cancel: 'Cancel'
+          },
+          shareLabel: 'Sharing resources among members:',
+          share: {
+            'public': 'selectively',
+            'private': 'by default'
+          }
+        }
+      });
+      var Group = Backbone.Model.extend({
+        idAttribute: 'UserID'
+      });
+      var GroupList = Backbone.Collection.extend({
+        model: Group
+      });
+      var GroupListView = Backbone.View.extend({
+        template: Handlebars.compile('<table class="uglw-table">' + '<thead class="tableHeader">' + '<th class="uglw-table-title">{{i "uglw.listheader.title"}}</th>' + '<th class="uglw-table-descr">{{i "uglw.listheader.description"}}</th>' + '<th></th>' + '</thead><tbody class="tableBody">' + '{{#users}}' + '<tr class="uglw-row">' + '<td><span class="uglw-group-name" data-groupid="{{UserID}}">{{Nickname}}</span></td>' + '<td>{{Description}}</td>' + '<td><div class="gmx-icon-recycle" data-groupid="{{UserID}}"></div></td>' + '</tr>' + '{{/users}}</tbody></table>'),
+        initialize: function initialize() {
+          this.listenTo(this.model, 'reset', this.render);
+        },
+        render: function render() {
+          var _this = this;
+
+          var rawAttributes = this.model.map(function (user) {
+            return user.attributes;
+          });
+          this.$el.empty().append($(this.template({
+            users: rawAttributes
+          })));
+          this.$el.find('.uglw-group-name').click(function () {
+            var groupID = Number($(this).data('groupid'));
+            var groupSecurity = new UserGroupSecurity();
+            $(groupSecurity).on('savedone', function () {
+              _this.trigger('needupdate');
+            });
+            groupSecurity.propertyValue = groupID;
+            groupSecurity.title = _this.model.get(groupID).get('Nickname');
+            groupSecurity.getSecurityFromServer(groupID).then(function (res) {
+              groupSecurity.createSecurityDialog(res);
+              $(groupSecurity._dialogDiv).find('.security-props-title').focus();
+            });
+          });
+          var popoverUI = $(Handlebars.compile('<div>' + '<div>{{i "uglw.popover.title"}}?</div>' + '<div class="uglw-popover-buttons">' + '<button class="uglw-popover-ok">{{i "uglw.popover.ok"}}</button>' + '<button class="uglw-popover-cancel">{{i "uglw.popover.cancel"}}</button>' + '</div>' + '</div>')());
+          popoverUI.find('.uglw-popover-ok').click(function () {
+            sendCrossDomainJSONRequest(window.serverBase + 'User/DeleteGroup?GroupID=' + _this._popoverGroupID, function (response) {
+              if (!parseResponse(response)) {
+                return;
+              }
+
+              _this.trigger('needupdate');
+
+              _this.$el.find('.gmx-icon-recycle').popover('hide');
+            });
+          });
+          popoverUI.find('.uglw-popover-cancel').click(function () {
+            _this.$el.find('.gmx-icon-recycle').popover('hide');
+          });
+          this.$el.find('.gmx-icon-recycle').click(function () {
+            var groupID = Number($(this).data('groupid'));
+            _this._popoverGroupID = groupID;
+          }).popover({
+            content: popoverUI[0],
+            placement: 'left',
+            html: true
+          }).on('shown.bs.popover', function (event) {
+            _this.$el.find('.gmx-icon-recycle').each(function (i, icon) {
+              if (icon !== event.target) {
+                $(icon).popover('hide');
+              }
+            });
+          });
+        }
+      });
+
+      nsGmx$1.UserGroupListWidget = function (container) {
+        var ui = $(nsGmx$1.UserGroupListWidget._mainTemplate()).appendTo(container);
+        var groupList = new GroupList();
+        var listView = new GroupListView({
+          el: ui.find('.uglw-list-placeholder')[0],
+          model: groupList
+        });
+
+        var refilterUsers = function refilterUsers() {
+          nsGmx$1.security.findUsers(ui.find('.uglw-filter-input').val(), {
+            type: 'Group'
+          }).then(function (users) {
+            groupList.reset(users);
+          });
+        };
+
+        listView.on('needupdate', refilterUsers);
+        var lastValue = null;
+        ui.find('.uglw-filter-input').on('keyup change', function () {
+          if (lastValue !== this.value) {
+            lastValue = this.value;
+            refilterUsers();
+          }
+        });
+        ui.find('.uglw-filter-input').change();
+        ui.find('.uglw-add-icon').click(function () {
+          var groupSecurity = new UserGroupSecurity();
+
+          groupSecurity._save = function () {
+            var // _this = this,
+            si = this._securityInfo.SecurityInfo;
+
+            if (this.saveCustomParams()) {
+              return;
+            }
+
+            var membersJson = si.Users.map(function (user) {
+              return {
+                Access: user.Access,
+                UserID: user.UserID
+              };
+            });
+            sendCrossDomainPostRequest(window.serverBase + 'User/CreateGroup', {
+              WrapStyle: 'message',
+              Nickname: si.Nickname,
+              Description: si.Description,
+              MembersJson: JSON.stringify(membersJson)
+            }, function (response) {
+              if (!parseResponse(response)) {
+                return;
+              }
+
+              $(groupSecurity._dialogDiv).dialog('close');
+              refilterUsers();
+            });
+          };
+
+          groupSecurity.createSecurityDialog({
+            SecurityInfo: {
+              Users: []
+            }
+          }, {
+            showOwner: false
+          });
+          $(groupSecurity._dialogDiv).find('.security-props-title').focus();
+        });
+      };
+
+      nsGmx$1.UserGroupListWidget._mainTemplate = Handlebars.compile('<div>' + '<div class="uglw-header">' + '{{i "uglw.headerTitle"}} <input class="uglw-filter-input inputStyle">' + '<div class="uglw-add-icon" title="Добавить группу"></div>' + '</div>' + '<div class="uglw-list-placeholder"></div>' + '</div>');
+
+      var UserGroupSecurity = function UserGroupSecurity() {
+        this.getSecurityName = "User/GetUserGroupSecurity";
+        this.updateSecurityName = "User/UpdateUserGroupSecurity";
+        this.propertyName = "UserID";
+        this.dialogTitle = "Состав группы [value0]";
+        this.accessTypes = ['no', 'view', 'edit'];
+      };
+
+      UserGroupSecurity.prototype = new nsGmx$1.security();
+      UserGroupSecurity.prototype.constructor = UserGroupSecurity;
+
+      UserGroupSecurity.prototype.saveCustomParams = function () {
+        var nicknameInput = this._ui.find('.security-props-title'),
+            nickname = nicknameInput.val();
+
+        if (nickname) {
+          this._securityInfo.SecurityInfo.Nickname = nickname;
+          this._securityInfo.SecurityInfo.Description = this._ui.find('.security-props-description').val();
+        } else {
+          inputError(nicknameInput[0]);
+          return true;
+        }
+
+        var publicCheckbox = this._ui.find('#publicRights')[0];
+
+        this._securityInfo.SecurityInfo.SharedResources = publicCheckbox.checked;
+      };
+
+      UserGroupSecurity.prototype.addCustomUI = function (ui, securityInfo) {
+        var propsTemplate = Handlebars.compile('<table class="security-props">' + '<tr><td>{{i "uglw.groupProps.title"}}:</td><td><input class="security-props-title inputStyle" value="{{Nickname}}"></td></tr>' + '<tr><td>{{i "uglw.groupProps.description"}}:</td><td><input class="security-props-description inputStyle" value="{{Description}}"></td></tr>' + '</table>' + '<div class="security-policy-control">' + '<span class="security-policy-label">{{i "uglw.shareLabel"}}</span>' + '<span class="security-policy-radiogroup">' + '<input id="privateRights" class="policy-checkbox" type="radio" name="groupEditingPolicy" {{#unless SharedResources}} checked {{/unless}}/>' + '<label class="security-policy-label" for="privateRights">{{i "uglw.share.private"}}</label>' + '<input id="publicRights" class="policy-checkbox" type="radio" name="groupEditingPolicy" {{#if SharedResources}} checked {{/if}}/>' + '<label class="security-policy-label" for="publicRights">{{i "uglw.share.public"}}</label>' + '</span>' + '</div>');
+        $(propsTemplate({
+          Nickname: securityInfo.Nickname,
+          Description: securityInfo.Description,
+          SharedResources: securityInfo.SharedResources
+        })).appendTo(ui.find('.security-custom-ui'));
+      };
+
+      gmxCore$1.addModule('UserGroupWidget', {
+        UserGroupListWidget: nsGmx$1.UserGroupListWidget
+      } // {
+      //     css: 'css/UserGroupWidget.css'
+      // }
+      );
+    })();
+
     /** ГеоМиксер активно использует {@link http://jquery.com/|jQuery}
      * @namespace jQuery
      */
@@ -32672,7 +37071,8 @@
         configureGrid: function configureGrid() {
           var _this = this;
 
-          gmxCore$1.loadModule('GridPlugin', 'src/GridPlugin.js').then(function (def) {
+          gmxCore$1.loadModule('GridPlugin' // , 'src/GridPlugin.js'
+          ).then(function (def) {
             _this.menu = new def.ConfigureGridMenu(nsGmx$1.gridManager);
 
             _this.menu.Load();
@@ -34914,28 +39314,32 @@
       }
 
       function mapExportMenu() {
-        gmxCore$1.loadModule('MapExport', 'src/MapExport/MapExport.js').then(function (def) {
+        gmxCore$1.loadModule('MapExport' // , 'src/MapExport/MapExport.js'
+        ).then(function (def) {
           var menu = new def.MapExportMenu();
           menu.Load();
         });
       }
 
       function BufferZonesMenu() {
-        gmxCore$1.loadModule('BufferZones', 'src/BufferZones/BufferZones.js').then(function (def) {
+        gmxCore$1.loadModule('BufferZones' // , 'src/BufferZones/BufferZones.js'
+        ).then(function (def) {
           var menu = new def.BufferZonesMenu();
           menu.Load();
         });
       }
 
       function indexGridMenu() {
-        gmxCore$1.loadModule('IndexGrid', 'src/IndexGrid/IndexGrid.js').then(function (def) {
+        gmxCore$1.loadModule('IndexGrid' // , 'src/IndexGrid/IndexGrid.js'
+        ).then(function (def) {
           var menu = new def.IndexGridMenu();
           menu.Load();
         });
       }
 
       function PhotoLayerDialog() {
-        gmxCore$1.loadModule('PhotoLayer', 'src/PhotoLayer/PhotoLayer.js').then(function (def) {
+        gmxCore$1.loadModule('PhotoLayer' // , 'src/PhotoLayer/PhotoLayer.js'
+        ).then(function (def) {
           var dialog = new def.PhotoLayer();
           dialog.Load();
         });

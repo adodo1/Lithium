@@ -1,5 +1,5 @@
 ﻿import nsGmx from '../nsGmx.js';
-import '../AttrSuggestWidget.js';
+import '../SuggestWidget/AttrSuggestWidget.js';
 
 _translationsHash.addtext('rus', {LayerQuicklookWidget: {
     minZoom: 'Мин. зум',

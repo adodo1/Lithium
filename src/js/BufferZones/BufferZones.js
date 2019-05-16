@@ -1,4 +1,9 @@
 import nsGmx from '../nsGmx.js';
+import {
+    sendCrossDomainJSONRequest,
+    parseResponse,
+} from '../utilities.js';
+import './BufferZones.css';
 
 (function() {
     window._translationsHash.addtext('rus', {
@@ -66,7 +71,8 @@ import nsGmx from '../nsGmx.js';
             },
 
             initialize: function () {
-                var attrs = this.model.toJSON(),
+                var
+                    // attrs = this.model.toJSON(),
                     _this = this;
 
                 $(_layersTree).on('activeNodeChange', function(event, elem) {
@@ -151,7 +157,7 @@ import nsGmx from '../nsGmx.js';
                     return;
                 }
 
-                sendCrossDomainJSONRequest(serverBase + "Layer/GetLayerInfo.ashx?NeedAttrValues=false&LayerName=" + encodeURIComponent(selectedLayer), function(response) {
+                sendCrossDomainJSONRequest(window.serverBase + "Layer/GetLayerInfo.ashx?NeedAttrValues=false&LayerName=" + encodeURIComponent(selectedLayer), function(response) {
                     if (!parseResponse(response)) {
                         return;
                     }
@@ -207,7 +213,7 @@ import nsGmx from '../nsGmx.js';
             }
         }
         this.Unload = function () {
-            var attrs = model.toJSON();
+            // var attrs = model.toJSON();
 
             model.set({});
         };
