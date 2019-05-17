@@ -1,10 +1,19 @@
 import nsGmx from './nsGmx.js';
 import {
+    _div,
+    _input,
     inputError,
+    makeButton,
+    makeLinkButton,
+    _table,
+    _tbody,
+    _tr,
+    _td,
 } from './utilities.js';
+import {leftMenu} from './menu.js';
 
 //Загрузка и отображение дополнительных карт в левой панели
-!(function(_) {
+(function(_) {
 
 var queryExternalMaps = function()
 {

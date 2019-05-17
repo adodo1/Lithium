@@ -1,5 +1,7 @@
 import nsGmx from '../nsGmx.js';
 import '../GmxWidget/GmxWidget.js';
+import './dropdownMenuWidget.css';
+import './dropdownWidget.css';
 
 nsGmx.Templates = nsGmx.Templates || {};
 nsGmx.Templates.DropdownMenuWidget = {};

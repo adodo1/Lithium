@@ -25,8 +25,8 @@ import {
     _ul,
 } from './utilities.js';
 import './MapsManagerControl.js';
-import './PluginsEditor.js';
-import './NotificationWidget.js';
+import './PluginsEditor/PluginsEditor.js';
+import './NotificationWidget/NotificationWidget.js';
 import './LayersManagerControl.js';
 
 (function(_) {

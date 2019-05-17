@@ -287,8 +287,8 @@ UserGroupSecurity.prototype.addCustomUI = function(ui, securityInfo) {
 
 gmxCore.addModule('UserGroupWidget', {
         UserGroupListWidget: nsGmx.UserGroupListWidget
-    },
-    // {
+    }
+    // ,{
     //     css: 'css/UserGroupWidget.css'
     // }
 );

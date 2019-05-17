@@ -695,7 +695,7 @@
     }
 
     function makeImageButton(url, urlHover) {
-      var btn = _img();
+      var btn = _img$1();
 
       btn.setAttribute('src', url);
       btn.style.cursor = 'pointer';
@@ -715,7 +715,7 @@
     }
 
     function makeLinkButton(text) {
-      var span = _span([_t(String(text))], [['dir', 'className', 'buttonLink']]);
+      var span = _span([_t$1(String(text))], [['dir', 'className', 'buttonLink']]);
 
       attachEffects(span, 'buttonLinkHover');
       return span;
@@ -833,8 +833,8 @@
       jQuery(canvas).dialog('destroy').remove();
     }
 
-    function showErrorMessage(message, removeFlag, title) {
-      var canvas = _div([_t(message)], [['dir', 'className', 'errorDialog']]);
+    function showErrorMessage$1(message, removeFlag, title) {
+      var canvas = _div([_t$1(message)], [['dir', 'className', 'errorDialog']]);
 
       var jQueryDiv = showDialog(title || "Ошибка!", canvas, {
         width: 250,
@@ -2053,17 +2053,17 @@
       _title: _title,
       _checkbox: _checkbox
     });
-    window.gmxCore && window.gmxCore.addModule('utilities', nsGmx$1.Utils);
+    gmxCore$1.addModule('utilities', nsGmx$1.Utils);
     var _br = domManipulation._br,
         _div = domManipulation._div,
         _form = domManipulation._form,
-        _img = domManipulation._img,
+        _img$1 = domManipulation._img,
         _input = domManipulation._input,
         _li = domManipulation._li,
         _option = domManipulation._option,
         _span = domManipulation._span,
         _a = domManipulation._a,
-        _t = domManipulation._t,
+        _t$1 = domManipulation._t,
         _table = domManipulation._table,
         _tbody = domManipulation._tbody,
         _textarea = domManipulation._textarea,
@@ -2308,7 +2308,7 @@
 
           langCanvas.appendChild(button);
         } else {
-          langCanvas.appendChild(_span([_t(window._translationsHash.titles[lang])], [['css', 'marginLeft', '5px'], ['css', 'color', '#fc830b']]));
+          langCanvas.appendChild(_span([_t$1(window._translationsHash.titles[lang])], [['css', 'marginLeft', '5px'], ['css', 'color', '#fc830b']]));
         }
       }
 
@@ -5026,7 +5026,7 @@
           var span = $(div).find(".groupLayer")[0];
           $(span).empty();
 
-          _(span, [_t(title.value)]);
+          _(span, [_t$1(title.value)]);
 
           if (isMap) {
             $('.mainmap-title').text(title.value);
@@ -5288,7 +5288,7 @@
           }]),
               shownPolicyProperties = [{
             name: _gtxt("Разрешить скачивание"),
-            elem: _table([_tbody([_tr([_td([_t(_gtxt('Векторных слоев'))], [['css', 'width', '100px'], ['css', 'height', '20px'], ['css', 'paddingLeft', '3px']]), _td([downloadVectors])]), _tr([_td([_t(_gtxt('Растровых слоев'))], [['css', 'width', '100px'], ['css', 'height', '20px'], ['css', 'paddingLeft', '3px']]), _td([downloadRasters])])])])
+            elem: _table([_tbody([_tr([_td([_t$1(_gtxt('Векторных слоев'))], [['css', 'width', '100px'], ['css', 'height', '20px'], ['css', 'paddingLeft', '3px']]), _td([downloadVectors])]), _tr([_td([_t$1(_gtxt('Растровых слоев'))], [['css', 'width', '100px'], ['css', 'height', '20px'], ['css', 'paddingLeft', '3px']]), _td([downloadRasters])])])])
           }, {
             name: _gtxt("WMS доступ"),
             elem: _div([WMSAccess
@@ -5297,17 +5297,17 @@
           }],
               shownViewProperties = [{
             name: _gtxt("Начальная позиция"),
-            elem: _table([_tbody([_tr([_td([_span([_t(_gtxt('Широта'))], [['css', 'marginLeft', '3px']]), _br(), defLat], [['css', 'width', '70px']]), _td([_span([_t(_gtxt('Долгота'))], [['css', 'marginLeft', '3px']]), _br(), defLong], [['css', 'width', '70px']]), _td([_span([_t(_gtxt('Зум'))], [['css', 'marginLeft', '3px']]), _br(), defZoom], [['css', 'width', '68px']])])])], [['css', 'borderCollapse', 'collapse']])
+            elem: _table([_tbody([_tr([_td([_span([_t$1(_gtxt('Широта'))], [['css', 'marginLeft', '3px']]), _br(), defLat], [['css', 'width', '70px']]), _td([_span([_t$1(_gtxt('Долгота'))], [['css', 'marginLeft', '3px']]), _br(), defLong], [['css', 'width', '70px']]), _td([_span([_t$1(_gtxt('Зум'))], [['css', 'marginLeft', '3px']]), _br(), defZoom], [['css', 'width', '68px']])])])], [['css', 'borderCollapse', 'collapse']])
           }, {
             name: _gtxt("Зум"),
-            elem: _table([_tbody([_tr([_td([_span([_t(_gtxt('Мин'))], [['css', 'marginLeft', '3px']]), _br(), minZoom], [['css', 'width', '70px']]), _td([_span([_t(_gtxt('Макс'))], [['css', 'marginLeft', '3px']]), _br(), maxZoom], [['css', 'width', '70px'], ['css', 'rowspan', '2']])])])], [['css', 'borderCollapse', 'collapse']])
+            elem: _table([_tbody([_tr([_td([_span([_t$1(_gtxt('Мин'))], [['css', 'marginLeft', '3px']]), _br(), minZoom], [['css', 'width', '70px']]), _td([_span([_t$1(_gtxt('Макс'))], [['css', 'marginLeft', '3px']]), _br(), maxZoom], [['css', 'width', '70px'], ['css', 'rowspan', '2']])])])], [['css', 'borderCollapse', 'collapse']])
           }, {
             name: _gtxt("Граница обрезки"),
-            elem: _table([_tbody([_tr([_td([_span(null, [['css', 'marginLeft', '3px']]), _br()], [['css', 'width', '73px']]), _td([_span([_t(_gtxt('Широта'))], [['css', 'marginLeft', '3px']])], [['css', 'width', '70px']]), _td([_span([_t(_gtxt('Долгота'))], [['css', 'marginLeft', '3px']])], [['css', 'width', '68px']])]), _tr([_td([_span([_t(_gtxt('Мин'))], [['css', 'marginLeft', '3px']])]), _td([minViewY]), _td([minViewX])]), _tr([_td([_span([_t(_gtxt('Макс'))], [['css', 'marginLeft', '3px']])]), _td([maxViewY]), _td([maxViewX])])])], [['css', 'borderCollapse', 'collapse']])
+            elem: _table([_tbody([_tr([_td([_span(null, [['css', 'marginLeft', '3px']]), _br()], [['css', 'width', '73px']]), _td([_span([_t$1(_gtxt('Широта'))], [['css', 'marginLeft', '3px']])], [['css', 'width', '70px']]), _td([_span([_t$1(_gtxt('Долгота'))], [['css', 'marginLeft', '3px']])], [['css', 'width', '68px']])]), _tr([_td([_span([_t$1(_gtxt('Мин'))], [['css', 'marginLeft', '3px']])]), _td([minViewY]), _td([minViewX])]), _tr([_td([_span([_t$1(_gtxt('Макс'))], [['css', 'marginLeft', '3px']])]), _td([maxViewY]), _td([maxViewX])])])], [['css', 'borderCollapse', 'collapse']])
           }];
 
           var id = 'mapProperties' + String(Math.random()).substring(2, 12),
-              tabMenu = _div([_ul([_li([_a([_t(_gtxt("Общие"))], [['attr', 'href', '#common' + id]])]), _li([_a([_t(_gtxt("Подложки"))], [['attr', 'href', '#baselayers' + id]])]), _li([_a([_t(_gtxt("Доступ"))], [['attr', 'href', '#policy' + id]])]), _li([_a([_t(_gtxt("Поиск"))], [['attr', 'href', '#search' + id]])]), _li([_a([_t(_gtxt("Окно карты"))], [['attr', 'href', '#view' + id]])]), _li([_a([_t(_gtxt("Загрузка"))], [['attr', 'href', '#onload' + id]])]), _li([_a([_t(_gtxt("Плагины"))], [['attr', 'href', '#plugins' + id]])])])]),
+              tabMenu = _div([_ul([_li([_a([_t$1(_gtxt("Общие"))], [['attr', 'href', '#common' + id]])]), _li([_a([_t$1(_gtxt("Подложки"))], [['attr', 'href', '#baselayers' + id]])]), _li([_a([_t$1(_gtxt("Доступ"))], [['attr', 'href', '#policy' + id]])]), _li([_a([_t$1(_gtxt("Поиск"))], [['attr', 'href', '#search' + id]])]), _li([_a([_t$1(_gtxt("Окно карты"))], [['attr', 'href', '#view' + id]])]), _li([_a([_t$1(_gtxt("Загрузка"))], [['attr', 'href', '#onload' + id]])]), _li([_a([_t$1(_gtxt("Плагины"))], [['attr', 'href', '#plugins' + id]])])])]),
               divCommon = _div(null, [['attr', 'id', 'common' + id], ['css', 'width', '320px']]),
               divBaseLayers = _div(null, [['attr', 'id', 'baselayers' + id], ['dir', 'className', 'group-editor-tab-container'], ['css', 'overflowY', 'auto']]),
               divPolicy = _div(null, [['attr', 'id', 'policy' + id], ['css', 'width', '320px']]),
@@ -5694,7 +5694,7 @@
               drawingObjs.push(obj);
             }
           });
-          if (!drawingObjs.length) showErrorMessage(_params.errorMessage, true, _params.errorTitle);else {
+          if (!drawingObjs.length) showErrorMessage$1(_params.errorMessage, true, _params.errorTitle);else {
             gmxCore$1.loadModule('DrawingObjects').done(function (drawing) {
               var canvas = _div();
 
@@ -5778,7 +5778,7 @@
             if (contentText.indexOf("http://") == 0 || contentText.indexOf("https://") == 0 || contentText.indexOf("www.") == 0) contentText = "<a href=\"" + contentText + "\" target=\"_blank\">" + contentText + "</a>";
             content.innerHTML = contentText;
 
-            var typeSpan = _span([_t(key)]);
+            var typeSpan = _span([_t$1(key)]);
 
             typeSpans[key] = typeSpan;
             trs.push(_tr([_td([typeSpan], [['css', 'width', '30%']]), _td([content], [['css', 'width', '70%']])]));
@@ -5811,7 +5811,7 @@
             var dialogTitle = div.parentNode.parentNode.firstChild.firstChild;
             $(dialogTitle).empty();
 
-            _(dialogTitle, [_t(_gtxt("Слой [value0]", layer.properties.title))]);
+            _(dialogTitle, [_t$1(_gtxt("Слой [value0]", layer.properties.title))]);
 
             $(div.parentNode).dialog('open');
           } else {
@@ -5895,9 +5895,9 @@
 
         checkZoom(minZoomInput, maxZoomInput);
 
-        var liMinZoom = _li([_div([_table([_tbody([_tr([_td([_span([_t(_gtxt("Мин. зум"))], [['css', 'fontSize', '12px']])], [['css', 'width', '60px']]), _td([minZoomInput])])])])])]);
+        var liMinZoom = _li([_div([_table([_tbody([_tr([_td([_span([_t$1(_gtxt("Мин. зум"))], [['css', 'fontSize', '12px']])], [['css', 'width', '60px']]), _td([minZoomInput])])])])])]);
 
-        var liMaxZoom = _li([_div([_table([_tbody([_tr([_td([_span([_t(_gtxt("Макс. зум"))], [['css', 'fontSize', '12px']])], [['css', 'width', '60px']]), _td([maxZoomInput])])])])])]);
+        var liMaxZoom = _li([_div([_table([_tbody([_tr([_td([_span([_t$1(_gtxt("Макс. зум"))], [['css', 'fontSize', '12px']])], [['css', 'width', '60px']]), _td([maxZoomInput])])])])])]);
 
         minZoomInput.onkeyup = maxZoomInput.onkeyup = function () {
           if (checkZoom(minZoomInput, maxZoomInput)) $(_this).change();
@@ -6277,7 +6277,7 @@
         _mapHelper.attrValues[mapName] = _mapHelper.attrValues[mapName] || {};
 
         if (!_mapHelper.attrValues[mapName][props.name]) {
-          var div = _div([_t(_gtxt("Авторизуйтесь для редактирования фильтров"))], [['css', 'padding', '5px 0px 5px 5px'], ['css', 'color', 'red']]);
+          var div = _div([_t$1(_gtxt("Авторизуйтесь для редактирования фильтров"))], [['css', 'padding', '5px 0px 5px 5px'], ['css', 'color', 'red']]);
 
           div.getFilter = function () {
             return filter;
@@ -6347,7 +6347,7 @@
         balloonText.value = balloonParams.Balloon ? balloonParams.Balloon : defaultBalloonText();
         var suggestWidget = new nsGmx$1.SuggestWidget(attrs ? attrs : [], [balloonText], '[suggest]', setBalloon);
 
-        var divAttr = _div([_t(_gtxt("Атрибут >")), suggestWidget.el], [['dir', 'className', 'suggest-link-container']]);
+        var divAttr = _div([_t$1(_gtxt("Атрибут >")), suggestWidget.el], [['dir', 'className', 'suggest-link-container']]);
 
         divAttr.onclick = function () {
           if (suggestWidget.el.style.display == 'none') $(suggestWidget.el).fadeIn(300);
@@ -6363,7 +6363,7 @@
 
         var suggestCanvas = _table([_tbody([_tr([_td([_div([divAttr], [['css', 'position', 'relative']])]), _td([_div([setDefaultBalloonText], [['css', 'float', 'right']])])])])], [['css', 'margin', '0px 3px'], ['css', 'width', '249px']]);
 
-        var div = _div([_div([boxClick, _span([_t(_gtxt("Показывать при клике"))], [['css', 'marginLeft', '5px']])], [['css', 'margin', '2px 0px 4px 3px']]), _div([boxMove, _span([_t(_gtxt("Показывать при наведении"))], [['css', 'marginLeft', '5px']])], [['css', 'margin', '2px 0px 4px 3px']]), balloonText, suggestCanvas], [['attr', 'balloonTable', true]]);
+        var div = _div([_div([boxClick, _span([_t$1(_gtxt("Показывать при клике"))], [['css', 'marginLeft', '5px']])], [['css', 'margin', '2px 0px 4px 3px']]), _div([boxMove, _span([_t$1(_gtxt("Показывать при наведении"))], [['css', 'marginLeft', '5px']])], [['css', 'margin', '2px 0px 4px 3px']]), balloonText, suggestCanvas], [['attr', 'balloonTable', true]]);
 
         div.getBalloon = function () {
           var value = window.tinyMCE && window.tinyMCE.get(textareaID) ? window.tinyMCE.get(textareaID).getContent() : balloonText.value;
@@ -6625,7 +6625,7 @@
 
         var suggestWidget = new nsGmx$1.SuggestWidget(attrs ? attrs : [], [labelText], '[suggest]', updateLabelText.bind(labelText));
 
-        var divAttr = _div([_t(_gtxt("Атрибут >")), suggestWidget.el], [['dir', 'className', 'suggest-link-container']]);
+        var divAttr = _div([_t$1(_gtxt("Атрибут >")), suggestWidget.el], [['dir', 'className', 'suggest-link-container']]);
 
         divAttr.onclick = function () {
           if (suggestWidget.el.style.display == 'none') $(suggestWidget.el).fadeIn(300);
@@ -6633,7 +6633,7 @@
         }; // var suggestCanvas = _table([_tbody([_tr([_td([_div([divAttr],[['css','position','relative']])])])])],[['css','margin','0px 3px']]);
 
 
-        _(liLabel.lastChild, [_table([_tbody([_tr([_td([_t(_gtxt("Цвет шрифта"))], [['css', 'width', '100px']]), _td([labelColor])]), _tr([_td([_t(_gtxt("Цвет обводки"))], [['css', 'width', '100px']]), _td([labelHaloColor])]), _tr([_td([_t(_gtxt("Размер шрифта"))], [['css', 'width', '100px']]), _td([fontSizeInput])]), _tr([_td([_t(_gtxt("Смещение по x"))], [['css', 'width', '100px']]), _td([xShiftInput])]), _tr([_td([_t(_gtxt("Смещение по y"))], [['css', 'width', '100px']]), _td([yShiftInput])]), _tr([_td([labelText], [['attr', 'colspan', 4]])]), _tr([_td([divAttr])])])])]);
+        _(liLabel.lastChild, [_table([_tbody([_tr([_td([_t$1(_gtxt("Цвет шрифта"))], [['css', 'width', '100px']]), _td([labelColor])]), _tr([_td([_t$1(_gtxt("Цвет обводки"))], [['css', 'width', '100px']]), _td([labelHaloColor])]), _tr([_td([_t$1(_gtxt("Размер шрифта"))], [['css', 'width', '100px']]), _td([fontSizeInput])]), _tr([_td([_t$1(_gtxt("Смещение по x"))], [['css', 'width', '100px']]), _td([xShiftInput])]), _tr([_td([_t$1(_gtxt("Смещение по y"))], [['css', 'width', '100px']]), _td([yShiftInput])]), _tr([_td([labelText], [['attr', 'colspan', 4]])]), _tr([_td([divAttr])])])])]);
 
         if (typeof templateStyle.label == 'undefined') {
           ulLabel.style.display = 'none';
@@ -6675,7 +6675,7 @@
           styleLibIcon.style.marginLeft = '5px';
           styleLibIcon.title = _gtxt('Библиотека стилей');
 
-          _(symbolsTitle, [_span([_t(_gtxt("Символика"))], [['css', 'fontSize', '12px']]), styleLibIcon]);
+          _(symbolsTitle, [_span([_t$1(_gtxt("Символика"))], [['css', 'fontSize', '12px']]), styleLibIcon]);
 
           styleLibIcon.onclick = function () {
             nsGmx$1.showStyleLibraryDialog('select', geometryType.toUpperCase()).done(function (activeStyleManager) {
@@ -6693,10 +6693,10 @@
             });
           };
         } else {
-          _(symbolsTitle, [_span([_t(_gtxt("Символика"))], [['css', 'fontSize', '12px']])]);
+          _(symbolsTitle, [_span([_t$1(_gtxt("Символика"))], [['css', 'fontSize', '12px']])]);
         }
 
-        _(ulParent, [liMinZoom, liMaxZoom, _li([_div([_span([_t(_gtxt("Фильтр"))], [['css', 'fontSize', '12px']])]), ulfilterExpr]), _li([_div([_span([_t(_gtxt("Подпись"))], [['css', 'fontSize', '12px']])]), ulLabel]), _li([_div([_span([_t(_gtxt("Балун"))], [['css', 'fontSize', '12px']])]), ulBalloon]), _li([symbolsTitle, ulStyle])]);
+        _(ulParent, [liMinZoom, liMaxZoom, _li([_div([_span([_t$1(_gtxt("Фильтр"))], [['css', 'fontSize', '12px']])]), ulfilterExpr]), _li([_div([_span([_t$1(_gtxt("Подпись"))], [['css', 'fontSize', '12px']])]), ulLabel]), _li([_div([_span([_t$1(_gtxt("Балун"))], [['css', 'fontSize', '12px']])]), ulBalloon]), _li([symbolsTitle, ulStyle])]);
         /*if (geometryType == 'point')
         {
         	_(ulParent, [_li([
@@ -7084,7 +7084,7 @@
         };
 
         outlineTitleTds.push(_td([outlineToggle], [['css', 'width', '20px'], ['css', 'height', '24px']]));
-        outlineTitleTds.push(_td([_t(_gtxt("Граница"))], [['css', 'width', '70px']]));
+        outlineTitleTds.push(_td([_t$1(_gtxt("Граница"))], [['css', 'width', '70px']]));
         var outlineColor = nsGmx$1.Controls.createColorPicker(templateStyle.outline && typeof templateStyle.outline.color != 'undefined' ? templateStyle.outline.color : 0x0000FF, function (colpkr) {
           $(colpkr).fadeIn(500);
           return false;
@@ -7165,7 +7165,7 @@
             var dashTds = [];
 
             for (var j = i; j <= i + 2; j++) {
-              var dashTd = _td([_img(null, [['attr', 'src', 'img/dash' + j + '.png']])], [['css', 'border', '1px solid #000000'], ['css', 'cursor', 'pointer']]);
+              var dashTd = _td([_img$1(null, [['attr', 'src', 'img/dash' + j + '.png']])], [['css', 'border', '1px solid #000000'], ['css', 'cursor', 'pointer']]);
 
               (function (j) {
                 dashTd.onclick = function (e) {
@@ -7269,7 +7269,7 @@
         };
 
         iconTitleTds.push(_td([iconToggle], [['css', 'width', '20px'], ['css', 'height', '24px'], ['attr', 'vAlign', 'top'], ['css', 'paddingTop', '5px']]));
-        iconTitleTds.push(_td([_t(_gtxt("Маркер URL"))], [['css', 'width', '70px'], ['attr', 'vAlign', 'top'], ['css', 'paddingTop', '5px']]));
+        iconTitleTds.push(_td([_t$1(_gtxt("Маркер URL"))], [['css', 'width', '70px'], ['attr', 'vAlign', 'top'], ['css', 'paddingTop', '5px']]));
         inputUrl = new window.mapHelper.ImageInputControl(typeof templateStyle.marker != 'undefined' && templateStyle.marker.image ? templateStyle.marker.image : '');
         $(inputUrl).change(function () {
           if (inputUrl.value() != '') {
@@ -7293,7 +7293,7 @@
 
           _title(markerSizeInput, _gtxt("Размер точек"));
 
-          var markerSizeTds = [_td(), _td([_t(_gtxt("Размер"))]), _td([markerSizeInput], [['attr', 'fade', true]])];
+          var markerSizeTds = [_td(), _td([_t$1(_gtxt("Размер"))]), _td([markerSizeInput], [['attr', 'fade', true]])];
 
           _(markerSizeParent, markerSizeTds, [['attr', 'fade', true]]);
 
@@ -7859,13 +7859,227 @@
       }
     });
 
+    (function (_) {
+      var queryExternalMaps = function queryExternalMaps() {
+        this.maps = [];
+        this.loadedMaps = {};
+      };
+
+      queryExternalMaps.prototype = new leftMenu();
+
+      queryExternalMaps.prototype.load = function () {
+        if (!this.builded) {
+          var hostButton = _input(null, [['dir', 'className', 'inputStyle'], ['css', 'width', '200px']]),
+              nameButton = _input(null, [['dir', 'className', 'inputStyle'], ['css', 'width', '200px']]),
+              loadButton = makeButton(_gtxt("Загрузить")),
+              addMap = makeLinkButton(_gtxt("Добавить карту")),
+              paramsTable = _table([_tbody([_tr([_td([_t(_gtxt("Хост"))], [['css', 'colSpan', 2], ['css', 'paddingTop', '3px']])]), _tr([_td([hostButton]), _td()]), _tr([_td([_t(_gtxt("Имя"))], [['css', 'colSpan', 2]])]), _tr([_td([nameButton]), _td([loadButton])])])], [['css', 'margin', '3px 0px 0px 10px']]),
+              _this = this;
+
+          _(this.workCanvas, [_div([addMap], [['css', 'margin', '5px 0px 5px 10px']]), paramsTable]);
+
+          paramsTable.style.display = 'none';
+          hostButton.value = window.serverBase;
+
+          addMap.onclick = function () {
+            if (paramsTable.style.display == 'none') paramsTable.style.display = '';else paramsTable.style.display = 'none';
+          };
+
+          loadButton.onclick = function () {
+            if (hostButton.value == '') inputError(hostButton);
+            if (nameButton.value == '') inputError(nameButton);
+            if (hostButton.value == '' || nameButton.value == '') return;
+
+            _this.addMapElem(hostButton.value, nameButton.value);
+
+            nameButton.value = '';
+          };
+
+          this.mapsCanvas = _div(null, [['dir', 'className', 'drawingObjectsCanvas externalMapsCanvas'], ['css', 'paddingLeft', '0px'], ['attr', 'id', 'externalMapsCanvas']]);
+
+          _(this.workCanvas, [this.mapsCanvas]);
+
+          this.builded = true;
+
+          for (var i = 0; i < this.maps.length; ++i) {
+            this.addMapElem(this.maps[i].hostName, this.maps[i].mapName, true);
+          }
+        }
+      };
+
+      queryExternalMaps.prototype.addMapElem = function (hostName, mapName, silent) {
+        this.createWorkCanvas('externalMaps');
+        this.load();
+
+        var mapElem = _div(),
+            div = _div(null, [['css', 'position', 'relative'], ['css', 'margin', '2px 0px 2px 14px']]),
+            remove = $('<div class="gmx-icon-close"></div>'),
+            mapInfo,
+            _this = this;
+
+        for (var i = 0; i < this.maps.length; i++) {
+          var map = this.maps[i];
+
+          if (map.hostName === hostName && map.mapName === mapName) {
+            if (map.container) {
+              return;
+            }
+
+            mapInfo = map;
+            break;
+          }
+        }
+
+        if (!mapInfo) {
+          mapInfo = {
+            hostName: hostName,
+            mapName: mapName
+          };
+          this.maps.push(mapInfo);
+        }
+
+        mapInfo.container = div;
+        div.hostName = hostName;
+        div.mapName = mapName;
+
+        _(div, [mapElem, remove[0]]);
+
+        _(this.mapsCanvas, [div]);
+
+        this.addMap(hostName, mapName, mapElem, silent);
+        remove.click(function () {
+          div.removeNode(true);
+          if (!mapElem.extLayersTree) return;
+          mapElem.extLayersTree.treeModel.forEachLayer(function (layer, isVisible) {
+            var name = layer.properties.name;
+            if (nsGmx$1.layersByID[name].external) _queryMapLayers.removeLayer(name);
+          });
+
+          for (var i = 0; i < _this.maps.length; i++) {
+            var map = _this.maps[i];
+
+            if (map.hostName === hostName && map.mapName === mapName) {
+              _this.maps.splice(i, 1);
+
+              break;
+            }
+          }
+        });
+      };
+
+      queryExternalMaps.prototype.addMap = function (hostName, mapName, parent, silent) {
+        var loading = _div([_img(null, [['attr', 'src', 'img/progress.gif'], ['css', 'marginRight', '10px'], ['css', 'width', '16px'], ['css', 'height', '16px']]), _t(_gtxt('загрузка...'))], [['css', 'margin', '3px 0px 3px 20px']]);
+
+        _(parent, [loading]);
+
+        this.loadMap(hostName, mapName, function (gmxMap) {
+          if (gmxMap == null) {
+            loading.parentNode.parentNode.removeNode(true);
+            silent || showErrorMessage(_gtxt("Невозможно загрузить карту [value0] с домена [value1]", mapName, hostName), true);
+            return;
+          }
+
+          var extLayersTree = new layersTree({
+            showVisibilityCheckbox: true,
+            allowActive: false,
+            allowDblClick: true
+          });
+          var tree = extLayersTree.drawTree(gmxMap.rawTree, 2);
+          $(tree).treeview();
+          extLayersTree.runLoadingFuncs();
+          loading.removeNode(true);
+
+          _(parent, [tree]); //добавляем перетаскивание в основную карту только если доп. карта с того же домена
+
+
+          if (hostName === _layersTree.treeModel.getMapProperties().hostName) _queryMapLayers.addDraggable(parent);
+          parent.extLayersTree = extLayersTree;
+        });
+      };
+
+      queryExternalMaps.prototype.loadMap = function (hostName, mapName, callback) {
+        var _this = this;
+
+        L.gmx.loadMap(mapName, {
+          hostName: hostName,
+          leafletMap: nsGmx$1.leafletMap,
+          apiKey: window.apiKey,
+          srs: nsGmx$1.leafletMap.options.srs || '',
+          isGeneralized: window.mapOptions && 'isGeneralized' in window.mapOptions ? window.mapOptions.isGeneralized : true,
+          skipTiles: nsGmx$1.leafletMap.options.skipTiles || ''
+        }).then(function (gmxMap) {
+          for (var i = 0; i < gmxMap.layers.length; i++) {
+            var layer = gmxMap.layers[i];
+            var id = layer.getGmxProperties().name;
+            layer.external = true;
+
+            if (!(id in nsGmx$1.gmxMap.layersByID)) {
+              nsGmx$1.gmxMap.addLayer(layer);
+            }
+          }
+
+          if (gmxMap.properties.Copyright) {
+            var copyrightLayer = {
+              options: {
+                attribution: gmxMap.properties.Copyright
+              },
+              onAdd: function onAdd() {},
+              onRemove: function onRemove() {}
+            };
+            copyrightLayer.addTo(nsGmx$1.leafletMap);
+          }
+
+          gmxMap.properties.hostName = hostName;
+          callback(gmxMap);
+          $(_queryExternalMaps).triggerHandler('map_loaded', gmxMap);
+
+          for (var i = 0; i < _this.maps.length; i++) {
+            var map = _this.maps[i];
+
+            if (map.hostName === hostName && map.mapName === mapName) {
+              map.tree = gmxMap.layers;
+              break;
+            }
+          }
+        }, function () {
+          callback(null);
+          $(_queryExternalMaps).triggerHandler('map_loaded', null);
+        });
+      };
+
+      var _queryExternalMaps = new queryExternalMaps();
+
+      window._queryExternalMaps = _queryExternalMaps;
+      nsGmx$1.userObjectsManager.addDataCollector('externalMaps', {
+        collect: function collect() {
+          if (!_queryExternalMaps.workCanvas) return;
+          var value = [];
+          $(_queryExternalMaps.workCanvas.lastChild).children("div").each(function () {
+            value.push({
+              hostName: this.hostName,
+              mapName: this.mapName
+            });
+          });
+          if (!value.length) return null;
+          return value;
+        },
+        load: function load(data) {
+          if (!data || !data.length) return;
+          $('#left_externalMaps').remove();
+          _queryExternalMaps.builded = false;
+          _queryExternalMaps.maps = data;
+          mapHelp.externalMaps.load('externalMaps');
+        }
+      });
+    })(nsGmx$1.Utils._);
+
     var _$2 = nsGmx$1.Utils._;
     /** Вспомогательные ф-ции ГеоМиксера
     @namespace _mapHelper
     */
 
     nsGmx$1.mapHelper = {};
-    var mapHelp = {
+    var mapHelp$1 = {
       mapHelp: {},
       serviceHelp: {},
       tabs: {},
@@ -7976,7 +8190,7 @@
                 areaStr = L.gmxUtil.prettifyArea(L.gmxUtil.geoArea(geom, false));
 
             if (span) {
-              _$2(span, [_t(areaStr)]);
+              _$2(span, [_t$1(areaStr)]);
 
               return;
             }
@@ -7984,7 +8198,7 @@
             if (!$('#drawingBorderDescr' + name).length) return;
             $('#drawingBorderDescr' + name).empty();
 
-            _$2($('#drawingBorderDescr' + name)[0], [_t(areaStr)]);
+            _$2($('#drawingBorderDescr' + name)[0], [_t$1(areaStr)]);
           },
           //Удаляет объект из списка контуров слоя
           //?removeDrawring {bool, default: false} - удалять ли сам пользовательский объект
@@ -8434,14 +8648,14 @@
       var icon;
 
       if ($.isArray(parentStyles) && parentStyles.length > 1) {
-        icon = _img(null, [['attr', 'src', 'img/misc.png'], ['css', 'margin', '0px 2px -3px 4px'], ['css', 'cursor', 'pointer'], ['attr', 'styleType', 'multi']]);
+        icon = _img$1(null, [['attr', 'src', 'img/misc.png'], ['css', 'margin', '0px 2px -3px 4px'], ['css', 'cursor', 'pointer'], ['attr', 'styleType', 'multi']]);
       } else {
         var parentStyle = _mapHelper$1.makeStyle(parentStyles[0]);
 
         var iconUrlProp = window.newStyles ? parentStyle.iconUrl : parentStyle.marker && parentStyle.marker.image;
 
         if (iconUrlProp) {
-          icon = _img(null, [['dir', 'className', 'icon'], ['attr', 'styleType', 'icon']]);
+          icon = _img$1(null, [['dir', 'className', 'icon'], ['attr', 'styleType', 'icon']]);
 
           var fixFunc = function fixFunc() {
             var width = this.width,
@@ -8478,7 +8692,7 @@
     mapHelper.prototype.createLoadingLayerEditorProperties = function (div, parent, layerProperties, params) {
       // var elemProperties = div.gmxProperties.content.properties,
       var elemProperties = typeof div === 'string' ? layerProperties : div.gmxProperties.content.properties,
-          loading = _div([_img(null, [['attr', 'src', 'img/progress.gif'], ['css', 'marginRight', '10px']]), _t(_gtxt('загрузка...'))], [['css', 'margin', '3px 0px 3px 20px']]),
+          loading = _div([_img$1(null, [['attr', 'src', 'img/progress.gif'], ['css', 'marginRight', '10px']]), _t$1(_gtxt('загрузка...'))], [['css', 'margin', '3px 0px 3px 20px']]),
           type = elemProperties.type; // _this = this;
 
 
@@ -8566,9 +8780,9 @@
           continue;
         }
 
-        if (typeof shownProperties[i].elem !== 'undefined') td = _td([shownProperties[i].elem]);else td = _td([_t(layerProperties[shownProperties[i].field] != null ? layerProperties[shownProperties[i].field] : '')], [['css', 'padding', '0px 3px']]);
+        if (typeof shownProperties[i].elem !== 'undefined') td = _td([shownProperties[i].elem]);else td = _td([_t$1(layerProperties[shownProperties[i].field] != null ? layerProperties[shownProperties[i].field] : '')], [['css', 'padding', '0px 3px']]);
 
-        var tdTitle = _td([_t(shownProperties[i].name)], [['css', 'width', _styles.leftWidth + 'px']]);
+        var tdTitle = _td([_t$1(shownProperties[i].name)], [['css', 'width', _styles.leftWidth + 'px']]);
 
         var tr = _tr([tdTitle, td]);
 
@@ -8758,7 +8972,7 @@
         };
 
         var id = 'wfstabs' + String(Math.random()).substring(2, 9),
-            tabMenu = _div([_ul([_li([_a([_t(_gtxt("Стили"))], [['attr', 'href', '#styles' + id]])]), _li([_a([_t(_gtxt("Диаграммы"))], [['attr', 'href', '#graph' + id]])])])]),
+            tabMenu = _div([_ul([_li([_a([_t$1(_gtxt("Стили"))], [['attr', 'href', '#styles' + id]])]), _li([_a([_t$1(_gtxt("Диаграммы"))], [['attr', 'href', '#graph' + id]])])])]),
             divStyles = _div(null, [['attr', 'id', 'styles' + id]]),
             divGraph = _div(null, [['attr', 'id', 'graph' + id]]);
 
@@ -8795,13 +9009,13 @@
     };
 
     mapHelper.prototype.createChartsEditor = function (parent, elemCanvas) {
-      var graphTypeSel = nsGmx$1.Utils._select([_option([_t(_gtxt("График по времени"))], [['attr', 'value', 'func']]), _option([_t(_gtxt("Круговая"))], [['attr', 'value', 'pie']])], [['dir', 'className', 'selectStyle'], ['css', 'width', '180px']]),
+      var graphTypeSel = nsGmx$1.Utils._select([_option([_t$1(_gtxt("График по времени"))], [['attr', 'value', 'func']]), _option([_t$1(_gtxt("Круговая"))], [['attr', 'value', 'pie']])], [['dir', 'className', 'selectStyle'], ['css', 'width', '180px']]),
           propertiesMask = _input(null, [['dir', 'className', 'inputStyle'], ['css', 'width', '180px']]);
 
       switchSelect(graphTypeSel, elemCanvas.graphDataType);
       propertiesMask.value = elemCanvas.graphDataProperties;
 
-      _$2(parent, [_table([_tbody([_tr([_td([_t(_gtxt("Тип"))], [['css', 'width', '100px']]), _td([graphTypeSel])]), _tr([_td([_t(_gtxt("Маска атрибутов"))]), _td([propertiesMask])])])])]);
+      _$2(parent, [_table([_tbody([_tr([_td([_t$1(_gtxt("Тип"))], [['css', 'width', '100px']]), _td([graphTypeSel])]), _tr([_td([_t$1(_gtxt("Маска атрибутов"))]), _td([propertiesMask])])])])]);
     };
 
     mapHelper.prototype.createMultiStyle = function (elem, treeView, multiStyleParent, treeviewFlag, layerManagerFlag) {
@@ -8824,7 +9038,7 @@
         }),
             name = filters[i].Name || filters[i].Filter || 'Без имени ' + (i + 1),
             iconSpan = _span([icon]),
-            li = _li([_div([$(checkbox)[0], iconSpan, _span([_t(name)], [['css', 'marginLeft', '3px']])])]);
+            li = _li([_div([$(checkbox)[0], iconSpan, _span([_t$1(name)], [['css', 'marginLeft', '3px']])])]);
 
         $(iconSpan).attr('styleType', $(icon).attr('styleType'));
         $(checkbox).prop('checked', filters[i].MinZoom !== 25);
@@ -8855,7 +9069,7 @@
       ulFilters.style.display = 'none';
       ulFilters.className = 'hiddenTree';
 
-      _$2(multiStyleParent, [_ul([_li([_div([_t(_gtxt("Стили слоя"))]), ulFilters])])]);
+      _$2(multiStyleParent, [_ul([_li([_div([_t$1(_gtxt("Стили слоя"))]), ulFilters])])]);
 
       if (typeof treeviewFlag == 'undefined') $(multiStyleParent.firstChild).treeview();
     };
@@ -9260,21 +9474,21 @@
     window._mapHelper = _mapHelper$1;
     window.mapHelper = mapHelper;
 
-    mapHelp.mapHelp.load = function () {
+    mapHelp$1.mapHelp.load = function () {
       var alreadyLoaded = _mapHelper$1.createWorkCanvas(arguments[0]);
 
       if (!alreadyLoaded) _mapHelper$1.load();
     };
 
-    mapHelp.mapHelp.unload = function () {};
+    mapHelp$1.mapHelp.unload = function () {};
 
-    mapHelp.serviceHelp.load = function () {
+    mapHelp$1.serviceHelp.load = function () {
       var alreadyLoaded = _serviceHelper.createWorkCanvas(arguments[0]);
 
       if (!alreadyLoaded) _serviceHelper.load();
     };
 
-    mapHelp.serviceHelp.unload = function () {};
+    mapHelp$1.serviceHelp.unload = function () {};
 
     var serviceHelper = function serviceHelper() {
       this.builded = false;
@@ -9306,21 +9520,21 @@
 
     window._serviceHelper = _serviceHelper;
 
-    mapHelp.tabs.load = function () {
+    mapHelp$1.tabs.load = function () {
       var alreadyLoaded = _queryTabs.createWorkCanvas(arguments[0]);
 
       if (!alreadyLoaded) _queryTabs.load();
     };
 
-    mapHelp.tabs.unload = function () {};
+    mapHelp$1.tabs.unload = function () {};
 
-    mapHelp.externalMaps.load = function () {
+    mapHelp$1.externalMaps.load = function () {
       var alreadyLoaded = window._queryExternalMaps.createWorkCanvas(arguments[0]);
 
       if (!alreadyLoaded) window._queryExternalMaps.load();
     };
 
-    mapHelp.externalMaps.unload = function () {}; //Динамически подгружаемые части вьюера
+    mapHelp$1.externalMaps.unload = function () {}; //Динамически подгружаемые части вьюера
     //Редактирование мультислоя
 
 
@@ -13162,7 +13376,7 @@
             outlineTitleTds = [],
             outlineTds = [];
 
-        outlineTitleTds.push(_td([_t(_gtxt('drawingObjects.edit.border'))], [['css', 'width', '70px']]));
+        outlineTitleTds.push(_td([_t$1(_gtxt('drawingObjects.edit.border'))], [['css', 'width', '70px']]));
         var outlineColor = nsGmx$1.Controls.createColorPicker(templateStyle.outline.color, function (colpkr) {
           $(colpkr).fadeIn(500);
           return false;
@@ -13224,7 +13438,7 @@
           return true;
         });
 
-        _$3(canvas, [_table([_tbody([_tr([_td([_t(_gtxt('drawingObjects.edit.description'))], [['css', 'width', '70px']]), _td([text])])])]), _br(), _table([_tbody([outlineParent])])]);
+        _$3(canvas, [_table([_tbody([_tr([_td([_t$1(_gtxt('drawingObjects.edit.description'))], [['css', 'width', '70px']]), _td([text])])])]), _br(), _table([_tbody([outlineParent])])]);
 
         var pos = nsGmx$1.Utils.getDialogPos(elemCanvas, false, 80);
         jQueryDialog = showDialog(_gtxt('drawingObjects.edit.title'), canvas, 280, 130, pos.left, pos.top, false, closeFunc);
@@ -13390,7 +13604,7 @@
 
       if (_options.editStyle) {
         if (geom.type == "Point") {
-          icon = _img(null, [['attr', 'src', (window.gmxJSHost || '') + 'img/flag_min.png'], ['dir', 'className', 'colorIcon']]);
+          icon = _img$1(null, [['attr', 'src', (window.gmxJSHost || '') + 'img/flag_min.png'], ['dir', 'className', 'colorIcon']]);
         } else {
           var regularDrawingStyle = {
             outline: {
@@ -13443,20 +13657,20 @@
         $(_summary).empty();
 
         if (type === 'Point') {
-          _$3(_title, [_t(_gtxt('drawingObjects.pointTitle'))]);
+          _$3(_title, [_t$1(_gtxt('drawingObjects.pointTitle'))]);
 
-          _$3(_summary, [_t("(" + summary + ")")]);
+          _$3(_summary, [_t$1("(" + summary + ")")]);
         } else if (type === 'Polyline' || type === 'MultiPolyline') {
-          _$3(_title, [_t(_gtxt('drawingObjects.lineTitle'))]);
+          _$3(_title, [_t$1(_gtxt('drawingObjects.lineTitle'))]);
 
-          _$3(_summary, [_t("(" + summary + ")")]);
+          _$3(_summary, [_t$1("(" + summary + ")")]);
         } else if (type === 'Polygon' || type === 'MultiPolygon' || type === 'Rectangle') {
-          _$3(_title, [_t(type === 'Rectangle' ? _gtxt('drawingObjects.rectangleTitle') : _gtxt('drawingObjects.polygonTitle'))]);
+          _$3(_title, [_t$1(type === 'Rectangle' ? _gtxt('drawingObjects.rectangleTitle') : _gtxt('drawingObjects.polygonTitle'))]);
 
-          _$3(_summary, [_t("(" + summary + ")")]);
+          _$3(_summary, [_t$1("(" + summary + ")")]);
         }
 
-        _$3(_text, [_t(text ? text.replace(/<[^<>]*>/g, " ") : "")]);
+        _$3(_text, [_t$1(text ? text.replace(/<[^<>]*>/g, " ") : "")]);
 
         if (text) _title.style.display = 'none';else _title.style.display = '';
       };
@@ -13816,7 +14030,7 @@
         $(oCollection).bind('onRemove onAdd', checkDownloadVisibility);
         var oDrawingObjectList = new DrawingObjectList(oMap, oListDiv, oCollection);
 
-        _$3(downloadContainer, [_div([_span([_t(_gtxt('drawingObjects.download'))], [['css', 'fontSize', '12px']]), downloadShp, downloadGeoJSON, downloadGpx, downloadCsv]), downloadNameContainer[0], _div([downloadRaster]), downloadRasterOptions[0]]);
+        _$3(downloadContainer, [_div([_span([_t$1(_gtxt('drawingObjects.download'))], [['css', 'fontSize', '12px']]), downloadShp, downloadGeoJSON, downloadGpx, downloadCsv]), downloadNameContainer[0], _div([downloadRaster]), downloadRasterOptions[0]]);
 
         _$3(oDrawingObjectList.GetDivButtons(), [downloadContainer]);
 
@@ -13852,7 +14066,7 @@
         }
 
         if (!obj) {
-          showErrorMessage(_gtxt('drawingObjects.noRectangleError'), true);
+          showErrorMessage$1(_gtxt('drawingObjects.noRectangleError'), true);
           return;
         }
 
@@ -13913,7 +14127,7 @@
         }
 
         if (!layer) {
-          showErrorMessage(_gtxt('drawingObjects.noRasterError'), true);
+          showErrorMessage$1(_gtxt('drawingObjects.noRasterError'), true);
           return;
         }
 
@@ -14063,9 +14277,11 @@
 
       DefaultSearchParamsManager.prototype.drawUpdateUI = function (container, attributesTable) {
         var info = attributesTable.getLayerInfo(),
-            _this = this;
+            // paramsWidth = 320,
+        _this = this;
 
-        this.currentColumnName = "", this._container = container;
+        this.currentColumnName = "";
+        this._container = container;
         var geomUIContainer = this.drawGeomUI();
         /* HIDE BUTTON */
 
@@ -14095,8 +14311,8 @@
             attrsTemplate = Handlebars.compile('<select class="attrs-select selectStyle">' + '{{#each this.attrs}}' + '<option value="{{this}}">' + '{{this}}' + '</option>' + '{{/each}}' + '</select>'),
             attrsUI = $(attrsTemplate({
           attrs: ['---' + window._gtxt("Выберите колонку").toLowerCase() + '---'].concat(info.attributes)
-        }))[0],
-            hideButton = nsGmx$1.Utils.makeLinkButton(_gtxt('Скрыть'));
+        }))[0];
+        hideButton = nsGmx$1.Utils.makeLinkButton(_gtxt('Скрыть'));
         $(selectColumnContainer).append(window._gtxt("Обновить колонку"));
         $(selectColumnContainer).append(attrsUI);
 
@@ -14194,7 +14410,8 @@
           }
 
           function resCallback(res) {
-            var json, result;
+            var json; // var result, fields, types, values;
+
             $(spinHolder).hide();
             res = res.substring(1, res.length - 1);
             json = JSON.parse(res);
@@ -14207,7 +14424,7 @@
             $(attributesTable._serverDataProvider).change();
           }
 
-          function catchErr(e) {
+          function catchErr() {
             $(spinHolder).hide();
             $(spinErrorMessage).html(window._gtxt('Ошибка'));
             $(spinErrorMessage).show();
@@ -14283,7 +14500,7 @@
         return this._activeColumns;
       };
 
-      DefaultSearchParamsManager.prototype.resize = function (dims) {};
+      DefaultSearchParamsManager.prototype.resize = function () {};
 
       nsGmx$1.AttrTable.DefaultSearchParamsManager = DefaultSearchParamsManager;
     })();
@@ -14686,7 +14903,7 @@
         }); // создание слоя из выборки (из атрибутивной таблицы)
 
         downloadSection.find('.createLayerLink').click(function () {
-          sendCrossDomainJSONRequest(serverBase + "Layer/GetLayerInfo.ashx?WrapStyle=func&NeedAttrValues=false&LayerName=" + info.name, function (response) {
+          sendCrossDomainJSONRequest(window.serverBase + "Layer/GetLayerInfo.ashx?WrapStyle=func&NeedAttrValues=false&LayerName=" + info.name, function (response) {
             if (!parseResponse(response)) {
               return;
             }
@@ -14726,7 +14943,7 @@
                 copy: true,
                 sourceLayerName: info.name,
                 query: query,
-                doneCallback: function doneCallback(res) {
+                doneCallback: function doneCallback() {
                   nsGmx$1.Utils.removeDialog(dialogDiv);
                 }
               };
@@ -14858,8 +15075,8 @@
         }
 
         changeFieldsListButton.style.marginRight = '10px';
-        tdParams.style.display = 'none';
-        var name = 'attrsTable' + info.name;
+        tdParams.style.display = 'none'; // var name = 'attrsTable' + info.name;
+
         var attrNames = this.tableFields.fieldsAsArray;
         var fielsWidth = new Array(_params.hideRowActions ? attrNames.length : attrNames.length + 1).join('0').split('0');
         var attrNamesHash = this.tableFields.fieldsAsHash;
@@ -14877,7 +15094,7 @@
         selectedCont = nsGmx$1.Utils._span([nsGmx$1.Utils._t('Выбрано объектов:'), selectedCount, selectedDelete, selectedCopy], [['attr', 'class', 'hiddenCommands']]),
             groupBox = nsGmx$1.Utils._div([selectAllItems, nsGmx$1.Utils._span([nsGmx$1.Utils._t('Выделить все на странице')], [['css', 'marginLeft', '5px'], ['css', 'verticalAlign', 'top']]), selectedCont, showColumnsListButton, columnsList], [['attr', 'class', 'attrsSelectedCont']]);
 
-        canvas.onclick = function (e) {
+        canvas.onclick = function () {
           if ($(showColumnsListButton).hasClass('hide-columns-list-button')) {
             $(showColumnsListButton).toggleClass('hide-columns-list-button');
             $(showColumnsListButton).html(_gtxt('Показывать колонки'));
@@ -15133,8 +15350,7 @@
 
         nsGmx$1.Utils._(canvas, [nsGmx$1.Utils._table([nsGmx$1.Utils._tbody([nsGmx$1.Utils._tr([tdParams, tdTable2])])], ['css', 'width', '100%'])]);
 
-        var tbl = $(this.divTable2).find('#attrsTableParent')[0],
-            ths = $(this).find('th');
+        var tbl = $(this.divTable2).find('#attrsTableParent')[0]; // var ths = $(this).find('th');
 
         if (L.Browser.ie || L.Browser.gecko) {
           var lastSTop = tbl.scrollTop;
@@ -15144,7 +15360,7 @@
             var ths = $(this).find('th');
 
             if (stop < lastSTop) {
-              $(ths).each(function (elem) {
+              $(ths).each(function () {
                 $(this).css('transitionDelay', '0s');
                 $(this).css('transform', "");
               });
@@ -15152,7 +15368,7 @@
 
             lastSTop = stop;
             var translate = "translate(0," + stop + "px)";
-            $(ths).each(function (elem) {
+            $(ths).each(function () {
               $(this).css('transitionDelay', '0.25s');
               $(this).css('transform', translate);
             });
@@ -15161,7 +15377,7 @@
           tbl.onscroll = function () {
             var translate = "translate(0," + this.scrollTop + "px)";
             var ths = $(this).find('th');
-            $(ths).each(function (elem) {
+            $(ths).each(function () {
               $(this).css('transform', translate);
             });
           };
@@ -16615,9 +16831,9 @@
           var url = window.serverBase + "VectorLayer/Append?LayerName=" + context.elem.name + "&FromLayer=" + copyLayerName + "&Query=" + copyLayerQuery;
           var def = nsGmx$1.asyncTaskManager.sendGmxPostRequest(url);
           def.done(function () {
-            showErrorMessage(list, true, window._gtxt('Объекты добавлены'));
+            showErrorMessage$1(list, true, window._gtxt('Объекты добавлены'));
           }).fail(function () {
-            showErrorMessage(window._gtxt('Вставить объекты не удалось'), true); // console.log(taskInfo);
+            showErrorMessage$1(window._gtxt('Вставить объекты не удалось'), true); // console.log(taskInfo);
           }).progress(function () {// console.log(taskInfo);
           });
         }
@@ -16974,7 +17190,7 @@
             this._state = false;
           }
         };
-        this.limitSel = nsGmx$1.Utils._select([_option([_t("10")], [['attr', 'value', 10]]), _option([_t("20")], [['attr', 'value', 20]]), _option([_t("50")], [['attr', 'value', 50]]), _option([_t("100")], [['attr', 'value', 100]]), _option([_t("200")], [['attr', 'value', 200]]), _option([_t("500")], [['attr', 'value', 500]])], [['dir', 'className', 'selectStyle floatRight'], ['css', 'width', '60px']]);
+        this.limitSel = nsGmx$1.Utils._select([_option([_t$1("10")], [['attr', 'value', 10]]), _option([_t$1("20")], [['attr', 'value', 20]]), _option([_t$1("50")], [['attr', 'value', 50]]), _option([_t$1("100")], [['attr', 'value', 100]]), _option([_t$1("200")], [['attr', 'value', 200]]), _option([_t$1("500")], [['attr', 'value', 500]])], [['dir', 'className', 'selectStyle floatRight'], ['css', 'width', '60px']]);
       };
       /** Установка провайдера данных
        @param {nsGmx.ScrollTable.IDataProvider} dataProvider Провайдер данных
@@ -17045,9 +17261,9 @@
         if (this._currValsCount) {
           var cntStr = this._currValsCount === 100001 ? 'более 100000' : this._currValsCount;
 
-          _(this.tableCount, [_span([_t(this.reportStart + 1 + '-' + Math.min(this.reportStart + this.limit, this._currValsCount)), _span([_t(' ')], [['css', 'margin', '0px 3px']]), _t("(" + cntStr + ")")]), this.statusContainer]);
+          _(this.tableCount, [_span([_t$1(this.reportStart + 1 + '-' + Math.min(this.reportStart + this.limit, this._currValsCount)), _span([_t$1(' ')], [['css', 'margin', '0px 3px']]), _t$1("(" + cntStr + ")")]), this.statusContainer]);
         } else {
-          _(this.tableCount, [_span([_t("0-0"), _span([_t(' ')], [['css', 'margin', '0px 3px']]), _t("(0)")]), this.statusContainer]);
+          _(this.tableCount, [_span([_t$1("0-0"), _span([_t$1(' ')], [['css', 'margin', '0px 3px']]), _t$1("(0)")]), this.statusContainer]);
         }
 
         $(this).triggerHandler('redraw');
@@ -17059,7 +17275,7 @@
         for (var i = this.start + 1; i <= end; i++) {
           // текущий элемент
           if (i - 1 == this.reportStart / this.limit) {
-            var el = _span([_t(i.toString())]);
+            var el = _span([_t$1(i.toString())]);
 
             _(_this.tablePages, [el]);
 
@@ -17177,7 +17393,7 @@
           if (title != '' && field.isSortable) {
             button = makeLinkButton(title);
             button.sortType = title;
-          } else button = _t(title);
+          } else button = _t$1(title);
 
           var td = headerElemFactory([button], [['css', 'width', field.width]]);
 
@@ -17595,18 +17811,16 @@
 
       window.nsGmx.ScrollTable = scrollTable; // }
 
-      if (typeof window.gmxCore !== 'undefined') {
-        gmxCore$1.addModule("ScrollTableControl", {
-          ScrollTable: scrollTable
-        }, {
-          require: ['translations', 'utilities'],
-          // css: 'table.css',
-          init: function init(module, path) {
-            modulePath = path || "";
-            appendTranslations();
-          }
-        });
-      }
+      gmxCore$1.addModule("ScrollTableControl", {
+        ScrollTable: scrollTable
+      }, {
+        require: ['translations', 'utilities'],
+        // css: 'table.css',
+        init: function init(module, path) {
+          modulePath = path || "";
+          appendTranslations();
+        }
+      });
     })(jQuery, nsGmx$1.Utils._);
 
     //позволяет загрузить карту, просмотреть слои карты, перетащить слой в текущую карту
@@ -17784,7 +17998,7 @@
         load.onclick = function () {
           $(mapsManager._mapPreview).empty();
 
-          var loading = _div([_img(null, [['attr', 'src', 'img/progress.gif'], ['css', 'marginRight', '10px']]), _t(_gtxt('загрузка...'))], [['css', 'margin', '3px 0px 3px 20px']]);
+          var loading = _div([_img$1(null, [['attr', 'src', 'img/progress.gif'], ['css', 'marginRight', '10px']]), _t$1(_gtxt('загрузка...'))], [['css', 'margin', '3px 0px 3px 20px']]);
 
           if (!mapsManager._mapPreview) {
             mapsManager._mapPreview = _div(null, [['css', 'marginTop', '5px'], ['css', 'borderTop', '1px solid #216B9C'], ['css', 'overflowY', 'auto']]);
@@ -17805,17 +18019,17 @@
 
         remove.onclick = function () {
           if (map.Name == window.defaultMapID) {
-            showErrorMessage(_gtxt("$$phrase$$_14"), true);
+            showErrorMessage$1(_gtxt("$$phrase$$_14"), true);
             return;
           }
 
           if (map.Name == window.globalMapName) {
-            showErrorMessage(_gtxt("$$phrase$$_15"), true);
+            showErrorMessage$1(_gtxt("$$phrase$$_15"), true);
             return;
           }
 
           if (confirm(_gtxt("Вы действительно хотите удалить эту карту?"))) {
-            var loading = loading = _div([_img(null, [['attr', 'src', 'img/progress.gif']]), _t(_gtxt('удаление...'))], [['css', 'marginLeft', '5px']]);
+            var loading = loading = _div([_img$1(null, [['attr', 'src', 'img/progress.gif']]), _t$1(_gtxt('удаление...'))], [['css', 'marginLeft', '5px']]);
 
             $(remove.parentNode.parentNode).replaceWith(_tr([_td([loading], [['attr', 'colSpan', 5]])]));
             sendCrossDomainJSONRequest(window.serverBase + "Map/Delete.ashx?WrapStyle=func&MapID=" + map.MapID, function (response) {
@@ -17827,7 +18041,7 @@
         var date = new Date(map.LastModificationDateTime * 1000);
         var modificationDateString = $.datepicker.formatDate('dd.mm.yy', date); // + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 
-        var tr = _tr([_td([load], [['css', 'textAlign', 'center']]), _td([name]), _td([_t(map.Owner)], [['css', 'textAlign', 'center'], ['dir', 'className', 'invisible maps-manager-owner'], ['dir', 'title', map.Owner]]), _td([_t(modificationDateString)], [['css', 'textAlign', 'center'], ['dir', 'className', 'invisible']]), _td([remove], [['css', 'textAlign', 'center']])]);
+        var tr = _tr([_td([load], [['css', 'textAlign', 'center']]), _td([name]), _td([_t$1(map.Owner)], [['css', 'textAlign', 'center'], ['dir', 'className', 'invisible maps-manager-owner'], ['dir', 'title', map.Owner]]), _td([_t$1(modificationDateString)], [['css', 'textAlign', 'center'], ['dir', 'className', 'invisible']]), _td([remove], [['css', 'textAlign', 'center']])]);
 
         for (var i = 0; i < tr.childNodes.length; i++) {
           tr.childNodes[i].style.width = this._fields[i].width;
@@ -17852,7 +18066,7 @@
           mapsTable.getDataProvider().filterOriginalItems(function (elem) {
             return elem.MapID != id;
           });
-        } else showErrorMessage(_gtxt("Ошибка!"), true, _gtxt("Слоя нет в базе"));
+        } else showErrorMessage$1(_gtxt("Ошибка!"), true, _gtxt("Слоя нет в базе"));
       };
 
       nsGmx$1.MapsManagerControl.prototype._loadMapJSON = function (host, name, parent) {
@@ -18957,13 +19171,13 @@
 
         remove.onclick = function () {
           if (confirm(_gtxt("Вы действительно хотите удалить этот слой?"))) {
-            var loading = loading = _div([_img(null, [['attr', 'src', 'img/progress.gif']]), _t('удаление...')], [['css', 'marginLeft', '5px']]);
+            var loading = loading = _div([_img$1(null, [['attr', 'src', 'img/progress.gif']]), _t$1('удаление...')], [['css', 'marginLeft', '5px']]);
 
             $(remove.parentNode.parentNode).replaceWith(_tr([_td([loading], [['attr', 'colSpan', 5]])]));
 
             var deleteLayerHandler = function deleteLayerHandler(response) {
               if (!parseResponse(response)) return;
-              if (response.Result == 'deleted') $(_this.getDataProvider()).change();else showErrorMessage(_gtxt("Ошибка!"), true, _gtxt("Слоя нет в базе"));
+              if (response.Result == 'deleted') $(_this.getDataProvider()).change();else showErrorMessage$1(_gtxt("Ошибка!"), true, _gtxt("Слоя нет в базе"));
             };
 
             if (newLayerProperties.properties.MultiLayerID) sendCrossDomainJSONRequest(window.serverBase + "MultiLayer/Delete.ashx?WrapStyle=func&MultiLayerID=" + newLayerProperties.properties.MultiLayerID, deleteLayerHandler);else sendCrossDomainJSONRequest(window.serverBase + "Layer/Delete.ashx?WrapStyle=func&LayerID=" + newLayerProperties.properties.LayerID, deleteLayerHandler);
@@ -19006,7 +19220,7 @@
 
         var nameDiv = _div([nameDivInternal], [['css', 'position', 'relative'], ['css', 'height', '100%']]);
 
-        tr = _tr([_td(), _td([icon], [['css', 'textAlign', 'center']]), _td([nameDiv]), _td([_t(layer.date)], [['css', 'textAlign', 'center'], ['dir', 'className', 'invisible']]), _td([_t(layer.Owner)], [['css', 'textAlign', 'center'], ['dir', 'className', 'invisible']]), tdRemove]);
+        tr = _tr([_td(), _td([icon], [['css', 'textAlign', 'center']]), _td([nameDiv]), _td([_t$1(layer.date)], [['css', 'textAlign', 'center'], ['dir', 'className', 'invisible']]), _td([_t$1(layer.Owner)], [['css', 'textAlign', 'center'], ['dir', 'className', 'invisible']]), tdRemove]);
 
         for (var i = 0; i < tr.childNodes.length; i++) {
           tr.childNodes[i].style.width = this._fields[i].width;
@@ -19041,7 +19255,7 @@
         var layerName = _input(null, [['dir', 'className', 'inputStyle'], ['css', 'width', '185px']]),
             layerOwner = _input(null, [['dir', 'className', 'inputStyle'], ['css', 'width', '185px']]);
 
-        var typeSel = nsGmx$1.Utils._select([_option([_t(_gtxt("Любой"))], [['attr', 'value', '']]), _option([_t(_gtxt("Векторный"))], [['attr', 'value', 'vector']]), _option([_t(_gtxt("Растровый"))], [['attr', 'value', 'raster']]), _option([_t(_gtxt("Мультислой"))], [['attr', 'value', 'multilayer']]), _option([_t(_gtxt("Каталог растров"))], [['attr', 'value', 'catalog']])], [['dir', 'className', 'selectStyle'], ['css', 'width', '100px']]);
+        var typeSel = nsGmx$1.Utils._select([_option([_t$1(_gtxt("Любой"))], [['attr', 'value', '']]), _option([_t$1(_gtxt("Векторный"))], [['attr', 'value', 'vector']]), _option([_t$1(_gtxt("Растровый"))], [['attr', 'value', 'raster']]), _option([_t$1(_gtxt("Мультислой"))], [['attr', 'value', 'multilayer']]), _option([_t$1(_gtxt("Каталог растров"))], [['attr', 'value', 'catalog']])], [['dir', 'className', 'selectStyle'], ['css', 'width', '100px']]);
 
         var calendar = new nsGmx$1.CalendarWidget({
           minimized: false,
@@ -19059,7 +19273,7 @@
 
         var _disabledLayers = {};
 
-        _(searchCanvas, [_div([_table([_tbody([_tr([_td([_span([_t(_gtxt("Название"))], [['css', 'fontSize', '12px']])]), _td([layerName])]), _tr([_td([_span([_t(_gtxt("Владелец"))], [['css', 'fontSize', '12px']])]), _td([layerOwner])]), _tr([_td([_span([_t(_gtxt("Период"))], [['css', 'fontSize', '12px']])]), _td([calendar.canvas[0]])]), _tr([_td([_span([_t(_gtxt("Тип"))], [['css', 'fontSize', '12px']])]), _td([typeSel])])])])], [['css', 'marginBottom', '10px']])]);
+        _(searchCanvas, [_div([_table([_tbody([_tr([_td([_span([_t$1(_gtxt("Название"))], [['css', 'fontSize', '12px']])]), _td([layerName])]), _tr([_td([_span([_t$1(_gtxt("Владелец"))], [['css', 'fontSize', '12px']])]), _td([layerOwner])]), _tr([_td([_span([_t$1(_gtxt("Период"))], [['css', 'fontSize', '12px']])]), _td([calendar.canvas[0]])]), _tr([_td([_span([_t$1(_gtxt("Тип"))], [['css', 'fontSize', '12px']])]), _td([typeSel])])])])], [['css', 'marginBottom', '10px']])]);
 
         $.each(_params.fixType, function (i, type) {
           if (type !== '') $("tr:last", searchCanvas).hide();
@@ -19657,7 +19871,7 @@
           };
         }
 
-        var span = _span([_t(elem.title)], [['dir', 'className', 'layer'], ['attr', 'dragg', true]]);
+        var span = _span([_t$1(elem.title)], [['dir', 'className', 'layer'], ['attr', 'dragg', true]]);
 
         var timer = null,
             clickFunc = function clickFunc() {
@@ -19707,7 +19921,7 @@
         if (layerManagerFlag == 1) {
           var imgIconSrc = elem.type == "Vector" ? 'img/vector.png' : typeof elem.MultiLayerID != 'undefined' ? 'img/multi.png' : 'img/rastr.png';
           if (elem.type == "Alias") imgIconSrc = 'img/shortcut.png';
-          return [_img(null, [['attr', 'src', imgIconSrc], ['css', 'marginLeft', '3px']]), spanParent, spanDescr];
+          return [_img$1(null, [['attr', 'src', imgIconSrc], ['css', 'marginLeft', '3px']]), spanParent, spanDescr];
         }
 
         if (this._renderParams.showVisibilityCheckbox && !elem.visible) {
@@ -19736,7 +19950,7 @@
         }
 
         if (count || elem.Legend) {
-          _(borderDescr, [_t('i')], [['dir', 'className', 'layerInfoButton']]);
+          _(borderDescr, [_t$1('i')], [['dir', 'className', 'layerInfoButton']]);
 
           borderDescr.onclick = function () {
             nsGmx$1.Controls.showLayerInfo({
@@ -19902,7 +20116,7 @@
           }
         }
 
-        var span = _span([_t(elem.title)], [['dir', 'className', 'groupLayer'], ['attr', 'dragg', true]]);
+        var span = _span([_t$1(elem.title)], [['dir', 'className', 'groupLayer'], ['attr', 'dragg', true]]);
 
         var timer = null,
             clickFunc = function clickFunc() {
@@ -19975,7 +20189,7 @@
       };
 
       layersTree.prototype.drawHeaderGroupLayer = function (elem, parentParams, layerManagerFlag) {
-        var span = _span([_t(elem.title)], [['dir', 'className', 'groupLayer']]),
+        var span = _span([_t$1(elem.title)], [['dir', 'className', 'groupLayer']]),
             spanParent = _div([span], [['css', 'display', 'inline'], ['css', 'position', 'relative'], ['css', 'borderBottom', 'none'], ['css', 'paddingRight', '3px']]),
             _this = this;
 
@@ -20097,7 +20311,7 @@
           text = text.substring(0, 37) + '...';
         }
 
-        return _div([_t(text)], [['dir', 'className', 'dragableDummy']]);
+        return _div([_t$1(text)], [['dir', 'className', 'dragableDummy']]);
       }; //проходится по всем слоям дерева и устанавливает им z-индексы в соответствии с их порядком в дереве
 
 
@@ -20177,9 +20391,9 @@
             }
           } else if (_this.treeModel.findElemByGmxProperties(gmxProperties)) {
             if (layerProperties.type === 'layer') {
-              showErrorMessage(_gtxt("Слой '[value0]' уже есть в карте", layerProperties.content.properties.title), true);
+              showErrorMessage$1(_gtxt("Слой '[value0]' уже есть в карте", layerProperties.content.properties.title), true);
             } else {
-              showErrorMessage(_gtxt("Группа '[value0]' уже есть в карте", layerProperties.content.properties.title), true);
+              showErrorMessage$1(_gtxt("Группа '[value0]' уже есть в карте", layerProperties.content.properties.title), true);
             }
 
             return;
@@ -20338,7 +20552,7 @@
           var alreadyOnMap = this.checkGroupForDuplicates(elem.content.children);
 
           if (alreadyOnMap) {
-            showErrorMessage(_gtxt("Слой '[value0]' уже есть в карте", alreadyOnMap), true);
+            showErrorMessage$1(_gtxt("Слой '[value0]' уже есть в карте", alreadyOnMap), true);
             return false;
           } else {
             for (var i = 0; i < elem.content.children.length; i++) {
@@ -20377,7 +20591,7 @@
               }
             });
           } else {
-            showErrorMessage(_gtxt("Слой '[value0]' уже есть в карте", nsGmx$1.gmxMap.layersByID[name].getGmxProperties().title), true);
+            showErrorMessage$1(_gtxt("Слой '[value0]' уже есть в карте", nsGmx$1.gmxMap.layersByID[name].getGmxProperties().title), true);
             return false;
           }
         }
@@ -20873,7 +21087,7 @@
         }).progress(function (taskInfo) {
           $(taskDiv).empty();
 
-          _(taskDiv, [_span([_t(title + ':')], [['css', 'color', '#153069'], ['css', 'margin', '0px 3px']]), _t(taskInfo.Status)]);
+          _(taskDiv, [_span([_t$1(title + ':')], [['css', 'color', '#153069'], ['css', 'margin', '0px 3px']]), _t$1(taskInfo.Status)]);
         });
       };
 
@@ -20955,7 +21169,7 @@
             $(taskDiv).empty();
           }
 
-          _(taskDiv, [_span([_t(properties.Title + ':')], [['css', 'color', '#153069'], ['css', 'margin', '0px 3px']]), _t(taskInfo.Status)]);
+          _(taskDiv, [_span([_t$1(properties.Title + ':')], [['css', 'color', '#153069'], ['css', 'margin', '0px 3px']]), _t$1(taskInfo.Status)]);
         });
       };
 
@@ -21056,7 +21270,7 @@
           console.log('progress');
           $(taskDiv).empty();
 
-          _(taskDiv, [_span([_t(title + ':')], [['css', 'color', '#153069'], ['css', 'margin', '0px 3px']]), _t(taskInfo.Status)]);
+          _(taskDiv, [_span([_t$1(title + ':')], [['css', 'color', '#153069'], ['css', 'margin', '0px 3px']]), _t$1(taskInfo.Status)]);
         }).always(function (taskInfo) {
           console.log(taskInfo);
         });
@@ -21437,7 +21651,7 @@
             newInput = _input(null, [['dir', 'className', 'inputStyle'], ['css', 'width', '160px'], ['attr', 'type', 'password']]),
             confirmInput = _input(null, [['dir', 'className', 'inputStyle'], ['css', 'width', '160px'], ['attr', 'type', 'password']]),
             changeButton = makeButton(_gtxt("Изменить")),
-            canvas = _div([_div([_span([_t(_gtxt("Старый пароль"))]), _br(), oldInput, _br(), _span([_t(_gtxt("Новый пароль"))]), _br(), newInput, _br(), _span([_t(_gtxt("Подтвердите пароль"))]), _br(), confirmInput, _br()], [['css', 'textAlign', 'center']]), _div([changeButton], [['css', 'textAlign', 'center'], ['css', 'margin', '5px']])], [['attr', 'id', 'changePasswordCanvas']]),
+            canvas = _div([_div([_span([_t$1(_gtxt("Старый пароль"))]), _br(), oldInput, _br(), _span([_t$1(_gtxt("Новый пароль"))]), _br(), newInput, _br(), _span([_t$1(_gtxt("Подтвердите пароль"))]), _br(), confirmInput, _br()], [['css', 'textAlign', 'center']]), _div([changeButton], [['css', 'textAlign', 'center'], ['css', 'margin', '5px']])], [['attr', 'id', 'changePasswordCanvas']]),
             checkPassw = function checkPassw() {
           if (newInput.value != confirmInput.value) {
             newInput.value = '';
@@ -21453,7 +21667,7 @@
             canvas.parentNode.removeNode(true);
             nsGmx$1.widgets.notifications.stopAction('changePassword', 'success', _gtxt('Пароль изменён'));
           }, function (message) {
-            message && showErrorMessage(message, true);
+            message && showErrorMessage$1(message, true);
             nsGmx$1.widgets.notifications.stopAction('changePassword', 'failure');
           });
           oldInput.value = '';
@@ -21513,7 +21727,7 @@
 
           if (_authManager.getFullname() !== null && _authManager.getFullname() !== '') userText += ' (' + _authManager.getFullname() + ')';
 
-          var userSpan = _span([_t(userText)], [['css', 'cursor', 'pointer']]);
+          var userSpan = _span([_t$1(userText)], [['css', 'cursor', 'pointer']]);
 
           userSpan.onclick = function () {
             if (_authManager.isAccounts()) {
@@ -22644,10 +22858,10 @@
         Container.appendChild(oResultCanvas);
       }
 
-      var oLoading = nsGmx$1.Utils._div([_img(null, [['attr', 'src', sImagesHost + '/progress.gif'], ['dir', 'className', 'searchResultListLoadingImg']]), _t(_gtxt("загрузка..."))], [['dir', 'className', 'searchResultListLoading']]);
+      var oLoading = nsGmx$1.Utils._div([_img$1(null, [['attr', 'src', sImagesHost + '/progress.gif'], ['dir', 'className', 'searchResultListLoadingImg']]), _t$1(_gtxt("загрузка..."))], [['dir', 'className', 'searchResultListLoading']]);
 
       var fnNotFound = function fnNotFound() {
-        nsGmx$1.Utils._(oResultCanvas, [nsGmx$1.Utils._div([_t(_gtxt("Поиск не дал результатов"))], [['dir', 'className', 'SearchResultListNotFound']])]);
+        nsGmx$1.Utils._(oResultCanvas, [nsGmx$1.Utils._div([_t$1(_gtxt("Поиск не дал результатов"))], [['dir', 'className', 'SearchResultListNotFound']])]);
       };
       /**Удаляет все найденные объекты из результатов поиска*/
 
@@ -22729,7 +22943,7 @@
         var realPath = oFoundObject.CountryCode != 28000 && oFoundObject.CountryCode != 310000183 ? oFoundObject.ObjName : Functions.GetFullName(oFoundObject.TypeName, oFoundObject.ObjName);
         if (oFoundObject.Parent != null) realPath += ",";
 
-        var searchElemHeader = _span([_t(realPath)], [['dir', 'className', bIsParent ? 'searchElemParent' : 'searchElem']]);
+        var searchElemHeader = _span([_t$1(realPath)], [['dir', 'className', bIsParent ? 'searchElemParent' : 'searchElem']]);
         /** Вызывается при клике на найденный объект в списке результатов поиска
         @name Search.ResultList.onObjectClick
         @event
@@ -22759,12 +22973,12 @@
 
           var elemTD = _td(null, [['dir', 'className', 'SearchResultText']]);
 
-          nsGmx$1.Utils._(elemTR, [_td([_t((i + 1).toString() + ".")], [['dir', 'className', 'searchElemPosition']]), elemTD]);
+          nsGmx$1.Utils._(elemTR, [_td([_t$1((i + 1).toString() + ".")], [['dir', 'className', 'searchElemPosition']]), elemTD]);
 
           drawObject(arrObjects[i], elemTD); // загрузка SHP Файла
 
           if (window.gmxGeoCodeShpDownload && arrObjects[i].Geometry != null) {
-            var shpFileLink = _span([_t(".shp")], [['dir', 'className', 'searchElem'], ['attr', 'title', 'скачать SHP-файл'], ['attr', 'number', i]]);
+            var shpFileLink = _span([_t$1(".shp")], [['dir', 'className', 'searchElem'], ['attr', 'title', 'скачать SHP-файл'], ['attr', 'number', i]]);
 
             shpFileLink.onclick = function () {
               var obj = arrObjects[$(this).attr('number')];
@@ -22772,7 +22986,7 @@
               $(_this).triggerHandler('onDownloadSHP', [obj.ObjCode, objsToDownload]);
             };
 
-            nsGmx$1.Utils._(elemTD, [_t(" ")]);
+            nsGmx$1.Utils._(elemTD, [_t$1(" ")]);
 
             nsGmx$1.Utils._(elemTD, [shpFileLink]);
           }
@@ -22883,7 +23097,7 @@
           $(canvas.parentNode).dialog("destroy").remove();
         };
 
-        nsGmx$1.Utils._(canvas, [nsGmx$1.Utils._div([_t(_gtxt("Введите имя файла для скачивания")), filename], [['dir', 'className', 'DownloadSHPButtonText']]), nsGmx$1.Utils._div([downloadButton], [['dir', 'className', 'DownloadSHPButton']])]);
+        nsGmx$1.Utils._(canvas, [nsGmx$1.Utils._div([_t$1(_gtxt("Введите имя файла для скачивания")), filename], [['dir', 'className', 'DownloadSHPButtonText']]), nsGmx$1.Utils._div([downloadButton], [['dir', 'className', 'DownloadSHPButton']])]);
 
         var area = getOffsetRect(Container);
         showDialog(_gtxt("Скачать shp-файл"), canvas, 291, 120, 30, area.top + 10);
@@ -22905,7 +23119,7 @@
         if (arrTotalResultSet.length == 1) {
           li = nsGmx$1.Utils._ul([liInner]);
         } else {
-          li = _li([nsGmx$1.Utils._div([_t(header), _span([_t("(" + arrDataSourceList.length + ")")])], [['dir', 'className', 'searchLayerHeader']]), nsGmx$1.Utils._ul([liInner])]);
+          li = _li([nsGmx$1.Utils._div([_t$1(header), _span([_t$1("(" + arrDataSourceList.length + ")")])], [['dir', 'className', 'searchLayerHeader']]), nsGmx$1.Utils._ul([liInner])]);
         }
 
         oDataSource.start = 0;
@@ -22996,7 +23210,7 @@
         if (arrTotalResultSet.length == 1) {
           nsGmx$1.Utils._(oResultCanvas, [ulSearch]);
         } else {
-          nsGmx$1.Utils._(oResultCanvas, [_li([nsGmx$1.Utils._div([_t(sTotalListName)], [['dir', 'className', 'SearchTotalHeader']]), ulSearch])]);
+          nsGmx$1.Utils._(oResultCanvas, [_li([nsGmx$1.Utils._div([_t$1(sTotalListName)], [['dir', 'className', 'SearchTotalHeader']]), ulSearch])]);
         }
 
         if (typeof $.fn.treeview === 'function') {
@@ -23030,7 +23244,7 @@
         var containerList = Container;
         $('#respager').remove(); //var pager = nsGmx.Utils._div([_t('всего: ' + results[0].ResultsCount)], [["attr", "id", "respager"]]);
 
-        var pager = nsGmx$1.Utils._div([_t('')], [["attr", "id", "respager"]]);
+        var pager = nsGmx$1.Utils._div([_t$1('')], [["attr", "id", "respager"]]);
 
         nsGmx$1.Utils._(containerList, [pager]);
 
@@ -23059,7 +23273,7 @@
 
             $(pagelink).bind('click', onclick);
 
-            nsGmx$1.Utils._(pager, [pagelink, _t(' ')]);
+            nsGmx$1.Utils._(pager, [pagelink, _t$1(' ')]);
           }
 
           var remains = pcount % iPagesCount;
@@ -23157,7 +23371,7 @@
       this.ShowError = function () {
         $(oResultCanvas).empty();
 
-        nsGmx$1.Utils._(oResultCanvas, [_t("Произошла ошибка")]);
+        nsGmx$1.Utils._(oResultCanvas, [_t$1("Произошла ошибка")]);
       };
       /**Очищает результаты поиска
       @returns {void}*/
@@ -24893,8 +25107,8 @@
 
 
       this.postForm = _form([fileInput], [['attr', 'method', 'POST'], ['attr', 'encoding', 'multipart/form-data'], ['attr', 'enctype', 'multipart/form-data'], ['attr', 'id', 'upload_shapefile_form']]);
-      this.progress = _img(null, [['attr', 'src', 'img/progress.gif'], ['css', 'display', 'none']]);
-      this.inputControl = _div([_span([_t(_gtxt("loadShape.inputTitle") + ":")]), this.postForm]);
+      this.progress = _img$1(null, [['attr', 'src', 'img/progress.gif'], ['css', 'display', 'none']]);
+      this.inputControl = _div([_span([_t$1(_gtxt("loadShape.inputTitle") + ":")]), this.postForm]);
       this.workCanvas.appendChild(_div([this.inputControl, this.progress], [['css', 'padding', '10px 0px 5px 20px']]));
     };
 
@@ -24908,7 +25122,7 @@
 
     queryLoadShp.prototype._showObjectsOnMap = function (objs) {
       if (objs.length == 0) {
-        showErrorMessage(_gtxt("Загруженный shp-файл пуст"), true);
+        showErrorMessage$1(_gtxt("Загруженный shp-файл пуст"), true);
         return;
       }
 
@@ -25526,7 +25740,7 @@
         }
       });
 
-      var canvas = _div([_div([_span([_t(_gtxt("URL сервера"))])], [['css', 'marginBottom', '3px']]), _table([_tbody([_tr([_td([inputField]), _td([goButton])])])], [['css', 'marginBottom', '5px']])], [['css', 'margin', '3px 0px 0px 10px']]);
+      var canvas = _div([_div([_span([_t$1(_gtxt("URL сервера"))])], [['css', 'marginBottom', '3px']]), _table([_tbody([_tr([_td([inputField]), _td([goButton])])])], [['css', 'marginBottom', '5px']])], [['css', 'margin', '3px 0px 0px 10px']]);
 
       if (customParamsManager) {
         var customParamsDiv = _div();
@@ -25539,7 +25753,7 @@
     };
 
     queryServerData.prototype.getCapabilities = function (protocol, url, parseFunc, drawFunc, version) {
-      var loading = _div([_img(null, [['attr', 'src', 'img/progress.gif'], ['css', 'marginRight', '10px']]), _t(_gtxt('загрузка...'))], [['css', 'margin', '3px 0px 3px 20px']]),
+      var loading = _div([_img$1(null, [['attr', 'src', 'img/progress.gif'], ['css', 'marginRight', '10px']]), _t$1(_gtxt('загрузка...'))], [['css', 'margin', '3px 0px 3px 20px']]),
           _this = this;
 
       if (this.parentCanvas.childNodes.length == 0) _$4(this.parentCanvas, [loading]);else this.parentCanvas.insertBefore(loading, this.parentCanvas.firstChild);
@@ -25761,7 +25975,7 @@
       remove.className = 'remove';
       remove.style.right = '0px';
 
-      _$4(ulCanvas, [_li([_div([_span([_t(url.length < 45 ? url : url.substr(0, 45) + '...')], [['dir', 'className', 'urlHeader']]), remove], [['css', 'position', 'relative']]), ulChilds])]);
+      _$4(ulCanvas, [_li([_div([_span([_t$1(url.length < 45 ? url : url.substr(0, 45) + '...')], [['dir', 'className', 'urlHeader']]), remove], [['css', 'position', 'relative']]), ulChilds])]);
 
       var clickFunc = function clickFunc(layer, parent, flag) {
         if (!flag) {
@@ -25792,7 +26006,7 @@
       serviceLayers.forEach(function (layer) {
         var elemCanvas = _div(null, [['css', 'padding', '2px']]),
             box = _checkbox(false, 'checkbox'),
-            spanElem = _span([_t(layer.title)], [['css', 'cursor', 'pointer'], ['dir', 'className', 'layerfeature']]),
+            spanElem = _span([_t$1(layer.title)], [['css', 'cursor', 'pointer'], ['dir', 'className', 'layerfeature']]),
             parent = L.layerGroup().addTo(nsGmx$1.leafletMap);
 
         spanElem.gmxObject = parent;
@@ -25834,11 +26048,11 @@
       var _targetDiv = null;
       return {
         init: function init(targetDiv) {
-          var select = nsGmx$1.Utils._select([_option([_t('png')]), _option([_t('jpeg')])], [['dir', 'className', 'selectStyle'], ['css', 'width', '60px']]);
+          var select = nsGmx$1.Utils._select([_option([_t$1('png')]), _option([_t$1('jpeg')])], [['dir', 'className', 'selectStyle'], ['css', 'width', '60px']]);
 
           _targetDiv = targetDiv;
 
-          _$4(_targetDiv, [_t(_gtxt('Формат изображения') + ': '), select]);
+          _$4(_targetDiv, [_t$1(_gtxt('Формат изображения') + ': '), select]);
 
           _targetDiv.style.marginBottom = '5px';
         },
@@ -25870,9 +26084,9 @@
       remove.className = 'remove';
       remove.style.right = '0px';
 
-      _$4(ulCanvas, [_li([_div([_span([_t(url.length < 45 ? url : url.substr(0, 45) + '...')], [['dir', 'className', 'urlHeader']]), divFormat, remove], [['css', 'position', 'relative']]), ulChilds])]);
+      _$4(ulCanvas, [_li([_div([_span([_t$1(url.length < 45 ? url : url.substr(0, 45) + '...')], [['dir', 'className', 'urlHeader']]), divFormat, remove], [['css', 'position', 'relative']]), ulChilds])]);
 
-      var formatSelect = nsGmx$1.Utils._select([_option([_t("JSON")], [['attr', 'value', 'json']]), _option([_t("GML / KML")], [['attr', 'value', 'gml']])], [['dir', 'className', 'selectStyle'], ['css', 'width', '100px']]);
+      var formatSelect = nsGmx$1.Utils._select([_option([_t$1("JSON")], [['attr', 'value', 'json']]), _option([_t$1("GML / KML")], [['attr', 'value', 'gml']])], [['dir', 'className', 'selectStyle'], ['css', 'width', '100px']]);
 
       _$4(divFormat, [formatSelect]);
 
@@ -25891,7 +26105,7 @@
             elemCanvas.loaded = true;
             elemCanvas.format = newFormat;
 
-            var loading = _div([_img(null, [['attr', 'src', 'img/progress.gif'], ['css', 'marginRight', '10px']]), _t(_gtxt('загрузка...'))], [['css', 'margin', '3px 0px']]);
+            var loading = _div([_img$1(null, [['attr', 'src', 'img/progress.gif'], ['css', 'marginRight', '10px']]), _t$1(_gtxt('загрузка...'))], [['css', 'margin', '3px 0px']]);
 
             _$4(elemCanvas, [loading]);
           } else if (typeof elemCanvas.loaded == 'function') {
@@ -25903,7 +26117,7 @@
       for (var i = 0; i < serviceLayers.length; i++) {
         var elemCanvas = _div(null, [['css', 'padding', '2px']]),
             box = _checkbox(false, 'checkbox'),
-            spanElem = _span([_t(serviceLayers[i].title != '' ? serviceLayers[i].title : serviceLayers[i].name)], [['css', 'cursor', 'pointer'], ['dir', 'className', 'layerfeature']]),
+            spanElem = _span([_t$1(serviceLayers[i].title != '' ? serviceLayers[i].title : serviceLayers[i].name)], [['css', 'cursor', 'pointer'], ['dir', 'className', 'layerfeature']]),
             elemChilds = _div(null, [['css', 'marginLeft', '20px']]);
 
         box.className = 'floatLeft';
@@ -27653,7 +27867,7 @@
        * @event nsGmx.EditObjectControl#close
        */
       if (_queryMapLayers.layerRights(layerName) !== 'edit' && _queryMapLayers.layerRights(layerName) !== 'editrows') {
-        showErrorMessage(_gtxt('Недостаточно прав для редактирования объектов слоя'), true);
+        showErrorMessage$1(_gtxt('Недостаточно прав для редактирования объектов слоя'), true);
         return;
       }
 
@@ -27857,7 +28071,7 @@
                   span.rowType = field.type;
 
                   if ('value' in field) {
-                    _$5(span, [_t(nsGmx$1.Utils.convertFromServer(field.type, field.value))]);
+                    _$5(span, [_t$1(nsGmx$1.Utils.convertFromServer(field.type, field.value))]);
                   }
 
                   return span;
@@ -27905,7 +28119,7 @@
 
             _$5(td, [field.view.getUI(_this)]);
 
-            var fieldHeader = _span([_t(field.title || field.name)], [['css', 'fontSize', '12px']]);
+            var fieldHeader = _span([_t$1(field.title || field.name)], [['css', 'fontSize', '12px']]);
 
             if (field.isRequired) {
               fieldHeader.style.fontWeight = 'bold';
@@ -27930,7 +28144,7 @@
         var dialogDiv = showDialog(isNew ? _gtxt("Создать объект слоя [value0]", prop.title) : _gtxt("Редактировать объект слоя [value0]", prop.title), canvas, 520, 300, false, false, resizeFunc, closeFunc);
 
         if (!isNew) {
-          var loading = _div([_img(null, [['attr', 'src', 'img/progress.gif'], ['css', 'marginRight', '10px']]), _t(_gtxt('загрузка...'))], [['css', 'margin', '3px 0px 3px 20px'], ['attr', 'loading', true]]);
+          var loading = _div([_img$1(null, [['attr', 'src', 'img/progress.gif'], ['css', 'marginRight', '10px']]), _t$1(_gtxt('загрузка...'))], [['css', 'margin', '3px 0px 3px 20px'], ['attr', 'loading', true]]);
 
           _$5(canvas, [loading]); //получаем геометрию объекта
 
@@ -30189,7 +30403,7 @@
       this.operatorsSuggest && this.operatorsSuggest.setCallback(callback);
     };
 
-    _translationsHash.addtext('rus', {
+    window._translationsHash.addtext('rus', {
       LayerQuicklookWidget: {
         minZoom: 'Мин. зум',
         regTitle: 'Атрибуты привязки',
@@ -30197,7 +30411,7 @@
       }
     });
 
-    _translationsHash.addtext('eng', {
+    window._translationsHash.addtext('eng', {
       LayerQuicklookWidget: {
         minZoom: 'Min zoom',
         regTitle: 'Registration fields',
@@ -30848,7 +31062,7 @@
     };
 
     fileBrowser.prototype._showWarningDialog = function () {
-      var canvas = _div([_t(_gtxt("FileBrowser.ExceedLimitMessage"))], [['dir', 'className', 'CustomErrorText']]);
+      var canvas = _div([_t$1(_gtxt("FileBrowser.ExceedLimitMessage"))], [['dir', 'className', 'CustomErrorText']]);
 
       showDialog(_gtxt("Ошибка!"), canvas, 220, 100);
     };
@@ -31081,7 +31295,7 @@
         }, formFile);
       };
 
-      var dropInfoDiv = window.FormData ? _div([_t(_gtxt('FileBrowser.DropInfo'))], [['dir', 'className', 'fileBrowser-dragFileMessage']]) : _div();
+      var dropInfoDiv = window.FormData ? _div([_t$1(_gtxt('FileBrowser.DropInfo'))], [['dir', 'className', 'fileBrowser-dragFileMessage']]) : _div();
 
       _$6(div, [dropInfoDiv, _table([_tbody([_tr([_td([formFile], [['css', 'paddingTop', '18px']])])])])]);
 
@@ -31215,7 +31429,7 @@
       $(this.fileCanvas).empty();
       this.statusContainer = _div(null, [['dir', 'className', 'fileBrowser-progress'], ['css', 'display', 'none']]);
 
-      _$6(this.fileCanvas, [_div([this.pathWidget(), _br(), _t(_gtxt("Фильтр")), this.quickSearch(), this.statusContainer], [['dir', 'className', 'currentDir'], ['css', 'color', '#153069'], ['css', 'fontSize', '12px']])]);
+      _$6(this.fileCanvas, [_div([this.pathWidget(), _br(), _t$1(_gtxt("Фильтр")), this.quickSearch(), this.statusContainer], [['dir', 'className', 'currentDir'], ['css', 'color', '#153069'], ['css', 'fontSize', '12px']])]);
 
       _$6(this.fileCanvas, [this.draw(this.currentFiles)]);
 
@@ -31270,7 +31484,7 @@
       }
 
       var tableHeaderTr = _tr([tdRoot, _td([nameSort], [['css', 'textAlign', 'left']]), _td([extSort], [['css', 'width', '10%'], ['css', 'textAlign', 'center']]), _td([sizeSort], [['css', 'width', '15%'], ['css', 'textAlign', 'center']]), _td([dateSort], [['css', 'width', '25%'], ['css', 'textAlign', 'center']])]),
-          prevDirTr = _tr([_td(), _td([_t("[..]")]), _td(), _td(), _td()]),
+          prevDirTr = _tr([_td(), _td([_t$1("[..]")]), _td(), _td(), _td()]),
           tableFilesTrs = [];
 
       var parentFolder = _this._path.getParentFolder();
@@ -31335,7 +31549,7 @@
           _$6(tdReturn, [returnButton]);
         }
 
-        var tr = _tr([tdReturn, _td([_div(null, [['dir', 'className', 'fileCanvas-folder-icon']]), this.createFolderActions(folders[_i].Name)]), _td(), _td([_t(_gtxt("Папка"))], [['css', 'textAlign', 'center'], ['dir', 'className', 'invisible']]), _td([_t(this.formatDate(folders[_i].Date))], [['css', 'textAlign', 'center'], ['dir', 'className', 'invisible']])]);
+        var tr = _tr([tdReturn, _td([_div(null, [['dir', 'className', 'fileCanvas-folder-icon']]), this.createFolderActions(folders[_i].Name)]), _td(), _td([_t$1(_gtxt("Папка"))], [['css', 'textAlign', 'center'], ['dir', 'className', 'invisible']]), _td([_t$1(this.formatDate(folders[_i].Date))], [['css', 'textAlign', 'center'], ['dir', 'className', 'invisible']])]);
 
         (function (i) {
           tr.onclick = function () {
@@ -31373,7 +31587,7 @@
             name = String(files[_i2].Name).substr(0, index),
             ext = String(files[_i2].Name).substr(index + 1, files[_i2].Name.length),
             tdReturn = _td(),
-            tdSize = _td([_t(this.makeSize(files[_i2].Size))], [['attr', 'size', files[_i2].Size], ['css', 'textAlign', 'right'], ['dir', 'className', 'invisible']]);
+            tdSize = _td([_t$1(this.makeSize(files[_i2].Size))], [['attr', 'size', files[_i2].Size], ['css', 'textAlign', 'right'], ['dir', 'className', 'invisible']]);
 
         if (this.returnMask.length && valueInArray(this.returnMask, ext.toLowerCase())) {
           var returnButton = makeImageButton("img/choose.png", "img/choose_a.png");
@@ -31391,7 +31605,7 @@
           _$6(tdReturn, [returnButton]);
         }
 
-        var tr = _tr([tdReturn, _td([this.createFileActions(name, ext)]), _td([_t(ext)], [['css', 'textAlign', 'right'], ['css', 'fontSize', '12px']]), tdSize, _td([_t(this.formatDate(files[_i2].Date))], [['css', 'textAlign', 'center'], ['dir', 'className', 'invisible']])]);
+        var tr = _tr([tdReturn, _td([this.createFileActions(name, ext)]), _td([_t$1(ext)], [['css', 'textAlign', 'right'], ['css', 'fontSize', '12px']]), tdSize, _td([_t$1(this.formatDate(files[_i2].Date))], [['css', 'textAlign', 'center'], ['dir', 'className', 'invisible']])]);
 
         attachEffects(tr, 'hover');
 
@@ -31408,7 +31622,7 @@
     };
 
     fileBrowser.prototype.createFolderActions = function (name) {
-      var span = _span([_t(name)], [['css', 'fontSize', '12px']]),
+      var span = _span([_t$1(name)], [['css', 'fontSize', '12px']]),
           spanParent = _div([span], [['css', 'display', 'inline-block'], ['css', 'position', 'relative']]),
           _this = this;
 
@@ -31423,7 +31637,7 @@
     };
 
     fileBrowser.prototype.createFileActions = function (name, ext) {
-      var span = _span([_t(name)], [['css', 'fontSize', '12px']]),
+      var span = _span([_t$1(name)], [['css', 'fontSize', '12px']]),
           spanParent = _div([span], [['css', 'display', 'inline-block'], ['css', 'position', 'relative']]),
           _this = this;
 
@@ -31580,7 +31794,7 @@
       var _this = this;
 
       var renderTableRow = function renderTableRow(table) {
-        var tdName = _td([_t(table)], [['css', 'fontSize', '12px']]),
+        var tdName = _td([_t$1(table)], [['css', 'fontSize', '12px']]),
             returnButton = makeImageButton("img/choose.png", "img/choose_a.png"),
             tr = _tr([_td([returnButton]), tdName], [['dir', 'className', 'tableTableRow']]);
 
@@ -31673,14 +31887,14 @@
           };
 
           for (var i = 0; i < fields.length; i++) {
-            var opt = _option([_t(fields[i])], [['attr', 'value', fields[i]]]);
+            var opt = _option([_t$1(fields[i])], [['attr', 'value', fields[i]]]);
 
             _(selectLat, [opt.cloneNode(true)]);
 
             _(selectLon, [opt.cloneNode(true)]);
           }
 
-          nsGmx$1.Utils._(parent, [_table([_tbody([_tr([_td([_span([_t(_gtxt("Y (широта)"))], [['css', 'margin', '0px 3px']])], [['css', 'width', '73px'], ['css', 'border', 'none']]), _td([selectLat], [['css', 'width', '150px'], ['css', 'border', 'none']])]), _tr([_td([_span([_t(_gtxt("X (долгота)"))], [['css', 'margin', '0px 3px']])], [['css', 'width', '73px'], ['css', 'border', 'none']]), _td([selectLon], [['css', 'width', '150px'], ['css', 'border', 'none']])])])])]);
+          nsGmx$1.Utils._(parent, [_table([_tbody([_tr([_td([_span([_t$1(_gtxt("Y (широта)"))], [['css', 'margin', '0px 3px']])], [['css', 'width', '73px'], ['css', 'border', 'none']]), _td([selectLat], [['css', 'width', '150px'], ['css', 'border', 'none']])]), _tr([_td([_span([_t$1(_gtxt("X (долгота)"))], [['css', 'margin', '0px 3px']])], [['css', 'width', '73px'], ['css', 'border', 'none']]), _td([selectLon], [['css', 'width', '150px'], ['css', 'border', 'none']])])])])]);
 
           if (columns.get('XCol')) {
             selectLon = switchSelect(selectLon, columns.get('XCol'));
@@ -31868,7 +32082,7 @@
               var span = $(div).find(".layer")[0];
               $(span).empty();
 
-              nsGmx$1.Utils._(span, [_t(title)]);
+              nsGmx$1.Utils._(span, [_t$1(title)]);
 
               divProperties.title = title;
             },
@@ -31963,7 +32177,7 @@
           containers = [];
 
       for (var t = 0; t < tabs.length; t++) {
-        lis.push(_li([_a([_t(tabs[t].title)], [['attr', 'href', '#' + tabs[t].name + id]])]));
+        lis.push(_li([_a([_t$1(tabs[t].title)], [['attr', 'href', '#' + tabs[t].name + id]])]));
         containers.push(tabs[t].container);
         $(tabs[t].container).attr('id', tabs[t].name + id);
       }
@@ -31973,7 +32187,7 @@
       var saveMenuCanvas;
 
       if (isReadonly) {
-        saveMenuCanvas = _div([_t(_gtxt("Недостаточно прав для редактирования настроек слоя"))], [['css', 'padding', '5px 0px 5px 5px'], ['css', 'color', 'red']]);
+        saveMenuCanvas = _div([_t$1(_gtxt("Недостаточно прав для редактирования настроек слоя"))], [['css', 'padding', '5px 0px 5px 5px'], ['css', 'color', 'red']]);
       } else {
         saveMenuCanvas = _div([this._saveButton]);
       }
@@ -32303,7 +32517,7 @@
 
       var attrViewParent = _div();
 
-      var geometryTypeTitle = _span([_t(_gtxt('Геометрия') + ': ')], [['css', 'height', '20px'], ['css', 'verticalAlign', 'middle']]);
+      var geometryTypeTitle = _span([_t$1(_gtxt('Геометрия') + ': ')], [['css', 'height', '20px'], ['css', 'verticalAlign', 'middle']]);
 
       var attrContainer = _div([_div([layerName ? _div() : _div([geometryTypeTitle, geometryTypeContainer[0]]), editAttributeLink[0]]), _div([attrViewParent], [['css', 'margin', '3px']])], [['css', 'marginLeft', '3px']]);
 
@@ -32343,7 +32557,7 @@
       }[sourceType];
       $('#' + activeCheckboxID, sourceCheckbox).attr('checked', 'checked');
 
-      var sourceTab = _div([_ul([_li([_a([_t(_gtxt('Файл'))], [['attr', 'href', '#fileSource' + layerName]])]), _li([_a([_t(_gtxt('Таблица'))], [['attr', 'href', '#tableSource' + layerName]])]), _li([_a([_t(_gtxt('Вручную'))], [['attr', 'href', '#manualSource' + layerName]])])], [['css', 'display', 'none']])]);
+      var sourceTab = _div([_ul([_li([_a([_t$1(_gtxt('Файл'))], [['attr', 'href', '#fileSource' + layerName]])]), _li([_a([_t$1(_gtxt('Таблица'))], [['attr', 'href', '#tableSource' + layerName]])]), _li([_a([_t$1(_gtxt('Вручную'))], [['attr', 'href', '#manualSource' + layerName]])])], [['css', 'display', 'none']])]);
 
       var selectedSource = {
         'file': 0,
@@ -32387,7 +32601,7 @@
           'table': sourceTable,
           'manual': sourceManual
         }[sourceType];
-        sourceTr2 = _tr([_td([_t(_gtxt("Источник") + ': ' + sourceTitle)], [['css', 'padding', '5px'], ['css', 'verticalAlign', 'top'], ['css', 'lineHeight', '18px']]), _td([sourceControls])]);
+        sourceTr2 = _tr([_td([_t$1(_gtxt("Источник") + ': ' + sourceTitle)], [['css', 'padding', '5px'], ['css', 'verticalAlign', 'top'], ['css', 'lineHeight', '18px']]), _td([sourceControls])]);
       }
 
       if (!layerName || sourceType !== 'manual') {
@@ -32414,10 +32628,10 @@
           removeBorder = makeImageButton('img/closemin.png', 'img/close_orange.png'),
           divBorder = _div([drawingBorderDescr, removeBorder]),
           isAdmin = nsGmx$1.AuthManager.isRole(nsGmx$1.ROLE_ADMIN),
-          catalogPathElems = [_t(_gtxt("Каталог")), tileCatalogLink, _br()],
-          filePathElems = [_t(_gtxt("Файл")), tileFileLink],
+          catalogPathElems = [_t$1(_gtxt("Каталог")), tileCatalogLink, _br()],
+          filePathElems = [_t$1(_gtxt("Файл")), tileFileLink],
           trPath = _tr([_td(isAdmin ? catalogPathElems.concat(filePathElems) : filePathElems, [['css', 'paddingLeft', '5px'], ['css', 'fontSize', '12px']]), _td([tilePathInput])]),
-          trShape = _tr([_td([_t(_gtxt("Граница")), shapeLink], [['css', 'paddingLeft', '5px'], ['css', 'fontSize', '12px']]), _td([shapePathInput, divBorder])]),
+          trShape = _tr([_td([_t$1(_gtxt("Граница")), shapeLink], [['css', 'paddingLeft', '5px'], ['css', 'fontSize', '12px']]), _td([shapePathInput, divBorder])]),
           shapeVisible = function shapeVisible(flag) {
         if (flag) {
           shapePathInput.style.display = '';
@@ -32454,7 +32668,7 @@
       };
 
       if (name) {
-        nsGmx$1.Utils._(trShape.firstChild, [_br(), _t(_gtxt("Контур")), drawingBorderLink]);
+        nsGmx$1.Utils._(trShape.firstChild, [_br(), _t$1(_gtxt("Контур")), drawingBorderLink]);
 
         if (shapePath.Path) shapeVisible(true);else {
           shapeVisible(false);
@@ -33023,7 +33237,7 @@
      */
 
     (function ($) {
-      EYE.extend({
+      window.EYE.extend({
         getPosition: function getPosition(e, forceIt) {
           var x = 0;
           var y = 0;
@@ -33234,7 +33448,7 @@
           nodeEl = nodeEl.firstChild;
 
           while (nodeEl) {
-            EYE.traverseDOM(nodeEl, func);
+            window.EYE.traverseDOM(nodeEl, func);
             nodeEl = nodeEl.nextSibling;
           }
         },
@@ -33281,8 +33495,8 @@
           return false;
         },
         centerEl: function centerEl(el, axis) {
-          var clientScroll = EYE.getScroll();
-          var size = EYE.getSize(el);
+          var clientScroll = window.EYE.getScroll();
+          var size = window.EYE.getSize(el);
           if (!axis || axis == 'vertically') $(el).css({
             top: clientScroll.t + (Math.min(clientScroll.h, clientScroll.ih) - size.hb) / 2 + 'px'
           });
@@ -33867,7 +34081,7 @@
             color: control.options.color
           }
         },
-            lm = new window.leftMenu(); // заполняем левое меню
+            lm = new leftMenu(); // заполняем левое меню
 
         function createGridLeftMenu() {
           var gridConfigLeftMenu = nsGmx$1.Utils._div(null, [['dir', 'className', 'gridConfigLeftMenu']]);
@@ -34078,7 +34292,7 @@
         pluginName: 'GridPlugin',
         ConfigureGridMenu: ConfigureGridMenu
       };
-      window.gmxCore.addModule('GridPlugin', publicInterface);
+      gmxCore$1.addModule('GridPlugin', publicInterface);
     })();
 
     var MAX_SIZE = 10000;
@@ -35136,7 +35350,7 @@
       pluginName: 'MapExport',
       MapExportMenu: MapExportMenu
     };
-    window.gmxCore.addModule('MapExport', publicInterface$2);
+    gmxCore$1.addModule('MapExport', publicInterface$2);
 
     (function () {
       window._translationsHash.addtext('rus', {
@@ -35172,7 +35386,7 @@
 
         var BufferModel = window.Backbone.Model.extend({
           defaults: {
-            lm: new window.leftMenu(),
+            lm: new leftMenu(),
             lmap: nsGmx$1.leafletMap,
             selectedLayer: null,
             selectedLayerName: '',
@@ -35335,7 +35549,7 @@
         pluginName: 'BufferZones',
         BufferZonesMenu: BufferZonesMenu
       };
-      window.gmxCore.addModule('BufferZones', publicInterface);
+      gmxCore$1.addModule('BufferZones', publicInterface);
     })();
 
     var MAX_INDEX_COUNT = 10000;
@@ -35401,7 +35615,7 @@
 
       var IndexGridModel = window.Backbone.Model.extend({
         defaults: {
-          lm: new window.leftMenu(),
+          lm: new leftMenu(),
           lmap: nsGmx$1.leafletMap,
           selArea: null,
           xStep: 1,
@@ -36229,7 +36443,7 @@
       pluginName: 'IndexGrid',
       IndexGridMenu: IndexGridMenu
     };
-    window.gmxCore.addModule('IndexGrid', publicInterface$3);
+    gmxCore$1.addModule('IndexGrid', publicInterface$3);
 
     window._translationsHash.addtext('rus', {
       photoLayer: {
@@ -36740,7 +36954,7 @@
       pluginName: 'PhotoLayer',
       PhotoLayer: PhotoLayer
     };
-    window.gmxCore.addModule('PhotoLayer', publicInterface$4);
+    gmxCore$1.addModule('PhotoLayer', publicInterface$4);
 
     (function () {
 
@@ -36963,12 +37177,305 @@
       };
 
       gmxCore$1.addModule('UserGroupWidget', {
-        UserGroupListWidget: nsGmx$1.UserGroupListWidget
-      } // {
-      //     css: 'css/UserGroupWidget.css'
-      // }
-      );
+        UserGroupListWidget: nsGmx$1.UserGroupListWidget // ,{
+        //     css: 'css/UserGroupWidget.css'
+        // }
+
+      });
     })();
+
+    L.Control.Dialog = L.Control.extend({
+      options: {
+        size: [300, 300],
+        minSize: [100, 100],
+        maxSize: [350, 350],
+        anchor: [250, 250],
+        position: 'topleft',
+        initOpen: true
+      },
+      initialize: function (options) {
+        L.setOptions(this, options);
+        this._attributions = {};
+      },
+      onAdd: function (map) {
+        this._initLayout();
+
+        this._map = map;
+        this.update();
+
+        if (!this.options.initOpen) {
+          this.close();
+        }
+
+        return this._container;
+      },
+      open: function () {
+        if (!this._map) {
+          return;
+        }
+
+        this._container.style.visibility = '';
+
+        this._map.fire('dialog:opened', this);
+
+        return this;
+      },
+      close: function () {
+        this._container.style.visibility = 'hidden';
+
+        this._map.fire('dialog:closed', this);
+
+        return this;
+      },
+      destroy: function () {
+        if (!this._map) {
+          return this;
+        }
+
+        this.removeFrom(this._map);
+
+        if (this.onRemove) {
+          this.onRemove(this._map);
+        }
+
+        this._map.fire('dialog:destroyed', this);
+
+        return this;
+      },
+      setLocation: function (location) {
+        location = location || [250, 250];
+        this.options.anchor[0] = 0;
+        this.options.anchor[1] = 0;
+        this._oldMousePos.x = 0;
+        this._oldMousePos.y = 0;
+
+        this._move(location[1], location[0]);
+
+        return this;
+      },
+      setSize: function (size) {
+        size = size || [300, 300];
+        this.options.size[0] = 0;
+        this.options.size[1] = 0;
+        this._oldMousePos.x = 0;
+        this._oldMousePos.y = 0;
+
+        this._resize(size[0], size[1]);
+
+        return this;
+      },
+      lock: function () {
+        this._resizerNode.style.visibility = 'hidden';
+        this._grabberNode.style.visibility = 'hidden';
+        this._closeNode.style.visibility = 'hidden';
+
+        this._map.fire('dialog:locked', this);
+
+        return this;
+      },
+      unlock: function () {
+        this._resizerNode.style.visibility = '';
+        this._grabberNode.style.visibility = '';
+        this._closeNode.style.visibility = '';
+
+        this._map.fire('dialog:unlocked', this);
+
+        return this;
+      },
+      freeze: function () {
+        this._resizerNode.style.visibility = 'hidden';
+        this._grabberNode.style.visibility = 'hidden';
+
+        this._map.fire('dialog:frozen', this);
+
+        return this;
+      },
+      unfreeze: function () {
+        this._resizerNode.style.visibility = '';
+        this._grabberNode.style.visibility = '';
+
+        this._map.fire('dialog:unfrozen', this);
+
+        return this;
+      },
+      setContent: function (content) {
+        this._content = content;
+        this.update();
+        return this;
+      },
+      getContent: function () {
+        return this._content;
+      },
+      getElement: function () {
+        return this._container;
+      },
+      update: function () {
+        if (!this._map) {
+          return;
+        }
+
+        this._container.style.visibility = 'hidden';
+
+        this._updateContent();
+
+        this._updateLayout();
+
+        this._container.style.visibility = '';
+
+        this._map.fire('dialog:updated', this);
+      },
+      _initLayout: function () {
+        var className = 'leaflet-control-dialog',
+            container = this._container = L.DomUtil.create('div', className);
+        container.style.width = this.options.size[0] + 'px';
+        container.style.height = this.options.size[1] + 'px';
+        container.style.top = this.options.anchor[0] + 'px';
+        container.style.left = this.options.anchor[1] + 'px';
+        var stop = L.DomEvent.stopPropagation;
+        L.DomEvent.on(container, 'click', stop).on(container, 'mousedown', stop).on(container, 'touchstart', stop).on(container, 'dblclick', stop).on(container, 'mousewheel', stop).on(container, 'contextmenu', stop).on(container, 'MozMousePixelScroll', stop);
+        var innerContainer = this._innerContainer = L.DomUtil.create('div', className + '-inner');
+        var grabberNode = this._grabberNode = L.DomUtil.create('div', className + '-grabber');
+        var grabberIcon = L.DomUtil.create('i', 'fa fa-arrows');
+        grabberNode.appendChild(grabberIcon);
+        L.DomEvent.on(grabberNode, 'mousedown', this._handleMoveStart, this);
+        var closeNode = this._closeNode = L.DomUtil.create('div', className + '-close');
+        var closeIcon = L.DomUtil.create('i', 'fa fa-times');
+        closeNode.appendChild(closeIcon);
+        L.DomEvent.on(closeNode, 'click', this._handleClose, this);
+        var resizerNode = this._resizerNode = L.DomUtil.create('div', className + '-resizer');
+        var resizeIcon = L.DomUtil.create('i', 'fa fa-arrows-h fa-rotate-45');
+        resizerNode.appendChild(resizeIcon);
+        L.DomEvent.on(resizerNode, 'mousedown', this._handleResizeStart, this);
+        var contentNode = this._contentNode = L.DomUtil.create('div', className + "-contents");
+        container.appendChild(innerContainer);
+        innerContainer.appendChild(contentNode);
+        innerContainer.appendChild(grabberNode);
+        innerContainer.appendChild(closeNode);
+        innerContainer.appendChild(resizerNode);
+        this._oldMousePos = {
+          x: 0,
+          y: 0
+        };
+      },
+      _handleClose: function () {
+        this.close();
+      },
+      _handleResizeStart: function (e) {
+        this._oldMousePos.x = e.clientX;
+        this._oldMousePos.y = e.clientY;
+        L.DomEvent.on(this._map, 'mousemove', this._handleMouseMove, this);
+        L.DomEvent.on(this._map, 'mouseup', this._handleMouseUp, this);
+
+        this._map.fire('dialog:resizestart', this);
+
+        this._resizing = true;
+      },
+      _handleMoveStart: function (e) {
+        this._oldMousePos.x = e.clientX;
+        this._oldMousePos.y = e.clientY;
+        L.DomEvent.on(this._map, 'mousemove', this._handleMouseMove, this);
+        L.DomEvent.on(this._map, 'mouseup', this._handleMouseUp, this);
+
+        this._map.fire('dialog:movestart', this);
+
+        this._moving = true;
+      },
+      _handleMouseMove: function (e) {
+        var diffX = e.originalEvent.clientX - this._oldMousePos.x,
+            diffY = e.originalEvent.clientY - this._oldMousePos.y; // this helps prevent accidental highlighting on drag:
+
+        if (e.originalEvent.stopPropagation) {
+          e.originalEvent.stopPropagation();
+        }
+
+        if (e.originalEvent.preventDefault) {
+          e.originalEvent.preventDefault();
+        }
+
+        if (this._resizing) {
+          this._resize(diffX, diffY);
+        }
+
+        if (this._moving) {
+          this._move(diffX, diffY);
+        }
+      },
+      _handleMouseUp: function () {
+        L.DomEvent.off(this._map, 'mousemove', this._handleMouseMove, this);
+        L.DomEvent.off(this._map, 'mouseup', this._handleMouseUp, this);
+
+        if (this._resizing) {
+          this._resizing = false;
+
+          this._map.fire('dialog:resizeend', this);
+        }
+
+        if (this._moving) {
+          this._moving = false;
+
+          this._map.fire('dialog:moveend', this);
+        }
+      },
+      _move: function (diffX, diffY) {
+        var newY = this.options.anchor[0] + diffY;
+        var newX = this.options.anchor[1] + diffX;
+        this.options.anchor[0] = newY;
+        this.options.anchor[1] = newX;
+        this._container.style.top = this.options.anchor[0] + 'px';
+        this._container.style.left = this.options.anchor[1] + 'px';
+
+        this._map.fire('dialog:moving', this);
+
+        this._oldMousePos.y += diffY;
+        this._oldMousePos.x += diffX;
+      },
+      _resize: function (diffX, diffY) {
+        var newX = this.options.size[0] + diffX;
+        var newY = this.options.size[1] + diffY;
+
+        if (newX <= this.options.maxSize[0] && newX >= this.options.minSize[0]) {
+          this.options.size[0] = newX;
+          this._container.style.width = this.options.size[0] + 'px';
+          this._oldMousePos.x += diffX;
+        }
+
+        if (newY <= this.options.maxSize[1] && newY >= this.options.minSize[1]) {
+          this.options.size[1] = newY;
+          this._container.style.height = this.options.size[1] + 'px';
+          this._oldMousePos.y += diffY;
+        }
+
+        this._map.fire('dialog:resizing', this);
+      },
+      _updateContent: function () {
+        if (!this._content) {
+          return;
+        }
+
+        var node = this._contentNode;
+        var content = typeof this._content === 'function' ? this._content(this) : this._content;
+
+        if (typeof content === 'string') {
+          node.innerHTML = content;
+        } else {
+          while (node.hasChildNodes()) {
+            node.removeChild(node.firstChild);
+          }
+
+          node.appendChild(content);
+        }
+      },
+      _updateLayout: function () {
+        this._container.style.width = this.options.size[0] + 'px';
+        this._container.style.height = this.options.size[1] + 'px';
+        this._container.style.top = this.options.anchor[0] + 'px';
+        this._container.style.left = this.options.anchor[1] + 'px';
+      }
+    });
+
+    L.control.dialog = function (options) {
+      return new L.Control.Dialog(options);
+    };
 
     /** ГеоМиксер активно использует {@link http://jquery.com/|jQuery}
      * @namespace jQuery
@@ -37165,7 +37672,7 @@
             id: 'mapTabsNew',
             title: _gtxt('Добавить закладку'),
             func: function func() {
-              mapHelp.tabs.load('mapTabs');
+              mapHelp$1.tabs.load('mapTabs');
 
               _queryTabs.add();
             }
@@ -37312,11 +37819,11 @@
           childs: [{
             id: 'externalMaps',
             title: _gtxt('Дополнительные карты'),
-            func: mapHelp.externalMaps.load
+            func: mapHelp$1.externalMaps.load
           }, {
             id: 'mapTabs',
             title: _gtxt('Закладки'),
-            func: mapHelp.tabs.load
+            func: mapHelp$1.tabs.load
           }, {
             id: 'DrawingObjects',
             title: _gtxt('Объекты'),
@@ -37521,7 +38028,7 @@
             addBefore: 'drawing'
           });
           bookmarkIcon.on('click', function () {
-            mapHelp.tabs.load('mapTabs');
+            mapHelp$1.tabs.load('mapTabs');
 
             _queryTabs.add();
           });
@@ -37718,13 +38225,13 @@
           childs: [{
             id: 'usage',
             title: _gtxt('Использование'),
-            onsel: mapHelp.mapHelp.load,
-            onunsel: mapHelp.mapHelp.unload
+            onsel: mapHelp$1.mapHelp.load,
+            onunsel: mapHelp$1.mapHelp.unload
           }, {
             id: 'serviceHelp',
             title: _gtxt('Сервисы'),
-            onsel: mapHelp.serviceHelp.load,
-            onunsel: mapHelp.serviceHelp.unload
+            onsel: mapHelp$1.serviceHelp.load,
+            onunsel: mapHelp$1.serviceHelp.unload
           }, {
             id: 'about',
             title: _gtxt('О проекте'),
@@ -37808,7 +38315,7 @@
         });
 
         _translationsHash.addErrorHandler(function (text) {
-          showErrorMessage('Не найдено тектовое описание для "' + text + '"');
+          showErrorMessage$1('Не найдено тектовое описание для "' + text + '"');
         });
 
         nsGmx$1.pluginsManager = new (gmxCore$1.getModule('PluginsManager').PluginsManager)(); //будем сохранять в пермалинке все активные плагины
@@ -38913,7 +39420,7 @@
 
           addParseResponseHook('auth', function () {
             if (nsGmx$1.AuthManager.isLogin()) {
-              showErrorMessage(_gtxt('Недостаточно прав для совершения операции'), true);
+              showErrorMessage$1(_gtxt('Недостаточно прав для совершения операции'), true);
             } else {
               nsGmx$1.widgets.authWidget.showLoginDialog();
             }

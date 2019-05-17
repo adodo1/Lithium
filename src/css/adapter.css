@@ -28,21 +28,21 @@
 
 .searchBeginOn
 {
-	background: transparent url(img/searchBeginOn_2.png) no-repeat scroll 0 0;
+	background: transparent url('img/searchBeginOn_2.png') no-repeat scroll 0 0;
 	cursor: pointer;
 }
 .active .searchBeginOn
 {
-	background: transparent url(img/searchBeginOn_2a.png) no-repeat scroll 0 0;
+	background: transparent url('img/searchBeginOn_2a.png') no-repeat scroll 0 0;
 }
 .searchBeginOff
 {
-	background: transparent url(img/searchBeginOff_2.png) no-repeat scroll 0 0;
+	background: transparent url('img/searchBeginOff_2.png') no-repeat scroll 0 0;
 	cursor: pointer;
 }
 .active .searchBeginOff
 {
-	background: transparent url(img/searchBeginOff_2a.png) no-repeat scroll 0 0;
+	background: transparent url('img/searchBeginOff_2a.png') no-repeat scroll 0 0;
 }
 
 /* Auth widget */
@@ -78,7 +78,7 @@
 /* Header widget */
 #HeaderLinkGeoMixer {
     color: #2372B9;
-    background-image: url("../common_components/dist/HeaderWidget/build/assets/dot_on.png");
+    background-image: url('img/dot_on.png');
     cursor: default;
     font-weight: bold;
 }

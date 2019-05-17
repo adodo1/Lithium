@@ -30,5 +30,5 @@
 			}
 		};
 	}();
-	$(EYE.init);
+	$(EYE.init);	
 })(jQuery);

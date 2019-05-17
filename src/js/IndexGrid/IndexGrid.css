@@ -50,7 +50,7 @@
     height:20px;
 }
 
-.eLabel, .eInput, {
+.eLabel, .eInput {
     height: 25px;
     width: 33%;
     text-align:left;

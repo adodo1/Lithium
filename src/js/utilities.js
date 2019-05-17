@@ -1,4 +1,5 @@
 import nsGmx from './nsGmx.js';
+import gmxCore from './gmxcore.js';
 
 nsGmx.Utils = nsGmx.Utils || {};
 var domManipulation = {
@@ -1812,7 +1813,7 @@ $.extend(nsGmx.Utils, {
     _checkbox: _checkbox
 });
 
-window.gmxCore && window.gmxCore.addModule('utilities', nsGmx.Utils);
+gmxCore.addModule('utilities', nsGmx.Utils);
 
 const {
     _br,

@@ -8,6 +8,7 @@ import {
 } from '../utilities.js';
 import '../AsyncTaskManager.js';
 import './MapExport.css';
+import gmxCore from '../gmxcore.js';
 
     var MAX_SIZE = 10000;
     var EPS = 1E-9;
@@ -1256,6 +1257,6 @@ import './MapExport.css';
         MapExportMenu: MapExportMenu
   };
 
-    window.gmxCore.addModule('MapExport',
+    gmxCore.addModule('MapExport',
         publicInterface
     );

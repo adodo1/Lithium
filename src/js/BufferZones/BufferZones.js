@@ -3,7 +3,10 @@ import {
     sendCrossDomainJSONRequest,
     parseResponse,
 } from '../utilities.js';
+import {leftMenu} from '../menu.js';
 import './BufferZones.css';
+
+import gmxCore from '../gmxcore.js'
 
 (function() {
     window._translationsHash.addtext('rus', {
@@ -38,7 +41,7 @@ import './BufferZones.css';
 
         var BufferModel = window.Backbone.Model.extend({
             defaults: {
-                lm: new window.leftMenu(),
+                lm: new leftMenu(),
                 lmap: nsGmx.leafletMap,
                 selectedLayer: null,
                 selectedLayerName: '',
@@ -224,7 +227,7 @@ import './BufferZones.css';
         BufferZonesMenu: BufferZonesMenu
   };
 
-    window.gmxCore.addModule('BufferZones',
-        publicInterface
+    gmxCore.addModule('BufferZones',
+        publicInterface,
     );
 })();

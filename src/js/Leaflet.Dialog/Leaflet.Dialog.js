@@ -1,3 +1,5 @@
+import './Leaflet.Dialog.css';
+
 L.Control.Dialog = L.Control.extend({
   options: {
     size: [ 300, 300 ],

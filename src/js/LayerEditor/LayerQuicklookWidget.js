@@ -1,13 +1,14 @@
 ﻿import nsGmx from '../nsGmx.js';
 import '../SuggestWidget/AttrSuggestWidget.js';
+import './LayerQuicklookWidget.css';
 
-_translationsHash.addtext('rus', {LayerQuicklookWidget: {
+window._translationsHash.addtext('rus', {LayerQuicklookWidget: {
     minZoom: 'Мин. зум',
     regTitle: 'Атрибуты привязки',
     title: 'Показать'
 }});
 
-_translationsHash.addtext('eng', {LayerQuicklookWidget: {
+window._translationsHash.addtext('eng', {LayerQuicklookWidget: {
     minZoom: 'Min zoom',
     regTitle: 'Registration fields',
     title: 'Expand'

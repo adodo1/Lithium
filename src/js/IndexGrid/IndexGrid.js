@@ -1,6 +1,8 @@
 import nsGmx from '../nsGmx.js';
 import '../AsyncTaskManager.js';
 import './IndexGrid.css';
+import gmxCore from '../gmxcore.js';
+import {leftMenu} from '../menu.js';
 
     var MAX_INDEX_COUNT = 10000;
     var KM_PER_DEGREE = 111.31949;
@@ -64,7 +66,7 @@ import './IndexGrid.css';
 
         var IndexGridModel = window.Backbone.Model.extend({
             defaults: {
-                lm: new window.leftMenu(),
+                lm: new leftMenu(),
                 lmap: nsGmx.leafletMap,
                 selArea: null,
                 xStep: 1,
@@ -1113,6 +1115,6 @@ import './IndexGrid.css';
         IndexGridMenu: IndexGridMenu
   };
 
-    window.gmxCore.addModule('IndexGrid',
+    gmxCore.addModule('IndexGrid',
         publicInterface
     );

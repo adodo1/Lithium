@@ -1,4 +1,5 @@
-﻿import nsGmx from './nsGmx.js';
+﻿import nsGmx from '../nsGmx.js';
+import './NotificationWidget.css';
 
 (function() {    
     window.nsGmx.widgets = window.nsGmx.widgets || {};

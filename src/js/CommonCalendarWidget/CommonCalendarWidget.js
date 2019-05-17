@@ -2,9 +2,9 @@
 import nsGmx from '../nsGmx.js';
 import '../translations.js';
 import '../DateInterval/DateInterval.js';
-import './CommonCalendarWidget.css';
 import '../CalendarWidget/CalendarWidget.js';
 import '../CalendarWidget-new/CalendarWidget.js';
+import './CommonCalendarWidget.css';
 
 (function($){
 

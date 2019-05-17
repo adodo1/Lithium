@@ -21,6 +21,7 @@ import {
 import './Controls.js';
 import './LayerStylesEditor.js';
 import _queryTabs from './queryTabs.js';
+import './queryExternalMaps.js';
 
 const _ = nsGmx.Utils._;
 

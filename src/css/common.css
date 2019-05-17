@@ -301,7 +301,7 @@ div.user span
 .layerManager
 {
 	position: absolute;
-	left: 360px;
+	left: 387px;
 	top: 30px;
 	width: 300px;
 	overflow: hidden;
@@ -674,7 +674,7 @@ div.unit .unitInfo
 
 div.fileBrowser-progressBar
 {
-    width: 360px;
+    width: 400px;
     margin: 16px 18px 0px 0px;
     position: absolute;
     right: 0px;
@@ -1901,10 +1901,6 @@ div.layersScroll
 
 .gmx-slider-control.invisible {
     display: none;
-}
-
-leaflet-control-layers-toggle {
-	background-image:
 }
 
 .gmxPopup div p {

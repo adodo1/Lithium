@@ -1,6 +1,6 @@
 ﻿import '../css/common.css';
+import './CommonStyles/styles.css';
 import '../css/scroll.css';
-import '../css/PluginEditor.css';
 import '../css/print.css';
 import '../css/search.css';
 import '../css/menu.css';
@@ -10,7 +10,6 @@ import '../css/drawing.css';
 import '../css/layerstylesmenu.css';
 import '../css/swich-slider.css';
 import '../css/adapter.css';
-import '../css/sidebar.css';
 import '../css/leafletGmx.css';
 
 import nsGmx from './nsGmx.js';
@@ -46,10 +45,7 @@ import './AuthWidget/AuthWidget.js';
 import './AuthWidget.js';
 import './version.js';
 import {DrawingObjectGeomixer} from './drawingObjects.js';
-// import './IconSidebarControl/src/IconSidebarWidget.css';
 import IconSidebarWidget from './IconSidebarControl/src/IconSidebarWidget.js';
-// import 'scanex-sidebar/dist/scanex-sidebar.css';
-// import IconSidebarWidget from 'scanex-sidebar';
 import './contextMenuController.js';
 import './LayersTree.js';
 import './SearchLogic/SearchLogic.js';
@@ -77,6 +73,7 @@ import './BufferZones/BufferZones.js';
 import './IndexGrid/IndexGrid.js';
 import './PhotoLayer/PhotoLayer.js';
 import './UserGroupWidget/UserGroupWidget.js';
+import './Leaflet.Dialog/Leaflet.Dialog.js';
 
 //Тут кратко описываются разные внешние классы для системы генерации документации
 

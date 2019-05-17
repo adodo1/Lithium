@@ -1,6 +1,7 @@
 import nsGmx from '../nsGmx.js';
 import './CalendarWidget.css';
 import '../GmxWidget/GmxWidget.js';
+import '../CommonCalendarWidget/CommonCalendarWidget.css';
 
 nsGmx.Templates = nsGmx.Templates || {};
 nsGmx.Templates.CalendarWidget = {};

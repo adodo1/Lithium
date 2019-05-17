@@ -1,26 +1,27 @@
-﻿import nsGmx from './nsGmx.js';
+﻿import nsGmx from '../nsGmx.js';
 import {
     inputError, showDialog,
-} from './utilities.js';
-import gmxCore from './gmxcore.js';
+} from '../utilities.js';
+import gmxCore from '../gmxcore.js';
+import './PluginEditor.css';
 
 (function($){
 
 "use strict";
 
 window._translationsHash.addtext("rus", {
-                        "pluginsEditor.selectedTitle" : "Плагины карты",
-                        "pluginsEditor.availableTitle" : "Доступные плагины",
-                        "pluginsEditor.add" : "Добавить плагин",
-                        "pluginsEditor.paramsTitle" : "Параметры плагина"
-                     });
+"pluginsEditor.selectedTitle" : "Плагины карты",
+"pluginsEditor.availableTitle" : "Доступные плагины",
+"pluginsEditor.add" : "Добавить плагин",
+"pluginsEditor.paramsTitle" : "Параметры плагина"
+});
 
 window._translationsHash.addtext("eng", {
-                        "pluginsEditor.selectedTitle" : "Map plugins",
-                        "pluginsEditor.availableTitle" : "Available plugins",
-                        "pluginsEditor.add" : "Add plugin",
-                        "pluginsEditor.paramsTitle" : "Parameter of plugin"
-                     });
+"pluginsEditor.selectedTitle" : "Map plugins",
+"pluginsEditor.availableTitle" : "Available plugins",
+"pluginsEditor.add" : "Add plugin",
+"pluginsEditor.paramsTitle" : "Parameter of plugin"
+});
 
 
 var MapPlugins = function()

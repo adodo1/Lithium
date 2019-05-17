@@ -948,22 +948,19 @@ scrollTable.StaticDataProvider.genAttrSort = function(attrName1, attrName2)
 	window.nsGmx.ScrollTable = scrollTable;
 // }
 
-if (typeof window.gmxCore !== 'undefined')
-{
-	gmxCore.addModule("ScrollTableControl",
+gmxCore.addModule("ScrollTableControl",
+	{
+		ScrollTable: scrollTable
+	},
+	{
+		require: ['translations', 'utilities'],
+		// css: 'table.css',
+		init: function(module, path)
 		{
-			ScrollTable: scrollTable
-		},
-		{
-			require: ['translations', 'utilities'],
-			// css: 'table.css',
-			init: function(module, path)
-			{
-				modulePath = path || "";
-				appendTranslations();
-			}
+			modulePath = path || "";
+			appendTranslations();
 		}
-	);
-}
+	}
+);
 
 })(jQuery, nsGmx.Utils._);

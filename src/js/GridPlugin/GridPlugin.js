@@ -1,5 +1,7 @@
 import nsGmx from '../nsGmx.js';
 import './GridPlugin.css';
+import gmxCore from '../gmxcore.js';
+import {leftMenu} from '../menu.js';
 
 (function() {
     window._translationsHash.addtext('rus', {
@@ -47,7 +49,7 @@ import './GridPlugin.css';
                     color: control.options.color
                 }
             },
-            lm = new window.leftMenu();
+            lm = new leftMenu();
 
         // заполняем левое меню
         function createGridLeftMenu() {
@@ -380,7 +382,7 @@ import './GridPlugin.css';
         ConfigureGridMenu: ConfigureGridMenu
   };
 
-    window.gmxCore.addModule('GridPlugin',
+    gmxCore.addModule('GridPlugin',
         publicInterface
     );
 })();

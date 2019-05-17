@@ -270,7 +270,7 @@ attrsTable.prototype.drawDialog = function(info, canvas, outerSizeProvider, para
 
 	// создание слоя из выборки (из атрибутивной таблицы)
     downloadSection.find('.createLayerLink').click(function() {
-		sendCrossDomainJSONRequest(serverBase + "Layer/GetLayerInfo.ashx?WrapStyle=func&NeedAttrValues=false&LayerName=" + info.name, function(response) {
+		sendCrossDomainJSONRequest(window.serverBase + "Layer/GetLayerInfo.ashx?WrapStyle=func&NeedAttrValues=false&LayerName=" + info.name, function(response) {
 			if (!parseResponse(response)) {
 				return;
 			}
@@ -310,7 +310,7 @@ attrsTable.prototype.drawDialog = function(info, canvas, outerSizeProvider, para
 						copy: true,
 						sourceLayerName: info.name,
 						query: query,
-						doneCallback: function(res) {
+						doneCallback: function() {
 							nsGmx.Utils.removeDialog(dialogDiv);
 						}
 					};
@@ -443,7 +443,7 @@ attrsTable.prototype.drawDialog = function(info, canvas, outerSizeProvider, para
 
 	tdParams.style.display = 'none';
 
-	var name = 'attrsTable' + info.name;
+	// var name = 'attrsTable' + info.name;
 
     var attrNames = this.tableFields.fieldsAsArray;
     var fielsWidth = new Array(_params.hideRowActions ? attrNames.length : attrNames.length + 1).join('0').split('0');
@@ -479,7 +479,7 @@ attrsTable.prototype.drawDialog = function(info, canvas, outerSizeProvider, para
 			['attr', 'class', 'attrsSelectedCont']
 		]);
 
-	canvas.onclick = function (e) {
+	canvas.onclick = function () {
 		if ($(showColumnsListButton).hasClass('hide-columns-list-button')) {
 			$(showColumnsListButton).toggleClass('hide-columns-list-button');
 			$(showColumnsListButton).html(_gtxt('Показывать колонки'))
@@ -723,8 +723,8 @@ attrsTable.prototype.drawDialog = function(info, canvas, outerSizeProvider, para
 
 	nsGmx.Utils._(canvas, [nsGmx.Utils._table([nsGmx.Utils._tbody([nsGmx.Utils._tr([tdParams, tdTable2])])], ['css', 'width', '100%'])]);
 
-	var tbl = $(this.divTable2).find('#attrsTableParent')[0],
-		ths = $(this).find('th');
+	var tbl = $(this.divTable2).find('#attrsTableParent')[0];
+	// var ths = $(this).find('th');
 
 	if (L.Browser.ie || L.Browser.gecko) {
 		var lastSTop = tbl.scrollTop;
@@ -732,7 +732,7 @@ attrsTable.prototype.drawDialog = function(info, canvas, outerSizeProvider, para
 			var stop = this.scrollTop;
 			var ths = $(this).find('th');
 			if (stop < lastSTop) {
-				$(ths).each(function (elem) {
+				$(ths).each(function () {
 					$(this).css('transitionDelay', '0s');
 					$(this).css('transform', "");
 				})
@@ -740,7 +740,7 @@ attrsTable.prototype.drawDialog = function(info, canvas, outerSizeProvider, para
 			lastSTop = stop;
 			var translate = "translate(0,"+stop+"px)";
 
-			$(ths).each(function (elem) {
+			$(ths).each(function () {
 				$(this).css('transitionDelay', '0.25s');
 				$(this).css('transform', translate);
 			})
@@ -749,7 +749,7 @@ attrsTable.prototype.drawDialog = function(info, canvas, outerSizeProvider, para
 		tbl.onscroll = function() {
 			var translate = "translate(0,"+(this.scrollTop)+"px)";
 			var ths = $(this).find('th');
-			$(ths).each(function (elem) {
+			$(ths).each(function () {
 				$(this).css('transform', translate);
 			})
 		};

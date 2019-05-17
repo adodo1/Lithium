@@ -1,4 +1,3 @@
-import './eye.js';
 import './utils.js';
 import '../css/colorpicker.css';
 

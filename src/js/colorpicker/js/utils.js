@@ -7,7 +7,7 @@ import './eye.js';
  * 
  */
 (function($) {
-EYE.extend({
+window.EYE.extend({
 	getPosition : function(e, forceIt)
 	{
 		var x = 0;
@@ -178,7 +178,7 @@ EYE.extend({
 		func(nodeEl);
 		nodeEl = nodeEl.firstChild;
 		while(nodeEl){
-			EYE.traverseDOM(nodeEl, func);
+			window.EYE.traverseDOM(nodeEl, func);
 			nodeEl = nodeEl.nextSibling;
 		}
 	},
@@ -229,8 +229,8 @@ EYE.extend({
 	},
 	centerEl : function(el, axis)
 	{
-		var clientScroll = EYE.getScroll();
-		var size = EYE.getSize(el);
+		var clientScroll = window.EYE.getScroll();
+		var size = window.EYE.getSize(el);
 		if (!axis || axis == 'vertically')
 			$(el).css(
 				{

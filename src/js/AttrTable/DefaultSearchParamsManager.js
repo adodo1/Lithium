@@ -125,10 +125,10 @@ DefaultSearchParamsManager.prototype.drawSearchUI = function(container, attribut
 
 DefaultSearchParamsManager.prototype.drawUpdateUI = function(container, attributesTable) {
     var info = attributesTable.getLayerInfo(),
-        paramsWidth = 320,
+        // paramsWidth = 320,
         _this = this;
 
-    this.currentColumnName = "",
+    this.currentColumnName = "";
     this._container = container;
 
     var geomUIContainer = this.drawGeomUI();
@@ -166,7 +166,7 @@ DefaultSearchParamsManager.prototype.drawUpdateUI = function(container, attribut
                         '</select>'),
         attrsUI = $(attrsTemplate({
             attrs: ['---' + window._gtxt("Выберите колонку").toLowerCase() + '---'].concat(info.attributes)
-        }))[0],
+        }))[0];
         hideButton = nsGmx.Utils.makeLinkButton(_gtxt('Скрыть'));
 
     $(selectColumnContainer).append(window._gtxt("Обновить колонку"));
@@ -275,7 +275,8 @@ DefaultSearchParamsManager.prototype.drawUpdateUI = function(container, attribut
          }
 
         function resCallback(res) {
-            var json, result, fields, types, values;
+            var json;
+            // var result, fields, types, values;
 
             $(spinHolder).hide();
             res = res.substring(1, res.length-1);
@@ -289,7 +290,7 @@ DefaultSearchParamsManager.prototype.drawUpdateUI = function(container, attribut
             $(attributesTable._serverDataProvider).change();
         }
 
-        function catchErr(e) {
+        function catchErr() {
             $(spinHolder).hide();
             $(spinErrorMessage).html(window._gtxt('Ошибка'));
             $(spinErrorMessage).show();
@@ -375,8 +376,7 @@ DefaultSearchParamsManager.prototype.getActiveColumns = function() {
     return this._activeColumns;
 };
 
-DefaultSearchParamsManager.prototype.resize = function(dims) {
-};
+DefaultSearchParamsManager.prototype.resize = function() {};
 
 nsGmx.AttrTable.DefaultSearchParamsManager = DefaultSearchParamsManager;
 
