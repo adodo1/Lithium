@@ -1,8 +1,12 @@
 ﻿import '../css/common.css';
-import './CommonStyles/styles.css';
 import '../css/scroll.css';
 import '../css/print.css';
 import '../css/search.css';
+import './CommonStyles/styles.css';
+import '../css/jquery-ui-1.10.4.css';
+import '../css/jquery-ui-1.11.4-select.css';
+import '../css/jquery-ui-1.10.4-gmx.css';
+import '../css/jquery-ui-timepicker-addon.css';
 import '../css/menu.css';
 import '../css/buttons.css';
 import '../css/treeview.css';
@@ -10,6 +14,7 @@ import '../css/drawing.css';
 import '../css/layerstylesmenu.css';
 import '../css/swich-slider.css';
 import '../css/adapter.css';
+import '../css/sidebar.css';
 import '../css/leafletGmx.css';
 
 import nsGmx from './nsGmx.js';
