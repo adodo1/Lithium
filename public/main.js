@@ -36592,7 +36592,7 @@
         createSandbox: function createSandbox() {
           var _this = this;
 
-          window.sendCrossDomainJSONRequest(window.serverBase + 'Sandbox/CreateSandbox', function (response) {
+          sendCrossDomainJSONRequest(window.serverBase + 'Sandbox/CreateSandbox', function (response) {
             if (parseResponse(response) && response.Result) {
               _this.model.set('sandbox', response.Result.sandbox);
             }
