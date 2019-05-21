@@ -1,12 +1,6 @@
-﻿import '../css/common.css';
-import '../css/scroll.css';
+﻿import '../css/scroll.css';
 import '../css/print.css';
 import '../css/search.css';
-import './CommonStyles/styles.css';
-import '../css/jquery-ui-1.10.4.css';
-import '../css/jquery-ui-1.11.4-select.css';
-import '../css/jquery-ui-1.10.4-gmx.css';
-import '../css/jquery-ui-timepicker-addon.css';
 import '../css/menu.css';
 import '../css/buttons.css';
 import '../css/treeview.css';
