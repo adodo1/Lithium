@@ -281,26 +281,6 @@ span.searchLocationPath:hover
 	margin: .8em 0 .2em;
 	line-height: 1.5;
 }
-input[type=image]
-{
-	cursor: pointer;
-}
-.buttonLink
-{
-	text-decoration: underline;
-	cursor: pointer;
-	font-size: 12px;
-}
-
-.buttonLink:hover
-{
-	color: #fc830b;
-}
-
-span.buttonLinkHover
-{
-	color: #fc830b;
-}
 ul
 {
 	list-style-image:none;
@@ -575,6 +555,26 @@ div.leftTitle
     font-family: tahoma;
 }
 
+input[type=image]
+{
+	cursor: pointer;
+}
+.buttonLink
+{
+	text-decoration: underline;
+	cursor: pointer;
+	font-size: 12px;
+}
+
+.buttonLink:hover
+{
+	color: #fc830b;
+}
+
+span.buttonLinkHover
+{
+	color: #fc830b;
+}
 .treeview, 
 .treeview ul
 { 

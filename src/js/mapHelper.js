@@ -22,6 +22,7 @@ import './Controls.js';
 import './LayerStylesEditor.js';
 import _queryTabs from './queryTabs.js';
 import './queryExternalMaps.js';
+import tinyMCE from './TinyMCEInit.js';
 
 const _ = nsGmx.Utils._;
 
@@ -553,14 +554,20 @@ mapHelper.prototype.createPermalink = function(callback)
 }
 
 mapHelper.prototype.updateTinyMCE = function(container) {
-    gmxCore.loadModule('TinyMCELoader', window.location + '//' + window.location.host + window.location.pathname.replace('index.html', '') + 'TinyMCELoader.js', function() {
-        $('.balloonEditor', container).each(function() {
-            var id = $(this).attr('id');
-            if (!tinyMCE.get(id)) {
-                tinyMCE.execCommand("mceAddControl", true, id);
-            }
-        })
-    });
+    // gmxCore.loadModule('TinyMCELoader', window.location + '//' + window.location.host + window.location.pathname.replace('index.html', '') + 'TinyMCELoader.js', function() {
+    //     $('.balloonEditor', container).each(function() {
+    //         var id = $(this).attr('id');
+    //         if (!tinyMCE.get(id)) {
+    //             tinyMCE.execCommand("mceAddControl", true, id);
+    //         }
+    //     })
+	// });
+	$('.balloonEditor', container).each(function() {
+		var id = $(this).attr('id');
+		if (!tinyMCE.get(id)) {
+			tinyMCE.execCommand("mceAddControl", true, id);
+		}
+	});
 }
 
 //event: selected(url)

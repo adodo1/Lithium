@@ -5930,6 +5930,20 @@
       nsGmx$1.ZoomPropertiesControl = ZoomPropertiesControl;
     })();
 
+    tinyMCE.init({
+      mode: "none",
+      theme: "advanced",
+      plugins: 'fullscreen',
+      language: 'ru',
+      convert_urls: false,
+      theme_advanced_buttons1: 'bold,italic,underline,|,justifyleft,justifycenter,justifyright,|,link,unlink,fullscreen,code',
+      theme_advanced_buttons2: '',
+      theme_advanced_buttons3: '',
+      theme_advanced_statusbar_location: 'none',
+      theme_advanced_toolbar_location: 'bottom',
+      theme_advanced_toolbar_align: 'center'
+    });
+
     (function (_) {
       //явно прописывает все свойства балунов в стиле.
       var applyBalloonDefaultStyle = function applyBalloonDefaultStyle(style) {
@@ -6321,17 +6335,26 @@
             boxMove = _checkbox(!balloonParams.DisableBalloonOnMouseMove && balloonParams.BalloonEnable, 'checkbox'),
             br = "\n";
 
-        gmxCore$1.loadModule('TinyMCELoader', window.location.protocol + '//' + window.location.host + window.location.pathname.replace('index.html', '') + 'TinyMCELoader.js', function () {
-          tinyMCE.onAddEditor.add(function (mgr, ed) {
-            if (ed.id === textareaID) {
-              ed.onKeyUp.add(setBalloon);
-              ed.onChange.add(setBalloon);
-              ed.onClick.add(function () {
-                $(suggestWidget.el).fadeOut(300);
-              });
-            }
-          });
-        });
+        tinyMCE.onAddEditor.add(function (mgr, ed) {
+          if (ed.id === textareaID) {
+            ed.onKeyUp.add(setBalloon);
+            ed.onChange.add(setBalloon);
+            ed.onClick.add(function () {
+              $(suggestWidget.el).fadeOut(300);
+            });
+          }
+        }); // gmxCore.loadModule('TinyMCELoader', window.location.protocol + '//' + window.location.host + window.location.pathname.replace('index.html', '') + 'TinyMCELoader.js', function() {
+        // 	tinyMCE.onAddEditor.add(function(mgr,ed) {
+        // 		if (ed.id === textareaID) {
+        // 			ed.onKeyUp.add(setBalloon);
+        // 			ed.onChange.add(setBalloon);
+        // 			ed.onClick.add(function() {
+        // 				$(suggestWidget.el).fadeOut(300);
+        // 			});
+        // 		}
+        // 	});
+        // })
+
         boxClick.className = 'box';
 
         boxClick.onclick = function () {
@@ -7461,12 +7484,15 @@
 
           $(multiStyleParent).empty();
 
-          _mapHelper.createMultiStyle(elemProperties, treeView, multiStyleParent);
+          _mapHelper.createMultiStyle(elemProperties, treeView, multiStyleParent); // gmxCore.loadModule('TinyMCELoader', 'http://' + window.location.host + window.location.pathname.replace('index.html', '') + 'TinyMCELoader.js', function() {
+          // 	$('.balloonEditor', divDialog).each(function() {
+          // 		tinyMCE.execCommand("mceRemoveControl", true, $(this).attr('id'));
+          // 	})
+          // })
 
-          gmxCore$1.loadModule('TinyMCELoader', 'http://' + window.location.host + window.location.pathname.replace('index.html', '') + 'TinyMCELoader.js', function () {
-            $('.balloonEditor', divDialog).each(function () {
-              tinyMCE.execCommand("mceRemoveControl", true, $(this).attr('id'));
-            });
+
+          $('.balloonEditor', divDialog).each(function () {
+            tinyMCE.execCommand("mceRemoveControl", true, $(this).attr('id'));
           });
           return false;
         };
@@ -8559,14 +8585,20 @@
     };
 
     mapHelper.prototype.updateTinyMCE = function (container) {
-      gmxCore$1.loadModule('TinyMCELoader', window.location + '//' + window.location.host + window.location.pathname.replace('index.html', '') + 'TinyMCELoader.js', function () {
-        $('.balloonEditor', container).each(function () {
-          var id = $(this).attr('id');
+      // gmxCore.loadModule('TinyMCELoader', window.location + '//' + window.location.host + window.location.pathname.replace('index.html', '') + 'TinyMCELoader.js', function() {
+      //     $('.balloonEditor', container).each(function() {
+      //         var id = $(this).attr('id');
+      //         if (!tinyMCE.get(id)) {
+      //             tinyMCE.execCommand("mceAddControl", true, id);
+      //         }
+      //     })
+      // });
+      $('.balloonEditor', container).each(function () {
+        var id = $(this).attr('id');
 
-          if (!tinyMCE.get(id)) {
-            tinyMCE.execCommand("mceAddControl", true, id);
-          }
-        });
+        if (!tinyMCE.get(id)) {
+          tinyMCE.execCommand("mceAddControl", true, id);
+        }
       });
     }; //event: selected(url)
 
@@ -39870,6 +39902,20 @@
       window.prompt = promptFunction;
     };
 
+    tinyMCE.init({
+      mode: "none",
+      theme: "advanced",
+      plugins: 'fullscreen',
+      language: 'ru',
+      convert_urls: false,
+      theme_advanced_buttons1: 'bold,italic,underline,|,justifyleft,justifycenter,justifyright,|,link,unlink,fullscreen,code',
+      theme_advanced_buttons2: '',
+      theme_advanced_buttons3: '',
+      theme_advanced_statusbar_location: 'none',
+      theme_advanced_toolbar_location: 'bottom',
+      theme_advanced_toolbar_align: 'center'
+    });
     nsGmx$1.initGeoMixer();
 
 }());
+//# sourceMappingURL=main.js.map

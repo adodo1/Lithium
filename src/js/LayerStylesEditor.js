@@ -23,6 +23,7 @@ import {
 	_ul,
 } from './utilities.js';
 import gmxCore from './gmxcore.js';
+import tinyMCE from './TinyMCEInit.js';
 
 //Создание интерфейса редактирования стилей слоя
 (function(_) {
@@ -469,18 +470,29 @@ var createBalloonEditor = function(balloonParams, attrs, elemCanvas, identityFie
 		boxMove = _checkbox(!balloonParams.DisableBalloonOnMouseMove && balloonParams.BalloonEnable, 'checkbox'),
 		br = "\n";
 
-	gmxCore.loadModule('TinyMCELoader', window.location.protocol + '//' + window.location.host + window.location.pathname.replace('index.html', '') + 'TinyMCELoader.js', function() {
-		tinyMCE.onAddEditor.add(function(mgr,ed) {
-			if (ed.id === textareaID) {
-				ed.onKeyUp.add(setBalloon);
-				ed.onChange.add(setBalloon);
-				ed.onClick.add(function() {
-					$(suggestWidget.el).fadeOut(300);
-				});
+	tinyMCE.onAddEditor.add(function(mgr,ed) {
+		if (ed.id === textareaID) {
+			ed.onKeyUp.add(setBalloon);
+			ed.onChange.add(setBalloon);
+			ed.onClick.add(function() {
+				$(suggestWidget.el).fadeOut(300);
+			});
 
-			}
-		});
-	})
+		}
+	});
+
+	// gmxCore.loadModule('TinyMCELoader', window.location.protocol + '//' + window.location.host + window.location.pathname.replace('index.html', '') + 'TinyMCELoader.js', function() {
+	// 	tinyMCE.onAddEditor.add(function(mgr,ed) {
+	// 		if (ed.id === textareaID) {
+	// 			ed.onKeyUp.add(setBalloon);
+	// 			ed.onChange.add(setBalloon);
+	// 			ed.onClick.add(function() {
+	// 				$(suggestWidget.el).fadeOut(300);
+	// 			});
+
+	// 		}
+	// 	});
+	// })
 
 	boxClick.className = 'box';
 
@@ -1903,11 +1915,15 @@ const createStylesDialog = function(elem, treeView, openedStyleIndex) {
 
 		_mapHelper.createMultiStyle(elemProperties, treeView, multiStyleParent);
 
-		gmxCore.loadModule('TinyMCELoader', 'http://' + window.location.host + window.location.pathname.replace('index.html', '') + 'TinyMCELoader.js', function() {
-			$('.balloonEditor', divDialog).each(function() {
-				tinyMCE.execCommand("mceRemoveControl", true, $(this).attr('id'));
-			})
-		})
+		// gmxCore.loadModule('TinyMCELoader', 'http://' + window.location.host + window.location.pathname.replace('index.html', '') + 'TinyMCELoader.js', function() {
+		// 	$('.balloonEditor', divDialog).each(function() {
+		// 		tinyMCE.execCommand("mceRemoveControl", true, $(this).attr('id'));
+		// 	})
+		// })
+
+		$('.balloonEditor', divDialog).each(function() {
+			tinyMCE.execCommand("mceRemoveControl", true, $(this).attr('id'));
+		});
 
 		return false;
 	};

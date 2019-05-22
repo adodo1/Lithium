@@ -13,7 +13,7 @@ export default {
     output: {
         file: pkg.main,
         format: 'iife',
-        sourcemap: false,
+        sourcemap: true,
         name: 'App',
         globals: {
             leaflet: 'L',     
