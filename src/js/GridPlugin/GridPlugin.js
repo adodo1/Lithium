@@ -1,7 +1,7 @@
 import nsGmx from '../nsGmx.js';
 import './GridPlugin.css';
-import gmxCore from '../gmxcore.js';
 import {leftMenu} from '../menu.js';
+import '../gmxcore.js';
 
 (function() {
     window._translationsHash.addtext('rus', {
@@ -382,7 +382,7 @@ import {leftMenu} from '../menu.js';
         ConfigureGridMenu: ConfigureGridMenu
   };
 
-    gmxCore.addModule('GridPlugin',
+    window.gmxCore.addModule('GridPlugin',
         publicInterface
     );
 })();

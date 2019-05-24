@@ -1,4 +1,4 @@
-var nsGmx = nsGmx || {};
+import nsGmx from './nsGmx.js';
 
 (function($){
 
@@ -123,9 +123,9 @@ var LayerFiltersControl = function()
 	this.update = function() { _update() };
 }
 
-if ( typeof gmxCore !== 'undefined' )
+if ( typeof window.gmxCore !== 'undefined' )
 {
-	gmxCore.addModule('LayerFiltersControl', {
+	window.gmxCore.addModule('LayerFiltersControl', {
 		LayerFiltersControl: LayerFiltersControl
 	});
 }

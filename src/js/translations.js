@@ -1,5 +1,4 @@
 import nsGmx from './nsGmx.js';
-import gmxCore from './gmxcore.js';
 import {
     _div,
     createCookie,
@@ -270,7 +269,7 @@ window.translationsHash = {
     updateLanguageCookies: commonTranslationsManager.updateLanguageCookies.bind(commonTranslationsManager)
 };
 
-gmxCore && gmxCore.addModule('translations',
+window.gmxCore && window.gmxCore.addModule('translations',
 {
     _translationsHash: window._translationsHash
 });

@@ -1,12 +1,32 @@
 ﻿import nsGmx from './nsGmx.js';
 import {
+    _a,
+    _br,
+    _div,
+    _form,
+    _input,    
     inputError,
+    _li,
+    makeImageButton,
+    makeLinkButton,
+    parseResponse,
+    sendCrossDomainJSONRequest,
+    sendCrossDomainPostRequest,
+    showDialog,
+    showErrorMessage,
+    _t,
+    _table,
+    _tbody,
+    _textarea,
+    _td,
+    _tr,
+    _ul,
 } from './utilities.js';
 
 import {DrawingObjectInfoRow} from './drawingObjects.js';
 
 //Диалог создания/редактирования мультислоя.
-!(function(_){
+(function(_){
 
 //params:
 //  properties - свойства слоя по умолчанию
@@ -20,7 +40,7 @@ var createMultiLayerEditorNew = function(layersTree, params)
 //получает с сервера информацию о мультислое и рисует диалог редактирования его настроек
 var createMultiLayerEditorServer = function(elemProperties, div, layersTree)
 {
-    sendCrossDomainJSONRequest(serverBase + "MultiLayer/GetMultiLayerFullInfo.ashx?MultiLayerID=" + elemProperties.MultiLayerID, function(response)
+    sendCrossDomainJSONRequest(window.serverBase + "MultiLayer/GetMultiLayerFullInfo.ashx?MultiLayerID=" + elemProperties.MultiLayerID, function(response)
     {
         if (!parseResponse(response))
             return;
@@ -169,7 +189,7 @@ var doCreateMultiLayerEditor = function(elemProperties, layers, div, layersTree)
         _td([borderContainer, shpContainer])
     ]);
     
-    var multiObj = null;
+    // var multiObj = null;
     var fileInput = _input(null, [['attr', 'type', 'file'], ['attr', 'name', 'file'], ['attr', 'id', 'upload_shapefile']]);
 	fileInput.onchange = function()
 	{
@@ -309,7 +329,7 @@ var doCreateMultiLayerEditor = function(elemProperties, layers, div, layersTree)
             
             var scriptName = isCreate ? "Insert.ashx" : "Update.ashx";
             
-            sendCrossDomainPostRequest(serverBase + "MultiLayer/" + scriptName, {
+            sendCrossDomainPostRequest(window.serverBase + "MultiLayer/" + scriptName, {
                     WrapStyle: 'window',
                     MultiLayerInfo: JSON.stringify(updateInfo)
                 },
@@ -346,7 +366,7 @@ var doCreateMultiLayerEditor = function(elemProperties, layers, div, layersTree)
                     
                     if (isCreate)
                     {
-                        _abstractTree.addNode(_queryMapLayers.buildedTree.firstChild, li);
+                        window._abstractTree.addNode(_queryMapLayers.buildedTree.firstChild, li);
                         layersTree.addTreeElem(divParent, 0, layerData);
                     }
                     else
@@ -403,7 +423,7 @@ var doCreateMultiLayerEditor = function(elemProperties, layers, div, layersTree)
             _layersTree.findTreeElem(div).elem.content.properties = elemProperties;
         });
         
-        var dialogContainer = _div([_ul([_li([_a([_t(_gtxt("Общие"))],[['attr','href','#properties' + elemProperties.name]])]),
+        dialogContainer = _div([_ul([_li([_a([_t(_gtxt("Общие"))],[['attr','href','#properties' + elemProperties.name]])]),
                                  _li([_a([_t(_gtxt("Стили"))],[['attr','href','#styles' + elemProperties.name]])])])]);
                              
         _(dialogContainer, [divProperties, divStyles]);
@@ -432,7 +452,7 @@ var doCreateMultiLayerEditor = function(elemProperties, layers, div, layersTree)
     var jQueryDialog = showDialog(_gtxt('Мультислой [value0]', elemProperties.title || ''), dialogContainer, isReadonly ? 340 : 900, 530, false, false, null, closeFunc);
 }
 
-gmxCore.addModule('MultiLayerEditor', {
+window.gmxCore.addModule('MultiLayerEditor', {
     createMultiLayerEditorServer: createMultiLayerEditorServer,
     createMultiLayerEditorNew: createMultiLayerEditorNew
 })

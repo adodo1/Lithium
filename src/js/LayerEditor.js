@@ -28,7 +28,6 @@ import './SuggestWidget/AttrSuggestWidget.js';
 import './LayerEditor/ManualAttrModel.js';
 import './LayerEditor/ManualAttrView.js';
 import {mapHelper} from './mapHelper.js';
-import gmxCore from './gmxcore.js';
 import './fileBrowser.js';
 import _tableBrowser from './tableBrowser.js';
 import _fileBrowser from './fileBrowser.js';
@@ -250,7 +249,7 @@ var LayerEditor = function(div, type, parent, properties, params) {
         }
 
         for (var i in _params.additionalUI) {
-            var tab = nsGmx.Utils._.findWhere(_this._originalTabs, {name: i});
+            var tab = _.findWhere(_this._originalTabs, {name: i});
             if (tab) {
                 var container = tab.container.firstChild;
                 _params.additionalUI[i].forEach(function(ui) {
@@ -1175,7 +1174,7 @@ var createLayerEditor = function(div, type, parent, properties, params) {
 
 nsGmx.LayerEditor = LayerEditor;
 
-gmxCore.addModule('LayerEditor', {
+window.gmxCore.addModule('LayerEditor', {
         createLayerEditor: createLayerEditor,
         LayerEditor: LayerEditor
     }, {

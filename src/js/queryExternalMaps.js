@@ -1,10 +1,12 @@
 import nsGmx from './nsGmx.js';
 import {
     _div,
+    _img,
     _input,
     inputError,
     makeButton,
-    makeLinkButton,
+    makeLinkButton, showErrorMessage,
+    _t,
     _table,
     _tbody,
     _tr,
@@ -125,7 +127,7 @@ queryExternalMaps.prototype.addMapElem = function(hostName, mapName, silent)
 		if (!mapElem.extLayersTree)
 			return;
 
-		mapElem.extLayersTree.treeModel.forEachLayer(function(layer, isVisible)
+		mapElem.extLayersTree.treeModel.forEachLayer(function(layer)
 		{
 			var name = layer.properties.name;
 
@@ -145,8 +147,8 @@ queryExternalMaps.prototype.addMapElem = function(hostName, mapName, silent)
 
 queryExternalMaps.prototype.addMap = function(hostName, mapName, parent, silent)
 {
-	var loading = _div([_img(null, [['attr','src','img/progress.gif'],['css','marginRight','10px'],['css','width','16px'],['css','height','16px']]), _t(_gtxt('загрузка...'))], [['css','margin','3px 0px 3px 20px']]),
-		_this = this;
+	var loading = _div([_img(null, [['attr','src','img/progress.gif'],['css','marginRight','10px'],['css','width','16px'],['css','height','16px']]), _t(_gtxt('загрузка...'))], [['css','margin','3px 0px 3px 20px']]);
+	// var _this = this;
 
 	_(parent, [loading]);
 
@@ -161,7 +163,7 @@ queryExternalMaps.prototype.addMap = function(hostName, mapName, parent, silent)
 			return;
 		}
 
-        var extLayersTree = new layersTree({showVisibilityCheckbox: true, allowActive: false, allowDblClick: true});
+        var extLayersTree = new window.layersTree({showVisibilityCheckbox: true, allowActive: false, allowDblClick: true});
 
 		var	tree = extLayersTree.drawTree(gmxMap.rawTree, 2);
 		$(tree).treeview();
@@ -190,9 +192,9 @@ queryExternalMaps.prototype.loadMap = function(hostName, mapName, callback)
         skipTiles: nsGmx.leafletMap.options.skipTiles || ''
     }).then(function(gmxMap)
 	{
-        for (var i = 0; i < gmxMap.layers.length; i++) {
-            var layer = gmxMap.layers[i];
-            var id = layer.getGmxProperties().name;
+        for (let i = 0; i < gmxMap.layers.length; i++) {
+            let layer = gmxMap.layers[i];
+            let id = layer.getGmxProperties().name;
 
             layer.external = true;
 
@@ -209,7 +211,7 @@ queryExternalMaps.prototype.loadMap = function(hostName, mapName, callback)
                 },
                 onAdd: function() {},
                 onRemove: function() {}
-            }
+            };
 
             copyrightLayer.addTo(nsGmx.leafletMap);
         }
@@ -219,8 +221,8 @@ queryExternalMaps.prototype.loadMap = function(hostName, mapName, callback)
         callback(gmxMap);
         $(_queryExternalMaps).triggerHandler('map_loaded', gmxMap);
 
-        for (var i = 0; i < _this.maps.length; i++) {
-            var map = _this.maps[i];
+        for (let i = 0; i < _this.maps.length; i++) {
+            let map = _this.maps[i];
             if (map.hostName === hostName && map.mapName === mapName) {
                 map.tree = gmxMap.layers;
                 break;
@@ -265,7 +267,7 @@ nsGmx.userObjectsManager.addDataCollector('externalMaps', {
         _queryExternalMaps.builded = false;
         _queryExternalMaps.maps = data;
 
-        mapHelp.externalMaps.load('externalMaps');
+        window.mapHelp.externalMaps.load('externalMaps');
     }
 });
 

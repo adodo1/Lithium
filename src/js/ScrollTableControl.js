@@ -10,7 +10,6 @@ import {
 	_table, _tbody, _thead, _tr, _th, _td, _t,
 	_div, _span
 } from './utilities.js';
-import gmxCore from './gmxcore.js';
 
 (function($, _) {
 
@@ -948,7 +947,7 @@ scrollTable.StaticDataProvider.genAttrSort = function(attrName1, attrName2)
 	window.nsGmx.ScrollTable = scrollTable;
 // }
 
-gmxCore.addModule("ScrollTableControl",
+window.gmxCore.addModule("ScrollTableControl",
 	{
 		ScrollTable: scrollTable
 	},

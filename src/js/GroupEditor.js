@@ -1,5 +1,4 @@
 ﻿import nsGmx from './nsGmx.js';
-import gmxCore from './gmxcore.js';
 import {
 	_table, _tbody, _tr, _td, _t,
 	_textarea,
@@ -839,7 +838,7 @@ var createMapEditor = function(div, activePage)
 	canvas.parentNode.style.width = canvas.clientWidth + 'px';
 }
 
-gmxCore.addModule('GroupEditor', {
+window.gmxCore.addModule('GroupEditor', {
 	addSubGroup: addSubGroup,
 	createGroupEditor: createGroupEditor,
 	createMapEditor: createMapEditor

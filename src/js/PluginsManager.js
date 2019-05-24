@@ -1,5 +1,4 @@
 ﻿import nsGmx from './nsGmx.js';
-import gmxCore from './gmxcore.js';
 
 (function(){
 
@@ -15,9 +14,9 @@ var Plugin = function(moduleName, file, body, params, pluginName, mapPlugin, isP
             return;
 
         _this.isLoading = true;
-        gmxCore.loadModule(moduleName, file).then(function()
+        window.gmxCore.loadModule(moduleName, file).then(function()
         {
-            _this.body = gmxCore.getModule(moduleName);
+            _this.body = window.gmxCore.getModule(moduleName);
             _this.isLoading = false;
             _this.pluginName = _this.pluginName || _this.body.pluginName;
             _this.def.resolve();
@@ -343,6 +342,6 @@ var PluginsManager = function()
 }
 
 var publicInterface = {PluginsManager : PluginsManager};
-gmxCore.addModule('PluginsManager', publicInterface);
+window.gmxCore.addModule('PluginsManager', publicInterface);
 
 })();

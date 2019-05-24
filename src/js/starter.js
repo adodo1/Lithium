@@ -12,12 +12,13 @@ import '../css/sidebar.css';
 import '../css/leafletGmx.css';
 
 import nsGmx from './nsGmx.js';
+
 import './lang_ru.js';
 import './lang_en.js';
 import {leftMenu, _menuUp} from './menu.js';
-import './VirtualLayerManager.js';
+import './gmxcore.js';
 import {translationsHash} from './translations.js';
-import gmxCore from './gmxcore.js';
+import './VirtualLayerManager.js';
 import './PluginsManager.js';
 import {mapHelp, _mapHelper} from './mapHelper.js';
 import './AuthManager.js';
@@ -179,7 +180,7 @@ nsGmx.initGeoMixer = function() {
 
         configureGrid: function() {
             var _this = this;
-            gmxCore.loadModule('GridPlugin'
+            window.gmxCore.loadModule('GridPlugin'
             // , 'src/GridPlugin.js'
             ).then(function(def) {
                 _this.menu = new def.ConfigureGridMenu(nsGmx.gridManager);
@@ -313,7 +314,7 @@ nsGmx.initGeoMixer = function() {
                         { id: 'createMultiLayer', title: _gtxt('Мультислой'), func: _mapHelper.createNewLayer.bind(_mapHelper, 'Multi'), disabled: !isMapEditor },
                         { id:'createVirtualLayer', title: 'Виртуальный', func: function() {
 
-                            gmxCore.loadModule('LayerEditor').then(function() {
+                            window.gmxCore.loadModule('LayerEditor').then(function() {
                                 nsGmx.LayerEditor.addInitHook(function(layerEditor, layerProperties, params) {
                                     if (layerProperties.get('Type') !== 'Virtual') {
                                         return;
@@ -861,7 +862,7 @@ nsGmx.initGeoMixer = function() {
             showErrorMessage('Не найдено тектовое описание для "' + text + '"');
         })
 
-        nsGmx.pluginsManager = new(gmxCore.getModule('PluginsManager').PluginsManager)();
+        nsGmx.pluginsManager = new(window.gmxCore.getModule('PluginsManager').PluginsManager)();
 
         //будем сохранять в пермалинке все активные плагины
         _mapHelper.customParamsManager.addProvider({
@@ -1099,7 +1100,7 @@ nsGmx.initGeoMixer = function() {
 
         //добавляем тул в тублар карты
         var listeners = {};
-        // var pluginPath = gmxCore.getModulePath('EditObjectPlugin');
+        // var pluginPath = window.gmxCore.getModulePath('EditObjectPlugin');
 
         var editIcon = L.control.gmxIcon({
             id: 'editTool',
@@ -1156,7 +1157,7 @@ nsGmx.initGeoMixer = function() {
 
     function initAuthWidget() {
         var registrationCallback = function() {
-            gmxCore.loadModule('ProfilePlugin').then(function(AccountModule) {
+            window.gmxCore.loadModule('ProfilePlugin').then(function(AccountModule) {
                 AccountModule.showRegistrationForm(function() {
                     window.location.reload();
                 });
@@ -1218,7 +1219,7 @@ nsGmx.initGeoMixer = function() {
         nsGmx.widgets.authWidget.appendTo(authPlaceholder);
 
         authPlaceholder.on('click', '#AuthWidgetAccountLink', function() {
-            gmxCore.loadModule('ProfilePlugin').then(function(AccountModule) {
+            window.gmxCore.loadModule('ProfilePlugin').then(function(AccountModule) {
                 AccountModule.showProfile();
             })
         });
@@ -1314,7 +1315,7 @@ nsGmx.initGeoMixer = function() {
 
         if (!srs) { var arr = location.href.match(/[?&][cs]rs=(\d+)/); if (arr) { srs = arr[1]; } }
 
-        var isGeneralized = window.mapOptions && 'isGeneralized' in window.mapOptions ? window.mapOptions.isGeneralized : true;
+        var isGeneralized = window.mapOptions && 'isGeneralized' in window.mapOptions ? window.mapOptions.isGeneralized : true;    
 
         L.gmx.gmxMapManager.loadMapProperties({
             srs: srs,
@@ -1498,7 +1499,7 @@ nsGmx.initGeoMixer = function() {
     }
 
     function showUserList() {
-        gmxCore.loadModule('UserGroupWidget').then(function(module) {
+        window.gmxCore.loadModule('UserGroupWidget').then(function(module) {
             var canvas = $('<div/>');
             new module.UserGroupListWidget(canvas);
             canvas.dialog({
@@ -1996,7 +1997,7 @@ nsGmx.initGeoMixer = function() {
 
             //инициализация контролов пользовательских объектов
             //соответствующий модуль уже загружен
-            // let oDrawingObjectsModule = gmxCore.getModule('DrawingObjects');
+            // let oDrawingObjectsModule = window.gmxCore.getModule('DrawingObjects');
             window.oDrawingObjectGeomixer = new DrawingObjectGeomixer();
             window.oDrawingObjectGeomixer.Init(nsGmx.leafletMap, nsGmx.gmxMap);
 
@@ -2198,7 +2199,7 @@ nsGmx.initGeoMixer = function() {
             });
 
             //инициализация контролов поиска (модуль уже загружен)
-            // var oSearchModule = gmxCore.getModule('search');
+            // var oSearchModule = window.gmxCore.getModule('search');
             // window.oSearchControl = new oSearchModule.SearchGeomixer();
 
             // if (document.getElementById('searchCanvas')) {
@@ -2407,7 +2408,7 @@ nsGmx.initGeoMixer = function() {
     }
 
     function mapExportMenu() {
-        gmxCore.loadModule('MapExport'
+        window.gmxCore.loadModule('MapExport'
         // , 'src/MapExport/MapExport.js'
         ).then(function(def) {
             var menu = new def.MapExportMenu();
@@ -2416,7 +2417,7 @@ nsGmx.initGeoMixer = function() {
     }
 
     function BufferZonesMenu() {
-        gmxCore.loadModule('BufferZones'
+        window.gmxCore.loadModule('BufferZones'
         // , 'src/BufferZones/BufferZones.js'
         ).then(function(def) {
             var menu = new def.BufferZonesMenu();
@@ -2425,7 +2426,7 @@ nsGmx.initGeoMixer = function() {
     }
 
     function indexGridMenu() {
-        gmxCore.loadModule('IndexGrid'
+        window.gmxCore.loadModule('IndexGrid'
         // , 'src/IndexGrid/IndexGrid.js'
         ).then(function(def) {
             var menu = new def.IndexGridMenu();
@@ -2434,7 +2435,7 @@ nsGmx.initGeoMixer = function() {
     }
 
     function PhotoLayerDialog() {
-        gmxCore.loadModule('PhotoLayer'
+        window.gmxCore.loadModule('PhotoLayer'
         // , 'src/PhotoLayer/PhotoLayer.js'
         ).then(function(def) {
             var dialog = new def.PhotoLayer();

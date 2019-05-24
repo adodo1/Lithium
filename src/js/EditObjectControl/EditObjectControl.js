@@ -18,7 +18,7 @@ import {
     _tr,	
 	_td,        
 } from '../utilities.js';
-import gmxCore from '../gmxCore.js';
+import '../gmxcore.js';
 
 const _ = nsGmx.Utils._;
 
@@ -239,7 +239,7 @@ var EditObjectControl = function(layerName, objectId, params)
 
         if (!obj) return;
 
-        var InfoRow = gmxCore.getModule('DrawingObjects').DrawingObjectInfoRow;
+        var InfoRow = window.gmxCore.getModule('DrawingObjects').DrawingObjectInfoRow;
         geometryInfoRow = new InfoRow(
             lmap,
             geometryInfoContainer,

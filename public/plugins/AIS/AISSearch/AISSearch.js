@@ -6,7 +6,7 @@
         publicInterface = {
             pluginName: pluginName,
             afterViewer: function (params) {
-                var path = gmxCore.getModulePath(pluginName),
+                var path = window.gmxCore.getModulePath(pluginName),
                     _params = L.extend({
                         regularImage: 'ship.png',
                         activeImage: 'active.png'

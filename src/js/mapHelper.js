@@ -1,7 +1,6 @@
 import nsGmx from './nsGmx.js';
 import {leftMenu} from './menu.js';
 import './drawingObjectsCustomControllers.js';
-import gmxCore from './gmxcore.js';
 import './GroupEditor.js';
 import {
 	sendCrossDomainJSONRequest,
@@ -23,6 +22,7 @@ import './LayerStylesEditor.js';
 import _queryTabs from './queryTabs.js';
 import './queryExternalMaps.js';
 import tinyMCE from './TinyMCEInit.js';
+import './multiLayerEditor.js';
 
 const _ = nsGmx.Utils._;
 
@@ -554,7 +554,7 @@ mapHelper.prototype.createPermalink = function(callback)
 }
 
 mapHelper.prototype.updateTinyMCE = function(container) {
-    // gmxCore.loadModule('TinyMCELoader', window.location + '//' + window.location.host + window.location.pathname.replace('index.html', '') + 'TinyMCELoader.js', function() {
+    // window.gmxCore.loadModule('TinyMCELoader', window.location + '//' + window.location.host + window.location.pathname.replace('index.html', '') + 'TinyMCELoader.js', function() {
     //     $('.balloonEditor', container).each(function() {
     //         var id = $(this).attr('id');
     //         if (!tinyMCE.get(id)) {
@@ -1014,7 +1014,7 @@ mapHelper.prototype.createWFSStylesEditor = function(parentObject, style, geomet
 
 		_(tabMenu, [divStyles, divGraph]);
 
-        gmxCore.loadModule('LayerStylesEditor').done(function(module) {
+        window.gmxCore.loadModule('LayerStylesEditor').done(function(module) {
             var resObject = module.createStyleEditor(canvasStyles, templateStyle, geometryType, false);
 
             $(resObject).change(function()
@@ -1657,22 +1657,22 @@ mapHelp.externalMaps.unload = function()
 //Динамически подгружаемые части вьюера
 
 //Редактирование мультислоя
-nsGmx.createMultiLayerEditorServer = gmxCore.createDeferredFunction('MultiLayerEditor', 'createMultiLayerEditorServer');
-nsGmx.createMultiLayerEditorNew = gmxCore.createDeferredFunction('MultiLayerEditor', 'createMultiLayerEditorNew');
+nsGmx.createMultiLayerEditorServer = window.gmxCore.createDeferredFunction('MultiLayerEditor', 'createMultiLayerEditorServer');
+nsGmx.createMultiLayerEditorNew = window.gmxCore.createDeferredFunction('MultiLayerEditor', 'createMultiLayerEditorNew');
 
 //Редактирование карты и группы
-nsGmx.addSubGroup = gmxCore.createDeferredFunction('GroupEditor', 'addSubGroup');
-nsGmx.createGroupEditor = gmxCore.createDeferredFunction('GroupEditor', 'createGroupEditor');
-nsGmx.createMapEditor = gmxCore.createDeferredFunction('GroupEditor', 'createMapEditor');
+nsGmx.addSubGroup = window.gmxCore.createDeferredFunction('GroupEditor', 'addSubGroup');
+nsGmx.createGroupEditor = window.gmxCore.createDeferredFunction('GroupEditor', 'createGroupEditor');
+nsGmx.createMapEditor = window.gmxCore.createDeferredFunction('GroupEditor', 'createMapEditor');
 
 //Редактирование свойств слоя
-nsGmx.createLayerEditor = gmxCore.createDeferredFunction('LayerEditor', 'createLayerEditor');
+nsGmx.createLayerEditor = window.gmxCore.createDeferredFunction('LayerEditor', 'createLayerEditor');
 
 //Редактирование стилей векторного слоя
-nsGmx.createStylesDialog = gmxCore.createDeferredFunction('LayerStylesEditor', 'createStylesDialog');
+nsGmx.createStylesDialog = window.gmxCore.createDeferredFunction('LayerStylesEditor', 'createStylesDialog');
 
 //Библиотека стилей
-nsGmx.showStyleLibraryDialog = gmxCore.createDeferredFunction('StyleLibrary', 'showStyleLibraryDialog');
+nsGmx.showStyleLibraryDialog = window.gmxCore.createDeferredFunction('StyleLibrary', 'showStyleLibraryDialog');
 
 
 export {mapHelp, mapHelper, _mapHelper};

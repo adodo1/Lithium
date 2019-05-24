@@ -33,7 +33,7 @@
 
             if (!map) {return;}
 
-            var path = gmxCore.getModulePath('Add2MapPlugin');
+            var path = window.gmxCore.getModulePath('Add2MapPlugin');
             var lmap = nsGmx.leafletMap,
                 layersByID = nsGmx.gmxMap.layersByID;
 
@@ -107,5 +107,5 @@
         }
     };
 
-    gmxCore.addModule('Add2MapPlugin', publicInterface, {css: 'Add2MapPlugin.css'});
+    window.gmxCore.addModule('Add2MapPlugin', publicInterface, {css: 'Add2MapPlugin.css'});
 })();

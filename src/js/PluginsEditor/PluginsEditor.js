@@ -2,8 +2,8 @@
 import {
     inputError, showDialog,
 } from '../utilities.js';
-import gmxCore from '../gmxcore.js';
 import './PluginEditor.css';
+import '../gmxcore.js';
 
 (function($){
 
@@ -422,7 +422,7 @@ var createPluginsEditor = function(container, mapPlugins)
     };
 }
 
-gmxCore.addModule('PluginsEditor', {
+window.gmxCore.addModule('PluginsEditor', {
     createPluginsEditor: createPluginsEditor,
     MapPlugins: MapPlugins
 })

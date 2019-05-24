@@ -5,7 +5,6 @@ import {
     sendCrossDomainJSONRequest,
     sendCrossDomainPostRequest,
 } from '../utilities.js';
-import gmxCore from '../gmxcore.js';
 import './UserGroupWidget.css';
 
 (function() {

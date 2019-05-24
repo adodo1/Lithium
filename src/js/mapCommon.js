@@ -1,5 +1,4 @@
 ﻿import nsGmx from './nsGmx.js';
-import gmxCore from './gmxcore.js';
 
 var nsMapCommon = function($){
     var publicInterface = {
@@ -110,9 +109,9 @@ var nsMapCommon = function($){
         }
     };
 
-    if (typeof gmxCore !== 'undefined')
+    if (typeof window.gmxCore !== 'undefined')
     {
-        gmxCore.addModule('MapCommon', publicInterface);
+        window.gmxCore.addModule('MapCommon', publicInterface);
     }
 
     return publicInterface;

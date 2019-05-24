@@ -759,7 +759,7 @@ fileBrowser.prototype.getCurrentSortFunc = function()
 fileBrowser.prototype.formatDate = function(sec)
 {
 	var sysDate = new Date(sec * 1000),
-		date = [6];
+		date = new Array(6);
 
 	date[0] = sysDate.getDate(),
 	date[1] = sysDate.getMonth() + 1,

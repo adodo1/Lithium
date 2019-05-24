@@ -1,4 +1,6 @@
-﻿!(function()
+﻿import nsGmx from './nsGmx.js';
+
+!(function()
 {
     _translationsHash.addtext("rus", {
 							"clusterControl.maxMembers" : "Макс. объектов",
@@ -79,7 +81,7 @@
         
         //предполагаем что модуль уже загружен
         //TODO: или это не так?
-        var resObject = gmxCore.getModule('LayerStylesEditor').createStyleEditor(clusterStyleContainer[0], initRenderStyle, "point", true);
+        var resObject = window.gmxCore.getModule('LayerStylesEditor').createStyleEditor(clusterStyleContainer[0], initRenderStyle, "point", true);
         
         $(resObject).change(function()
         {

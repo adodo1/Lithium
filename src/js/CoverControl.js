@@ -1,4 +1,4 @@
-var nsGmx = nsGmx || {};
+import nsGmx from './nsGmx.js';
 
 (function($){
 
@@ -283,9 +283,9 @@ CoverControl.prototype.add = function(parent)
 	
 }
 
-if ( typeof gmxCore !== 'undefined' )
+if ( typeof window.gmxCore !== 'undefined' )
 {
-	gmxCore.addModule('CoverControl', {
+	window.gmxCore.addModule('CoverControl', {
 		CoverControl: CoverControl
 	});
 }

@@ -1,7 +1,6 @@
 import nsGmx from '../nsGmx.js';
 import '../AsyncTaskManager.js';
 import './IndexGrid.css';
-import gmxCore from '../gmxcore.js';
 import {leftMenu} from '../menu.js';
 
     var MAX_INDEX_COUNT = 10000;
@@ -636,7 +635,7 @@ import {leftMenu} from '../menu.js';
                     initialCoords,
                     coords,
                     // bounds,
-                    scale,
+                    // scale,
                     // screenCoords,
                     // newBounds,
                     value, valueErr;
@@ -646,7 +645,7 @@ import {leftMenu} from '../menu.js';
                 }
 
                 // разница между целевым и текущим зумом
-                scale = Math.pow(2, (attrs.z - attrs.lmap.getZoom()));
+                // scale = Math.pow(2, (attrs.z - attrs.lmap.getZoom()));
                 initialCoords = attrs.selArea.rings[0].ring.points._latlngs;
                 coords = attrs.coords ? attrs.coords : initialCoords;
 

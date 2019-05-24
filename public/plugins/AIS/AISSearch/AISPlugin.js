@@ -69,7 +69,7 @@
 	    menuId = 'AISSearch',
 	    toolbarIconId = null,
 	    cssTable = PRODUCTION ? 'AISPlugin' : 'AISSearch2',
-	    modulePath = gmxCore.getModulePath(pluginName);
+	    modulePath = window.gmxCore.getModulePath(pluginName);
 	
 	var highlight = L.marker([0, 0], { icon: L.icon({
 	        className: "ais_highlight-icon",
@@ -189,7 +189,7 @@
 	    }
 	};
 	
-	gmxCore.addModule(pluginName, publicInterface, {
+	window.gmxCore.addModule(pluginName, publicInterface, {
 	    css: cssTable + '.css'
 	});
 

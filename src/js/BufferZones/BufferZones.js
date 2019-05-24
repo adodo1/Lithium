@@ -5,8 +5,7 @@ import {
 } from '../utilities.js';
 import {leftMenu} from '../menu.js';
 import './BufferZones.css';
-
-import gmxCore from '../gmxcore.js'
+import '../gmxcore.js';
 
 (function() {
     window._translationsHash.addtext('rus', {
@@ -227,7 +226,5 @@ import gmxCore from '../gmxcore.js'
         BufferZonesMenu: BufferZonesMenu
   };
 
-    gmxCore.addModule('BufferZones',
-        publicInterface,
-    );
+    window.gmxCore.addModule('BufferZones', publicInterface);
 })();

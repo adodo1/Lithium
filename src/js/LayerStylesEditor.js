@@ -22,7 +22,6 @@ import {
 	_textarea,
 	_ul,
 } from './utilities.js';
-import gmxCore from './gmxcore.js';
 import tinyMCE from './TinyMCEInit.js';
 
 //Создание интерфейса редактирования стилей слоя
@@ -1958,7 +1957,7 @@ var updateAllStyles = function() {
 	}
 }
 
-gmxCore.addModule('LayerStylesEditor', {
+window.gmxCore.addModule('LayerStylesEditor', {
 		LayerStylesEditor: LayerStylesEditor,
 		createStyleEditor: createStyleEditor,
 		createStylesDialog: createStylesDialog,

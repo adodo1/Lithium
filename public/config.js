@@ -89,5 +89,5 @@ window.useInternalSearch = true;   // использовать поиск тол
 // var gmxGeoCodeShpDownload = true;
 
 window.gmxPlugins = [
-	{ pluginName: 'gmxForest_dev3', file: 'http://maps.kosmosnimki.ru/api/plugins/external/gmxForest_dev3/public/addGmxPlugin.js', module: 'gmxForest_dev3', mapPlugin: true, isPublic: true },
+	{ pluginName: 'gmxForest_dev3', file: 'http://maps3.kosmosnimki.ru/plugins/external/gmxForest_dev3/public/addGmxPlugin.js', module: 'gmxForest_dev3', mapPlugin: true, isPublic: true },
 ];

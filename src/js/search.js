@@ -2,7 +2,6 @@
 //						стили: jquery, jquery-ui, search.css, treeview.css, buttons.css
 
 import nsGmx from './nsGmx.js';
-import gmxCore from './gmxcore.js';
 import {
 	inputError,
 } from './utilities.js';
@@ -2129,7 +2128,7 @@ var publicInterface = {
 	Functions: Functions
 }
 
-gmxCore.addModule("search", publicInterface, {
+window.gmxCore.addModule("search", publicInterface, {
     require: ['utilities', 'translations'],
     init: function() {
         //Очень суровое решение для разруливания конфликтов с глобальными переменными.

@@ -15,6 +15,7 @@
     "globals": {
       "L": true,
       "Backbone": true,
+      "gmxCore": true,
       "Handlebars": true,
       "Promise": true,
       "ActiveXObject": true,

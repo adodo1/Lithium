@@ -1,5 +1,4 @@
 ﻿import nsGmx from './nsGmx.js';
-import gmxCore from './gmxcore.js';
 
 nsGmx.VirtualLayerManager = function() {
     this._classes = window.gmxVirtualClasses || {};
@@ -15,7 +14,7 @@ nsGmx.VirtualLayerManager.prototype.loader = function(type) {
         return promise;
     }
     
-    gmxCore.loadModule(classInfo.module, classInfo.file).then(function(module) {
+    window.gmxCore.loadModule(classInfo.module, classInfo.file).then(function(module) {
         promise.resolve(module.layerClass);
     }, promise.reject);
     

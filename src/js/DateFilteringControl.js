@@ -1,4 +1,4 @@
-var nsGmx = nsGmx || {};
+import nsGmx from './nsGmx.js';
 
 (function($){
 
@@ -86,9 +86,9 @@ var FiltersControl = function()
 		$(_queryExternalMaps).bind('map_loaded', _setFilters);
 }
 
-if ( typeof gmxCore !== 'undefined' )
+if ( typeof window.gmxCore !== 'undefined' )
 {
-	gmxCore.addModule('FiltersControl', {
+	window.gmxCore.addModule('FiltersControl', {
 		FiltersControl: FiltersControl
 	});
 }

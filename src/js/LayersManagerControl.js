@@ -19,7 +19,6 @@ import {
     _tr,
     _td,    
 } from './utilities.js';
-import gmxCore from './gmxcore.js';
 
 (function(_){
 
@@ -431,7 +430,7 @@ var LayerManagerControl = function( parentDiv, name, params )
 nsGmx.LayerManagerControl = LayerManagerControl;
 nsGmx.drawLayers = drawLayers;
 
-gmxCore.addModule('LayersManagerControl', {
+window.gmxCore.addModule('LayersManagerControl', {
     LayerManagerControl: LayerManagerControl,
     drawLayers: drawLayers
 });

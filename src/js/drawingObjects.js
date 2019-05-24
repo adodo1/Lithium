@@ -1,5 +1,4 @@
 import nsGmx from './nsGmx.js';
-import gmxCore from './gmxcore.js';
 import './translations.js';
 import {leftMenu} from './menu.js';
 import {  
@@ -891,7 +890,7 @@ var publicInterface = {
 	DrawingObjectGeomixer: DrawingObjectGeomixer
 };
 
-gmxCore.addModule("DrawingObjects", publicInterface);
+window.gmxCore.addModule("DrawingObjects", publicInterface);
 
 export {
     DrawingObjectCollection,

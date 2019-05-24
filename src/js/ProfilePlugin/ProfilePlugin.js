@@ -1,5 +1,4 @@
 ﻿import nsGmx from '../nsGmx.js';
-import gmxCore from '../gmxcore.js';
 import {
     parseResponse,
     removeDialog,
@@ -7,6 +6,7 @@ import {
     sendCrossDomainPostRequest,    
 } from '../utilities.js';
 import './ProfilePlugin.css';
+import '../gmxcore.js';
 
 (function ($) {
     var mykosmosnimki = location.protocol + "//my.kosmosnimki.ru"; //"http://localhost:56319"; //
@@ -673,7 +673,7 @@ import './ProfilePlugin.css';
                         licence.show().prev().hide();
                         licence.next().show();
                         if (licence.text() == '')
-                            licence.load(gmxCore.getModulePath('ProfilePlugin') + 'license.html', function () { licence.mCustomScrollbar() });
+                            licence.load(window.gmxCore.getModulePath('ProfilePlugin') + 'license.html', function () { licence.mCustomScrollbar() });
                     });
                     licence.next('div').children('input').click(function () {
                         licence.next().hide();
@@ -1018,7 +1018,7 @@ import './ProfilePlugin.css';
 
     var checkExist;
 
-    gmxCore.addModule('ProfilePlugin', {
+    window.gmxCore.addModule('ProfilePlugin', {
         pluginName: 'ProfilePlugin',
         showProfile: showProfile,
         showRegistrationForm: showRegistrationForm,

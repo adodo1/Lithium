@@ -200,7 +200,7 @@ var gmxCore = function()
                 newScript.type = 'text/javascript';
                 newScript.src = withCachePostfix(path);
                 newScript.charset = "utf-8";
-                headElem.appendChild(newScript);
+                headElem.appendChild(newScript);                
             }
 
             return def;
@@ -392,5 +392,3 @@ var gmxCore = function()
 }();
 
 window.gmxCore = gmxCore;
-
-export default gmxCore;

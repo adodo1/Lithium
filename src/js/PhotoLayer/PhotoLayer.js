@@ -5,7 +5,7 @@ import {
     sendCrossDomainJSONRequest,
 } from '../utilities.js';
 import './PhotoLayer.css';
-import gmxCore from '../gmxcore.js';
+import '../gmxcore.js';
 
     window._translationsHash.addtext('rus', {
         photoLayer: {
@@ -624,6 +624,6 @@ var publicInterface = {
     PhotoLayer: PhotoLayer
 };
 
-gmxCore.addModule('PhotoLayer',
+window.gmxCore.addModule('PhotoLayer',
     publicInterface
 );

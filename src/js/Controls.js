@@ -1,6 +1,5 @@
 ﻿import nsGmx from './nsGmx.js';
 import { showDialog, removeDialog, showErrorMessage, _table, _tbody, _tr, _td, _t, _input, _span, _div, _title } from './utilities.js';
-import gmxCore from './gmxcore.js';
 
 (function(_) {
 /** Разнообразные вспомогательные контролы (базовые элементы GUI)
@@ -245,7 +244,7 @@ nsGmx.Controls = {
             showErrorMessage(_params.errorMessage, true, _params.errorTitle);
         else
         {
-            gmxCore.loadModule('DrawingObjects').done(function(drawing) {
+            window.gmxCore.loadModule('DrawingObjects').done(function(drawing) {
                 let canvas = _div();
                 let collection = new drawing.DrawingObjectCollection(nsGmx.leafletMap);
 

@@ -275,13 +275,11 @@ DefaultSearchParamsManager.prototype.drawUpdateUI = function(container, attribut
          }
 
         function resCallback(res) {
-            var json;
-            // var result, fields, types, values;
+            var json;            
 
             $(spinHolder).hide();
             res = res.substring(1, res.length-1);
-            json = JSON.parse(res);
-            result = json.Result;
+            json = JSON.parse(res);            
 
             if (json.Status === 'error') {
                 throw new Error(json.ErrorInfo.ErrorMessage);

@@ -1,3 +1,6 @@
+import nsGmx from '../../nsGmx.js';
+import '../../gmxcore.js';
+
 (function () {
     var addImageOverlayPaneMixin = function(BaseClass) {
         return BaseClass.extend({
@@ -92,7 +95,7 @@
     };
 
     if (window.gmxCore) {
-        gmxCore.addModule('L.ImageOverlay.Pane', function() {
+        window.gmxCore.addModule('L.ImageOverlay.Pane', function() {
             return L.ImageOverlay.Pane;
         });
     }

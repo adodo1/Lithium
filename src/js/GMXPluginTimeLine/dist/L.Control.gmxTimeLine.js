@@ -1445,7 +1445,7 @@ var str = '\
     };
 
     if (window.gmxCore) {
-		var path = gmxCore.getModulePath('gmxTimeLine'),
+		var path = window.gmxCore.getModulePath('gmxTimeLine'),
 			timeLinePath = path + timeLinePrefix + 'timeline';
 		filesToLoad = [
 			timeLinePath + '.js',

@@ -852,7 +852,7 @@ layersGroupSecurity.prototype.addCustomUI = function(ui, resizeFunc) {
         visibilityFunc: function(props, isVisible) {
             if (isVisible) {
                 counter++;
-                for (var i = 0; i < mapLayersSecurityArray.length; i++) {
+                for (let i = 0; i < mapLayersSecurityArray.length; i++) {
                     if (mapLayersSecurityArray[i].ID === props.LayerID || mapLayersSecurityArray[i].ID === props.MultiLayerID) {
                         selectedLayersSecurityArray.push(mapLayersSecurityArray[i]);
                     }
@@ -862,7 +862,7 @@ layersGroupSecurity.prototype.addCustomUI = function(ui, resizeFunc) {
 
             if (!isVisible) {
                 counter--;
-                for (var i = 0; i < selectedLayersSecurityArray.length; i++) {
+                for (let i = 0; i < selectedLayersSecurityArray.length; i++) {
                     if (selectedLayersSecurityArray[i].ID === props.LayerID || selectedLayersSecurityArray[i].ID === props.MultiLayerID) {
                         selectedLayersSecurityArray.splice(i, 1);
                     }

@@ -1,5 +1,4 @@
 import nsGmx from './nsGmx.js';
-import gmxCore from './gmxcore.js';
 import {leftMenu} from './menu.js';
 import {
     _checkbox,
@@ -2202,7 +2201,7 @@ import './LayersManagerControl.js';
             window._mapEditorsHash && window._mapEditorsHash[mapID] && window._mapEditorsHash[mapID].update();
 
             //обновим стили слоёв из всех незакрытых диалогов редактирования стилей
-            var mStyleEditor = gmxCore.getModule('LayerStylesEditor');
+            var mStyleEditor = window.gmxCore.getModule('LayerStylesEditor');
             mStyleEditor && mStyleEditor.updateAllStyles();
 
             nsGmx.userObjectsManager.collect();

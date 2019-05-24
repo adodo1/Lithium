@@ -1,3 +1,6 @@
+import nsGmx from '../nsGmx.js';
+import '../gmxcore.js';
+
 (function($){
 
 "use strict";
@@ -191,10 +194,10 @@ var gmxMediaDescription = function(descField, descData, storeDescFieldName, mode
 		//Режим "Редактирование"
 	var descEditMode = function() {
 
-		gmxCore.loadScript( pluginPath + 'ckeditor_4.4.1_custom/ckeditor/ckeditor.js');
-		gmxCore.loadScript( pluginPath + 'ckeditor_4.4.1_custom/ckeditor/adapters/jquery.js').done(function() {
+		window.gmxCore.loadScript( pluginPath + 'ckeditor_4.4.1_custom/ckeditor/ckeditor.js');
+		window.gmxCore.loadScript( pluginPath + 'ckeditor_4.4.1_custom/ckeditor/adapters/jquery.js').done(function() {
 
-			var CKEDITOR_BASEPATH = gmxCore.getModulePath('ckeditor');
+			var CKEDITOR_BASEPATH = window.gmxCore.getModulePath('ckeditor');
 			//CKEDITOR.config.enterMode = '2';
 			mediaDescTextArea.val(descData);
 			mediaDescTextArea.ckeditor();
@@ -347,7 +350,7 @@ var DESC_METATAG = 'mediaDescField',
     DESC_DEFAULT_FIELD = '_mediadescript_',
     DESC_INLINE_HOOK = 'mediainline';
 
-var pluginPath = gmxCore.getModulePath('MediaPlugin2');
+var pluginPath = window.gmxCore.getModulePath('MediaPlugin2');
 
 var publicInterface = {
     pluginName: 'Media Plugin',
@@ -361,7 +364,7 @@ var publicInterface = {
 		    container.append(description);
 		};
 
-        gmxCore.loadModule('LayerEditor').done(function() {
+        window.gmxCore.loadModule('LayerEditor').done(function() {
             nsGmx.LayerEditor.addInitHook(function(layerEditor, layerProperties, parametres){
                 var metaProps = layerProperties.get('MetaProperties'),
                     isMedia = metaProps.getTagByName(DESC_METATAG);
@@ -483,7 +486,7 @@ var publicInterface = {
                                 text: 'OK',
                                 click: function() {
                                     $( this ).dialog("close");
-                                    gmxCore.loadModule('LayerProperties').then(function() {
+                                    window.gmxCore.loadModule('LayerProperties').then(function() {
                                         var layerProperties = new nsGmx.LayerProperties();
                                         layerProperties.initFromServer(layerName).then(function() {
                                             modifyLayerProperties(layerProperties, true);
@@ -535,7 +538,7 @@ var publicInterface = {
     }
 }
 
-gmxCore.addModule("MediaPlugin2", publicInterface, {
+window.gmxCore.addModule("MediaPlugin2", publicInterface, {
     // css: 'MediaPlugin2.css'
 });
 
