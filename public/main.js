@@ -22399,7 +22399,7 @@
 
     exports.copy = copy;
     exports.extend = extend;
-    //# sourceMappingURL=scanex-object-extensions.cjs.js.map
+
     });
 
     unwrapExports(scanexObjectExtensions_cjs);
@@ -25310,7 +25310,7 @@
     exports.OsmDataProvider = OsmDataProvider;
     exports.SearchControl = SearchControl;
     exports.SearchWidget = SearchWidget;
-    //# sourceMappingURL=main.js.map
+
     });
 
     unwrapExports(main);
